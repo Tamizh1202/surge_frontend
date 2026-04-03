@@ -36,6 +36,9 @@ width: fit-content;
   padding:16px 0 16px 16px; 
   border-bottom: 1px solid #414343;
 }
+.menuItem:hover {
+  background-color: #F5F5F5;
+}
 .activeItem {
   background-color: #F5F5F5; 
 }

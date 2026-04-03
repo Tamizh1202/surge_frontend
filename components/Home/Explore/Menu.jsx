@@ -6,23 +6,23 @@ import breads from "./Menu2.png";
 import beverages from "./Menu3.png";
 import desserts from "./Menu4.png";
 
-
 const MobileArrow = () => (
   <svg 
     className={styles.mobileArrow} 
-    width="20" 
-    height="20" 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2.5" 
-    strokeLinecap="round" 
-    strokeLinejoin="round"
+    width="20" height="20" viewBox="0 0 24 24" fill="none" 
+    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
   >
     <line x1="7" y1="17" x2="17" y2="7"></line>
     <polyline points="7 7 17 7 17 17"></polyline>
   </svg>
 );
+
+const menuItems = [
+  { title: "Breakfast", img: breakfast, desc: "Fresh plate to ease you into the day.", link: "/breakfast" },
+  { title: "Breads", img: breads, desc: "Baked daily, crafted with care.", link: "/breads" },
+  { title: "Beverages", img: beverages, desc: "Exceptional coffee, every single cup.", link: "/beverages" },
+  { title: "Desserts", img: desserts, desc: "Small-batch sweet worth lingering over.", link: "/desserts" },
+];
 
 export default function Menu() {
   return (
@@ -47,49 +47,30 @@ export default function Menu() {
       </div>
 
       <div className={styles.menuGrid}>
-       
-        <div className={styles.card}>
-          <div className={styles.imageWrapper}>
-            <Image src={breakfast} alt="Breakfast" className={styles.image} />
-          </div>
-          <div className={styles.cardTitle}>
-            <span>Breakfast</span>
-            <MobileArrow />
-          </div>
-        </div>
+        {menuItems.map((item, index) => (
+          <div key={index} className={styles.card}>
+            <div className={styles.imageWrapper}>
+              <Image src={item.img} alt={item.title} className={styles.image} fill />
+            </div>
+         
+            <div className={styles.cardTitle}>
+              <span>{item.title}</span>
+              <MobileArrow />
+            </div>
 
-       
-        <div className={styles.card}>
-          <div className={styles.imageWrapper}>
-            <Image src={breads} alt="Breads" className={styles.image} />
+          
+            <div className={styles.overlay}>
+              <h3 className={styles.overlayTitle}>{item.title}</h3>
+              <p className={styles.overlayDesc}>{item.desc}</p>
+              <Link href={item.link} className={styles.exploreLink}>
+                Explore Now <span className={styles.arrowIcon}><svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
+</svg>
+</span>
+              </Link>
+            </div>
           </div>
-          <div className={styles.cardTitle}>
-            <span>Breads</span>
-            <MobileArrow />
-          </div>
-        </div>
-
-      
-        <div className={styles.card}>
-          <div className={styles.imageWrapper}>
-            <Image src={beverages} alt="Beverages" className={styles.image} />
-          </div>
-          <div className={styles.cardTitle}>
-            <span>Beverages</span>
-            <MobileArrow />
-          </div>
-        </div>
-
-      
-        <div className={styles.card}>
-          <div className={styles.imageWrapper}>
-            <Image src={desserts} alt="Desserts" className={styles.image} />
-          </div>
-          <div className={styles.cardTitle}>
-            <span>Desserts</span>
-            <MobileArrow />
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );

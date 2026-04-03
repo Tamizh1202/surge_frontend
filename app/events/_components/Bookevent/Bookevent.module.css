@@ -36,9 +36,7 @@
   white-space: nowrap;
   width: max-content;
 }
-.Marquee:hover .Track {
-  animation-play-state: paused;
-}
+
 .imageWrapper {
   position: relative;
   width: 554px; 
@@ -79,6 +77,7 @@
   padding-left: 125px;
   padding-bottom: 77px; 
   gap: 8px;
+
   background-color: #F5F5F5;
   align-items: flex-start;
 }

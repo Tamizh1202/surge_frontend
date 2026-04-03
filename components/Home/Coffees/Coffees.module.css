@@ -3,6 +3,7 @@
   width: 100%;
   padding-left: 125px; 
   padding-right: 126px; 
+   padding-top: 120px;
   background-color: #ffffff;
   display: block;
   box-sizing: border-box;
@@ -24,9 +25,10 @@
   font-size: 22px;
   font-weight: 600;
   color: #414343;
-  padding-top: 120px;
+ 
+  margin: 0;
   font-family: var(--font-montserrat);
-  margin: 0px 0 10px 0;
+ 
 }
 
 .selectedSubtext {
@@ -35,7 +37,7 @@
   line-height: 1.1;
   font-family: var(--font-raleway);
   color: #777;
-  margin: 0;
+  margin: 8px 0 0 0;
  
 }
 
@@ -78,8 +80,7 @@
 .coffeeGrid {
   display: flex; 
   gap: 40px; 
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-  will-change: transform;
+  
 }
 
 .coffeeCard {
@@ -99,19 +100,30 @@
   margin-bottom: auto; 
   display: flex;
   justify-content: center;
+  align-items: center; 
   width: 100%;
-
   height: 470px; 
-  
+  overflow: hidden; 
+  position: relative; 
 }
 
 .productImg {
   width: 100%;
-  height: auto;
-  max-height: 470px;
-  transition: transform 0.3s ease;
+  height: 100%; 
+  transition: transform 1.3s ease-in-out;
+  transform-origin: center center; 
+  display: block;
 }
 
+
+.coffeeCard:hover .productImg {
+  transform: scale(1.08); 
+}
+
+.coffeeCard:hover .coffeeName {
+  color:#C4754E; 
+  transition: color 0.5s ease; 
+}
 .cardTop {
   order: 2;
   display: flex;
@@ -121,11 +133,11 @@
 }
 
 .coffeeName {
-  font-size: 18px;
+ 
  font-family: var(--font-montserrat);
   font-weight: 500;
   color: #414343;
-  margin: 0 0 5px 0;
+  margin: 0 0 0 0;
 }
 
 .coffeeNotes {
@@ -133,13 +145,14 @@
   font-family: var(--font-raleway);
   font-weight: 400;
   color: #818686;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   margin-top: 6px;
 }
 
 .price {
   font-size: 18px;
   font-weight: 500;
+  margin: 0;
   color: #414343;
   font-family: var(--font-raleway);
 }
@@ -164,19 +177,11 @@
   transition: transform 0.3s ease;
 }
 
-.productImg:hover {
-  transform: scale(1.03);
-}
 
 
 
 
 @media screen and (max-width: 1024px) {
-  .selectedHeading {
-    padding-top: 80px;
-  }
-
-  
 
   .coffeeCard {
     flex: 0 0 calc((100% - 40px) / 2); 
@@ -201,9 +206,7 @@
 
 
 @media screen and (max-width: 1024px) {
-  .selectedHeading {
-    padding-top: 80px;
-  }
+
   
   .coffeeGrid {
     gap: 30px; 
@@ -242,14 +245,24 @@
     justify-content: flex-start;
   }
 
-  .coffeeGrid {
-    gap: 15px; 
+ .coffeeGrid {
+    gap: 15px;
+    overflow-x: auto; 
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-right: 20px;
+    scrollbar-width: none; 
+    -ms-overflow-style: none;
+  }
+
+  .coffeeGrid::-webkit-scrollbar {
+    display: none;
   }
 
   .coffeeCard {
    
     flex: 0 0 65%;
-    min-width: 65%;
+  min-width: 65%;
     height: auto;
     padding: 10px;
     min-height: 450px;
@@ -285,3 +298,4 @@
     height: 44px;
   }
 }
+

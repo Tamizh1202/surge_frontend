@@ -8,8 +8,8 @@ import cupImg3 from './Enq3.png';
 const packages = [
   {
     id: 1,
-    title: "Tell Us About Your Event", // Title fix kiya gaya
-    description: "Share your event date, time, location, and guest count. We’ll recommend the perfect coffee setup for your occasion.",
+    title: "Tell Us About Your Event", 
+    description: "Share your event date, time, location, and guest count. Well recommend the perfect coffee setup for your occasion.",
     image: cupImg 
   },
   {
@@ -36,33 +36,34 @@ export default function CoffeePackages() {
         </p>
       </header>
 
-      <div className={styles.flexLayout}>
-        <div className={styles.grid}>
-          {packages.map((pkg) => (
-            <div key={pkg.id} className={styles.card}>
-              <div className={styles.cardContent}>
-                <h3 className={styles.cardTitle}>{pkg.title}</h3>
-                <p className={styles.cardDescription}>{pkg.description}</p>
-              </div>
-              <div className={styles.imageWrapper}>
-                <Image 
-                  src={pkg.image} 
-                  alt={pkg.title} 
-                  className={styles.cupImage} 
-                />
-              </div>
+      <div className={styles.grid}>
+        {/* The 3 mapped beige cards */}
+        {packages.map((pkg) => (
+          <div key={pkg.id} className={styles.card}>
+            <div className={styles.cardContent}>
+              <h3 className={styles.cardTitle}>{pkg.title}</h3>
+              <p className={styles.cardDescription}>{pkg.description}</p>
             </div>
-          ))}
-        </div>
+            <div className={styles.imageWrapper}>
+              <Image 
+                src={pkg.image} 
+                alt={pkg.title} 
+                className={styles.cupImage} 
+              />
+            </div>
+          </div>
+        ))}
 
       
         <div className={styles.cardBox}>
-          <p className={styles.cardText}>Ready to elevate your event?</p>
+          <p className={styles.cardText}>Ready to elevate your  event?</p>
           <a href="#enquire" className={styles.enquireLink}>
-            Enquire Now <span><svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
-</svg>
-</span>
+            Enquire Now 
+            <span className={styles.arrowIcon}>
+              <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="white" strokeWidth="1.2"/>
+              </svg>
+            </span>
           </a>
         </div>
       </div>

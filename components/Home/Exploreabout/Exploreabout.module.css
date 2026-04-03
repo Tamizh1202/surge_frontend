@@ -15,7 +15,6 @@
   flex: 1;
   position: relative; 
   height: 819px; 
-
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -27,10 +26,23 @@
   width: 100%;
   height: 100%;
   z-index: 1;
+  overflow: hidden;
 }
 
+
+.cardImage {
+  object-fit: cover ;
+  transition: transform 0.5s ease-out ; 
+  transform: scale(1) translateY(0); 
+}
+
+.exploreCard:hover .cardImage {
+  transform: scale(1.08) translateY(-20px); 
+}
+
+
 .bgImage {
-  object-fit: cover !important;
+  object-fit: cover ;
   width: 100%;
   height: 100%;
  max-width: 819px;
@@ -56,6 +68,7 @@
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+ 
   width: 628px;
   font-family: var(--font-raleway);
   color: #818686;
@@ -241,10 +254,12 @@
   }
 
   .cardImage {
-    object-fit: cover !important;
-    position: absolute !important;
+    object-fit: cover ;
+    position: absolute ;
   }
 }
+
+
 @media (min-width: 325px) and (max-width: 767px) {
   .exploreSection {
     padding: 0 20px; 
@@ -316,8 +331,8 @@
   }
 
   .cardImage {
-    object-fit: cover !important;
-    position: relative !important; 
-    border-radius: 4px; 
+    object-fit: cover ;
+    position: relative ; 
+   
   }
 }

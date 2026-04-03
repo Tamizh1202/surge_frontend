@@ -8,6 +8,8 @@ import breadImg from './bread.png';
 import pastryImg from './pastry.png';
 import beveragesImg from './beverages.png';
 import cakeImg from './cake.png';
+import canpesImg from './canapes.png';
+import cImg from './cookies.png';
 
 const SECTIONS = [
   {
@@ -17,8 +19,8 @@ const SECTIONS = [
       { id: 101, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breakfastImg },
       { id: 102, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
       { id: 103, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: cakeImg },
-      { id: 104, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breakfastImg },
-      { id: 105, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: breakfastImg },
+      { id: 104, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: canpesImg },
+      { id: 105, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: cImg },
       { id: 106, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: breakfastImg },
     ]
   },
@@ -29,7 +31,7 @@ const SECTIONS = [
       { id: 201, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breadImg },
       { id: 202, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
       { id: 203, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: cakeImg },
-      { id: 204, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breakfastImg },
+      { id: 204, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: canpesImg },
       { id: 205, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: breakfastImg },
       { id: 206, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: breakfastImg },
     ]
@@ -39,7 +41,7 @@ const SECTIONS = [
     image: pastryImg,
     items: [
       { id: 301, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: pastryImg },
-      { id: 302, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
+      { id: 302, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: canpesImg},
       { id: 303, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: pastryImg },
       { id: 304, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: pastryImg },
       { id: 305, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: pastryImg },
@@ -61,26 +63,19 @@ const SECTIONS = [
 ];
 
 export default function Details() {
-  
-  const [selections, setSelections] = useState(
-    SECTIONS.reduce((acc, section, index) => {
-      acc[index] = {
-        image: section.image,
-      
-        activeId: index === 0 ? 101 : null 
-      };
-      return acc;
-    }, {})
-  );
 
-  const handleItemClick = (sectionIndex, item) => {
-    setSelections(prev => ({
-      ...prev,
-      [sectionIndex]: {
-        image: item.image,
-        activeId: item.id
-      }
-    }));
+  const [activeSelection, setActiveSelection] = useState({
+    id: 101, 
+    image: breakfastImg,
+    sectionIndex: 0 
+  });
+
+  const handleItemHover = (sectionIndex, item) => {
+    setActiveSelection({
+      id: item.id,
+      image: item.image,
+      sectionIndex: sectionIndex
+    });
   };
 
   return (
@@ -94,10 +89,9 @@ export default function Details() {
               {section.items.map((item) => (
                 <div 
                   key={item.id} 
-
-                  className={`${styles.menuItem} ${selections[sectionIndex].activeId === item.id ? styles.activeItem : ''}`}
-                  onClick={() => handleItemClick(sectionIndex, item)}
-                  style={{ cursor: 'pointer' }}
+                
+                  className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
+                  onMouseEnter={() => handleItemHover(sectionIndex, item)}
                 >
                   <div className={styles.itemInfo}>
                     <h1>{item.name}</h1> 
@@ -110,8 +104,9 @@ export default function Details() {
 
             <div className={styles.imageWrapper}>
               <Image 
-                src={selections[sectionIndex].image} 
-                alt={`${section.title} Selection`}
+               
+                src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : section.defaultImage || section.image} 
+                alt={section.title}
                 width={541} 
                 height={541}
                 className={styles.menuImage}

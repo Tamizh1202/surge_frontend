@@ -27,7 +27,7 @@ export default function Blogs()  {
             
         
     <div className={styles.top}>
-  {/* Keeps icon and text on one line */}
+
   <div className={styles.timeWrapper}>
    <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M10.0317 19.3129C15.1578 19.3129 19.3133 15.1575 19.3133 10.0315C19.3133 4.90545 15.1578 0.75 10.0317 0.75C4.90554 0.75 0.75 4.90545 0.75 10.0315C0.75 15.1575 4.90554 19.3129 10.0317 19.3129Z" stroke="#818686" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

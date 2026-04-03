@@ -45,13 +45,16 @@ const Shop = () => {
                   fill 
                   style={{ objectFit: "cover" }} 
                   priority
+                  className={styles.bgImage}
                 />
                 <div className={styles.label}>
                   <p className={styles.categoryName}>{item.name}</p>
                   
-                
-                  <p className={styles.mobileDescription}>{item.description}</p>
-                  <button className={styles.mobileBtn}>Shop now</button>
+               
+                  <div className={styles.hoverContent}>
+                    <p className={styles.mobileDescription}>{item.description}</p>
+                    <button className={styles.mobileBtn}>Shop now</button>
+                  </div>
                 </div>
               </div>
             </Link>

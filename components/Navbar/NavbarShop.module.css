@@ -4,8 +4,7 @@
   top: 104px; 
   left: 0;
   width: 100vw; 
-  background-color: #ffffff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  background-color: #F5F5F5;
   z-index: 1000;
   border-top: 1px solid #eaeaea;
   animation: slideDown 0.3s ease-out;
@@ -15,140 +14,48 @@
 .megaMenuContent {
   display: flex;
   width: 100%; 
-  min-height: 450px;
+  min-height: 617px;
 }
 
-
-.shopTextSide {
-  flex: 1; 
-  padding: 0px 60px 60px 207px; 
-  display: flex;
-  width: 50%;
-  flex-direction: column;
-  background-color: #ffffff;
-  padding-top: 46px;
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 94px;
+    padding: 111px 153px 84px 325px;
  
 }
 
-.shopMainHeading {
-  font-size: 22px;
-  font-weight: 500;
-  font-family: var(--font-montserrat);
-  color: #2F362A;
- 
-  margin-top: 0;      
-  margin-bottom: 10px;
-}
-
-.shopSubDescription {
-  font-size: 15px;
-  color: #777;
-  font-weight: 400;
-   font-family: var(--font-raleway);
-  margin-top: 0;
-  line-height: 1.4;
-  margin-bottom: 20px;
-}
-
-.horizontalDivider {
-  height: 0.5px;
-  background-color: #2f362a4d;
-  width: 100%;
-  margin-top: 15px;
-  
-}
-
-.categoryTitle  {
-  font-size: 22px;
-  font-weight: 400;
- font-family: var(--font-montserrat);
-  color: #2F362A;
-  margin-top: 30px;
-}
-
-.linkStack {
-  list-style: none;
-  padding: 0;
-  color: #444;
-
-  margin: 0;
-}
-
-.linkStack li {
-  margin-bottom: 20px;
-  margin-top: 0;
-  color: #777 ; 
-   
-}
-
-
-.linkStack a {
+.gridItem {
   text-decoration: none;
-  color: #777 ; 
-  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+   width: 281px;
+   gap: 16px;
   transition: opacity 0.2s ease;
-   font-family: var(--font-raleway);
- 
-   font-weight: 500;
 }
 
-
-.linkStack a:hover {
-  color: #777 ;
-  opacity: 0.7; 
-  text-decoration: none ;
-}
-.linkStack a::after {
-  content: none ; 
+.gridItem:hover {
+  opacity: 0.8;
 }
 
+.imageWrapper {
+width: 100%;
 
-
-
-.shopImageSide {
-  flex: 1; 
-  position: relative; 
- 
 }
 
 .featuredImage {
-  object-fit: cover ;
-  width: 100% ;
-  height: 100% ;
+  object-fit: cover;
 }
 
-.imageTextOverlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 30px ;
-  color: #ffffff;
- 
+.gridLabel {
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: #414343;
+    font-family: var(--font-montserrat);
+  margin: 0;
+  text-align: left;
 }
 
-.imageTextOverlay h4 {
-     font-family: var(--font-raleway);
-   font-size: 22px;
-   font-weight: 500;
-   margin: 0;
-}
-
-.imageTextOverlay p {
-   font-family: var(--font-raleway);
-   font-size: 15px;
-   font-weight: 400;
-   
-}
-.exploreButton {
-  display: inline-block;
-  padding: 10px 40px;
-  border: 1px solid #ffffff;
-  color: #ffffff !important; 
- 
-  width: 60px;
-}
 
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-15px); }
@@ -156,61 +63,3 @@
 }
 
 
-
-@media screen and (min-width: 1030px) and (max-width: 1300px) {
-
-  .megaMenuContainer {
-    position: absolute !important;
-    top: 100% ; 
-    left: 0 ;
-    width: 100vw ;
-    background-color: #ffffff;
-    z-index: 9999;
-    border-top: 1px solid #eeeeee; 
-    display: block ;
-  }
-
- 
-  .megaMenuContent {
-    display: flex ;
-    flex-direction: row ; 
-    min-height: 450px;
-    width: 100%;
-  }
-
-
-  .shopTextSide {
-    padding: 40px 40px 40px 9% ; 
-    flex: 1.3 ; 
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .shopImageSide {
-    flex: 0.7 ;
-    position: relative; 
-    display: block ;
-  }
-
- 
-  .linkStack {
-    display: flex ;
-    flex-direction: column ;
-    gap: 12px ;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .linkStack a {
-    white-space: nowrap ; 
-    font-size: 14px;
-    color: #777 ;
-  }
-
-  .shopMainHeading, .categoryTitle {
-    font-size: 20px ;
-    margin-bottom: 10px;
-  }
-}

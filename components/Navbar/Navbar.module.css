@@ -96,7 +96,6 @@
 }
 
 .hamburger span {
-
   width: 30px;
   height: 3px;
   background-color: #333;
@@ -239,7 +238,6 @@
     list-style: none;
     padding: 0px;
     margin: 0px;
-   
     text-align: left; 
   }
 

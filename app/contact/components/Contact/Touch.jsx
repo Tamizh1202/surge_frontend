@@ -77,7 +77,7 @@ export default function Touch() {
             className={styles.image}
             priority
           />
-          <h1 className={styles.mainTitle}>LET’S GET IN TOUCH</h1>
+        
         </div>
 
        
@@ -88,10 +88,15 @@ export default function Touch() {
             <form onSubmit={handleSubmit} className={styles.formMain}>
 
               <div className={styles.Top}>
-                <h3>Send us a message</h3>
+               <div className={styles.TitleArea}>
+    <h3>Let’s Get In Touch</h3>
+    <p>Drop us a message and let’s start brewing something great.</p>
+  </div>
+               
                 <Link href="https://wa.me/+9710589535337">
                   <Image src={whatsappIcon} alt="Whatsapp" width={28} height={28} />
                 </Link>
+                
               </div>
 
             
@@ -168,7 +173,10 @@ export default function Touch() {
               </div>
               <div className={styles.footerItem}>
                 <span>Follow Us</span>
-                <p>Instagram ↗</p>
+                <p>Instagram <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E"/>
+</svg>
+</p>
               </div>
             </div>
 

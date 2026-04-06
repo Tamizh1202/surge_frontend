@@ -145,10 +145,7 @@
   text-decoration: none;
 }
 
-.detailLink span {
-  border: 0.5px solid #C4754E;
-  padding: 2px 4px;
-}
+
 
 .emailFooter {
   margin-top: 40px;
@@ -164,47 +161,81 @@
 
 
 
-@media (max-height: 850px) and (min-width: 1025px) {
+@media (min-width: 851px) and (max-width: 1050px) {
+ 
   .container {
-    padding: 60px 0; 
-  }
-  
-  .locationGrid {
-    margin: 40px auto; 
+    padding: 80px 0;
   }
 
+
+  .locationGrid {
+    max-width: 90%;
+    margin: 40px auto;
+    gap: 20px;
+    justify-content: space-around;
+  }
+
+  
   .mapContainer {
-    margin-top: 50px;
+    margin-top: 60px;
+    padding: 0 40px;
   }
 
   .mapImg {
-    height: 450px; 
+    height: 500px; 
+    max-width: 100%;
+    object-fit: cover;
   }
 
   .divider {
-    margin-bottom: 60px;
+    margin-bottom: 80px;
+  }
+
+
+  .careersSection {
+    padding-left: 60px;
+    padding-right: 60px;
   }
 
   .description {
-    margin-bottom: 40px;
+    width: 100%; 
+    margin-bottom: 50px;
   }
 
-  .careersSection {
-    padding-left: 100px;
-    padding-right: 100px;
+ 
+  .jobGrid {
+    column-gap: 50px;
+    gap: 30px;
+  }
+
+  .jobItem {
+    padding-bottom: 25px;
+    align-items: center;
+  }
+
+  .jobInfo h3 {
+    font-size: 17px;
+  }
+
+  .jobInfo p {
+    font-size: 14px;
+  }
+
+  .detailLink {
+    font-size: 14px;
   }
 }
 
 
 
-@media (max-width: 1280px) {
+@media (min-width: 1100px)and (max-width: 1350px) {
   .careersSection {
-    padding-left: clamp(40px, 8vw, 100px);
-    padding-right: clamp(40px, 8vw, 100px);
+    padding-left: 100px;
+    padding-right: 100px;
   }
   
   .jobGrid {
-    column-gap: clamp(30px, 5vw, 60px);
+    column-gap: 60px;
   }
 
   .jobItem {
@@ -215,10 +246,9 @@
 }
 
 @media (max-width: 1024px) {
-  .container {
-    padding: clamp(60px, 8vh, 100px) 0;
+ .container {
+    padding: 80px 0; 
   }
-  
   .careersSection, .topSection {
     padding-left: 40px;
     padding-right: 40px;
@@ -269,30 +299,32 @@
     margin-bottom: 40px;
   }
 }
-
 @media (max-width: 480px) {
-  .careersSection, .topSection {
+
+  .container .careersSection, 
+  .container .topSection {
     padding-left: 20px;
     padding-right: 20px;
   }
-
-  .jobItem {
-    flex-direction: column; 
-    align-items: flex-start;
-    gap: 12px;
-    padding-bottom: 15px;
+  .container .jobItem {
+    display: flex;
+    flex-direction: row; 
+    justify-content: space-between;
+    align-items: center; 
+    gap: 15px;
+   
   }
 
-  .detailLink {
-    align-self: flex-start; 
+  .container .jobInfo p {
+    font-size: 14px;
+   
   }
 
-  .mainHeading, .heading {
-    font-size: 20px;
+  .container .detailLink {
+    white-space: nowrap; 
+    font-size: 14px;
+    flex-shrink: 0; 
+    align-self: center;
   }
   
-  .description {
-    margin-bottom: 30px;
-    font-size: 14px;
-  }
 }

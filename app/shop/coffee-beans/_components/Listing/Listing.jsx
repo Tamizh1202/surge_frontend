@@ -17,7 +17,7 @@ const FILTER_DATA = [
   { id: 'process', title: 'Process', options: ['Washed', 'Natural', 'Honey'] },
 ];
 
-const SORT_OPTIONS = ['Recommended', 'Latest to Oldest', 'Oldest to Latest'];
+const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High','Popularity'];
 
 export default function Listing() {
   const [openSections, setOpenSections] = useState([]); 
@@ -55,9 +55,12 @@ useEffect(() => {
               <span className={styles.icon}>
                 <svg 
                   className={isOpen ? styles.arrowRotate : ''} 
-                  width="12" height="12" viewBox="0 0 24 24" fill="currentColor"
+                 width="13" height="8" viewBox="0 0 13 8" fill="none" xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M7 10l5 5 5-5z"></path>
+                 <path 
+                d="M11.91 -0.00113773L12.97 1.05986L7.193 6.83886C7.10043 6.93202 6.99036 7.00595 6.86911 7.05639C6.74786 7.10684 6.61783 7.13281 6.4865 7.13281C6.35517 7.13281 6.22514 7.10684 6.10389 7.05639C5.98264 7.00595 5.87257 6.93202 5.78 6.83886L0 1.05986L1.06 -0.000137806L6.485 5.42386L11.91 -0.00113773Z" 
+                fill="#414343"
+              />
                 </svg>
               </span>
             </button>
@@ -115,28 +118,36 @@ useEffect(() => {
             </button>
 
          
-            <div className={styles.sortWrapper}>
-              <div className={styles.sortBox} onClick={() => setShowSort(!showSort)}>
-                <span className={styles.sortLabel}>Sort By : </span>
-                <span className={styles.sortValue}>{selectedSort}</span>
-                <svg className={`${styles.sortArrow} ${showSort ? styles.arrowRotate : ''}`} width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M7 10l5 5 5-5z"></path>
-                </svg>
-              </div>
-              {showSort && (
-                <div className={styles.dropdownMenu}>
-                  {SORT_OPTIONS.map((option) => (
-                    <div 
-                      key={option} 
-                      className={styles.dropdownItem} 
-                      onClick={() => { setSelectedSort(option); setShowSort(false); }}
-                    >
-                      {option}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+        <div className={styles.sortWrapper}>
+  <div 
+    className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`} 
+    onClick={() => setShowSort(!showSort)}
+  >
+    <span className={styles.sortLabel}>Sort By : </span>
+    <span className={styles.sortValue}>{selectedSort}</span>
+    <svg 
+      className={`${styles.sortArrow} ${showSort ? styles.arrowRotate : ''}`} 
+      width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M6.63055 6.75943C6.23768 7.16467 5.58748 7.16467 5.1946 6.75943L0.285735 1.69607C-0.329211 1.06177 0.120255 1.54337e-07 1.00371 8.53452e-08L10.8214 -6.81352e-07C11.7049 -7.50344e-07 12.1544 1.06177 11.5394 1.69607L6.63055 6.75943Z" fill="#C4754E"/>
+    </svg>
+  </div>
+  
+  {showSort && (
+    <div className={styles.dropdownMenu}>
+      {SORT_OPTIONS.map((option) => (
+        <div 
+          key={option} 
+          className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`} 
+          onClick={() => { setSelectedSort(option); setShowSort(false); }}
+        >
+          <span className={styles.optionText}>{option}</span>
+          <span className={styles.radioCircle}></span>
+        </div>
+      ))}
+    </div>
+  )}
+</div>
           </div>
         </header>
 
@@ -158,11 +169,15 @@ useEffect(() => {
                 <div className={styles.footerRow}>
                   <span className={styles.priceTag}>{item.price}</span>
                   <button className={styles.buyBtn}>Add to Cart</button>
+                  <span className={styles.mobileText}>Shop Now</span> 
                 </div>
               </div>
             </div>
           ))}
         </div>
+        <div className={styles.footer}>
+        <button className={styles.viewMoreBtn}>View More</button>
+      </div>
       </main>
 
 

@@ -21,11 +21,11 @@
   max-width: 500px;
 }
 
+
 .selectedHeading {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   color: #414343;
- 
   margin: 0;
   font-family: var(--font-montserrat);
  
@@ -40,6 +40,9 @@
   margin: 8px 0 0 0;
  
 }
+
+
+
 
 .sliderControls {
   display: flex;

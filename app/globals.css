@@ -6,10 +6,55 @@
   --font-lato: 'Lato', sans-serif;         
   --font-montserrat: 'Montserrat', sans-serif; 
  --font-raleway: 'Raleway', sans-serif;
+
+
+ --background: #ffffff;
+--primary-color: #C4754E;
+  --cards-bg: #F5F5F5;
+  --secondary-color: #414343;
+  --text-primary: #414343;
+  --text-secondary: #818686;
+  --green: #40A65A;
+  --red: #EA2424;
+  --surge-app: #FBF5F1;
+  --white-text: #FFFFFF;
+
+--fs-16: clamp(1rem, 0.01vi + 1rem, 1.01rem);
+ --fs-18: clamp(0.88rem, 0.25vi + 0.82rem, 1.13rem);
+  --fs-20: clamp(0.88rem, 0.38vi + 0.79rem, 1.25rem);
+  --fs-22: clamp(1.25rem, 0.13vi + 1.22rem, 1.38rem);
+   --fs-24: clamp(1.13rem, 0.38vi + 1.04rem, 1.5rem);
+  --fs-60: clamp(1.75rem, 2.03vi + 1.32rem, 3.75rem);
+  --fs-150: clamp(1rem, 8.83vi + -1.21rem, 9.38rem);
 }
 
 html, body {
   margin:  0 ;
   padding: 0;
   overflow-x: hidden; 
+   box-sizing: border-box;
+}
+h1 {
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-60);
+  font-weight: 500;
+}
+
+h2 {
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-40);
+  font-weight: 600; 
+}
+
+h3 {
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-22);
+  font-weight: 600; 
+}
+
+
+p {
+  font-family: var(--font-raleway);
+   font-size: var(--fs-18);
+  font-weight: 400;
 }

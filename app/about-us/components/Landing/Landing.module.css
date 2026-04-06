@@ -17,7 +17,7 @@
 }
 
 .textContent {
-  max-width: 443px;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
   gap: 24px; 
@@ -113,9 +113,14 @@ width: 100%;
   .title {
     font-size: 22px;
   }
-  .description {
-    font-size: 15px; 
-    width: 270px;
+ .description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: #818686;
+    width: 70%; 
+    max-width: 400px; 
+    height: auto;   
+    
   }
 }
 
@@ -127,9 +132,12 @@ width: 100%;
   .leftSide {
     padding-left: 40px;
   }
-  .textContent {
-    max-width: 300px;
+ .textContent {
+    width: 80%;           
+    max-width: 500px;   
+   
   }
+ 
 }
 
 
@@ -141,7 +149,6 @@ width: 100%;
     
   
     padding: 32px 24px; 
-    
     background-color: #F5F5F5;
     gap: 32px; 
     overflow-y: auto;
@@ -163,13 +170,13 @@ width: 100%;
     font-size: 28px; 
     line-height: 1.2;
   }
-
-  .description {
+.description {
     font-size: 14px;
     line-height: 1.5;
     color: #818686;
+    width: 90%;          
+    max-width: 600px;    
     
-   
   }
 
  

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from './Loation.module.css';
 import mapImage from './location.png';
-import markerIcon from './map.png'; // Import your 27x34 marker icon
+import markerIcon from './map.png'; 
 
 export default function Location() {
   const locations = [
@@ -36,7 +36,7 @@ export default function Location() {
           ))}
         </div>
 
-        {/* --- MAP CONTAINER START --- */}
+       
         <div className={styles.mapContainer}>
           <Image 
             src={mapImage} 
@@ -45,7 +45,7 @@ export default function Location() {
             priority 
           />
           
-          {/* Mapping the markers over the map */}
+        
           {locations.map((loc, index) => (
             <div 
               key={index} 
@@ -61,7 +61,7 @@ export default function Location() {
             </div>
           ))}
         </div>
-        {/* --- MAP CONTAINER END --- */}
+      
 
       </section>
 
@@ -81,7 +81,10 @@ export default function Location() {
                 <p>{job.desc}</p>
               </div>
               <a href="#" className={styles.detailLink}>
-                View Details <span>↗</span>
+                View Details <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
+</svg>
+
               </a>
             </div>
           ))}

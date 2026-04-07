@@ -1,0 +1,683 @@
+/* ─── Tokens ─────────────────────────────────────────────────── */
+:root {
+    --accent: #c87941;
+    --accent-hover: #b3672f;
+    --text: #1a1a1a;
+    --muted: #888;
+    --border: #e0dbd6;
+    --bg: #ffffff;
+    --input-border: #c8c0b8;
+    --label: #666;
+    --green: #2e7d32;
+    --red: #c0392b;
+    --radius: 3px;
+    --font: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ─── Checkout Layout ─────────────────────────────────────────── */
+.checkoutRoot {
+    min-height: 100vh;
+    background: #faf8f6;
+    font-family: var(--font);
+    color: var(--text);
+    font-size: 13px;
+}
+
+.checkoutInner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+}
+
+.brandBar {
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.brandBar span {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.expressCheckoutLabel {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+}
+
+.checkoutGrid {
+    display: grid;
+    grid-template-columns: 1fr 450px;
+    gap: 48px;
+    align-items: start;
+}
+
+.leftCol {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.rightCol {
+    position: sticky;
+    top: 24px;
+}
+
+/* ─── Section Shell ───────────────────────────────────────────── */
+.section {
+    padding: 24px 0 0;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+}
+
+.section:first-child {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.sectionTitle {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    margin: 0 0 18px;
+    color: var(--text);
+}
+
+/* ─── Express Checkout ────────────────────────────────────────── */
+.expressCheckout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 20px;
+}
+
+.gpayBtn {
+    width: 100%;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 11px 0;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    letter-spacing: 0.02em;
+    transition: opacity 0.18s;
+}
+
+.gpayBtn:hover {
+    opacity: 0.85;
+}
+
+.gpayIcon {
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.signInRow {
+    text-align: right;
+    margin-bottom: 14px;
+}
+
+.signInRow a {
+    font-size: 12px;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.signInRow a:hover {
+    text-decoration: underline;
+}
+
+/* ─── Radio Method ────────────────────────────────────────────── */
+.methodRow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 16px;
+}
+
+.methodOption {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+}
+
+.methodOption:first-child {
+    border-top: 1px solid var(--border);
+}
+
+.radioCustom {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    border: 1.5px solid var(--input-border);
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    transition: border-color 0.15s;
+}
+
+.radioCustom.active {
+    border-color: var(--accent);
+}
+
+.customSelect {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background: none;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.radioDot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+.methodLabel {
+    font-size: 13px;
+    color: var(--text);
+    user-select: none;
+}
+
+/* ─── Form Fields ─────────────────────────────────────────────── */
+.fieldGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.fieldRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.field {
+    position: relative;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--input-border);
+    margin-bottom: 16px;
+}
+
+.field label {
+    display: block;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--label);
+    margin-bottom: 4px;
+}
+
+.field input,
+.field select {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: var(--font);
+    font-size: 13px;
+    color: var(--text);
+    padding: 3px 0;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.field input::placeholder {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.selectWrap {
+    position: relative;
+    /* CRITICAL: This anchors the absolute dropdown */
+    width: 100%;
+}
+
+.selectWrap select {
+    cursor: pointer;
+    padding-right: 20px;
+}
+
+.selectArrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.fieldOptional {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.fieldOptional .optionalTag {
+    font-size: 10px;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+}
+
+.checkRow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    margin-bottom: 16px;
+}
+
+.checkRow input[type="checkbox"] {
+    width: 13px;
+    height: 13px;
+    accent-color: var(--accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.checkRow label {
+    font-size: 11.5px;
+    color: var(--label);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ─── Payment ─────────────────────────────────────────────────── */
+.secureNote {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.paymentMethodBlock {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.paymentMethodHeader {
+    background: #f5f2ef;
+    padding: 11px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+.paymentMethodBody {
+    padding: 16px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    background: #fdfcfb;
+}
+
+.cardIconsRow {
+    display: flex;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.cardBadge {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 5px;
+    border-radius: 2px;
+    letter-spacing: 0.04em;
+}
+
+.cardBadge.visa {
+    background: #1a1f71;
+    color: #fff;
+}
+
+.cardBadge.mc {
+    background: #eb001b;
+    color: #fff;
+}
+
+.cardBadge.amex {
+    background: #007bc1;
+    color: #fff;
+}
+
+.fieldWithIcon {
+    position: relative;
+}
+
+.fieldWithIcon .fieldIcon {
+    position: absolute;
+    right: 0;
+    bottom: 8px;
+    color: var(--muted);
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* ─── Pay Now ─────────────────────────────────────────────────── */
+.payNowBtn {
+    width: 100%;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 14px 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    margin-top: 28px;
+    transition: background 0.18s;
+}
+
+.payNowBtn:hover {
+    background: var(--accent-hover);
+}
+
+/* ─── Order Summary ───────────────────────────────────────────── */
+.orderSummaryCard {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.summaryHeader {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 16px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+}
+
+.summaryItemCount {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--muted);
+}
+
+/* Product list */
+.productList {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 10px;
+    max-height: 228px;
+    /* ~3 items (52px img + 12px gap) */
+    overflow-y: auto;
+}
+
+.productItem {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.productImgWrap {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.productImg {
+    width: 52px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    display: block;
+}
+
+/* .productQtyBadge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: var(--muted);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+} */
+
+.productInfo {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding-right: 13px;
+}
+
+.productName {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.productQtyLine {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.productPrice {
+    font-size: 12.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--text);
+}
+
+/* Divider */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 14px 0;
+}
+
+/* Coupons */
+.couponsSection {
+    margin-bottom: 4px;
+}
+
+.couponsHeaderRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.couponsTitle {
+    font-size: 12.5px;
+    font-weight: 600;
+}
+
+.viewCouponsLink {
+    font-size: 11px;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background-color: #ffffff;
+    border: none;
+}
+
+.viewCouponsLink:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.couponInputRow {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.couponInput {
+    flex: 1;
+    border: none;
+    border-bottom: 1px solid var(--input-border);
+    background: transparent;
+    font-family: var(--font);
+    font-size: 12px;
+    color: var(--text);
+    padding: 4px 0;
+    outline: none;
+}
+
+.couponInput::placeholder {
+    color: var(--muted);
+}
+
+.applyBtn {
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;
+    letter-spacing: 0.02em;
+}
+
+.applyBtn:hover {
+    text-decoration: underline;
+}
+
+.couponOptionRow {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.couponOptionRow input[type="checkbox"] {
+    accent-color: var(--accent);
+    margin-top: 12px;
+    flex-shrink: 0;
+}
+
+.couponLabel {
+    font-size: 12px;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.couponSub {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.couponSavings {
+    font-size: 10.5px;
+    color: var(--accent);
+    margin-top: 2px;
+}
+
+/* Totals */
+.totalsBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12.5px;
+}
+
+.totalRow .label {
+    color: var(--label);
+}
+
+.totalRow .value {
+    color: var(--text);
+    font-weight: 500;
+}
+
+.totalRow.discount .value {
+    color: #c0392b;
+}
+
+.totalRow.grandTotal {
+    margin-top: 4px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.totalRow.grandTotal .label {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.totalRow.grandTotal .value {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+}
+
+.savingsNote {
+    margin-top: 8px;
+    font-size: 10.5px;
+    color: var(--accent);
+    text-align: center;
+}
+
+/* ─── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 760px) {
+    .checkoutGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .rightCol {
+        position: static;
+        order: -1;
+    }
+
+    .fieldRow {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+}

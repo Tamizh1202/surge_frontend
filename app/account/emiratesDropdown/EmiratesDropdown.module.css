@@ -1,0 +1,65 @@
+/* Transparent backdrop to detect clicks outside, but below the dropdown */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 100; /* Lower than the dropdown */
+}
+
+/* The Menu itself */
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 280px;
+    background: #ffffff; /* CHANGED: Must be solid white to hide elements behind it */
+    z-index: 101;        /* Higher than the backdrop */
+    display: flex;
+    flex-direction: column;
+    
+    /* ADDED: Shadow makes it "pop" and look like it's floating above the form */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+    
+    border: 1px solid #e8e2dc;
+    border-radius: 4px;
+    margin-top: 4px;
+    overflow: hidden;
+    animation: slideDown 0.2s ease-out;
+    font-family: "DM Sans", sans-serif;
+    color: #1a1a1a;
+}
+
+/* Search Area */
+.searchWrap {
+    padding: 12px;
+    background: #ffffff; /* Ensure search bar is also solid */
+    border-bottom: 1px solid #f0ece8;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+/* Scrollable List */
+.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    background: #ffffff; /* Solid background for the list */
+    flex: 1;
+}
+
+.item {
+    display: flex;  
+    justify-content: space-between;
+    padding: 12px 15px;
+    cursor: pointer;
+    border-bottom: 1px solid #f9f7f5;
+    font-size: 13px;
+    background: #ffffff; /* Each item is solid */
+    transition: background 0.2s; /* 1s was a bit too slow, 0.2s feels snappier */
+}
+
+/* ... keep the rest of your styles (.item:hover, .itemSelected, etc.) ... */

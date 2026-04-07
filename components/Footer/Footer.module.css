@@ -1,7 +1,7 @@
 
 .footer {
-  background-color: #414343;
-  color: white;
+  background-color: var(--text-primary);
+  color: var(--background);
   width: 100%;
   height: 100vh;
   display: flex;
@@ -47,38 +47,38 @@
 
 .promoHeading {
   font-family: var(--font-montserrat);
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   margin: 0;
-  color: white;
+  color: var( --background);
 }
 
 .promoLabel {
   color: #C4754E;
   font-family: var(--font-raleway);
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 500;
   margin: 0;
 }
 
 .promoDesc {
   font-family: var(--font-raleway);
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 500;
   width: 342px;
   line-height: 1.6;
-  color: white;
+  color: var(--background);
   margin: 0;
 }
 
 .exploreBtn {
   display: inline-block;
-  background-color: #C4754E;
-  color: white;
+  background-color: var(--primary-color);
+  color: var( --background);
   padding: 12px 40px;
   text-decoration: none;
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 600;
   width: fit-content;
   margin-top: 12px;
@@ -95,7 +95,7 @@
 .appBtn {
   display: inline-block;
   text-decoration: none;
-  border: 1px solid #FFFFFF;
+  border: 1px solid var(--background);
   padding: 8px 15px;
   min-width: 135px;
   background: transparent;
@@ -106,23 +106,34 @@
   display: flex;
   align-items: center;
   gap: 10px;
+
 }
 
 .textWrapper {
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--background);
   text-align: left;
 }
 
-.topText { font-size: 10px; font-weight: 500; line-height: 1; }
-.bottomText { font-size: 14px; font-weight: 600; line-height: 1.2; }
+.topText { 
+  font-size: var(--fs-12);
+   font-weight: 500; 
+   line-height: 1; 
+   font-family: var(--font-raleway);
+  }
+.bottomText {
+   font-size: var(--fs-14); 
+   font-weight: 600;
+   font-family: var(--font-raleway);
+    line-height: 1.2;
+   }
 
 /* --- Divider --- */
 .divider {
   width: 100%;
   height: 1px;
-  background-color: #FFFFFF;
+  background-color: var(--background);
   margin: 20px 0;
   border: none;
   opacity: 0.3;
@@ -131,7 +142,7 @@
 
 .topSection {
   display: flex;
-  justify-content: flex-start; 
+  justify-content: flex-end; 
   align-items: flex-start;
   gap: 243px; 
 }
@@ -155,7 +166,7 @@ margin: 0;
 }
 
 .description {
-  color: #FFFFFF;
+  color: var(--background);
 
   line-height: 1.6;
   font-family: var(--font-raleway);
@@ -164,7 +175,7 @@ margin: 0;
 
 .subscribeForm {
   display: flex;
-  border: 1px solid white;
+  border: 1px solid var(--background);
   width: 100%;
   max-width: 360px;
 }
@@ -173,18 +184,20 @@ margin: 0;
   background: transparent;
   border: none;
   padding: 16px;
-  color: white;
+  color: var(--background);
   font-size: 14px;
   flex: 1;
   outline: none;
 }
 
 .subscribeBtn {
-  background: white;
-  color: #C4754E;
+  background: var(--background);
+  color: var(--primary-color);
   border: none;
   padding: 0 24px;
-  font-weight: 600;
+  font-weight: 400;
+   font-family: var(--font-raleway);
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -204,7 +217,7 @@ margin: 0;
 .column a {
   font-family: var(--font-raleway);
   font-size: 16px;
-  color: white;
+  color: var(--background);
   text-decoration: none;
   display: block;
   margin-bottom: 12px;
@@ -212,27 +225,52 @@ margin: 0;
   white-space: nowrap;
 }
 
+
 .surgeBackground {
+
   display: flex;
+
   justify-content: center;
+
   align-items: center;
-  flex: 1; 
+
+  flex: 1;
+
   width: 100%;
+
   overflow: hidden;
-  pointer-events: none; 
-  user-select: none;
+
+
+
 }
+
+
 
 .surgeBackground h1 {
-  font-family: var(--font-raleway);
-  font-size: 150px;
-  font-weight: 500;
-  opacity: 5%;
-  letter-spacing: 16.5rem; 
-  line-height: 1;
-  margin-right: -10.5rem;
-}
 
+ 
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  gap: 275px;
+
+  font-family: var(--font-raleway);
+
+  font-size: 150px;
+
+  font-weight: 500;
+
+  opacity: 5%;
+
+  line-height: 1;
+
+  margin: 0;
+
+}
 
 .infoGrid {
   display: flex;
@@ -244,6 +282,7 @@ margin: 0;
 .contactWrapper {
   display: flex;
   gap: 160px;
+    margin-right: 200px;
 }
 
 
@@ -258,7 +297,7 @@ margin: 0;
   font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
-  color: white;
+  color: var(--background);
   text-transform: uppercase;
   
 }
@@ -267,15 +306,15 @@ margin: 0;
  font-weight: 400;
   font-family: var(--font-raleway);
   font-size: 16px;
-  color:#C4754E;
+  color:var(--primary-color);
   line-height: 1.5;
 }
 .accentLink {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   text-decoration: none;
   font-weight: 400;
-  color: #C4754E;
+  color: var(--primary-color);
 }
 
 
@@ -286,29 +325,34 @@ margin: 0;
   align-items: center;
   padding-top: 25px;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: 16px;
-  color: white;
+  font-size: var(--fs-16);
+  color: var(--background);
+   font-family: var(--font-raleway);
+   font-weight: 400;
 }
 
-.legal { display: flex; gap: 20px; }
-.legal a { color: white; text-decoration: none; }
-.crafted a { color: white; text-decoration: underline; text-underline-offset: 3px; }
+.legal { display: flex;
+   gap: 20px; 
+  }
+.legal a {
+   color: white; 
+   text-decoration: none;
+    font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+
+  font-weight: 400;
+   }
+.crafted a {
+   color: var(--background); 
+    font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+
+  font-weight: 400;
+   text-decoration: underline;
+    text-underline-offset: 3px;
+   }
 .mobilelegal {
   display: none;
 }
 
 
-
-/* --- Mobile Responsive --- */
-@media (max-width: 1024px) {
-  .topSection { gap: 40px; }
-}
-
-@media (max-width: 768px) {
-  .footer { height: auto; min-height: 100vh; overflow: visible; padding: 40px 20px; }
-  .promoSection, .topSection, .infoGrid { flex-direction: column; align-items: flex-start; gap: 30px; }
-  .surgeBackground { display: none; }
-  .newsletterArea { width: 100%; }
-  .contactWrapper { flex-direction: column; gap: 20px; }
-  .bottomBar { flex-direction: column; gap: 15px; text-align: center; }
-}

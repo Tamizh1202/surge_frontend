@@ -18,11 +18,15 @@ export default function Navbar() {
   };
 
   
-  const handleAccountClick = (e) => {
-  
+const handleAccountClick = (e) => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 1300;
+
+    if (isMobile) {
       e.preventDefault();
       setIsAccountOpen(!isAccountOpen);
-    
+    } else {
+      setIsAccountOpen(false); 
+    }
   };
 
   return (
@@ -115,10 +119,12 @@ export default function Navbar() {
           <div className={styles.mobileLine}></div>
           <Link href="/Login">Login</Link>
 <div className={styles.mobileLine}></div>
+
+
    <div className={styles.accountTrigger}>
  
   <Link 
-    href="/account" 
+    href="/account/profile" 
     className={styles.navLink} 
     onClick={handleAccountClick}
   >

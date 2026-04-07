@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -8,61 +8,13 @@ import logo from "./Footer.png";
 
 export default function Footer() {
   const pathname = usePathname();
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [newsletterMsg, setNewsletterMsg] = useState("");
-  const [newsletterError, setNewsletterError] = useState(false);
 
- 
   if (pathname?.startsWith("/auth")) return null;
-
-  const handleSubscribe = async (e) => {
-    e.preventDefault(); 
-
-    if (!email) {
-      setNewsletterError(true);
-      setNewsletterMsg("Please enter a valid email address.");
-      return;
-    }
-
-    setLoading(true);
-    setNewsletterMsg("");
-    setNewsletterError(false);
-
-    try {
-      const res = await fetch("/api/website/newsletter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          name: "",
-          source: "footer",
-        }),
-      });
-
-      const data = await res.json();
-
-      if (res.ok && data.success) {
-        setNewsletterError(false);
-        setNewsletterMsg("Subscribed successfully!");
-        setEmail("");
-      } else {
-        setNewsletterError(true);
-        setNewsletterMsg(data.message || "Subscription failed.");
-      }
-    } catch {
-      setNewsletterError(true);
-      setNewsletterMsg("Network error. Please try again.");
-    } finally {
-      setLoading(false);
-      setTimeout(() => setNewsletterMsg(""), 4000);
-    }
-  };
 
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        {/* --- Top Rewards/App Section --- */}
+      
         <div className={styles.promoSection}>
           <div className={styles.logoCol}>
             <Image
@@ -121,32 +73,24 @@ export default function Footer() {
 
         <hr className={styles.divider} />
 
-       
         <div className={styles.topSection}>
           <div className={styles.newsletterArea}>
             <div className={styles.newsletterContent}>
               <h2 className={styles.heading}>Join Our Community</h2>
               <p className={styles.description}>
-                Join our email list and take your coffee ritual further. Get early access to new releases, exclusive offers and thoughtful perks, plus expert brewing tips to help you make better coffee at home. Go behind the scenes to discover the stories, sourcing and craft behind every cup, and become part of a growing community united by a shared love for quality coffee.
+            Join our email list and take your coffee ritual further. Get early access to new releases, exclusive offers and thoughtful perks, plus expert brewing tips to help you make better coffee at home. Go behind the scenes to discover the stories, sourcing and craft behind every cup, and become part of a growing community united by a shared love for quality coffee.
               </p>
-              <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
+              <form className={styles.subscribeForm}>
                 <input
                   type="email"
                   placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
                   className={styles.input}
+                  required
                 />
-                <button type="submit" className={styles.subscribeBtn} disabled={loading}>
-                  {loading ? "..." : "Subscribe"}
+                <button type="submit" className={styles.subscribeBtn}>
+                  Subscribe
                 </button>
               </form>
-
-              {newsletterMsg && (
-                <p className={newsletterError ? styles.errorMsg : styles.successMsg}>
-                  {newsletterMsg}
-                </p>
-              )}
             </div>
           </div>
 
@@ -179,12 +123,18 @@ export default function Footer() {
           </div>
         </div>
 
-       
+    
         <div className={styles.surgeBackground}>
-          <h1>SURGE</h1>
+          <h1>
+            <span>S</span>
+            <span>U</span>
+            <span>R</span>
+            <span>G</span>
+            <span>E</span>
+          </h1>
         </div>
 
-    
+      
         <div className={styles.infoGrid}>
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
@@ -216,12 +166,6 @@ export default function Footer() {
               <Link href="mailto:hello@whitemantis.ae" className={styles.accentLink}>hello@whitemantis.ae</Link>
             </div>
           </div>
-        </div>
-
-     
-        <div className={styles.mobilelegal}>
-          <Link href="/terms-and-conditions">Terms and Conditions</Link>
-          <Link href="/privacy-policy">Privacy Policy</Link>
         </div>
 
       

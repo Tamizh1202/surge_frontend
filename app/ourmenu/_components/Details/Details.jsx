@@ -1,8 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useLayoutEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './Details.module.css';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+
+// Image imports
 import breakfastImg from './breakfast.png';
 import breadImg from './bread.png';
 import pastryImg from './pastry.png';
@@ -10,6 +14,8 @@ import beveragesImg from './beverages.png';
 import cakeImg from './cake.png';
 import canpesImg from './canapes.png';
 import cImg from './cookies.png';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const SECTIONS = [
   {
@@ -63,12 +69,49 @@ const SECTIONS = [
 ];
 
 export default function Details() {
+  const containerRef = useRef(null);
+  const sectionsRef = useRef([]);
 
   const [activeSelection, setActiveSelection] = useState({
     id: 101, 
     image: breakfastImg,
     sectionIndex: 0 
   });
+
+
+
+
+  useLayoutEffect(() => {
+    let mm = gsap.matchMedia();
+
+   
+    mm.add("(max-width: 768px)", () => {
+      const sections = sectionsRef.current;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: `+=${sections.length * 100}%`,
+          pin: true,
+          scrub: 1,
+        },
+      });
+
+      sections.forEach((section, index) => {
+        if (index === 0) return;
+
+        tl.fromTo(
+          section,
+          { y: "100%" },
+          { y: "0%", ease: "none", duration: 1 },
+          index - 1
+        );
+      });
+    });
+
+    return () => mm.revert();
+  }, []);
 
   const handleItemHover = (sectionIndex, item) => {
     setActiveSelection({
@@ -79,43 +122,47 @@ export default function Details() {
   };
 
   return (
-    <main className={styles.container}>
-      {SECTIONS.map((section, sectionIndex) => (
-        <section key={sectionIndex} className={styles.selectedSection}>
-          <h2 className={styles.categoryTitle}>{section.title}</h2>
-          
-          <div className={styles.menuContainer}>
-            <div className={styles.itemList}>
-              {section.items.map((item) => (
-                <div 
-                  key={item.id} 
-                
-                  className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
-                  onMouseEnter={() => handleItemHover(sectionIndex, item)}
-                >
-                  <div className={styles.itemInfo}>
-                    <h1>{item.name}</h1> 
-                    <p>{item.note}</p>
-                  </div>
-                  <span className={styles.price}>{item.price}</span>
-                </div>
-              ))}
+   <main ref={containerRef} className={styles.container}>
+  {SECTIONS.map((section, sectionIndex) => (
+    <section 
+      key={sectionIndex} 
+      ref={(el) => (sectionsRef.current[sectionIndex] = el)}
+      className={styles.selectedSection}
+    >
+      <h2 className={styles.categoryTitle}>{section.title}</h2>
+      
+      <div className={styles.menuContainer}>
+        {/* Item List Pehle */}
+        <div className={styles.itemList}>
+          {section.items.map((item) => (
+            <div 
+              key={item.id} 
+              className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
+              onMouseEnter={() => handleItemHover(sectionIndex, item)}
+            >
+              <div className={styles.itemInfo}>
+                <h1>{item.name}</h1> 
+                <p>{item.note}</p>
+              </div>
+              <span className={styles.price}>{item.price}</span>
             </div>
+          ))}
+        </div>
 
-            <div className={styles.imageWrapper}>
-              <Image 
-               
-                src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : section.defaultImage || section.image} 
-                alt={section.title}
-                width={541} 
-                height={541}
-                className={styles.menuImage}
-                priority={sectionIndex === 0} 
-              />
-            </div>
-          </div>
-        </section>
-      ))}
-    </main>
+       
+        <div className={styles.imageWrapper}>
+          <Image 
+            src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : section.defaultImage || section.image} 
+            alt={section.title}
+            width={541} 
+            height={541}
+            className={styles.menuImage}
+            priority={sectionIndex === 0} 
+          />
+        </div>
+      </div>
+    </section>
+  ))}
+</main>
   );
 }

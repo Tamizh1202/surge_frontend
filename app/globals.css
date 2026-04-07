@@ -19,6 +19,9 @@
   --surge-app: #FBF5F1;
   --brown: #333333;
 
+
+--fs-12: clamp(0.66rem, 0.09vi + 0.63rem, 0.75rem);
+  --fs-14: clamp(0.75rem, 0.13vi + 0.72rem, 0.88rem);
 --fs-16: clamp(1rem, 0.01vi + 1rem, 1.01rem);
  --fs-18: clamp(0.88rem, 0.25vi + 0.82rem, 1.13rem);
   --fs-20: clamp(0.88rem, 0.38vi + 0.79rem, 1.25rem);
@@ -31,6 +34,7 @@
 html, body {
   margin:  0 ;
   padding: 0;
+
   overflow-x: hidden; 
    box-sizing: border-box;
 }

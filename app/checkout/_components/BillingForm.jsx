@@ -3,6 +3,7 @@ import { useState } from "react";
 import styles from "../Checkout.module.css"
 import { emirates } from "../data/data";
 import CountrySelect from "../../account/countryDropdown/CountrySelect";
+import EmiratesPopup from "../../account/emiratesDropdown/EmiratesDropdown";
 export default function BillingAddress() {
     const [form, setForm] = useState({
         firstName: "",
@@ -13,7 +14,7 @@ export default function BillingAddress() {
         emirate: "",
         phone: "",
     });
-
+    const [showEmirates, setShowEmirates] = useState(false);
     const update = (k) => (e) => setForm((p) => ({ ...p, [k]: e.target.value }));
 
     return (
@@ -92,14 +93,29 @@ export default function BillingAddress() {
                         />
                     </div>
                     <div className={styles.field}>
-                        <div className={styles.selectWrap}>
-                            <select value={form.emirate} onChange={update("emirate")}>
-                                <option value="" disabled>Emirate</option>
-                                {emirates.map((em) => (
-                                    <option key={em} value={em}>{em}</option>
-                                ))}
-                            </select>
-                            <span className={styles.selectArrow}>▼</span>
+                        {/* This container must be position: relative in CSS */}
+                        <div className={styles.selectWrap} style={{ position: 'relative' }}>
+
+                            {/* 1. The Label/Box the user clicks to open the menu */}
+                            <div
+                                className={styles.customSelectTrigger}
+                                onClick={() => setShowEmirates(true)}
+                            >
+                                {form.emirate || "Select Emirate"}
+                                <span className={styles.selectArrow}>▼</span>
+                            </div>
+
+                            {/* 2. The Popup itself */}
+                            {showEmirates && (
+                                <EmiratesPopup
+                                    selected={form.emirate}
+                                    onSelect={(val) => {
+                                        // Update your form state (this mimics a native select event)
+                                        update("emirate")({ target: { value: val } });
+                                    }}
+                                    onClose={() => setShowEmirates(false)}
+                                />
+                            )}
                         </div>
                     </div>
                 </div>

@@ -3,39 +3,36 @@
     position: fixed;
     inset: 0;
     background: transparent;
-    z-index: 100; /* Lower than the dropdown */
+    z-index: 100;
 }
 
 /* The Menu itself */
 .dropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
+    z-index: 101;
+    color: var(--text-primary);
+    background: var(--background);
+    border: 1px solid var(--cards-bg); /* Using global neutral for border */
+    border-radius: 4px;
+    flex-direction: column;
     width: 100%;
     max-height: 280px;
-    background: #ffffff; /* CHANGED: Must be solid white to hide elements behind it */
-    z-index: 101;        /* Higher than the backdrop */
+    margin-top: 6px;
+    font-family: var(--font-lato); /* Consistent with previous dropdown style */
+    animation: .2s ease-out slideDown;
     display: flex;
-    flex-direction: column;
-    
-    /* ADDED: Shadow makes it "pop" and look like it's floating above the form */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
-    
-    border: 1px solid #e8e2dc;
-    border-radius: 4px;
-    margin-top: 4px;
+    position: absolute;
+    top: 100%;
+    left: -2px;
+    right: 0;
     overflow: hidden;
-    animation: slideDown 0.2s ease-out;
-    font-family: "DM Sans", sans-serif;
-    color: #1a1a1a;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
 /* Search Area */
 .searchWrap {
     padding: 12px;
-    background: #ffffff; /* Ensure search bar is also solid */
-    border-bottom: 1px solid #f0ece8;
+    background: var(--background);
+    border-bottom: 1px solid var(--cards-bg);
     position: sticky;
     top: 0;
     z-index: 2;
@@ -47,19 +44,29 @@
     margin: 0;
     padding: 0;
     overflow-y: auto;
-    background: #ffffff; /* Solid background for the list */
+    background: var(--background);
     flex: 1;
 }
 
 .item {
-    display: flex;  
+    display: flex;
     justify-content: space-between;
     padding: 12px 15px;
     cursor: pointer;
-    border-bottom: 1px solid #f9f7f5;
-    font-size: 13px;
-    background: #ffffff; /* Each item is solid */
-    transition: background 0.2s; /* 1s was a bit too slow, 0.2s feels snappier */
+    border-bottom: 1px solid var(--surge-app); /* Subtle divider */
+    font-size: var(--fs-14); /* Global fluid size */
+    background: var(--background);
+    transition: background 0.2s, color 0.2s;
 }
 
-/* ... keep the rest of your styles (.item:hover, .itemSelected, etc.) ... */
+.item:hover {
+    background: var(--surge-app); /* Brand-niche light background */
+    color: var(--primary-color);
+}
+
+/* Example Selected State matching the system */
+.itemSelected {
+    background: var(--surge-app);
+    color: var(--primary-color);
+    font-weight: 600;
+}

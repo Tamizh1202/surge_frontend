@@ -58,7 +58,7 @@ export default function ContactForm() {
                         checked={emailOffers}
                         onChange={(e) => setEmailOffers(e.target.checked)}
                     />
-                    <label htmlFor="emailOffers">Email me with news and offers</label>
+                    <label htmlFor="emailOffers">Email me with news and offers.</label>
                 </div>
             </div>
 
@@ -155,22 +155,25 @@ export default function ContactForm() {
                     </div>
                     {/* comeback */}
                     <div className={styles.field}>
-                        <div className={styles.selectWrap} style={{ position: 'relative' }}> {/* Ensure relative positioning */}
+                        {/* This container must be position: relative in CSS */}
+                        <div className={styles.selectWrap} style={{ position: 'relative' }}>
+
+                            {/* 1. The Label/Box the user clicks to open the menu */}
                             <div
-                                className={styles.customSelect}
+                                className={styles.customSelectTrigger}
                                 onClick={() => setShowEmirates(true)}
                             >
                                 {form.emirate || "Select Emirate"}
                                 <span className={styles.selectArrow}>▼</span>
                             </div>
 
+                            {/* 2. The Popup itself */}
                             {showEmirates && (
                                 <EmiratesPopup
                                     selected={form.emirate}
                                     onSelect={(val) => {
-                                        // This mimics your existing update("emirate") logic
-                                        const event = { target: { value: val } };
-                                        update("emirate")(event);
+                                        // Update your form state (this mimics a native select event)
+                                        update("emirate")({ target: { value: val } });
                                     }}
                                     onClose={() => setShowEmirates(false)}
                                 />

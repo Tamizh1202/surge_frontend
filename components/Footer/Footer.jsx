@@ -14,14 +14,14 @@ export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-      
+
         <div className={styles.promoSection}>
           <div className={styles.logoCol}>
             <Image
               src={logo}
               alt="Surge Logo"
-              width={119}
-              height={133}
+              width={105}
+              height={125}
               className={styles.footerLogo}
             />
           </div>
@@ -78,7 +78,7 @@ export default function Footer() {
             <div className={styles.newsletterContent}>
               <h2 className={styles.heading}>Join Our Community</h2>
               <p className={styles.description}>
-            Join our email list and take your coffee ritual further. Get early access to new releases, exclusive offers and thoughtful perks, plus expert brewing tips to help you make better coffee at home. Go behind the scenes to discover the stories, sourcing and craft behind every cup, and become part of a growing community united by a shared love for quality coffee.
+                Join our email list and take your coffee ritual further. Get early access to new releases, exclusive offers and thoughtful perks, plus expert brewing tips to help you make better coffee at home. Go behind the scenes to discover the stories, sourcing and craft behind every cup, and become part of a growing community united by a shared love for quality coffee.
               </p>
               <form className={styles.subscribeForm}>
                 <input
@@ -123,7 +123,7 @@ export default function Footer() {
           </div>
         </div>
 
-    
+
         <div className={styles.surgeBackground}>
           <h1>
             <span>S</span>
@@ -134,7 +134,7 @@ export default function Footer() {
           </h1>
         </div>
 
-      
+
         <div className={styles.infoGrid}>
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
@@ -168,7 +168,7 @@ export default function Footer() {
           </div>
         </div>
 
-      
+
         <div className={styles.bottomBar}>
           <div className={styles.copyright}>© 2026 Surge</div>
           <div className={styles.legal}>

@@ -1,12 +1,639 @@
+ .footer {
+   background-color: var(--text-primary);
+   color: var(--background);
+   width: 100%;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   padding: 45px clamp(24px, 8vw, 127px) 25px;
+   box-sizing: border-box;
+   overflow: hidden;
+ }
 
-.footer {
+ .container {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   height: 100%;
+   justify-content: space-between;
+ }
+
+
+ .promoSection {
+   display: flex;
+   justify-content: space-between;
+   align-items: flex-end;
+
+ }
+
+ .logoCol {
+   flex-shrink: 0;
+   width: 45%
+ }
+
+ .promoRightSide {
+   display: flex;
+   justify-content: space-between;
+   flex: 1;
+ }
+
+ .promoCol {
+   display: flex;
+   flex-direction: column;
+   gap: 12px;
+   max-width: 420px;
+ }
+
+ .promoHeading {
+   font-family: var(--font-montserrat);
+   font-size: var(--fs-22);
+   font-weight: 600;
+   margin: 0;
+   color: var(--background);
+ }
+
+ .promoLabel {
+   color: #C4754E;
+   font-family: var(--font-raleway);
+   font-size: var(--fs-12);
+   font-weight: 500;
+   margin: 0;
+ }
+
+ .promoDesc {
+   font-family: var(--font-raleway);
+   font-size: var(--fs-12);
+   font-weight: 500;
+   width: 342px;
+   color: var(--background);
+   margin: 0;
+ }
+
+ .exploreBtn {
+   display: inline-block;
+   background-color: var(--primary-color);
+   color: var(--background);
+   padding: 12px 40px;
+   text-decoration: none;
+   font-family: var(--font-raleway);
+   font-size: var(--fs-16);
+   font-weight: 600;
+   width: fit-content;
+   margin-top: 20px;
+   transition: opacity 0.3s ease;
+ }
+
+
+ .appLinks {
+   display: flex;
+   gap: 15px;
+   margin-top: 15px;
+ }
+
+ .appBtn {
+   display: inline-block;
+   text-decoration: none;
+   border: 1px solid var(--background);
+   padding: 8px 15px;
+   min-width: 135px;
+   background: transparent;
+   transition: background 0.3s ease;
+ }
+
+ .btnContent {
+   display: flex;
+   align-items: center;
+   gap: 10px;
+
+ }
+
+ .textWrapper {
+   display: flex;
+   flex-direction: column;
+   color: var(--background);
+   text-align: left;
+ }
+
+ .topText {
+   font-size: var(--fs-12);
+   font-weight: 500;
+   line-height: 1;
+   font-family: var(--font-raleway);
+ }
+
+ .bottomText {
+   font-size: var(--fs-14);
+   font-weight: 600;
+   font-family: var(--font-raleway);
+   line-height: 1.2;
+ }
+
+ .divider {
+   width: 100%;
+   height: 1px;
+   background-color: var(--text-secondary);
+   margin-top: 60px;
+   margin-bottom: 40px;
+   border: none;
+   opacity: 0.3;
+ }
+
+
+ .topSection {
+   display: flex;
+   justify-content: space-between;
+   width: 100%;
+   align-items: flex-start;
+ }
+
+ .newsletterArea {
+   display: flex;
+   width: 45%;
+ }
+
+ .newsletterContent {
+   display: flex;
+   flex-direction: column;
+
+ }
+
+ .heading {
+   font-family: var(--font-montserrat);
+   font-size: var(--fs-22);
+   font-weight: 600;
+   margin: 0;
+ }
+
+ .description {
+   color: var(--background);
+   width: 80%;
+   line-height: 1.2;
+   font-family: var(--font-raleway);
+   margin-bottom: 30px;
+   font-size: var(--fs-16);
+ }
+
+
+ .subscribeForm {
+   display: flex;
+   border: 1px solid var(--background);
+   width: 100%;
+   max-width: 360px;
+ }
+
+ .input {
+   background: transparent;
+   border: none;
+   padding: 16px;
+   color: var(--background);
+   font-size: 14px;
+   flex: 1;
+   outline: none;
+ }
+
+ .subscribeBtn {
+   background: var(--background);
+   color: var(--primary-color);
+   border: none;
+   padding: 0 24px;
+   font-weight: 400;
+   font-family: var(--font-raleway);
+   font-size: 16px;
+   cursor: pointer;
+ }
+
+
+ .linkColumns {
+   display: flex;
+   flex: 1;
+   justify-content: space-between;
+   padding-right: 20px;
+ }
+
+ .column h4 {
+   font-family: var(--font-montserrat);
+   font-size: 22px;
+   font-weight: 600;
+   margin: 0 0 24px 0;
+ }
+
+ .column a {
+   font-family: var(--font-raleway);
+   font-size: 16px;
+   color: var(--background);
+   text-decoration: none;
+   display: block;
+   margin-bottom: 15px;
+   opacity: 0.8;
+   white-space: nowrap;
+ }
+
+
+ .surgeBackground {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   overflow: hidden;
+   height: 250px;
+ }
+
+ .surgeBackground h1 {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+
+   width: 100%;
+
+
+   font-family: var(--font-raleway);
+   font-size: 150px;
+   font-weight: 500;
+   opacity: 5%;
+   line-height: 1;
+   margin: 0;
+   gap: 0;
+ }
+
+ .infoGrid {
+   display: flex;
+   align-items: flex-start;
+   margin-bottom: 20px;
+
+ }
+
+ .contactWrapper {
+   display: flex;
+   flex: 1;
+   justify-content: space-between;
+   align-items: flex-start;
+ }
+
+ .infoBlock {
+   display: flex;
+   flex-direction: column;
+   width: 45%;
+
+ }
+
+ .label {
+   font-family: var(--font-raleway);
+   font-size: 16px;
+   font-weight: 400;
+   color: var(--background);
+   text-transform: uppercase;
+   margin: 0px;
+ }
+
+ .infoBlock address {
+   font-weight: 400;
+   font-family: var(--font-raleway);
+   font-size: 16px;
+   color: var(--primary-color);
+   line-height: 1.5;
+ }
+
+ .accentLink {
+   font-family: var(--font-raleway);
+   font-size: var(--fs-16);
+   text-decoration: none;
+   font-weight: 400;
+   color: var(--primary-color);
+ }
+
+
+
+ .bottomBar {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding-top: 25px;
+   font-size: var(--fs-16);
+   color: var(--background);
+   font-family: var(--font-raleway);
+   font-weight: 400;
+ }
+
+ .legal {
+   display: flex;
+   gap: 20px;
+ }
+
+ .legal a {
+   color: white;
+   text-decoration: none;
+   font-family: var(--font-raleway);
+   font-size: var(--fs-16);
+
+   font-weight: 400;
+ }
+
+ .crafted a {
+   color: var(--background);
+   font-family: var(--font-raleway);
+   font-size: var(--fs-16);
+
+   font-weight: 400;
+   text-decoration: underline;
+   text-underline-offset: 3px;
+ }
+
+ .mobilelegal {
+   display: none;
+ }
+
+ @media (max-width: 1024px) {
+   .footer {
+     height: auto;
+     min-height: 100vh;
+     padding: 4rem 5rem 3rem;
+   }
+
+   /* Stack logo above promo cols */
+   .promoSection {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 3rem;
+   }
+
+   .logoCol {
+     width: 100%;
+   }
+
+   .promoRightSide {
+     width: 100%;
+     gap: 4rem;
+   }
+
+   .promoCol {
+     max-width: 100%;
+     flex: 1;
+   }
+
+   .promoDesc {
+     width: 100%;
+   }
+
+   /* Stack newsletter above links */
+   .topSection {
+     flex-direction: column;
+     gap: 4rem;
+   }
+
+   .newsletterArea {
+     width: 100%;
+   }
+
+   .description {
+     width: 100%;
+   }
+
+   .subscribeForm {
+     max-width: 100%;
+   }
+
+   /* 2x2 grid for link columns */
+   /* ── Link Columns → Flex Layout ── */
+   .linkColumns {
+     display: flex;
+     justify-content: space-between;
+     flex-wrap: wrap;
+     gap: 32px 65px;
+     padding-right: 0;
+     width: 100%;
+   }
+
+
+   /* SURGE text */
+   /* .surgeBackground {
+      height: 15rem;
+    } */
+
+   .surgeBackground h1 {
+     font-size: 10rem;
+   }
+
+   /* Info grid stays row but breathes more */
+   .infoGrid {
+     gap: 3rem;
+   }
+
+   .infoBlock {
+     width: 40%;
+   }
+
+   .contactWrapper {
+     gap: 2rem;
+   }
+
+   /* Bottom bar stays row */
+   .bottomBar {
+     flex-wrap: wrap;
+     gap: 1.5rem;
+   }
+ }
+
+
+ /* ─── MOBILE (768px and below) ─── */
+ @media (max-width: 768px) {
+   .footerLogo {
+     width: 85px;
+     height: 100px;
+   }
+
+   .footer {
+     height: auto;
+     min-height: unset;
+     padding: 35px 24px;
+     overflow: visible;
+   }
+
+   /* ── Promo Section ── */
+   .promoSection {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 40px;
+   }
+
+   .logoCol {
+     width: 60%;
+   }
+
+   .promoRightSide {
+     flex-direction: column;
+     width: 100%;
+     gap: 40px;
+   }
+
+   .promoCol {
+     max-width: 100%;
+   }
+
+   .promoCol p {
+     font-size: 12px;
+     width: 80%;
+   }
+
+   .promoDesc {
+     width: 100%;
+   }
+
+   .exploreBtn {
+     text-align: center;
+     padding: 10px 40px;
+   }
+
+
+   .appLinks {
+     flex-direction: row;
+     gap: 1.2rem;
+   }
+
+   .appBtn {
+     width: 100%;
+     min-width: unset;
+   }
+
+   /* ── Divider ── */
+   .divider {
+     margin-top: 80px;
+     margin-bottom: 80px;
+   }
+
+   /* ── Newsletter + Links ── */
+   .topSection {
+     flex-direction: column;
+     gap: 4rem;
+   }
+
+   .newsletterArea {
+     width: 100%;
+   }
+
+   .description {
+     width: 100%;
+     font-size: 14px;
+   }
+
+   .subscribeForm {
+     max-width: 100%;
+     flex-direction: row;
+     /* keep input + button side by side */
+   }
+
+   /* ── Link Columns → 2x2 Grid ── */
+   .linkColumns {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 32px 65px;
+     padding-right: 0;
+     width: 100%;
+   }
+
+   .column h4 {
+     font-size: 20px;
+     margin-bottom: 1.6rem;
+   }
+
+   .column a {
+     font-size: 14px;
+     margin-bottom: 1.2rem;
+   }
+
+   /* ── SURGE Text ── */
+   /* .surgeBackground {
+     height: 10rem;
+   } */
+
+   .surgeBackground h1 {
+     font-size: 72px;
+   }
+
+   /* ── Info Grid → stacked ── */
+   .infoGrid {
+     flex-direction: column;
+     gap: 3rem;
+     margin-bottom: 3rem;
+   }
+
+   .infoBlock {
+     width: 100%;
+   }
+
+   .contactWrapper {
+     display: grid;
+     grid-template-columns: 1fr 1fr;
+     gap: 3rem 2rem;
+     width: 100%;
+   }
+
+   /* ── Bottom Bar ── */
+   .bottomBar {
+     flex-direction: column;
+     align-items: flex-start;
+     gap: 1.6rem;
+     padding-top: 2rem;
+   }
+
+   .legal {
+     flex-direction: row;
+     gap: 2rem;
+   }
+
+   /* show mobile legal if needed */
+   .mobilelegal {
+     display: flex;
+     flex-direction: column;
+     gap: 1rem;
+   }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* THE BELOW CODE IS USING THE SCREEN LOCK TECHNIQUE, STILL HAD SOME CORRECTIONS, WILL WORK ON IT LATER */
+ /*
+  Footer Homothetic Scaling
+  ─────────────────────────
+  Base design width : 1920px
+  1em = 10px @ 1920px  →  font-size: 0.520833333vw
+  All sizing values inside this file use `em` so they scale
+  proportionally with the viewport width.
+  Global CSS is completely untouched.
+*/
+
+ /* .footer {
+  font-size: 0.520833333vw;
+
   background-color: var(--text-primary);
   color: var(--background);
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 65px clamp(24px, 8vw, 127px) 25px;
+  padding: 4.5em clamp(2.4em, 8vw, 12.7em) 2.5em;
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -19,54 +646,51 @@
   justify-content: space-between;
 }
 
-
 .promoSection {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: flex-end;
-  gap: 40px;
 }
 
 .logoCol {
   flex-shrink: 0;
+  width: 45%;
 }
 
 .promoRightSide {
   display: flex;
-  justify-content: flex-end; 
-  gap: 169px;
+  justify-content: space-between;
   flex: 1;
 }
 
 .promoCol {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  max-width: 420px; 
+  gap: 1.2em;
+  max-width: 42em;
 }
 
 .promoHeading {
   font-family: var(--font-montserrat);
-  font-size: var(--fs-22);
+  font-size: 2.2em;
   font-weight: 600;
   margin: 0;
-  color: var( --background);
+  color: var(--background);
 }
 
 .promoLabel {
   color: #C4754E;
   font-family: var(--font-raleway);
-  font-size: var(--fs-12);
+  font-size: 1.2em;
   font-weight: 500;
   margin: 0;
 }
 
 .promoDesc {
   font-family: var(--font-raleway);
-  font-size: var(--fs-12);
+  font-size: 1.2em;
   font-weight: 500;
-  width: 342px;
-  line-height: 1.6;
+  width: 34.2em;
   color: var(--background);
   margin: 0;
 }
@@ -74,30 +698,29 @@
 .exploreBtn {
   display: inline-block;
   background-color: var(--primary-color);
-  color: var( --background);
-  padding: 12px 40px;
+  color: var(--background);
+  padding: 1.2em 4em;
   text-decoration: none;
   font-family: var(--font-raleway);
-  font-size: var(--fs-16);
+  font-size: 1.6em;
   font-weight: 600;
   width: fit-content;
-  margin-top: 12px;
+  margin-top: 2em;
   transition: opacity 0.3s ease;
 }
 
-
 .appLinks {
   display: flex;
-  gap: 15px;
-  margin-top: 15px;
+  gap: 1.5em;
+  margin-top: 1.5em;
 }
 
 .appBtn {
   display: inline-block;
   text-decoration: none;
   border: 1px solid var(--background);
-  padding: 8px 15px;
-  min-width: 135px;
+  padding: 0.8em 1.5em;
+  min-width: 13.5em;
   background: transparent;
   transition: background 0.3s ease;
 }
@@ -105,8 +728,7 @@
 .btnContent {
   display: flex;
   align-items: center;
-  gap: 10px;
-
+  gap: 1em;
 }
 
 .textWrapper {
@@ -116,41 +738,40 @@
   text-align: left;
 }
 
-.topText { 
-  font-size: var(--fs-12);
-   font-weight: 500; 
-   line-height: 1; 
-   font-family: var(--font-raleway);
-  }
-.bottomText {
-   font-size: var(--fs-14); 
-   font-weight: 600;
-   font-family: var(--font-raleway);
-    line-height: 1.2;
-   }
+.topText {
+  font-size: 1.2em;
+  font-weight: 500;
+  line-height: 1;
+  font-family: var(--font-raleway);
+}
 
-/* --- Divider --- */
+.bottomText {
+  font-size: 1.4em;
+  font-weight: 600;
+  font-family: var(--font-raleway);
+  line-height: 1.2;
+}
+
 .divider {
   width: 100%;
   height: 1px;
   background-color: var(--background);
-  margin: 20px 0;
+  margin-top: 6em;
+  margin-bottom: 4em;
   border: none;
   opacity: 0.3;
 }
 
-
 .topSection {
   display: flex;
-  justify-content: flex-end; 
+  justify-content: space-between;
+  width: 100%;
   align-items: flex-start;
-  gap: 243px; 
 }
 
 .newsletterArea {
   display: flex;
-  flex: 0 0 auto; 
-  width: 526px; 
+  width: 45%;
 }
 
 .newsletterContent {
@@ -160,32 +781,33 @@
 
 .heading {
   font-family: var(--font-montserrat);
-font-size: var(--fs-22);
+  font-size: 2.2em;
   font-weight: 600;
-margin: 0;
+  margin: 0;
 }
 
 .description {
   color: var(--background);
-
-  line-height: 1.6;
+  width: 80%;
+  line-height: 1.2;
   font-family: var(--font-raleway);
-  margin-bottom: 30px;
+  margin-bottom: 3em;
+  font-size: 1.6em;
 }
 
 .subscribeForm {
   display: flex;
   border: 1px solid var(--background);
   width: 100%;
-  max-width: 360px;
+  max-width: 36em;
 }
 
 .input {
   background: transparent;
   border: none;
-  padding: 16px;
+  padding: 1.6em;
   color: var(--background);
-  font-size: 14px;
+  font-size: 1.4em;
   flex: 1;
   outline: none;
 }
@@ -194,165 +816,223 @@ margin: 0;
   background: var(--background);
   color: var(--primary-color);
   border: none;
-  padding: 0 24px;
+  padding: 0 2.4em;
   font-weight: 400;
-   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-family: var(--font-raleway);
+  font-size: 1.6em;
   cursor: pointer;
 }
 
-
 .linkColumns {
   display: flex;
-  gap: 147px;
+  flex: 1;
+  justify-content: space-between;
+  padding-right: 2em;
 }
 
 .column h4 {
   font-family: var(--font-montserrat);
-  font-size: 22px;
+  font-size: 2.2em;
   font-weight: 600;
-  margin: 0 0 20px 0;
+  margin: 0 0 2.4em 0;
 }
 
 .column a {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: 1.6em;
   color: var(--background);
   text-decoration: none;
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 1.5em;
   opacity: 0.8;
   white-space: nowrap;
 }
 
-
 .surgeBackground {
-
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
-  flex: 1;
-
   width: 100%;
-
   overflow: hidden;
-
-
-
+  height: 25em;
 }
 
-
-
 .surgeBackground h1 {
-
- 
-
   display: flex;
-
-  justify-content: center;
-
+  justify-content: space-between;
   align-items: center;
-
-  gap: 275px;
-
+  width: 100%;
   font-family: var(--font-raleway);
-
-  font-size: 150px;
-
+  font-size: 15em;
   font-weight: 500;
-
-  opacity: 5%;
-
+  opacity: 0.05;
   line-height: 1;
-
   margin: 0;
-
+  gap: 0;
 }
 
 .infoGrid {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 20px;
+  align-items: flex-start;
+  margin-bottom: 2em;
 }
 
 .contactWrapper {
   display: flex;
-  gap: 160px;
-    margin-right: 200px;
+  flex: 1;
+  justify-content: space-between;
+  align-items: flex-start;
 }
-
 
 .infoBlock {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  
+  width: 45%;
 }
 
 .label {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: 1.6em;
   font-weight: 400;
   color: var(--background);
   text-transform: uppercase;
-  
+  margin: 0;
 }
 
 .infoBlock address {
- font-weight: 400;
+  font-weight: 400;
   font-family: var(--font-raleway);
-  font-size: 16px;
-  color:var(--primary-color);
+  font-size: 1.6em;
+  color: var(--primary-color);
   line-height: 1.5;
 }
+
 .accentLink {
   font-family: var(--font-raleway);
-  font-size: var(--fs-16);
+  font-size: 1.6em;
   text-decoration: none;
   font-weight: 400;
   color: var(--primary-color);
 }
 
-
-
 .bottomBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 25px;
+  padding-top: 2.5em;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  font-size: var(--fs-16);
+  font-size: 1.6em;
   color: var(--background);
-   font-family: var(--font-raleway);
-   font-weight: 400;
+  font-family: var(--font-raleway);
+  font-weight: 400;
 }
 
-.legal { display: flex;
-   gap: 20px; 
-  }
+.legal {
+  display: flex;
+  gap: 2em;
+}
+
 .legal a {
-   color: white; 
-   text-decoration: none;
-    font-family: var(--font-raleway);
-  font-size: var(--fs-16);
-
+  color: white;
+  text-decoration: none;
+  font-family: var(--font-raleway);
   font-weight: 400;
-   }
+}
+
 .crafted a {
-   color: var(--background); 
-    font-family: var(--font-raleway);
-  font-size: var(--fs-16);
-
+  color: var(--background);
+  font-family: var(--font-raleway);
   font-weight: 400;
-   text-decoration: underline;
-    text-underline-offset: 3px;
-   }
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
 .mobilelegal {
   display: none;
 }
 
+@media (max-width: 768px) {
+  .footer {
+    font-size: 2.666666667vw;
+    height: auto;
+    overflow: visible;
+    padding: 4em 2.4em 3em;
+  }
 
+  .promoSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3em;
+  }
+
+  .logoCol {
+    width: 100%;
+  }
+
+  .promoRightSide {
+    flex-direction: column;
+    gap: 3em;
+    width: 100%;
+  }
+
+  .promoDesc {
+    width: 100%;
+  }
+
+  .topSection {
+    flex-direction: column;
+    gap: 4em;
+  }
+
+  .newsletterArea {
+    width: 100%;
+  }
+
+  .description {
+    width: 100%;
+  }
+
+  .linkColumns {
+    flex-wrap: wrap;
+    gap: 3em;
+    padding-right: 0;
+  }
+
+  .surgeBackground {
+    height: 12em;
+  }
+
+  .surgeBackground h1 {
+    font-size: 8em;
+  }
+
+  .infoGrid {
+    flex-direction: column;
+    gap: 2.5em;
+  }
+
+  .infoBlock {
+    width: 100%;
+  }
+
+  .contactWrapper {
+    flex-direction: column;
+    gap: 2.5em;
+  }
+
+  .bottomBar {
+    flex-direction: column;
+    gap: 1.5em;
+    text-align: center;
+  }
+
+  .legal {
+    flex-direction: column;
+    gap: 1em;
+    align-items: center;
+  }
+
+  .mobilelegal {
+    display: block;
+  }
+} */

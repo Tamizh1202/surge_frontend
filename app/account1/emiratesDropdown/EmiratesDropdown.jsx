@@ -53,7 +53,7 @@ export default function EmiratesPopup({ selected, onSelect, onClose }) {
                             }}
                         >
                             <span>{em}</span>
-                            {selected === em && <span className={styles.checkmark}>✓</span>}
+                            {/* {selected === em && <span className={styles.checkmark}>✓</span>} */}
                         </li>
                     ))}
                 </ul>

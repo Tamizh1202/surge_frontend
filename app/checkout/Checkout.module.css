@@ -1,26 +1,10 @@
-/* ─── Tokens ─────────────────────────────────────────────────── */
-:root {
-    --accent: #c87941;
-    --accent-hover: #b3672f;
-    --text: #1a1a1a;
-    --muted: #888;
-    --border: #e0dbd6;
-    --bg: #ffffff;
-    --input-border: #c8c0b8;
-    --label: #666;
-    --green: #2e7d32;
-    --red: #c0392b;
-    --radius: 3px;
-    --font: "DM Sans", "Helvetica Neue", Arial, sans-serif;
-}
-
 /* ─── Checkout Layout ─────────────────────────────────────────── */
 .checkoutRoot {
     min-height: 100vh;
-    background: #faf8f6;
-    font-family: var(--font);
-    color: var(--text);
-    font-size: 13px;
+    background: var(--background);
+    font-family: var(--font-lato);
+    color: var(--text-primary);
+    font-size: var(--fs-14);
 }
 
 .checkoutInner {
@@ -35,18 +19,18 @@
 }
 
 .brandBar span {
-    font-size: 10px;
+    font-size: var(--fs-12);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--text-secondary);
 }
 
 .expressCheckoutLabel {
     text-align: center;
-    font-size: 10px;
+    font-size: var(--fs-12);
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--text-secondary);
     margin-bottom: 10px;
 }
 
@@ -55,6 +39,7 @@
     grid-template-columns: 1fr 450px;
     gap: 48px;
     align-items: start;
+    padding-top: 75px;
 }
 
 .leftCol {
@@ -71,7 +56,7 @@
 /* ─── Section Shell ───────────────────────────────────────────── */
 .section {
     padding: 24px 0 0;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--cards-bg);
     margin-top: 24px;
 }
 
@@ -82,11 +67,11 @@
 }
 
 .sectionTitle {
-    font-size: 15px;
+    font-size: var(--fs-22);
     font-weight: 600;
-    letter-spacing: 0.01em;
     margin: 0 0 18px;
-    color: var(--text);
+    color: var(--text-primary);
+    font-family: var(--font-montserrat);
 }
 
 /* ─── Express Checkout ────────────────────────────────────────── */
@@ -96,18 +81,18 @@
     align-items: center;
     gap: 10px;
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--cards-bg);
     margin-bottom: 20px;
 }
 
 .gpayBtn {
     width: 100%;
-    background: #000;
-    color: #fff;
+    background: var(--black);
+    color: var(--background);
     border: none;
     border-radius: 4px;
     padding: 11px 0;
-    font-size: 14px;
+    font-size: var(--fs-14);
     font-weight: 500;
     cursor: pointer;
     display: flex;
@@ -124,7 +109,7 @@
 
 .gpayIcon {
     font-style: italic;
-    font-size: 16px;
+    font-size: var(--fs-16);
     font-weight: 700;
 }
 
@@ -134,9 +119,10 @@
 }
 
 .signInRow a {
-    font-size: 12px;
-    color: var(--accent);
+    font-size: var(--fs-14);
+    color: var(--text-secondary);
     text-decoration: none;
+    font-family: var(--font-raleway);
 }
 
 .signInRow a:hover {
@@ -156,19 +142,19 @@
     align-items: center;
     gap: 10px;
     padding: 12px 0;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--cards-bg);
     cursor: pointer;
 }
 
 .methodOption:first-child {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--cards-bg);
 }
 
 .radioCustom {
     width: 17px;
     height: 17px;
     border-radius: 50%;
-    border: 1.5px solid var(--input-border);
+    border: 1.5px solid var(--text-secondary);
     display: grid;
     place-items: center;
     flex-shrink: 0;
@@ -176,17 +162,16 @@
 }
 
 .radioCustom.active {
-    border-color: var(--accent);
+    border-color: var(--primary-color);
 }
 
 .customSelect {
     width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
+    margin-top: 5px;
+    margin-left: 3px;
     background: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--fs-12);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -196,15 +181,14 @@
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: var(--accent);
+    background: var(--primary-color);
 }
 
 .methodLabel {
-    font-size: 13px;
-    color: var(--text);
+    font-size: var(--fs-14);
+    color: var(--text-primary);
     user-select: none;
 }
-
 /* ─── Form Fields ─────────────────────────────────────────────── */
 .fieldGroup {
     display: flex;
@@ -221,16 +205,16 @@
 .field {
     position: relative;
     padding-bottom: 2px;
-    border-bottom: 1px solid var(--input-border);
+    border-bottom: 1px solid var(--cards-bg);
     margin-bottom: 16px;
 }
 
 .field label {
     display: block;
-    font-size: 10px;
+    font-size: var(--fs-12);
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--label);
+    color: var(--text-secondary);
     margin-bottom: 4px;
 }
 
@@ -240,22 +224,21 @@
     border: none;
     outline: none;
     background: transparent;
-    font-family: var(--font);
-    font-size: 13px;
-    color: var(--text);
+    font-family: var(--font-lato);
+    font-size: var(--fs-16);
+    color: var(--text-primary);
     padding: 3px 0;
     appearance: none;
     -webkit-appearance: none;
 }
 
 .field input::placeholder {
-    color: var(--muted);
-    font-size: 12px;
+    color: var(--text-secondary);
+    font-size: var(--fs-12);
 }
 
 .selectWrap {
     position: relative;
-    /* CRITICAL: This anchors the absolute dropdown */
     width: 100%;
 }
 
@@ -270,8 +253,8 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
-    color: var(--muted);
-    font-size: 10px;
+    color: var(--text-secondary);
+    font-size: var(--fs-12);
 }
 
 .fieldOptional {
@@ -281,8 +264,8 @@
 }
 
 .fieldOptional .optionalTag {
-    font-size: 10px;
-    color: var(--muted);
+    font-size: var(--fs-12);
+    color: var(--text-secondary);
     letter-spacing: 0.04em;
 }
 
@@ -297,22 +280,21 @@
 .checkRow input[type="checkbox"] {
     width: 13px;
     height: 13px;
-    accent-color: var(--accent);
+    accent-color: var(--primary-color);
     cursor: pointer;
     flex-shrink: 0;
 }
 
 .checkRow label {
-    font-size: 11.5px;
-    color: var(--label);
+    font-size: var(--fs-16);
+    color: var(--text-secondary);
     cursor: pointer;
     user-select: none;
 }
-
 /* ─── Payment ─────────────────────────────────────────────────── */
 .secureNote {
-    font-size: 11px;
-    color: var(--muted);
+    font-size: var(--fs-12);
+    color: var(--text-secondary);
     margin-bottom: 14px;
     display: flex;
     align-items: center;
@@ -320,19 +302,19 @@
 }
 
 .paymentMethodBlock {
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border: 1px solid var(--cards-bg);
+    border-radius: 4px;
     overflow: hidden;
     margin-bottom: 16px;
 }
 
 .paymentMethodHeader {
-    background: #f5f2ef;
+    background: var(--cards-bg);
     padding: 11px 14px;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--cards-bg);
 }
 
 .paymentMethodBody {
@@ -340,7 +322,7 @@
     display: flex;
     flex-direction: column;
     gap: 0;
-    background: #fdfcfb;
+    background: var(--surge-app);
 }
 
 .cardIconsRow {
@@ -350,7 +332,7 @@
 }
 
 .cardBadge {
-    font-size: 9px;
+    font-size: var(--fs-12);
     font-weight: 700;
     padding: 2px 5px;
     border-radius: 2px;
@@ -359,17 +341,17 @@
 
 .cardBadge.visa {
     background: #1a1f71;
-    color: #fff;
+    color: var(--background);
 }
 
 .cardBadge.mc {
-    background: #eb001b;
-    color: #fff;
+    background: var(--red);
+    color: var(--background);
 }
 
 .cardBadge.amex {
     background: #007bc1;
-    color: #fff;
+    color: var(--background);
 }
 
 .fieldWithIcon {
@@ -380,41 +362,40 @@
     position: absolute;
     right: 0;
     bottom: 8px;
-    color: var(--muted);
-    font-size: 14px;
+    color: var(--text-secondary);
+    font-size: var(--fs-14);
     cursor: pointer;
 }
 
 /* ─── Pay Now ─────────────────────────────────────────────────── */
 .payNowBtn {
     width: 100%;
-    background: var(--accent);
-    color: #fff;
+    background: var(--primary-color);
+    color: var(--background);
     border: none;
     border-radius: 4px;
     padding: 14px 0;
-    font-size: 14px;
+    font-size: var(--fs-14);
     font-weight: 600;
     letter-spacing: 0.04em;
     cursor: pointer;
     margin-top: 28px;
-    transition: background 0.18s;
+    transition: opacity 0.18s;
 }
 
 .payNowBtn:hover {
-    background: var(--accent-hover);
+    opacity: 0.9;
 }
 
 /* ─── Order Summary ───────────────────────────────────────────── */
 .orderSummaryCard {
-    background: var(--bg);
-    border: 1px solid var(--border);
+    /* border: 1px solid var(--cards-bg); */
     border-radius: 5px;
     padding: 20px;
 }
 
 .summaryHeader {
-    font-size: 14px;
+    font-size: var(--fs-14);
     font-weight: 600;
     margin: 0 0 16px;
     display: flex;
@@ -423,9 +404,9 @@
 }
 
 .summaryItemCount {
-    font-size: 11px;
+    font-size: var(--fs-12);
     font-weight: 400;
-    color: var(--muted);
+    color: var(--text-secondary);
 }
 
 /* Product list */
@@ -458,7 +439,7 @@
     height: 52px;
     object-fit: cover;
     border-radius: 4px;
-    border: 1px solid var(--border);
+    border: 1px solid var(--cards-bg);
     display: block;
 }
 
@@ -487,28 +468,28 @@
 }
 
 .productName {
-    font-size: 12px;
-    color: var(--text);
+    font-size: var(--fs-12);
+    color: var(--text-primary);
     line-height: 1.4;
 }
 
 .productQtyLine {
-    font-size: 10.5px;
-    color: var(--muted);
+    font-size: var(--fs-12);
+    color: var(--text-secondary);
     margin-top: 2px;
 }
 
 .productPrice {
-    font-size: 12.5px;
+    font-size: var(--fs-12);
     font-weight: 600;
     white-space: nowrap;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 /* Divider */
 .divider {
     border: none;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--cards-bg);
     margin: 14px 0;
 }
 
@@ -525,18 +506,18 @@
 }
 
 .couponsTitle {
-    font-size: 12.5px;
+    font-size: var(--fs-12);
     font-weight: 600;
 }
 
 .viewCouponsLink {
-    font-size: 11px;
-    color: var(--accent);
+    font-size: var(--fs-12);
+    color: var(--primary-color);
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 2px;
-    background-color: #ffffff;
+    background-color: var(--background);
     border: none;
 }
 
@@ -554,24 +535,24 @@
 .couponInput {
     flex: 1;
     border: none;
-    border-bottom: 1px solid var(--input-border);
+    border-bottom: 1px solid var(--cards-bg);
     background: transparent;
-    font-family: var(--font);
-    font-size: 12px;
-    color: var(--text);
+    font-family: var(--font-lato);
+    font-size: var(--fs-12);
+    color: var(--text-primary);
     padding: 4px 0;
     outline: none;
 }
 
 .couponInput::placeholder {
-    color: var(--muted);
+    color: var(--text-secondary);
 }
 
 .applyBtn {
     background: transparent;
     border: none;
-    color: var(--accent);
-    font-size: 12px;
+    color: var(--primary-color);
+    font-size: var(--fs-12);
     font-weight: 600;
     cursor: pointer;
     padding: 0;
@@ -590,26 +571,26 @@
 }
 
 .couponOptionRow input[type="checkbox"] {
-    accent-color: var(--accent);
+    accent-color: var(--primary-color);
     margin-top: 12px;
     flex-shrink: 0;
 }
 
 .couponLabel {
-    font-size: 12px;
-    color: var(--text);
+    font-size: var(--fs-12);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
 .couponSub {
-    font-size: 10.5px;
-    color: var(--muted);
+    font-size: var(--fs-12);
+    color: var(--text-secondary);
     margin-top: 2px;
 }
 
 .couponSavings {
-    font-size: 10.5px;
-    color: var(--accent);
+    font-size: var(--fs-12);
+    color: var(--primary-color);
     margin-top: 2px;
 }
 
@@ -624,44 +605,44 @@
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    font-size: 12.5px;
+    font-size: var(--fs-12);
 }
 
 .totalRow .label {
-    color: var(--label);
+    color: var(--text-secondary);
 }
 
 .totalRow .value {
-    color: var(--text);
+    color: var(--text-primary);
     font-weight: 500;
 }
 
 .totalRow.discount .value {
-    color: #c0392b;
+    color: var(--red);
 }
 
 .totalRow.grandTotal {
     margin-top: 4px;
     padding-top: 12px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--cards-bg);
 }
 
 .totalRow.grandTotal .label {
-    font-size: 14px;
+    font-size: var(--fs-14);
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .totalRow.grandTotal .value {
-    font-size: 15px;
+    font-size: var(--fs-16);
     font-weight: 700;
-    color: var(--text);
+    color: var(--text-primary);
 }
 
 .savingsNote {
     margin-top: 8px;
-    font-size: 10.5px;
-    color: var(--accent);
+    font-size: var(--fs-12);
+    color: var(--primary-color);
     text-align: center;
 }
 

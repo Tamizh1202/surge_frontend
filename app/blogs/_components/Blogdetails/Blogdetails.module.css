@@ -230,13 +230,34 @@ margin: 0;
   }
 }
 
-@media (max-width: 1400px) and (min-width: 1050px){
-.Main {
-  display: flex;
-  width: 100%;
-  flex-wrap: wrap;
-  gap: 100px; 
-}
+@media (max-width: 1400px) and (min-width: 1050px) {
+  .container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .Main {
+    display: flex;
+    flex-direction: column; 
+    width: 100%;
+    gap: 40px;
+  }
+  
+  .leftColumn, 
+  .body,
+  .text {
+    width: 100% !important; 
+    max-width: 100% ;
+    min-width: 0;
+  }
+  .inlineImage, 
+  .inlineImage img {
+    width: 100%;
+    object-fit: cover;
+  }
+  .rightColumn {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 

@@ -1,0 +1,85 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  padding: clamp(32px, calc(32px + (0 * ((100vw - 320px) / 1120))), 32px)
+    clamp(24px, calc(24px + (101 * ((100vw - 320px) / 1120))), 125px)
+    clamp(32px, calc(32px + (40 * ((100vw - 320px) / 1120))), 72px)
+    clamp(24px, calc(24px + (101 * ((100vw - 320px) / 1120))), 125px);
+}
+.MainConatiner {
+  display: flex;
+  justify-content: left;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: clamp(8px, calc(8px + (17 * ((100vw - 320px) / 1120))), 25px);
+}
+.Up {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-direction: row;
+  gap: clamp(8px, calc(8px + (6.5 * ((100vw - 320px) / 1120))), 14.5px);
+}
+.MainParentName,
+.ParentName {
+  display: flex;
+  justify-content: left;
+}
+.MainParentName p,
+.ParentName p {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  color: #818686;
+  cursor: pointer;
+  font-weight: 400;
+}
+.Arrow {
+  display: flex;
+  justify-content: left;
+}
+.Arrow svg {
+  width: 100%;
+  height: 100%;
+  max-width: 8px;
+  max-height: 13px;
+}
+.ActiveName {
+  display: flex;
+  justify-content: left;
+}
+.ActiveName p {
+    font-family: var(--font-raleway);
+  color: #C4754E;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+
+
+
+
+
+@media (max-width:640px) {
+    .main{
+        padding: 32px 24px;
+    }
+    .MainConatiner{
+        gap: 8px;
+    }
+    .Top{
+        gap: 8px;
+    }
+    .MainParentName p , .ParentName p{
+        font-size: 14px;
+    }
+    .ActiveName p{
+        font-size: 14px;
+        font-weight: 400;
+    }
+}

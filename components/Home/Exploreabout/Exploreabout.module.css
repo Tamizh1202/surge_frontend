@@ -294,12 +294,13 @@
     position: absolute;
     top: -240px;
     left: 0;
-    width: 638px;
+  width: 100%;
     padding: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
     z-index: 10;
+
   }
 
   .textBox h2 {
@@ -307,13 +308,13 @@
     color: #414343; 
     margin: 0;
   }
-
-  .textBox p {
+/* upadted */
+ .textBox p {
     font-size: 14px; 
     line-height: 1.5;
     color: #818686; 
-    width: 300px; 
-    max-width: 100%;
+    width: 90%;          
+    max-width: 100%;    
     margin: 0;
   }
 

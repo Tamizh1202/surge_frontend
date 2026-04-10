@@ -2,20 +2,35 @@
 import { useState, useEffect, useRef } from 'react';
 import styles from './Listing.module.css';
 import Image from 'next/image';
-import coffeeImg from './coffee.png';
+import coffeeImg from './m.png';
 
 
 const PRODUCTS = Array(9).fill({
-  name: "Indonesia Banner Mariah Triple Wet Hull",
-  notes: "Citrus, nutty, chocolate",
+name: "SURGE MONOLITH TEE",
+    notes: "Heavyweight 300GSM Cotton, Boxy Fit",
   price: "AED 60",
 }).map((item, index) => ({ ...item, id: `prod-${index}` }));
-
 const FILTER_DATA = [
-  { id: 'cat', title: 'Category', options: ['Single', 'Two', 'Three', 'Multiple'] },
-  { id: 'brew', title: 'Brew Method', options: ['Espresso', 'Filter', 'Milk-Based', 'Omni-Roast'] },
-  { id: 'origin', title: 'Origin', options: ['Brazil', 'Colombia', 'El Salvador', 'Ethiopia', 'Indonesia'] },
-  { id: 'process', title: 'Process', options: ['Washed', 'Natural', 'Honey'] },
+  { 
+    id: 'type', 
+    title: 'Category', 
+    options: ['Apparel', 'Brewing Gear', 'Drinkware', 'Lifestyle'] 
+  },
+  { 
+    id: 'collection', 
+    title: 'Collection', 
+    options: ['Monolith Series', 'Titan Axis', 'Studio Essentials'] 
+  },
+  { 
+    id: 'size', 
+    title: 'Size', 
+    options: ['One Size', 'Small', 'Medium', 'Large', 'XL'] 
+  },
+  { 
+    id: 'color', 
+    title: 'Palette', 
+    options: ['Obsidian Black', 'Chalk White', 'Sage Green', 'Raw Canvas'] 
+  },
 ];
 
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
@@ -26,8 +41,7 @@ export default function Listing() {
   const [selectedSort, setSelectedSort] = useState('Recommended');
   const [wishlist, setWishlist] = useState([]);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  
-  
+
   const [visibleCount, setVisibleCount] = useState(6);
 
   const toggleWishlist = (id) => {
@@ -97,7 +111,7 @@ export default function Listing() {
       <main className={styles.mainContent}>
         <header className={styles.gridHeader}>
           <div className={styles.titleGroup}>
-            <h1 className={styles.mainTitle}>Coffee Beans</h1>
+            <h1 className={styles.mainTitle}>Merchandise</h1>
             <p className={styles.itemCount}>({PRODUCTS.length} items)</p>
           </div>
 

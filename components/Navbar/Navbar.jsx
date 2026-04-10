@@ -90,7 +90,7 @@ export default function Navbar() {
                       </Link>
                     </li>
                     <li>
-                      <Link href="/shop/Merchandise" className={isActive("/shop/Merchandise") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
+                      <Link href="/shop/merchandise" className={isActive("/shop/Merchandise") ? styles.activeRed : ""} onClick={() => setIsShopOpen(false)}>
                         Merchandise
                       </Link>
                     </li>

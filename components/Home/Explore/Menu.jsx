@@ -52,22 +52,27 @@ export default function Menu() {
             <div className={styles.imageWrapper}>
               <Image src={item.img} alt={item.title} className={styles.image} fill />
             </div>
-         
-            <div className={styles.cardTitle}>
-              <span>{item.title}</span>
-              <MobileArrow />
-            </div>
-
           
-            <div className={styles.overlay}>
-              <h3 className={styles.overlayTitle}>{item.title}</h3>
-              <p className={styles.overlayDesc}>{item.desc}</p>
-              <Link href={item.link} className={styles.exploreLink}>
-                Explore Now <span className={styles.arrowIcon}><svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
-</svg>
-</span>
-              </Link>
+          
+
+            <div className={styles.contentStack}>
+              <div className={styles.cardTitle}>
+                <span>{item.title}</span>
+                <MobileArrow />
+              </div>
+
+                   {/* upadted */}
+              <div className={styles.hoverContent}>
+                <p className={styles.overlayTitle}>{item.desc}</p>
+                <Link href={item.link} className={styles.exploreLink}>
+                  Explore Now 
+                  <span className={styles.arrowIcon}>
+                    <svg width="10" height="10" viewBox="0 0 8 8" fill="none">
+                      <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
+                    </svg>
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
         ))}

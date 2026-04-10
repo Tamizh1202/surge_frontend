@@ -4,9 +4,7 @@
   display: flex;
   flex-direction: column;
   padding: 108px 125px;
- margin: 0 auto;
  box-sizing: border-box;
- 
 }
 
 .breadcrumbsHeaderGap {
@@ -104,7 +102,7 @@
 .Main {
   display: flex;
   width: 100%;
-  flex-wrap: wrap;
+  
   gap: 146px; 
 }
 
@@ -133,11 +131,11 @@
   color: #6E736A;
   font-family: var(--font-raleway);
   margin: 0;
+  width: 910px;
   text-align: justify; 
   text-justify: inter-word;
 }
 .inlineImage {
-  
   object-fit: cover;
 }
 
@@ -190,6 +188,7 @@
   font-size: var(--fs-16);
   font-weight: 400;
   line-height: 1.4;
+  color: #2F362A;
 font-family: var(--font-raleway);
 margin: 0;
 
@@ -221,7 +220,6 @@ margin: 0;
 
 
 
-
 @media (max-width: 1600px) {
   .container {
     padding: 108px 30px; 
@@ -230,187 +228,152 @@ margin: 0;
   .Main {
     gap: 60px; 
   }
+}
 
- 
+@media (max-width: 1400px) and (min-width: 1050px){
+.Main {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 100px; 
+}
 }
 
 
-/* Default hidden */
-.mobileSidebar {
-  display: none;
+@media (min-width: 1024px) {
+  .body {
+    width: 955px;
+  }
 }
+
 @media (min-width: 710px) and (max-width: 1024px) {
-  
- .heroLayoutSection {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-    gap: 24px;
+
+
+.container {
+    padding: 108px 30px 0; 
     width: 100%;
     box-sizing: border-box;
   }
 
-  
-  .imageWrapper {
-    flex: 0 0 60%; 
-  
-    max-height: 900px; 
-    overflow: hidden;
-  }
-
-  .heroImg {
+  .mainTitle, 
+  .sourcingSubLine {
+    font-size: 40px; 
+    line-height: 1.2;
     width: 100%;
-    height: 100%;
+    
+  }
+.breadcrumbsHeaderGap {
+   gap: 24px; 
+  }
+  .headerHeroGap {
+     gap: 24px;
+     }
+  .heroContentGap { 
+    gap: 20px; 
+  }
+  .text {
+    font-size: 16px;
+    line-height: 1.4;
+    text-align: left; 
+    width: 100%;
+        text-align: justify; 
+  text-justify: inter-word;
+    overflow-wrap: break-word;
+   
+  }
+  .heroImg {
+    height: 250px; 
+    width: 100%;
     object-fit: cover;
-    display: block;
   }
 
-
-.headerHeroGap {
-  display: flex;
-  flex-direction: column;
-  gap: 30px; 
-}
-
-
-  .mainTitle {
-  display: flex;
-  flex-direction: column;
-  font-size: 40px;
-  font-weight: 500;
-  color: #414343;
-  font-family: var(--font-montserrat);
-  line-height: 1.1;
-  margin: 0;
-}
-
-
-.sourcingSubLine {
-  font-size: 40px; 
-  font-weight: 500;
-    font-family: var(--font-montserrat);
-  color: #414343;
- 
-}
- 
-  .mobileSidebar {
-    flex: 1; 
+  .inlineImage, 
+  .inlineImage img {
+    width: 100% ;
+   height: 346px;
+    max-width: 100%;
     display: block;
-  }
-
   
-  .heroContentGap {
-    display: flex;
-    flex-direction: column;
-    gap: 16px; 
-  }
-
-  .breadcrumbsHeaderGap {
-    display: flex;
-    flex-direction: column;
-    gap: 30px; 
   }
 
   .Main {
-    display: block;
+    flex-direction: column;
+    gap: 40px;
     width: 100%;
-    clear: both;
-    margin-top: 24px;
   }
 
   .leftColumn {
     width: 100%;
-    max-width: 100%;
-  }
-
-  .text {
-    width: 100%;
-    display: block;
-    text-align: justify;
-    line-height: 1.6;
-    font-size: 16px;
-    color:#414343;
+    min-width: 0;
   }
 
   .rightColumn {
-    display: none; 
-  }
-
-  .mobileSidebarCard {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 24px;
-    text-decoration: none;
-    transition: opacity 0.3s ease;
-  }
-
-  .mobileSidebarCard:hover {
-    opacity: 0.8;
-  }
-
-  .mobileSidebarThumb {
-    flex-shrink: 0;
     width: 100%;
-    max-height: 200px;
-    overflow: hidden;
-   
+    overflow: hidden; 
   }
-
-  .mobileSidebarThumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .mobileSidebarTitle {
-    font-size:  22px;
-    font-weight: 600;
-    font-family: var(--font-montserrat);
-    color: #414343;
-    margin: 0 0 12px 0;
-  }
-
-  .mobileSidebarInfo {
+  .rightList {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    flex: 1;
+    flex-direction: row; 
+    overflow-x: auto;   
+    gap: 16px;           
+    scrollbar-width: none; 
+    -webkit-overflow-scrolling: touch; 
   }
 
-  .mobileTitleText {
-    font-weight: 600;
-    font-size:  14px;
-    line-height: 1.4;
-    color: #2F362A;
-    font-family: var(--font-raleway);
-    margin: 0;
-  }
-
-  .mobileReadTime, 
-  .mobilesidebarDate {
-    font-size: 14px;
-    font-weight: 400;
-    font-family: var(--font-raleway);
-    color: #818686;
-  }
-   .inlineImage, 
-  .inlineImage img {
-    width: 100% ;
-    height: auto ;
-    max-width: 100%;
-    display: block;
-  
-  }
+.rightCard {
+    display: flex;
+    flex-direction: column; 
+    flex-shrink: 0;         
+    width: 400px;           
+    height: 450px; 
+    gap: 0;
 }
 
+.rightThumb {
+    width: 100%;
+    flex: 1; 
+    min-height: 140px; 
+    margin-bottom: 12px;
+    overflow: hidden; 
+}
+
+.rightThumb img {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover;
+    display: block;
+}
+  .sidebarInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .readTime {
+    padding-bottom: 12px;
+    font-size: 16px;
+     font-family: var(--font-raleway);
+    display: block;
+  }
+
+  .sidebarBlogTitle {
+    padding-bottom: 21px; 
+    font-size: 16px;
+     font-family: var(--font-raleway);
+    font-weight: 600;
+    line-height: 1.4;
+    display: block;
+  }
 
 
+  .sidebarDate {
+    font-size: 16px;
+     font-family: var(--font-raleway);
+    display: block;
+  }
 
-
-
-
-
+}
 
 
 
@@ -434,9 +397,19 @@ margin: 0;
     width: 100%;
     
   }
-.breadcrumbsHeaderGap { gap: 24px; }
-  .headerHeroGap { gap: 24px; }
-  .heroContentGap { gap: 20px; }
+.breadcrumbsHeaderGap {
+   gap: 24px; 
+  }
+
+  .headerHeroGap {
+     gap: 24px;
+     }
+
+  .heroContentGap { 
+    gap: 20px; 
+  }
+
+
   .text {
     font-size: 16px;
     line-height: 1.4;
@@ -537,13 +510,12 @@ margin: 0;
      font-family: var(--font-raleway);
     display: block;
   }
+  
 .activePage {
     display: block;        
     flex: 1;              
     min-width: 0;         
     white-space: nowrap;   
-    overflow: hidden;      
-    text-overflow: ellipsis; 
     color: #C4754E;
     margin: 0;
   }

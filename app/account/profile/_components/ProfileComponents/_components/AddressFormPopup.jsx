@@ -31,7 +31,7 @@ const AddressFormPopup = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const title = mode === "edit" ? "EDIT ADDRESS" : "ADD ADDRESS";
+  const title = mode === "edit" ? "EDIT ADDRESS" : "Add Address";
   const saveLabel = isSubmitting
     ? "Saving..."
     : mode === "edit"
@@ -226,10 +226,11 @@ const AddressFormPopup = ({
                 border: "1px solid #2F362A4D",
                 marginLeft: label === ADDRESS_LABELS[0] ? "0" : "-1px",
                 backgroundColor:
-                  activeLabelBtn === label ? "#6C7A5F" : "#f8f9f8",
+                  activeLabelBtn === label ? "#C4754E" : "#f8f9f8",
                 color: activeLabelBtn === label ? "#ffffff" : "#6C7A5F",
-                fontSize: "14px",
+                fontSize: "16px",
                 fontWeight: "400",
+                
                 width: "100%",
                 cursor: "pointer",
                 transition: "all 0.2s ease",

@@ -30,7 +30,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
     <div className={styles.AddressSection}>
       {/* Header */}
       <div className={styles.AddressHeader}>
-        <h4>SAVED ADDRESS</h4>
+        <h4>Saved Address</h4>
         <button onClick={onAddNew}>
           <svg
             width="15"

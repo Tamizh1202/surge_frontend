@@ -9,7 +9,7 @@
 }
 
 .popup {
-    background: #fff;
+    background: var(--background);
     padding: 36px 40px;
     width: 480px;
     max-width: 90vw;
@@ -18,10 +18,10 @@
 }
 
 .title {
-    font-family: var(--lexend), sans-serif;
-    font-size: 22px;
-    font-weight: 500;
-    color: #2F362A;
+    font-family: var(--font-montserrat);
+    font-size: var(--fs-22);
+    font-weight: 600;
+    color: var(--text-primary);
     margin: 0 0 30px 0;
     letter-spacing: 0%;
     text-transform: uppercase;
@@ -40,10 +40,10 @@
 }
 
 .columnTitle {
-    font-family: var(--lato), sans-serif;
-    font-size: 15px;
-    font-weight: 700;
-    color: #2F362A;
+     font-family: var(--font-raleway);
+    font-size: 16px;
+    font-weight: 400;
+     color: var(--text-primary);
     
 }
 
@@ -53,9 +53,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-family: var(--lato), sans-serif;
-    font-size: 15px;
-    color: #4B4B4B;
+   font-family: var(--font-raleway);
+    font-size: 16px;
+    color:var(--text-secondary);
     cursor: pointer;
     user-select: none;
 }
@@ -110,8 +110,8 @@
     border: 1.5px solid #6C7A5F;
     color: #6C7A5F;
     font-family: var(--lato), sans-serif;
-    font-size: 15px;
-    font-weight: 500;
+    font-size: 16px;
+    font-weight: 400;
     cursor: pointer;
     transition: background 0.2s;
 }

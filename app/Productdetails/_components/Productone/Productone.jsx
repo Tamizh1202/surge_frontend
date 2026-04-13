@@ -75,7 +75,7 @@ export default function ProductPage() {
           val: isCapsule ? "Nespresso Original" : "Premium Arabica", 
           process: slug.includes('ethiopia') ? "Washed" : "Natural" 
         },
-        desc: "A high-altitude specialty coffee, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest and subtle honeyed notes. Grown in nutrient-rich soil to preserve clarity, this lot highlights the elegance the region is celebrated for."
+        desc: "A high-altitude heirloom from Guji, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest, white blossom aromatics, and subtle honeyed notes. . Perfect for slow brews and mindful sips, this cup is both refreshing and nuanced — a beautiful expression of terroir and craft."
       };
 
       setProduct(generatedData);
@@ -166,13 +166,13 @@ export default function ProductPage() {
           <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
             <p className={styles.description}>{product.desc}</p>
             <hr className={styles.divider} />
-            <table className={styles.specsTable}>
+            <table className={styles.specsTables}>
               <tbody>
-                <tr><td className={styles.bulletLabel}><Dot />Body</td><td>Creamy, velvety, and comfortably full.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />Aroma</td><td>{product.notes}</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />Roast</td><td>Medium roast develops cocoa richness.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />Altitude</td><td>1,200–1,800 m, steady maturation builds sweetness.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />Finish</td><td>Long, nutty, and gently sweet with lingering chocolate.</td></tr>
+                <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>Creamy, velvety, and comfortably full.</td></tr>
+                <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.notes}</td></tr>
+                <tr><td className={styles.bulletLabel}><Dot />  <p>  Roast</p></td><td>Medium roast develops cocoa richness.</td></tr>
+                <tr><td className={styles.bulletLabel}><Dot />  <p>  Altitude</p></td><td>1,200–1,800 m, steady maturation builds sweetness.</td></tr>
+                <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>Long, nutty, and gently sweet with lingering chocolate.</td></tr>
               </tbody>
             </table>
           </div>

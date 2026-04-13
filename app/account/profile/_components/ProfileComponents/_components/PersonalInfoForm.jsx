@@ -60,7 +60,7 @@ const PersonalInfoForm = ({
       )}
 
       <div className={styles.AddressHeader}>
-        <h4>PERSONAL INFORMATION</h4>
+        <h4>Personal Information</h4>
         {!editMode && (
           <button
             style={{ textDecoration: "underline" }}

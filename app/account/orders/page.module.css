@@ -34,16 +34,16 @@
 
 .Top {
   display: flex;
-  justify-content: space-between;
+  justify-content: left;
   align-items: center;
   gap: 24px;
 }
 
 .Top h1 {
-  font-family: var(--lexend);
+   font-family: var(--font-raleway);
   font-size: var(--fs-22);
-  font-weight: 500;
-  color: #2f362a;
+  font-weight: 600;
+  color: var(--text-primary);
   text-transform: uppercase;
 }
 
@@ -63,23 +63,23 @@
   width: 100%;
   height: 45px;
   padding: 0 16px;
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-  font-weight: 500;
-  border: 1px solid #2f362a4d;
+ font-family: var(--font-raleway);
+  font-size: 16px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  border: 1px solid  var(--text-secondary);
 }
 
 .searchInput::placeholder {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-  font-weight: 500;
+ font-family: var(--font-raleway);
+  font-size: 16px;
+   color: var(--text-secondary);
+  font-weight: 400;
 }
 
 .Filter {
   padding: 12px;
-  border: 1px solid #2f362a4d;
+  border: 1px solid  var(--text-secondary);
 }
 
 @media (max-width: 640px) {
@@ -143,18 +143,18 @@
 }
 
 .EmptyOrdersState h4 {
-  font-family: var(--lexend);
-  font-size: 20px;
-  font-weight: 400;
-  color: #2f362a;
+    font-family: var(--font-montserrat);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-primary);
   margin: 0;
 }
 
 .EmptyOrdersState p {
-  font-family: var(--lato);
-  font-size: 15px;
+  font-family: var(--font-raleway);
+  font-size: 16px;
   font-weight: 400;
-  color: #6e736a;
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -162,16 +162,16 @@
   margin-top: 24px;
   padding: 12px 40px;
   background: #ffffff;
-  border: 1px solid #6c7a5f;
-  color: #6c7a5f;
-  font-family: var(--lato);
-  font-size: 15px;
-  font-weight: 500;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+   font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .ShopNowBtn:hover {
-  background: #6c7a5f;
+  background: var(--primary-color);
   color: #ffffff;
 }

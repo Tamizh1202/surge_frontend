@@ -592,7 +592,7 @@ const ProfileComponents = ({ initialData }) => {
             {/* 4. Delete account section */}
             {!isGuestUser && (
               <div className={styles.DeleteAccount}>
-                <h4>DELETE ACCOUNT</h4>
+                <h4>Delete Account</h4>
                 <button onClick={handleDeleteAccount}>Delete My Account</button>
               </div>
             )}

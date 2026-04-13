@@ -10,7 +10,7 @@
 }
 
 .Popup {
-  background: #ffffff;
+  background: var(--background);
   width: 100%;
   max-width: 564px;
   padding: 32px;
@@ -39,19 +39,19 @@
 }
 
 .content h3 {
-  font-family: var(--lexend);
+ font-family: var(--font-montserrat);
   font-size: 22px;
-  font-weight: 500;
-  color: #2f362a;
+  font-weight: 600;
+  color: var(--text-primary);
   margin: 0 0 16px 0;
   letter-spacing: 0.02em;
 }
 
 .description {
-  font-family: var(--lato);
-  font-size: 14px;
+font-family: var(--font-raleway);
+  font-size: 16px;
   line-height: 1.5;
-  color: #6e736a;
+  color: var(--text-secondary);
   margin-bottom: 24px;
   max-width: 90%;
 }
@@ -64,10 +64,10 @@
 }
 
 .reasonLabel {
-  font-family: var(--lato);
-  font-size: 15px;
-  font-weight: 500;
-  color: #6e736a;
+ font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
   margin-bottom: 4px;
 }
 
@@ -89,7 +89,7 @@
 .radioCustom {
   width: 18px;
   height: 18px;
-  border: 1.5px solid #2f362a80;
+  border: 1.5px solid var(--text-primary);
   border-radius: 50%;
   display: inline-block;
   position: relative;
@@ -98,11 +98,11 @@
 }
 
 .reasonItem:hover .radioCustom {
-  border-color: #2f362a;
+  border-color: var(--text-primary);
 }
 
 .reasonItem input:checked ~ .radioCustom {
-  border-color: #2f362a;
+  border-color: var(--text-primary);
 }
 
 .reasonItem input:checked ~ .radioCustom::after {
@@ -113,29 +113,29 @@
   transform: translate(-50%, -50%);
   width: 10px;
   height: 10px;
-  background-color: #2f362a;
+  background-color: var(--text-primary);
   border-radius: 50%;
 }
 
 .reasonText {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
 .divider {
   height: 1px;
-  background-color: #2f362a1a;
+  background-color: var(--text-primary);
   width: 100%;
   margin-bottom: 24px;
 }
 
 .refundNote {
-  font-family: var(--lato);
-  font-size: 14px;
+  font-family: var(--font-raleway);
+  font-size: 16px;
   line-height: 1.5;
-  color: #6e736a;
+  color: var(--text-secondary);
   margin-bottom: 32px;
 }
 
@@ -148,11 +148,11 @@
 .KeepBtn {
   flex: 1;
   padding: 14px;
-  font-family: var(--lato);
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
   background: transparent;
-  border: 1px solid #2f362a80;
+  border: 1px solid var(--text-primary);
   color: #2f362a;
   cursor: pointer;
   transition: all 0.2s;
@@ -160,19 +160,19 @@
 
 .KeepBtn:hover {
   background: #f8f9f8;
-  border-color: #2f362a;
+  border-color: var(--text-primary);
 }
 
 .CancelBtn {
   flex: 1;
   padding: 14px;
-  font-family: var(--lato);
-  font-size: 15px;
-  font-weight: 500;
-  background: #de534d;
+font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  background: var(--red);
   /* A coral/red color similar to the image */
   border: none;
-  color: #ffffff;
+  color: var(--background);
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -183,7 +183,7 @@
 }
 
 .CancelBtn:not(:disabled):hover {
-  background: #c94641;
+  background: var(--primary-color);
 }
 
 .otherTextAreaContainer {
@@ -198,30 +198,30 @@
   width: 100%;
   min-height: 100px;
   padding: 12px;
-  border: 1px solid #2f362a33;
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #2f362a;
+  border: 1px solid var(--text-primary);
+ font-family: var(--font-raleway);
+  font-size: 15px;
+  color:  var(--text-primary);
   resize: vertical;
   outline: none;
   transition: border-color 0.2s;
 }
 
 .otherTextArea:focus {
-  border-color: #2f362a80;
+  border-color:  var(--text-primary);
 }
 
 .errorMessage {
-  color: #de534d;
+  color: var(--red);
   font-size: 12px;
-  font-family: var(--lato);
+  font-family: var(--font-raleway);
   margin: 0;
 }
 
 .charCount {
   font-size: 12px;
-  font-family: var(--lato);
-  color: #6e736a80;
+  font-family: var(--font-raleway);
+  color: var(--text-secondary);
   text-align: right;
   margin: 0;
 }

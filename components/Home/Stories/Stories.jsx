@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import styles from './Stories.module.css';
 
@@ -7,32 +7,35 @@ import story1 from '../Stories/story1.jpg';
 import story2 from './story2.png';
 import story3 from '../Stories/story3.jpg';
 
-const IMAGES = [story1, story2, story3, story1, story2, story3];
+const IMAGES = [story1, story2, story3];
 
 const AboutSection = () => {
-  const [centerIndex, setCenterIndex] = useState(1);
-  const [ready, setReady] = useState(false);
+  const [centerIndex, setCenterIndex] = useState(0);
+  const [prevIndex, setPrevIndex] = useState(null);
   const total = IMAGES.length;
 
   useEffect(() => {
-    setReady(true);
     const interval = setInterval(() => {
-      setCenterIndex(prev => (prev + 1) % total);
-    }, 2000);
+      setCenterIndex(prev => {
+        setPrevIndex(prev);
+        return (prev + 1) % total;
+      });
+    }, 2800);
     return () => clearInterval(interval);
   }, [total]);
 
-  const getSlotType = (idx) => {
-    const diff = ((idx - centerIndex) % total + total) % total;
-    const normalized = diff > total / 2 ? diff - total : diff;
-    if (normalized === 0) return 'center';
-    if (Math.abs(normalized) === 1) return 'side';
-    return 'hidden';
+  const get = (offset) => ((centerIndex + offset) % total + total) % total;
+
+  const getImgClass = (i, activeIndex) => {
+    if (i === activeIndex) return styles.imgVisible;
+    if (i === prevIndex) return styles.imgExit;
+    return styles.imgHidden;
   };
 
   return (
     <section className={styles.sectionContainer}>
       <div className={styles.layoutWrapper}>
+
         <div className={styles.textStack}>
           <h2 className={styles.title}>Built in Dubai, Brewed with Purpose</h2>
           <p className={styles.description}>
@@ -45,26 +48,43 @@ const AboutSection = () => {
         </div>
 
         <div className={styles.imageFlexContainer}>
-          {IMAGES.map((src, idx) => {
-            const slotType = getSlotType(idx);
-            return (
-              <div
-                key={idx}
-                className={`${styles.imageSlot} ${!ready ? styles.noTransition : ''} ${
-                  slotType === 'center' ? styles.centerSlot :
-                  slotType === 'side'   ? styles.sideSlot   :
-                                          styles.hiddenSlot
-                }`}
-              >
-                <Image
-                  src={src}
-                  alt="Surge Story"
-                  fill
-                  className={styles.storyImg}
-                />
-              </div>
-            );
-          })}
+
+          <div className={`${styles.imageSlot} ${styles.sideSlot}`}>
+            {IMAGES.map((src, i) => (
+              <Image
+                key={i}
+                src={src}
+                alt="Surge Story"
+                fill
+                className={`${styles.storyImg} ${styles.sideImg} ${getImgClass(i, get(-1))}`}
+              />
+            ))}
+          </div>
+
+          <div className={`${styles.imageSlot} ${styles.centerSlot}`}>
+            {IMAGES.map((src, i) => (
+              <Image
+                key={i}
+                src={src}
+                alt="Surge Story"
+                fill
+                className={`${styles.storyImg} ${styles.centerImg} ${getImgClass(i, get(0))}`}
+              />
+            ))}
+          </div>
+
+          <div className={`${styles.imageSlot} ${styles.sideSlot}`}>
+            {IMAGES.map((src, i) => (
+              <Image
+                key={i}
+                src={src}
+                alt="Surge Story"
+                fill
+                className={`${styles.storyImg} ${styles.sideImg} ${getImgClass(i, get(1))}`}
+              />
+            ))}
+          </div>
+
         </div>
       </div>
     </section>

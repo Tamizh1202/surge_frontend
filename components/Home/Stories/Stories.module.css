@@ -55,15 +55,14 @@
 }
 
 /* ─────────────────────────────────────────────────────────────
-   IMAGE CAROUSEL
-   All 6 slots always in DOM. Hidden ones collapse to width 0.
-   CSS transitions handle zoom + grayscale + resize.
+   IMAGE CAROUSEL — fixed containers, crossfade + parallax inside
    ───────────────────────────────────────────────────────────── */
 .imageFlexContainer {
   display: flex;
   flex-direction: row;
   align-items: flex-end;
   flex-shrink: 0;
+  gap: 16px;
   height: 480px;
 }
 
@@ -71,170 +70,93 @@
   position: relative;
   overflow: hidden;
   flex-shrink: 0;
-  /* Transition everything: size, color, opacity, spacing */
-  transition:
-    width   1.2s cubic-bezier(0.4, 0, 0.2, 1),
-    height  1.2s cubic-bezier(0.4, 0, 0.2, 1),
-    filter  1.0s ease,
-    opacity 0.8s ease,
-    margin-right 1.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Side images — small, grayscale, image slightly over-zoomed */
 .sideSlot {
   width: 260px;
   height: 307px;
-  filter: grayscale(100%);
-  opacity: 0.65;
-  margin-right: 16px;
 }
 
-/* Center image — tall, color, image at natural scale */
 .centerSlot {
   width: 260px;
   height: 480px;
-  filter: grayscale(0%);
-  opacity: 1;
-  margin-right: 16px;
 }
 
-/* Hidden — collapsed, invisible, no margin */
-.hiddenSlot {
-  width: 0;
-  height: 307px;
-  filter: grayscale(100%);
-  opacity: 0;
-  margin-right: 0;
-  pointer-events: none;
-}
-
-/* ── The actual image inside each slot ──
-   Side: slightly zoomed in (scale > 1) within the small frame.
-   Center: natural scale within the tall frame.
-   Net effect when transitioning side → center:
-     container grows tall + image zooms out = feels like it opens up.
-   Net effect when transitioning center → side:
-     container shrinks + image zooms in = pulls inward.
-   ─────────────────────────────────────── */
+/* All images are stacked and always in DOM */
 .storyImg {
   object-fit: cover;
-  object-position: bottom;
+  transition:
+    opacity   0.9s ease,
+    transform 0.9s ease;
 }
 
-.sideSlot .storyImg,
-.centerSlot .storyImg,
-.hiddenSlot .storyImg {
-  height: 480px !important;
-  top: auto !important;
-  bottom: 0 !important;
+.sideImg {
+  filter: grayscale(100%);
 }
 
-/* ─── Responsive (unchanged logic, just slot size adjustments) ─── */
+.centerImg {
+  /* base zoom on center */
+}
 
+/* Incoming — slides in from right, fades in */
+.imgVisible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.centerSlot .imgVisible {
+  transform: scale(1.08);
+}
+/* Outgoing — slides out to left, fades out */
+
+.imgExit {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.centerSlot .imgExit {
+  transform: scale(1.11) translateY(-20px);
+}
+
+.imgHidden {
+  opacity: 0;
+  transform: scale(1.15);
+}
+
+.centerSlot .imgHidden {
+  transform: scale(1.11) translateY(20px);
+}
+
+/* ─── Responsive ─── */
 @media (max-width: 1450px) {
-  .textStack {
-    flex: 0 1 380px;
-  }
-
-  .sideSlot {
-    width: 220px;
-    height: 260px;
-  }
-
-  .centerSlot {
-    width: 220px;
-    height: 400px;
-  }
-
-  .imageFlexContainer {
-    height: 400px;
-  }
+  .textStack          { flex: 0 1 380px; }
+  .sideSlot           { width: 220px; height: 260px; }
+  .centerSlot         { width: 220px; height: 400px; }
+  .imageFlexContainer { height: 400px; }
 }
 
 @media (max-width: 1250px) {
-  .layoutWrapper {
-    gap: 30px;
-  }
-
-  .textStack {
-    flex: 0 1 300px;
-  }
-
-  .sideSlot {
-    width: 180px;
-    height: 220px;
-  }
-
-  .centerSlot {
-    width: 180px;
-    height: 340px;
-  }
-
-  .imageFlexContainer {
-    height: 340px;
-  }
+  .layoutWrapper      { gap: 30px; }
+  .textStack          { flex: 0 1 300px; }
+  .sideSlot           { width: 180px; height: 220px; }
+  .centerSlot         { width: 180px; height: 340px; }
+  .imageFlexContainer { height: 340px; }
 }
 
 @media (max-width: 1024px) {
-  .sectionContainer {
-    padding: 120px 30px;
-  }
-
-  .layoutWrapper {
-    flex-direction: column;
-    text-align: left;
-    gap: 40px;
-    align-items: flex-start;
-  }
-
-  .textStack {
-    flex: 1;
-    width: 100%;
-    max-width: 502px;
-  }
-
-  .imageFlexContainer {
-    width: 100%;
-    height: 320px;
-  }
-
-  .sideSlot {
-    flex: 1;
-    width: 0; /* flex handles width */
-    height: 220px;
-  }
-
-  .centerSlot {
-    flex: 1;
-    width: 0;
-    height: 320px;
-  }
+  .sectionContainer   { padding: 120px 30px; }
+  .layoutWrapper      { flex-direction: column; text-align: left; gap: 40px; align-items: flex-start; }
+  .textStack          { flex: 1; width: 100%; max-width: 502px; }
+  .imageFlexContainer { width: 100%; height: 320px; }
+  .sideSlot           { flex: 1; height: 220px; }
+  .centerSlot         { flex: 1.5; height: 320px; }
 }
 
 @media (max-width: 550px) {
-  .textStack {
-    width: 100%;
-    max-width: 320px;
-    flex: none;
-  }
-
-  .title {
-    font-size: 20px;
-  }
-
-  .description {
-    font-size: 14px;
-  }
-
-  .imageFlexContainer {
-    height: 240px;
-  }
-
-  .sideSlot {
-    height: 160px;
-  }
-
-  .centerSlot {
-    height: 240px;
-  }
+  .textStack          { width: 100%; max-width: 320px; flex: none; }
+  .title              { font-size: 20px; }
+  .description        { font-size: 14px; }
+  .imageFlexContainer { height: 240px; }
+  .sideSlot           { height: 160px; }
+  .centerSlot         { height: 240px; }
 }

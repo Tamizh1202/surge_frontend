@@ -258,6 +258,16 @@
     color: var(--text-secondary);
     font-size: var(--fs-12);
 }
+.arrow {
+    font-size: var(--fs-12);
+    color: var(--text-secondary); /* Global muted text */
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.arrowUp {
+    transform: rotate(180deg);
+}
 .field input::placeholder{
     font-size: var(--fs-16);
 }
@@ -413,7 +423,7 @@
 }
 
 .summaryItemCount {
-    font-size: var(--fs-12);
+    font-size: var(--fs-16);
     font-weight: 400;
     color:var(--text-primary);
 }
@@ -471,7 +481,7 @@
     flex: 1;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     gap: 8px;
     padding-right: 13px;
 }
@@ -479,7 +489,7 @@
 .productName {
     font-size: var(--fs-16);
     color: var(--text-primary);
-    line-height: 1.4;
+
     padding-bottom:8px;
     margin:0px;
 }
@@ -487,7 +497,7 @@
 .productQtyLine {
     font-size: var(--fs-16);
     color: var(--text-primary);
-    margin-top: 2px;
+    margin:0px;
 }
 
 .productPrice {
@@ -525,6 +535,7 @@
 .viewCouponsLink {
     font-size: var(--fs-16);
     color: var(--primary-color);
+    font-family: var(--font-raleway);
     text-decoration: none;
     font-weight: 400;
     display: flex;

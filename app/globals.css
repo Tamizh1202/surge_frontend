@@ -20,6 +20,9 @@
   --brown: #333333;
 
 
+  --lato: 'Raleway', sans-serif;
+  --lexend: 'Montserrat', sans-serif;
+
   --fs-12: 12px; 
   /* clamp(0.75rem, 0.15vw + 0.71rem, 0.875rem); */
   /* 12px -> 14px */
@@ -60,7 +63,7 @@ body {
   margin: 0;
   padding: 0;
 
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   box-sizing: border-box;
 }
 
@@ -88,3 +91,4 @@ p {
   font-size: var(--fs-18);
   font-weight: 400;
 }
+

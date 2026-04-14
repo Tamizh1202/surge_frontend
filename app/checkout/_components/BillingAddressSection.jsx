@@ -1,33 +1,23 @@
 "use client";
 import styles from "../page.module.css";
 import { useState, useRef, useEffect } from "react";
-// import { validateRequired, validateUAEPhone } from "@/utils/validatorFunctions";
 
-// Emirate options — replace with your own list if different
+// TODO: replace with Surge's actual validators
+const validateRequired = (val, label) =>
+    !val || !val.trim() ? `${label} is required` : "";
+const validateUAEPhone = (val) =>
+    !val ? "Phone is required" : !/^\d{9}$/.test(val) ? "Enter a valid UAE phone" : "";
+
+// TODO: replace with Surge's actual UAE_STATES constant
 const UAE_STATES = [
-    { label: "Abu Dhabi", value: "abu_dhabi" },
-    { label: "Dubai", value: "dubai" },
-    { label: "Sharjah", value: "sharjah" },
-    { label: "Ajman", value: "ajman" },
-    { label: "Umm Al Quwain", value: "umm_al_quwain" },
-    { label: "Ras Al Khaimah", value: "ras_al_khaimah" },
-    { label: "Fujairah", value: "fujairah" },
+    { value: "dubai", label: "Dubai" },
+    { value: "abu-dhabi", label: "Abu Dhabi" },
+    { value: "sharjah", label: "Sharjah" },
+    { value: "ajman", label: "Ajman" },
+    { value: "fujairah", label: "Fujairah" },
+    { value: "ras-al-khaimah", label: "Ras Al Khaimah" },
+    { value: "umm-al-quwain", label: "Umm Al Quwain" },
 ];
-
-function FloatingInput({ type = "text", placeholder, value, onChange, onBlur, hasError }) {
-    return (
-        <div className={`${styles.floatingField} ${hasError ? styles.floatingFieldError : ""}`}>
-            <input
-                type={type}
-                value={value}
-                onChange={onChange}
-                onBlur={onBlur}
-                placeholder=" "
-            />
-            <label>{placeholder}</label>
-        </div>
-    );
-}
 
 export default function BillingAddressSection({
     delivery,
@@ -35,9 +25,9 @@ export default function BillingAddressSection({
     setUseShippingAsBilling,
     billingForm,
     setBillingForm,
-    validationErrors = {},
-    clearError = () => { },
-    setValidationErrors = () => { },
+    validationErrors,
+    clearError,
+    setValidationErrors,
 }) {
     const [isEmirateOpen, setIsEmirateOpen] = useState(false);
     const emirateRef = useRef(null);
@@ -55,144 +45,105 @@ export default function BillingAddressSection({
     const showForm = !useShippingAsBilling || delivery === "pickup";
 
     return (
-        <div className={styles.section}>
-
-            {/* ── "Same as shipping" toggle ── */}
+        <div className={styles.Five} style={{ paddingTop: 0 }}>
             {delivery !== "pickup" && (
-                <div className={styles.checkRow}>
+                <label className={styles.BillingToggle}>
                     <input
                         type="checkbox"
-                        id="useShipping"
                         checked={useShippingAsBilling}
                         onChange={(e) => setUseShippingAsBilling(e.target.checked)}
                     />
-                    <label htmlFor="useShipping">Use shipping address as billing address</label>
-                </div>
+                    <p>Use shipping address as billing address</p>
+                </label>
             )}
 
-            {/* ── Billing Form ── */}
             {showForm && (
                 <>
-                    <h2 className={styles.sectionTitle}>Billing Address</h2>
+                    <h3 className={"styles.billingAddress"}>Billing Address</h3>
 
-                    {/* Country — read only */}
-                    <div className={styles.floatingField}>
-                        <input type="text" value="United Arab Emirates" readOnly placeholder=" " />
-                        <label>Country / Region</label>
+                    <div className={styles.FieldWrap}>
+                        <input
+                            className={styles.Input}
+                            value="United Arab Emirates"
+                            readOnly
+                            placeholder=" "
+                        />
+                        <label className={styles.FloatLabel}>Country / Region</label>
                     </div>
 
-                    {/* First / Last Name */}
-                    <div className={styles.fieldRow}>
-                        <div>
-                            <FloatingInput
-                                placeholder="First Name"
+                    <div className={styles.Row}>
+                        <div className={styles.FieldWrap} style={{ flex: 1 }}>
+                            <input
+                                className={`${styles.Input} ${validationErrors.billingFirstName ? styles.InputError : ""}`}
+                                placeholder=" "
                                 value={billingForm.firstName}
-                                onChange={(e) => {
-                                    setBillingForm({ ...billingForm, firstName: e.target.value });
-                                    clearError("billingFirstName");
-                                }}
-                                // onBlur={() => {
-                                //   const e = validateRequired(billingForm.firstName, "First name");
-                                //   if (e) setValidationErrors((p) => ({ ...p, billingFirstName: e }));
-                                // }}
-                                hasError={!!validationErrors.billingFirstName}
+                                onChange={(e) => { setBillingForm({ ...billingForm, firstName: e.target.value }); clearError("billingFirstName"); }}
+                                onBlur={() => { const e = validateRequired(billingForm.firstName, "First name"); if (e) setValidationErrors((p) => ({ ...p, billingFirstName: e })); }}
                             />
-                            {validationErrors.billingFirstName && (
-                                <span className={styles.errorMessage}>{validationErrors.billingFirstName}</span>
-                            )}
+                            <label className={styles.FloatLabel}>First Name</label>
+                            {validationErrors.billingFirstName && <span className={styles.ErrorMessage}>{validationErrors.billingFirstName}</span>}
                         </div>
-                        <div>
-                            <FloatingInput
-                                placeholder="Last Name"
+                        <div className={styles.FieldWrap} style={{ flex: 1 }}>
+                            <input
+                                className={`${styles.Input} ${validationErrors.billingLastName ? styles.InputError : ""}`}
+                                placeholder=" "
                                 value={billingForm.lastName}
-                                onChange={(e) => {
-                                    setBillingForm({ ...billingForm, lastName: e.target.value });
-                                    clearError("billingLastName");
-                                }}
-                                // onBlur={() => {
-                                //   const e = validateRequired(billingForm.lastName, "Last name");
-                                //   if (e) setValidationErrors((p) => ({ ...p, billingLastName: e }));
-                                // }}
-                                hasError={!!validationErrors.billingLastName}
+                                onChange={(e) => { setBillingForm({ ...billingForm, lastName: e.target.value }); clearError("billingLastName"); }}
+                                onBlur={() => { const e = validateRequired(billingForm.lastName, "Last name"); if (e) setValidationErrors((p) => ({ ...p, billingLastName: e })); }}
                             />
-                            {validationErrors.billingLastName && (
-                                <span className={styles.errorMessage}>{validationErrors.billingLastName}</span>
-                            )}
+                            <label className={styles.FloatLabel}>Last Name</label>
+                            {validationErrors.billingLastName && <span className={styles.ErrorMessage}>{validationErrors.billingLastName}</span>}
                         </div>
                     </div>
 
-                    {/* Address */}
-                    <FloatingInput
-                        placeholder="House Number, Street Name"
-                        value={billingForm.address}
-                        onChange={(e) => {
-                            setBillingForm({ ...billingForm, address: e.target.value });
-                            clearError("billingAddress");
-                        }}
-                        // onBlur={() => {
-                        //   const e = validateRequired(billingForm.address, "Address");
-                        //   if (e) setValidationErrors((p) => ({ ...p, billingAddress: e }));
-                        // }}
-                        hasError={!!validationErrors.billingAddress}
-                    />
-                    {validationErrors.billingAddress && (
-                        <span className={styles.errorMessage}>{validationErrors.billingAddress}</span>
-                    )}
+                    <div className={styles.FieldWrap}>
+                        <input
+                            className={`${styles.Input} ${validationErrors.billingAddress ? styles.InputError : ""}`}
+                            placeholder=" "
+                            value={billingForm.address}
+                            onChange={(e) => { setBillingForm({ ...billingForm, address: e.target.value }); clearError("billingAddress"); }}
+                            onBlur={() => { const e = validateRequired(billingForm.address, "Address"); if (e) setValidationErrors((p) => ({ ...p, billingAddress: e })); }}
+                        />
+                        <label className={styles.FloatLabel}>House number, Street name</label>
+                        {validationErrors.billingAddress && <span className={styles.ErrorMessage}>{validationErrors.billingAddress}</span>}
+                    </div>
 
-                    {/* Apartment — optional */}
-                    <div className={styles.fieldOptional}>
-                        <FloatingInput
-                            placeholder="Apartment, Suite etc."
+                    <div className={styles.FieldWrap}>
+                        <input
+                            className={styles.Input}
+                            placeholder=" "
                             value={billingForm.apartment}
                             onChange={(e) => setBillingForm({ ...billingForm, apartment: e.target.value })}
                         />
-                        <span className={styles.optionalTag}>(Optional)</span>
+                        <label className={styles.FloatLabel}>Apartment, suite, etc. (optional)</label>
                     </div>
 
-                    {/* City / Emirate */}
-                    <div className={styles.fieldRow}>
-                        <div>
-                            <FloatingInput
-                                placeholder="City"
+                    <div className={styles.Row} data-lenis-prevent>
+                        <div className={styles.FieldWrap} style={{ flex: 1 }}>
+                            <input
+                                className={`${styles.Input} ${validationErrors.billingCity ? styles.InputError : ""}`}
+                                placeholder=" "
                                 value={billingForm.city}
-                                onChange={(e) => {
-                                    setBillingForm({ ...billingForm, city: e.target.value });
-                                    clearError("billingCity");
-                                }}
-                                // onBlur={() => {
-                                //   const e = validateRequired(billingForm.city, "City");
-                                //   if (e) setValidationErrors((p) => ({ ...p, billingCity: e }));
-                                // }}
-                                hasError={!!validationErrors.billingCity}
+                                onChange={(e) => { setBillingForm({ ...billingForm, city: e.target.value }); clearError("billingCity"); }}
+                                onBlur={() => { const e = validateRequired(billingForm.city, "City"); if (e) setValidationErrors((p) => ({ ...p, billingCity: e })); }}
                             />
-                            {validationErrors.billingCity && (
-                                <span className={styles.errorMessage}>{validationErrors.billingCity}</span>
-                            )}
+                            <label className={styles.FloatLabel}>City</label>
+                            {validationErrors.billingCity && <span className={styles.ErrorMessage}>{validationErrors.billingCity}</span>}
                         </div>
-
-                        {/* Emirate dropdown */}
-                        <div className={styles.selectWrap} ref={emirateRef} style={{ position: "relative" }}>
-                            <div
-                                className={styles.customSelectTrigger}
-                                onClick={() => setIsEmirateOpen(!isEmirateOpen)}
-                            >
-                                <span>
+                        <div className={styles.SelectContainer} ref={emirateRef} style={{ flex: 1 }}>
+                            <div className={styles.CustomSelectTrigger} onClick={() => setIsEmirateOpen(!isEmirateOpen)}>
+                                <span style={{ textTransform: "capitalize" }}>
                                     {UAE_STATES.find((s) => s.value === (billingForm.emirates || "dubai"))?.label || "Select Emirate"}
                                 </span>
-                                <span className={styles.selectArrow}>▼</span>
+                                <span className={`${styles.Arrow} ${isEmirateOpen ? styles.Rotate : ""}`}>▼</span>
                             </div>
-
                             {isEmirateOpen && (
-                                <div className={styles.emirateDropdown}>
+                                <div className={styles.CustomOptionsList}>
                                     {UAE_STATES.map((opt) => (
                                         <div
                                             key={opt.value}
-                                            className={styles.emirateOption}
-                                            onClick={() => {
-                                                setBillingForm({ ...billingForm, emirates: opt.value });
-                                                setIsEmirateOpen(false);
-                                                clearError("billingEmirates");
-                                            }}
+                                            className={styles.OptionItem}
+                                            onClick={() => { setBillingForm({ ...billingForm, emirates: opt.value }); setIsEmirateOpen(false); clearError("billingEmirates"); }}
                                         >
                                             {opt.label}
                                         </div>
@@ -202,31 +153,24 @@ export default function BillingAddressSection({
                         </div>
                     </div>
 
-                    {/* Phone */}
-                    <div className={`${styles.numberInput} ${validationErrors.billingPhone ? styles.floatingFieldError : ""}`}>
-                        <div className={styles.flagCode}>
-                            <span>+971</span>
+                    <div className={styles.FieldWrap}>
+                        <div className={`${styles.PhoneWrapper} ${validationErrors.billingPhone ? styles.InputError : ""}`}>
+                            <span className={styles.PhonePrefix}>+971</span>
+                            <input
+                                className={styles.PhoneInput}
+                                placeholder="Phone"
+                                value={billingForm.phone}
+                                inputMode="numeric"
+                                onChange={(e) => { const numeric = e.target.value.replace(/\D/g, ""); setBillingForm({ ...billingForm, phone: numeric }); clearError("billingPhone"); }}
+                                onBlur={() => { const e = validateUAEPhone(billingForm.phone); if (e) setValidationErrors((p) => ({ ...p, billingPhone: e })); }}
+                            />
+
                         </div>
-                        <input
-                            className={styles.phoneField}
-                            placeholder="Phone Number"
-                            value={billingForm.phone}
-                            inputMode="numeric"
-                            onChange={(e) => {
-                                const numeric = e.target.value.replace(/\D/g, "");
-                                setBillingForm({ ...billingForm, phone: numeric });
-                                clearError("billingPhone");
-                            }}
-                        // onBlur={() => {
-                        //   const e = validateUAEPhone(billingForm.phone);
-                        //   if (e) setValidationErrors((p) => ({ ...p, billingPhone: e }));
-                        // }}
-                        />
+                        {validationErrors.billingPhone && <span className={styles.ErrorMessage}>{validationErrors.billingPhone}</span>}
                     </div>
-                    {validationErrors.billingPhone && (
-                        <span className={styles.errorMessage}>{validationErrors.billingPhone}</span>
-                    )}
+
                 </>
+
             )}
         </div>
     );

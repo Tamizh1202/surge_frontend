@@ -1,0 +1,191 @@
+/* ─────────────────────────────────────────────────────────────
+   OrderSuccess.module.css
+   Uses global CSS variables from your root stylesheet.
+   ───────────────────────────────────────────────────────────── */
+
+.Wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-width: 500px;
+}
+
+/* ── Heading row ── */
+.Heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.CheckIcon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.ThankYou {
+  font-family: var(--lato);           /* Raleway in your setup */
+  font-size: var(--fs-18);
+  font-weight: 600;
+  color: var(--green);
+  margin: 0;
+}
+
+/* ── Confirmation banner ── */
+.ConfirmBanner {
+  border: 1px solid #e0e0e0;
+  padding: 20px 18px;
+  margin-bottom: 24px;
+  background-color: var(--background);
+}
+
+.ConfirmTitle {
+  font-family: var(--lexend);         /* Montserrat in your setup */
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 6px 0;
+}
+
+.ConfirmSub {
+  font-family: var(--lato);
+  font-size: var(--fs-14);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ── Detail card ── */
+.DetailCard {
+  border: 1px solid #e0e0e0;
+  padding: 20px 18px;
+  margin-bottom: 32px;
+  background-color: var(--background);
+}
+
+.DetailCardLabel {
+  font-family: var(--lato);
+  font-size: var(--fs-12);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0 0 14px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ── 2-column grid for paired fields ── */
+.DetailGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 20px;
+  column-gap: 16px;
+}
+
+.DetailCell {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+/* contact row spans full width */
+.FullWidth {
+  grid-column: 1 / -1;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e080;
+}
+
+.CellLabel {
+  font-family: var(--lato);
+  font-size: var(--fs-12);
+  font-weight: 400;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.CellValue {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.CellValue span {
+  font-family: var(--lato);
+  font-size: var(--fs-14);
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.CardIcon {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* ── CTA button ── */
+.ContinueBtn {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-family: var(--lato);
+  font-size: var(--fs-16);
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: opacity 0.18s ease;
+}
+
+.ContinueBtn:hover {
+  opacity: 0.88;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .Wrapper {
+    max-width: 100%;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .ThankYou {
+    font-size: var(--fs-16);
+  }
+
+  .ConfirmBanner,
+  .DetailCard {
+    padding: 16px 14px;
+  }
+
+  /* Stack the grid to single column on small screens */
+  .DetailGrid {
+    grid-template-columns: 1fr;
+    row-gap: 16px;
+  }
+
+  .FullWidth {
+    margin-top: 16px;
+    padding-top: 16px;
+  }
+
+  .ContinueBtn {
+    padding: 15px;
+    font-size: var(--fs-14);
+  }
+}
+
+@media (max-width: 380px) {
+  .ConfirmBanner,
+  .DetailCard {
+    padding: 14px 12px;
+  }
+}

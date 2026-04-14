@@ -37,7 +37,7 @@
 
 .arrow {
     font-size: var(--fs-12);
-    color: var(--cards-bg); /* Global muted text */
+    color: var(--text-secondary); /* Global muted text */
     transition: transform 0.2s ease;
     flex-shrink: 0;
 }

@@ -1,29 +1,25 @@
-
 .sectionContainer {
   width: 100%;
   display: flex;
-padding-left: 125px;
-padding-right: 125px;
-  padding-top: 120px;
-  padding-bottom: 120px; 
+  padding: 120px 125px;
   background-color: #ffffff;
   box-sizing: border-box;
-  overflow-x: hidden; 
+  overflow: hidden;
 }
 
 .layoutWrapper {
   display: flex;
   width: 100%;
-  justify-content: space-between; 
-  align-items: flex-end; 
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .textStack {
-  flex: 0 1 450px; 
+  flex: 0 1 450px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  margin: 0; 
+  margin: 0;
 }
 
 .title {
@@ -41,8 +37,7 @@ padding-right: 125px;
   font-weight: 400;
   line-height: 1.3;
   color: #818686;
- 
-  max-width: 100%; 
+  max-width: 100%;
 }
 
 .button {
@@ -50,7 +45,7 @@ padding-right: 125px;
   color: white;
   border: none;
   width: fit-content;
-  margin-top: 24px; 
+  margin-top: 24px;
   font-size: 16px;
   font-family: var(--font-raleway);
   padding: 12px 40px;
@@ -59,71 +54,137 @@ padding-right: 125px;
   transition: opacity 0.2s;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   IMAGE CAROUSEL
+   All 6 slots always in DOM. Hidden ones collapse to width 0.
+   CSS transitions handle zoom + grayscale + resize.
+   ───────────────────────────────────────────────────────────── */
 .imageFlexContainer {
   display: flex;
   flex-direction: row;
-  align-items: flex-end; 
-  gap: 16px; 
-  flex-shrink: 0; 
-}
-
-.imgSmall {
-  width: 260px;
-  height: 307px; 
-  object-fit: cover;
-  display: block;
-}
-
-.imgTall {
-  width: 260px; 
+  align-items: flex-end;
+  flex-shrink: 0;
   height: 480px;
-  object-fit: cover;
-  display: block;
 }
 
-.gray {
+.imageSlot {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  /* Transition everything: size, color, opacity, spacing */
+  transition:
+    width   1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    height  1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    filter  1.0s ease,
+    opacity 0.8s ease,
+    margin-right 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Side images — small, grayscale, image slightly over-zoomed */
+.sideSlot {
+  width: 260px;
+  height: 307px;
   filter: grayscale(100%);
+  opacity: 0.65;
+  margin-right: 16px;
 }
 
-
-
-@media (max-width: 1700px) {
- 
+/* Center image — tall, color, image at natural scale */
+.centerSlot {
+  width: 260px;
+  height: 480px;
+  filter: grayscale(0%);
+  opacity: 1;
+  margin-right: 16px;
 }
+
+/* Hidden — collapsed, invisible, no margin */
+.hiddenSlot {
+  width: 0;
+  height: 307px;
+  filter: grayscale(100%);
+  opacity: 0;
+  margin-right: 0;
+  pointer-events: none;
+}
+
+/* ── The actual image inside each slot ──
+   Side: slightly zoomed in (scale > 1) within the small frame.
+   Center: natural scale within the tall frame.
+   Net effect when transitioning side → center:
+     container grows tall + image zooms out = feels like it opens up.
+   Net effect when transitioning center → side:
+     container shrinks + image zooms in = pulls inward.
+   ─────────────────────────────────────── */
+.storyImg {
+  object-fit: cover;
+  object-position: bottom;
+}
+
+.sideSlot .storyImg,
+.centerSlot .storyImg,
+.hiddenSlot .storyImg {
+  height: 480px !important;
+  top: auto !important;
+  bottom: 0 !important;
+}
+
+/* ─── Responsive (unchanged logic, just slot size adjustments) ─── */
 
 @media (max-width: 1450px) {
   .textStack {
-    flex: 0 1 380px; 
+    flex: 0 1 380px;
   }
-  .imgSmall { width: 220px; height: 260px; }
-  .imgTall { width: 220px; height: 400px; }
-}
 
+  .sideSlot {
+    width: 220px;
+    height: 260px;
+  }
+
+  .centerSlot {
+    width: 220px;
+    height: 400px;
+  }
+
+  .imageFlexContainer {
+    height: 400px;
+  }
+}
 
 @media (max-width: 1250px) {
   .layoutWrapper {
     gap: 30px;
   }
+
   .textStack {
-    flex: 0 1 300px; 
+    flex: 0 1 300px;
   }
-  .imgSmall, .imgTall {
-    width: 180px; 
+
+  .sideSlot {
+    width: 180px;
+    height: 220px;
+  }
+
+  .centerSlot {
+    width: 180px;
+    height: 340px;
+  }
+
+  .imageFlexContainer {
+    height: 340px;
   }
 }
-
 
 @media (max-width: 1024px) {
   .sectionContainer {
     padding: 120px 30px;
-    padding-right: 30px;
   }
 
   .layoutWrapper {
     flex-direction: column;
-    text-align: left; 
+    text-align: left;
     gap: 40px;
-    align-items: flex-start; 
+    align-items: flex-start;
   }
 
   .textStack {
@@ -134,32 +195,46 @@ padding-right: 125px;
 
   .imageFlexContainer {
     width: 100%;
-    justify-content: flex-start; 
-    gap: 12px;
+    height: 320px;
   }
 
-  .imgSmall, .imgTall {
-    width: 30%; 
-    height: auto;
-    aspect-ratio: 260/307; 
+  .sideSlot {
+    flex: 1;
+    width: 0; /* flex handles width */
+    height: 220px;
   }
 
-  .imgTall {
-    aspect-ratio: 260/480;
+  .centerSlot {
+    flex: 1;
+    width: 0;
+    height: 320px;
   }
 }
 
 @media (max-width: 550px) {
   .textStack {
     width: 100%;
-    max-width: 320px; 
+    max-width: 320px;
     flex: none;
   }
 
-  .title { font-size: 20px; }
-  .description { font-size: 14px; }
+  .title {
+    font-size: 20px;
+  }
 
-  .imgSmall, .imgTall {
-    min-width: 90px;
+  .description {
+    font-size: 14px;
+  }
+
+  .imageFlexContainer {
+    height: 240px;
+  }
+
+  .sideSlot {
+    height: 160px;
+  }
+
+  .centerSlot {
+    height: 240px;
   }
 }

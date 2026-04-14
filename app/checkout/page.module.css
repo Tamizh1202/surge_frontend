@@ -1,3 +1,20 @@
+/* ─────────────────────────────────────────────────────────────
+   CHECKOUT MODULE — neutralize Surge's global typography leak.
+   ───────────────────────────────────────────────────────────── */
+.Main h1,
+.Main h2,
+.Main h3,
+.Main h4,
+.Main h5,
+.Main p,
+.Main label {
+  /* font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit; */
+  margin: 0;
+  padding: 0;
+}
+
 .Main {
   display: flex;
   justify-content: center;
@@ -5,40 +22,31 @@
   width: 100%;
   height: 100%;
   background-color: #ffffff;
-  padding-left: clamp(
-    24px,
-    calc(24px + (386 * ((100vw - 320px) / 1120))),
-    410px
-  );
-  padding-right: clamp(
-    24px,
-    calc(24px + (386 * ((100vw - 320px) / 1120))),
-    410px
-  );
-  padding-bottom: clamp(
-    80px,
-    calc(80px + (120 * ((100vw - 320px) / 1120))),
-    200px
-  );
+  font-family: var(--lato);
+  font-size: 15px;
+  color: #2f362a;
+  box-sizing: border-box;
 }
 
 .MainConatiner {
   display: flex;
-  justify-content: left;
-  /* align-items: center; */
   width: 100%;
   height: 100%;
   gap: clamp(16px, calc(16px + (34 * ((100vw - 320px) / 1120))), 50px);
   padding-top: 150px;
   flex-direction: row;
+  padding-bottom: 250px;
 }
 
 .Left {
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 32px;
-  width: 100%;
+  gap: 0px;
+  max-width: 500px;
+  flex: 1;
+  min-width: 0;
+  padding-left: 400px;
 }
 
 .ThreeRow {
@@ -72,6 +80,10 @@
   font-weight: 400;
 }
 
+.ExpressContainer {
+  width: 100%;
+}
+
 .Google {
   padding: 10px 85px;
   background-color: transparent;
@@ -86,16 +98,21 @@
   gap: 16px;
 }
 
+.MobilePay {
+  display: none;
+}
+
 .Pay {
   padding: 13px 13px;
-  background-color: #6c7a5f;
+  background-color: var(--primary-color);
   color: #ffffff;
   font-family: var(--lato);
-  font-size: 15px;
+  font-size: var(--fs-16);
   width: 100%;
   font-weight: 500;
   border: none;
   cursor: pointer;
+  margin-top: 60px;
 }
 
 .PageLinks {
@@ -122,15 +139,44 @@
   background-color: #2f362a4d;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   FLOATING LABEL INPUTS
+   ───────────────────────────────────────────────────────────── */
+.FieldWrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.FloatLabel {
+  position: absolute;
+  left: 0;
+  top: 18px;
+  /* fixed px — visually centers in the input */
+  transform: none;
+  /* no transform at all, ever */
+  font-size: 14px;
+  color: #6e736a;
+  pointer-events: none;
+  transition: top 0.18s ease, font-size 0.18s ease;
+}
+
+.Input:focus~.FloatLabel,
+.Input:not(:placeholder-shown)~.FloatLabel,
+.Input[readonly]~.FloatLabel {
+  top: 4px;
+  font-size: 11px;
+}
+
 .Right {
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 16px;
-  width: 100%;
+  gap: 30px;
+  width: 550px;
   position: sticky;
   top: 150px;
   height: fit-content;
+  flex-shrink: 0;
 }
 
 .RightOne {
@@ -138,19 +184,19 @@
   justify-content: left;
   flex-direction: row;
   gap: 13px;
+  align-items: baseline;
 }
 
 .RightOne h3 {
   font-family: var(--lexend);
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--fs-22);
+  font-weight: 600;
   color: #2f362a;
-  text-transform: uppercase;
 }
 
 .RightOne p {
   font-family: var(--lato);
-  font-size: 13px;
+  font-size: var(--fs-16);
   color: #2f362a;
   font-weight: 400;
 }
@@ -160,7 +206,7 @@
   justify-content: left;
   flex-direction: column;
   gap: 8px;
-  max-height: 150px;
+  max-height: 250px;
   overflow-y: auto;
   padding-right: 12px;
 }
@@ -184,7 +230,7 @@
 
 .SummaryItem {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   padding: 4px 0;
@@ -214,16 +260,19 @@
 .ItemQty {
   flex: 1;
   font-family: var(--lato);
-  font-size: 14px;
-  font-weight: 550;
+  font-size: var(--fs-16);
+  font-weight: 400;
   color: #2f362a;
   text-align: center;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 6px;
 }
 
 .ItemPrice {
   flex: 1.5;
   font-family: var(--lato);
-  font-size: 14px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #2f362a;
   text-align: right;
@@ -231,14 +280,15 @@
 
 .ItemMainRow {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: flex-start;
   width: 100%;
+
 }
 
 .ItemName {
   font-family: var(--lato);
-  font-size: 14px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #2f362a;
   line-height: 1.4;
@@ -268,7 +318,7 @@
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
 }
 
 .Subtotal,
@@ -279,6 +329,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
+  align-items: center;
 }
 
 .RightLine {
@@ -291,35 +342,28 @@
 .Subtotal p,
 .Shipping p,
 .CuponDiscount p,
-.EstimatedTax p {
+.EstimatedTax p,
+.Subtotal h5,
+.Shipping h5,
+.CuponDiscount h5,
+.EstimatedTax h5 {
   font-family: var(--lato);
-  font-size: 13px;
-  font-weight: 400;
-  color: #2f362a;
-}
-
-.Subtotal h4,
-.Shipping h4,
-.CuponDiscount h4,
-.EstimatedTax h4 {
-  font-family: var(--lato);
-  font-size: 13px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #2f362a;
 }
 
 .Total p,
-.Total h4 {
+.Total h5 {
   font-family: var(--lato);
-  font-size: 14px;
-  font-weight: 700;
+  font-size: var(--fs-18);
+  font-weight: 500;
   color: #2f362a;
 }
 
 .Total {
-  padding: 10px 0;
-  border-top: 1px solid #2f362a4d;
-  border-bottom: 1px solid #2f362a4d;
+  padding-top: 16px;
+  border-top: 1px solid var(--text-secondary);
 }
 
 .Two {
@@ -332,50 +376,72 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 60px;
 }
 
 .TwoOne h3 {
   font-family: var(--lexend);
-  font-size: 16px;
-  font-weight: 500;
-  color: #2f362a;
-  text-transform: uppercase;
+  font-size: var(--fs-22);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.Input::placeholder {
+  font-size: var(--fs-16);
+  /* This shifts the placeholder up or down slightly */
+  display: inline-block;
+  transform: translateY(-3px);
+
+  /* Ensure browser compatibility */
+  opacity: 1;
 }
 
 .TwoOne p {
   font-family: var(--lato);
-  font-size: 14px;
+  font-size: var(--fs-16);
   color: #6e736a;
   cursor: pointer;
   text-decoration: underline;
+  margin-top: 24px;
+  font-weight: 400;
 }
 
 .TwoTwo {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 16px;
 }
 
 .Input {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  padding: 20px 14px 0px 0px;
+  border: none;
+  border-bottom: 1px solid var(--text-secondary);
   font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
+  font-size: var(--fs-16);
+  color: var(--text-primary);
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+.Input:focus {
+  outline: none;
+  /* Removes the blue/black glow browsers add */
+
+  /* Ensures no other borders appear */
 }
 
 .PhoneWrapper {
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  padding: 12px 10px 3px 0px;
+  border-bottom: 1px solid var(--text-secondary);
   font-family: var(--lato);
   font-size: 15px;
   color: #2f362a;
+  background-color: #ffffff;
+  box-sizing: border-box;
 }
 
 .PhonePrefix {
@@ -389,9 +455,10 @@
   border: none;
   outline: none;
   width: 100%;
-  font-family: inherit;
-  font-size: inherit;
+  font-family: var(--lato);
+  font-size: var(--fs-16);
   color: inherit;
+  padding-left: 10px;
   background: transparent;
 }
 
@@ -401,7 +468,7 @@
 
 .ErrorMessage {
   font-family: var(--lato);
-  font-size: 13px;
+  font-size: var(--fs-12);
   color: #dc2626;
   margin-top: 4px;
   display: block;
@@ -412,61 +479,35 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
+  padding-top: 20px;
+}
+
+.CheckBox input[type="checkbox"] {
+  accent-color: var(--primary-color);
+  /* This sets the "filled" background color */
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  border-radius: 0px;
 }
 
 .CheckBox p {
   font-family: var(--lato);
-  font-size: 14px;
-  color: #6e736a;
+  font-size: var(--fs-16);
+  color: var(--text-secondary);
 }
 
 .Three {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
 
-.ThreeOne h3 {
-  font-family: var(--lexend);
-  font-size: 16px;
-  font-weight: 500;
-  color: #2f362a;
-  text-transform: uppercase;
 }
 
 .ThreeTwo {
   display: flex;
   flex-direction: column;
-  border: 1px solid #2f362a4d;
-}
-
-.ThreeTwoOne,
-.ThreeTwoTwo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 16px;
-  cursor: pointer;
-}
-
-.ThreeTwoTwo {
-  border-top: 1px solid #2f362a4d;
-}
-
-.ThreeTwoOneLeft {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.ThreeTwoOneLeft p {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-}
-
-.Icon {
-  font-size: 18px;
+  border: 1px solid var(--text-secondary);
+  margin-bottom: 40px;
 }
 
 .Radio {
@@ -477,28 +518,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
 
 .RadioInner {
-  width: 10px;
-  height: 10px;
-  background-color: #6c7a5f;
+  width: 14px;
+  height: 14px;
+  background-color: var(--primary-color);
   border-radius: 50%;
 }
 
-.Active {
-  outline: 1.5px solid #2f362a;
-  outline-offset: -1px;
+.svg {
+  display: none;
 }
 
-.ThreeTwoOne span:last-child,
-.ThreeTwoTwo span:last-child {
-  display: flex;
-  align-items: center;
+.Active {
+  outline: 1px solid var(--text-secondary);
+  /* outline-offset: -1px; */
+  background-color: var(--cards-bg);
 }
 
 .Active .Radio {
-  border-color: #2f362a;
+  border-color: var(--primary-color);
+}
+
+.ThreeRow p {
+  font-family: var(--lato);
+  font-size: var(--fs-16);
+  color: var(--text-secondary);
+  margin: 0;
 }
 
 .Four {
@@ -510,15 +558,6 @@
 .Row {
   display: flex;
   gap: 12px;
-}
-
-.Select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #d9d9d9;
-  font-family: var(--lato);
-  font-size: 15px;
-  background-color: #ffffff;
 }
 
 .PickupList {
@@ -537,46 +576,66 @@
 .PickupCard {
   display: flex;
   gap: 12px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid var(--text-secondary);
   padding: 14px;
-  border-radius: 2px;
-  outline: 1.5px solid #2f362a;
   outline-offset: -1px;
+  /* margin-bottom: 60px; */
 }
 
-.Three h3,
-.Five h3 {
+.Three h3 {
   font-family: var(--lexend);
-  font-size: 16px;
-  font-weight: 500;
-  color: #2f362a;
-  text-transform: uppercase;
-  margin-bottom: 4px;
+  font-size: var(--fs-22);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.Five h3 {
+  font-size: var(--fs-22);
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 60px;
+  margin-bottom: 8px;
+}
+
+/* .Five h3{
+  margin-top: 60px;
+} */
+.billingAddress h3 {
+  margin-top: 60px;
 }
 
 .PickupCard h5 {
   font-family: var(--lato);
-  font-size: 14px;
-  font-weight: 600;
-  color: #2f362a;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary);
 }
 
 .PickupCard p {
   font-family: var(--lato);
-  font-size: 13px;
-  color: #6e736a;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-secondary);
 }
 
 .PickupCard span {
   font-family: var(--lato);
-  font-size: 12px;
-  color: #6e736a;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
 .Five {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  /* gap: 12px; */
+}
+
+.Five p {
+  font-family: var(--lato);
+  font-size: 13px;
+  color: #6e736a;
+  margin-bottom: 24px;
 }
 
 .StripeInput {
@@ -590,37 +649,10 @@
   flex-direction: column;
 }
 
-.PaymentHeader {
-  padding: 16px;
-  border-bottom: 1px solid #2f362a;
-}
-
-.PaymentHeader p {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
-  margin: 0;
-}
-
 .PaymentBody {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.NameInput {
-  width: 100%;
-  padding: 12px 14px;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
-  background-color: #ffffff;
-}
-
-.NameInput::placeholder {
-  color: #6e736a;
 }
 
 .BillingToggle {
@@ -628,181 +660,27 @@
   align-items: center;
   gap: 8px;
   cursor: pointer;
-  margin-bottom: 20px;
+
 }
 
 .BillingToggle input {
   width: 18px;
   height: 18px;
   cursor: pointer;
-  accent-color: #6c7a5f;
+  accent-color: var(--primary-color);
+  margin-top: 10px;
+  margin-bottom: 6px;
 }
 
 .BillingToggle p {
   font-family: var(--lato);
   font-size: 15px;
   color: #6e736a;
+  margin-top: 8px;
+  margin-bottom: 0px;
 }
 
-.Five h3 {
-  font-family: var(--lexend);
-  font-size: 16px;
-  font-weight: 500;
-  color: #2f362a;
-  text-transform: uppercase;
-}
-
-.Five p {
-  font-family: var(--lato);
-  font-size: 13px;
-  color: #6e736a;
-}
-
-.ProdDetails {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex: 1;
-}
-
-.ProdDetails h4 {
-  font-family: var(--lato);
-  font-size: 15px;
-  font-weight: 400;
-  color: #2f362a;
-}
-
-.ProdDetails p {
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #6e736a;
-}
-
-.ProdDetails span {
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #6e736a;
-}
-
-.CardBox {
-  border: 1.5px solid #2f362a;
-  padding: 12px;
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #2f362a;
-}
-
-.CheckBox {
-  padding-top: 20px;
-}
-
-@media (max-width: 640px) {
-  .Main {
-    padding: 80px 24px;
-  }
-
-  .CouponSection {
-    width: 100%;
-  }
-
-  .MainConatiner {
-    flex-direction: column;
-    align-items: center;
-    padding-top: 80px;
-  }
-
-  .Left,
-  .Right {
-    width: 100%;
-    padding-top: 0px;
-  }
-  .ThreeRow {
-    padding: 10px;
-  }
-
-  .Right {
-    align-items: baseline;
-  }
-
-  .LeftTop {
-    max-width: 100%;
-    padding-top: 80px;
-  }
-
-  .RightTwo,
-  .RightThree {
-    width: 100%;
-  }
-
-  .Line {
-    width: 100%;
-    height: 1px;
-  }
-
-  .LeftTop h3 {
-    font-size: 20px;
-  }
-
-  .Left {
-    gap: 32px;
-    padding-bottom: 80px;
-  }
-
-  .LeftMiddleTop h4,
-  .RightOne h3 {
-    font-size: 20px;
-  }
-
-  .LeftMiddleTop p,
-  .OneTop p,
-  .OrderText p,
-  .OrderIdNumber h4,
-  .PaymentText p,
-  .PaymentMethodCard h4,
-  .TwoLeftHeading p,
-  .BillingAddress p,
-  .TwoRightHeading p,
-  .cont,
-  .ShippingAddress p,
-  .ThreeTop p,
-  .ContactEmail p {
-    font-size: 14px;
-  }
-
-  .SummaryItem {
-    gap: 12px;
-    padding: 8px 0;
-  }
-
-  .ItemInfo,
-  .ItemQty,
-  .ItemPrice {
-    font-size: 14px;
-  }
-
-  .ItemImage {
-    width: 60px;
-    height: 60px;
-  }
-
-  .ProdNameAndweight h4,
-  .ProdQnty p,
-  .ProdPrice h4,
-  .Subtotal p,
-  .Shipping p,
-  .CuponDiscount p,
-  .EstimatedTax p,
-  .Subtotal h4,
-  .Shipping h4,
-  .CuponDiscount h4,
-  .EstimatedTax h4,
-  .Total p,
-  .Total h4 {
-    font-size: 14px;
-  }
-}
-
-/* --- Custom Dropdown Styles --- */
+/* --- Custom Dropdown --- */
 .SelectContainer {
   position: relative;
   width: 100%;
@@ -815,13 +693,13 @@
   width: 100%;
   cursor: pointer;
   user-select: none;
-  padding: 12px 14px;
-  border: 1px solid #d9d9d9;
-  border-radius: 2px;
+  padding: 19px 14px 1px 0px;
+  border-bottom: 1px solid var(--text-secondary);
   background-color: #ffffff;
   font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
+  font-size: var(--fs-16);
+  color: var(--text-secondary);
+  box-sizing: border-box;
 }
 
 .Arrow {
@@ -836,14 +714,13 @@
 
 .CustomOptionsList {
   position: absolute;
-  top: 100%;
+  top: 80%;
   left: 0;
   width: 100%;
   background: #ffffff;
   border: 1px solid #d9d9d9;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  z-index: 10000;
-  max-height: 200px;
+  z-index: 100;
+  max-height: 250px;
   overflow-y: auto;
 }
 
@@ -861,30 +738,7 @@
   color: #2f362a;
 }
 
-@media (min-width: 641px) and (max-width: 1024px) {
-  .Main {
-    padding-left: 40px;
-    padding-right: 40px;
-  }
-  .CouponSection {
-    width: 100%;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1480px) {
-  .Main {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-}
-
-@media (min-width: 1481px) and (max-width: 1820px) {
-  .Main {
-    padding-left: 150px;
-    padding-right: 150px;
-  }
-}
-
+/* --- Address Cards --- */
 .AddressList {
   display: flex;
   flex-direction: column;
@@ -902,21 +756,10 @@
   margin-bottom: 2px;
 }
 
-.AddressCard:first-child {
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-}
-
-.AddressCard:last-of-type {
-  border-bottom: 1px solid #d9d9d9;
-  border-bottom-left-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-
 .AddressCard.Selected {
   border-color: #2f362a;
   z-index: 1;
-  outline: 1px solid #2f362a;
+  outline: 1px solid var(--text-primary);
 }
 
 .AddressContent {
@@ -948,17 +791,11 @@
   margin: 2px 0;
 }
 
-.AddressText {
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #6e736a;
-  line-height: 1.4;
-}
-
 .MenuIcon {
   padding: 10px;
   cursor: pointer;
   color: #6e736a;
+  display: inline-flex;
 }
 
 .AddNewAddress {
@@ -970,6 +807,7 @@
   border: none;
   cursor: pointer;
   margin-top: 20px;
+  padding: 0;
 }
 
 .AddNewAddress p {
@@ -983,7 +821,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  margin-top: 60px;
 }
 
 .HeaderRow h3 {
@@ -1028,17 +867,26 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
+/* --- Coupons & Rewards --- */
+.CouponSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
 .CouponHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  margin-top: 30px;
+
 }
 
 .CouponHeader h3 {
   font-family: var(--lexend);
-  font-size: 15px;
-  font-weight: 500;
+  font-size: var(--fs-22);
+  font-weight: 600;
   color: #2f362a;
   margin: 0;
 }
@@ -1061,6 +909,38 @@
   gap: 0;
   margin-bottom: 0;
   height: 40px;
+}
+
+.CouponInputGroup input {
+  flex: 1;
+  border: 1px solid var(--text-secondary);
+  border-right: none !important;
+  padding: 0 12px;
+  font-family: var(--lato);
+  font-size: 13px;
+  outline: none;
+  background: #ffffff;
+  box-sizing: border-box;
+}
+
+.CouponInputGroup button {
+  background: var(--background);
+  color: var(--primary-color);
+  border: 1px solid var(--text-secondary);
+  border-left: none;
+  padding: 0 20px;
+  font-family: var(--lato);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.CouponInputGroup button:hover {
+  text-decoration: underline;
+}
+
+.CouponInputGroup button:disabled {
+  cursor: not-allowed;
 }
 
 .AppliedCouponGroup {
@@ -1104,40 +984,20 @@
   padding: 4px;
 }
 
-.CouponInputGroup input {
-  flex: 1;
-  border: 1px solid #2f362a33;
-  border-right: none !important;
-  padding: 0 12px;
-  font-family: var(--lato);
-  font-size: 13px;
-  outline: none;
-  background: #ffffff;
-}
-
-.CouponInputGroup button {
-  background: #6d7763;
-  color: #ffffff;
-  border: none;
-  padding: 0 20px;
-  font-family: var(--lato);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-}
-
 .RewardsSection {
-  border: 1px solid #2f362a33;
+  border: 1px solid var(--text-secondary);
   border-top: none;
   padding: 10px 16px;
   display: flex;
   gap: 12px;
   justify-content: space-between;
   background: #ffffff;
+  align-items: center;
+  margin-bottom: 30px;
 }
 
 .SubRewardsSection {
-  border-top: 1px solid #2f362a33 !important;
+  border-top: 1px solid var(--text-primary) !important;
 }
 
 .CheckboxContainer {
@@ -1148,10 +1008,12 @@
   position: relative;
   user-select: none;
 }
+
 .CheckboxContainer.Disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
 .CheckboxContainer.Disabled input {
   cursor: not-allowed;
 }
@@ -1175,26 +1037,21 @@
   margin-top: 2px;
 }
 
-.CheckboxContainer:hover input ~ .Checkmark {
-  border-color: #6d7763;
+.CheckboxContainer:hover input~.Checkmark {
+  border-color: var(--primary-color);
+  opacity: 0.8;
+  /* Subtle hint that it's interactive */
 }
 
-.CheckboxContainer input:checked ~ .Checkmark {
-  background-color: #6d7763;
-  border-color: #6d7763;
+.CheckboxContainer input:checked~.Checkmark {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .Checkmark:after {
   content: "";
   position: absolute;
   display: none;
-}
-
-.CheckboxContainer input:checked ~ .Checkmark:after {
-  display: block;
-}
-
-.CheckboxContainer .Checkmark:after {
   left: 6px;
   top: 2px;
   width: 5px;
@@ -1204,47 +1061,39 @@
   transform: rotate(45deg);
 }
 
+.CheckboxContainer input:checked~.Checkmark:after {
+  display: block;
+}
+
 .RewardsInfo {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
 .RewardsLabel {
   margin: 0;
-  font-family: var(--lato);
-  font-size: 13px;
-  font-weight: 550;
-  color: #2f362a;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-14);
+  font-weight: 400;
+  color: var(--text-primary);
 }
 
 .RewardsBalance {
   margin: 2px 0 0 0;
-  font-family: var(--lato);
-  font-size: 11px;
-  color: #6e736a;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-14);
+  color: var(--text-secondary);
 }
 
 .PotentialSavings {
   margin: 0;
   font-family: var(--lato);
   font-size: 11px;
-  color: #227336;
+  color: var(--green);
   display: flex;
   align-items: center;
   text-align: right;
-}
-
-.CouponInfoMessage {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.CouponInfoMessage span {
-  font-family: var(--lato);
-  font-size: 13px;
-  color: #6e736a;
 }
 
 .EarningBadge {
@@ -1254,8 +1103,8 @@
 .EarningBadge p {
   margin: 0;
   font-family: var(--lato);
-  font-size: 12px;
-  color: #227336;
+  font-size: var(--fs-16);
+  color: var(--green);
 }
 
 .CheckoutCouponError {
@@ -1265,8 +1114,490 @@
   font-family: var(--lato);
 }
 
-.CouponInputGroup button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  filter: grayscale(0.5);
+.viewCouponsLink {
+  background: transparent;
+  border: none;
+  font-family: var(--font-raleway);
+  color: var(--primary-color);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  cursor: pointer;
+  padding: 0;
+}
+
+.viewCouponsLink:hover {
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   CHECKOUT — RESPONSIVE MEDIA QUERIES
+   • No base styles touched — only breakpoint overrides here.
+   • Horizontal breathing room lives on .Main.
+   • .Left padding-left is fully overridden at each step.
+   • Mobile: .Left (form) on top, .Right (summary) below.
+   Breakpoints: 640 / 1024 / 1480 / 1820+
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── Very wide screens ─── */
+/* @media (min-width: 1821px) {
+  .Main {
+    padding-left: 220px;
+    padding-right: 220px;
+  }
+
+  .Left {
+    padding-left: 0;
+  }
+} */
+
+/* ─── Large desktop ─── */
+@media (min-width: 1481px) and (max-width: 1820px) {
+  .Main {
+    padding-left: 150px;
+    padding-right: 150px;
+  }
+
+  .Left {
+    padding-left: 0;
+  }
+
+  .Right {
+    width: 500px;
+  }
+}
+
+/* ─── Standard desktop / small laptop ─── */
+@media (min-width: 1025px) and (max-width: 1480px) {
+  .Main {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
+
+  .Left {
+    padding-left: 0;
+  }
+
+  .Right {
+    width: 420px;
+  }
+
+  .MainConatiner {
+    padding-top: 130px;
+    padding-bottom: 180px;
+  }
+}
+
+/* ─── Tablet landscape — still two columns ─── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .Main {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  .Left {
+    padding-left: 0;
+    max-width: none;
+  }
+
+  .Right {
+    width: 320px;
+    top: 110px;
+  }
+
+  .MainConatiner {
+    padding-top: 110px;
+    padding-bottom: 140px;
+    gap: 28px;
+  }
+
+  .RightTwo {
+    max-height: 220px;
+  }
+
+  /* Section rhythm */
+  .Two,
+  .Three,
+  .Four,
+  .Five,
+  .billingAddress,
+  .CouponSection {
+    padding-top: 48px;
+  }
+
+  .TwoOne {
+    margin-top: 0;
+  }
+
+  .HeaderRow {
+    margin-top: 0;
+  }
+
+  .Pay {
+    margin-top: 40px;
+  }
+
+  .BillingToggle input,
+  .BillingToggle p {
+    margin-top: 6px;
+    margin-bottom: 40px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MOBILE  ≤ 640px
+   • Single column
+   • .Left (form) on top — order: 1
+   • .Right (order summary) below — order: 2
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .Main {
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 40px;
+  }
+
+  .MainConatiner {
+    flex-direction: column;
+    align-items: stretch;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    gap: 0;
+  }
+
+  /* ── Column order: form first, summary below ── */
+  .Left {
+    order: 1;
+    width: 100%;
+    max-width: none;
+    padding-left: 0;
+    flex: none;
+  }
+
+  .Right {
+    order: 2;
+    width: 100%;
+    position: static;
+    top: auto;
+    flex-shrink: 1;
+    margin-top: 80px;
+  }
+
+  .Line {
+    display: none;
+  }
+
+  .RightTwo {
+    max-height: 200px;
+  }
+
+  /* ── Section rhythm: replace all stray margin-tops ── */
+  .Two,
+  .Three,
+  /* .Five, */
+  .billingAddress {
+    padding-top: 80px;
+  }
+
+  .CouponSection {
+    padding-top: 50px;
+  }
+
+  /* .Five h3 {
+    padding-top: 80px;
+  } */
+
+  .Four {
+    padding-top: 32px;
+  }
+
+  .TwoOne {
+    margin-top: 0;
+  }
+
+  .HeaderRow {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  .billingAddress h3 {
+    margin-top: 0;
+  }
+
+  .Pay {
+    margin-top: 32px;
+  }
+
+  .Input:focus~.FloatLabel,
+  .Input:not(:placeholder-shown)~.FloatLabel {
+    top: 4px;
+    transform: none;
+    font-size: 11px;
+  }
+
+  .CustomOptionsList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #d9d9d9;
+    z-index: 100;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+
+  .BillingToggle input,
+  .BillingToggle p {
+    margin-top: 6px;
+    margin-bottom: 0px;
+  }
+
+  .ThreeTwo {
+    margin-bottom: 0;
+    border: none;
+  }
+
+  .PickupCard {
+    margin-bottom: 0;
+  }
+
+  /* ── Stack two-column form rows ── */
+  .Row {
+    flex-direction: row;
+    gap: 25px;
+  }
+
+  .viewCouponsLink {
+    background: transparent;
+    border: none;
+    font-family: var(--font-raleway);
+    color: var(--primary-color);
+    font-size: var(--fs-14);
+    font-weight: 400;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .svg {
+    display: block;
+  }
+
+  /* ── Form inputs ── */
+  .Input {
+    padding: 18px 10px 4px 0;
+    font-size: 14px;
+  }
+
+  .PhoneWrapper {
+    padding: 18px 10px 3px 0;
+    font-size: 14px;
+  }
+
+  .CustomSelectTrigger {
+    padding: 18px 10px 4px 0;
+    font-size: 14px;
+  }
+
+  .Two {
+    gap: 5px;
+  }
+
+  .TwoTwo {
+    gap: 8px;
+  }
+
+  /* ── Section headings ── */
+  .TwoOne h3,
+  .Three h3,
+  .Four h3,
+  .Five h3,
+  .CouponHeader h3,
+  .RightOne h3 {
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+
+  .TwoOne p {
+    margin-top: 0px;
+    font-size: var(--fs-12);
+  }
+
+  /* ── Pay button ── */
+  .Pay {
+    display: none;
+  }
+
+  .MobilePay {
+    display: block;
+    margin-top: 2px;
+  }
+
+  /* ── Footer links ── */
+  .PageLinks {
+    gap: 10px;
+  }
+
+  .PageLinks p {
+    font-size: 13px;
+  }
+
+  /* ── Order summary ── */
+  .SummaryItem {
+    gap: 10px;
+    padding: 6px 0;
+  }
+
+  .ItemImage {
+    width: 50px;
+    height: 50px;
+  }
+
+  .ItemInfo,
+  .ItemQty,
+  .ItemPrice,
+  .ItemName {
+    font-size: 14px;
+  }
+
+  .Subtotal {
+    margin-top: 14px;
+  }
+
+  .Active {
+    outline: none;
+    /* Kills the outline */
+    border: none;
+    /* Resets any existing full borders */
+    /* border-bottom: 2px solid var(--text-secondary); */
+    /* Adds just the bottom line */
+    background-color: var(--background);
+
+    box-sizing: border-box;
+  }
+
+  /* ── Totals ── */
+  .Subtotal p,
+  .Subtotal h5,
+  .Shipping p,
+  .Shipping h5,
+  .CuponDiscount p,
+  .CuponDiscount h5,
+  .EstimatedTax p,
+  .EstimatedTax h5,
+  .Total p,
+  .Total h5 {
+    font-size: 14px;
+  }
+
+  /* ── Delivery selector ── */
+  .ThreeRow {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--text-secondary);
+  }
+
+  .ThreeRow p {
+    font-size: 14px;
+  }
+
+  /* ── Billing toggle ── */
+  .BillingToggle p {
+    font-size: 14px;
+  }
+
+  /* ── Contact / save checkbox ── */
+  .CheckBox {
+    padding-top: 12px;
+  }
+
+  .CheckBox p {
+    font-size: 13px;
+  }
+
+  /* ── Coupon ── */
+  .CouponSection {
+    width: 100%;
+  }
+
+  .CouponHeader {
+    margin-top: 0;
+  }
+
+  .CouponInputGroup {
+    height: 42px;
+  }
+
+  .CouponInputGroup input,
+  .CouponInputGroup button {
+    font-size: 13px;
+    border: none;
+    border-bottom: 1px solid var(--text-secondary);
+  }
+
+  .CouponInputGroup button {
+    padding: 0 16px;
+  }
+
+  .RewardsSection {
+    margin-bottom: 0;
+    border: none;
+  }
+
+  /* ── Address cards ── */
+  .AddressCard {
+    padding: 14px;
+    gap: 10px;
+  }
+
+  .AddrLabel,
+  .AddrName {
+    font-size: 14px;
+  }
+
+  /* ── Pickup card ── */
+  .PickupCard {
+    padding: 12px;
+  }
+
+  .PickupCard h5 {
+    font-size: 13px;
+  }
+
+  .PickupCard p {
+    font-size: 12px;
+  }
+
+  .RightThree {
+    gap: 10px;
+  }
+}
+
+/* ─── Very small mobile ─── */
+@media (max-width: 380px) {
+  .Main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .Two,
+  .Three,
+  .Four,
+  .Five,
+  .billingAddress,
+  .CouponSection {
+    padding-top: 28px;
+  }
+
+  .Pay {
+    padding: 14px;
+    font-size: 14px;
+    margin-top: 28px;
+  }
+
+  .PageLinks p {
+    font-size: 12px;
+  }
+
+  .RightOne h3 {
+    font-size: 15px;
+  }
 }

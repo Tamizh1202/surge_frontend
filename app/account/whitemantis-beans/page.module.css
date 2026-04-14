@@ -1,3 +1,4 @@
+/* --- CONTAINER & LAYOUT --- */
 .head {
   padding-right: 410px;
   padding-bottom: 100px;
@@ -8,15 +9,6 @@
   margin-left: 50px;
   display: flex;
   flex-direction: column;
-  gap: 32px;
-  /* width:900px */
-}
-
-.main h1 {
-  color: #2f362a;
-  font-family: var(--lexend);
-  font-weight: 500;
-  font-size: 22px;
 }
 
 .main1 {
@@ -25,12 +17,14 @@
   gap: 64px;
 }
 
+/* --- HERO / BALANCE SECTION --- */
 .olive {
-  background-color: #6c7a5f;
-  padding: 20px;
+  background-color: #f8e9e2; /* Surge Coffee Cream/Peach */
+  padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 0px;
+  border-radius: 4px;
 }
 
 .content1 {
@@ -40,28 +34,14 @@
   padding-bottom: 12px;
 }
 
-.content .left {
-  display: flex;
-  gap: 4px;
-}
-
-.content1 .left .p {
-  color: #ffffff;
-  opacity: 0.6;
-  font-family: var(--lato);
-  font-weight: 400;
-  font-size: 15px;
-}
-
 .content1 .left .heading {
-  color: #ffffff;
+  color: #c37b5c; /* Terracotta Color */
   font-family: var(--lexend);
   font-weight: 500;
-  font-size: 22px;
+  font-size: 32px;
 }
 
 .content1 .right {
-  display: flex;
   margin-left: auto;
 }
 
@@ -69,40 +49,76 @@
   font-family: var(--lato);
   font-weight: 400;
   font-size: 15px;
-  color: #ffffff;
+  color: #c37b5c;
   text-decoration: underline;
-  size: 15px;
   opacity: 0.9;
-}
-
-/* .content1  .howToUse h1{
-     font-family: var(--lato);
-    font-weight: 400;
-    font-size: 15px;
-    color:#FFFFFF;
-    text-decoration: underline;
-} */
-heading .olive .heading {
-  font-family: var(--lexend);
-  font-weight: 500;
-  font-size: 22px;
-  color: #ffffff;
 }
 
 .months {
   padding-top: 12px;
-  border-top: 0.5px solid #ffffff;
+  border-top: 0.5px solid #c37b5c44;
 }
 
-.months h1 {
+.validity {
   font-family: var(--lato);
   font-weight: 400;
   font-size: 15px;
-  color: #ffffff;
+  color: #2f362a;
 }
 
-/* 2nd box */
+/* --- HOW IT WORKS SECTION --- */
+.howItWorks {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
 
+.mainTitle {
+  font-family: var(--lexend);
+  font-weight: 500;
+  font-size: 22px;
+  color: #2f362a;
+}
+
+.stepsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.iconCircle {
+  width: 64px;
+  height: 64px;
+  background-color: #f4f4f4;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stepItem h3 {
+  font-family: var(--lexend);
+  font-size: 16px;
+  font-weight: 500;
+  color: #2f362a;
+}
+
+.stepItem p {
+  font-family: var(--lato);
+  font-size: 14px;
+  color: #6e736a;
+  line-height: 1.5;
+}
+
+/* --- TRANSACTION HISTORY --- */
 .box {
   display: flex;
   flex-direction: column;
@@ -127,15 +143,14 @@ heading .olive .heading {
 .tableHeading,
 .tableContent {
   display: grid;
-  /* This defines your 5 columns: Details gets more space, Coins gets less */
-  grid-template-columns: repeat(4, 1fr) 0.3fr;
+  /* 5 Columns: Details, Type, Date, Expiry, Beans */
+  grid-template-columns: 1.5fr 1fr 1.2fr 1.2fr 0.8fr;
   align-items: center;
   padding: 16px 24px;
   gap: 10px;
 }
 
 .tableHeading {
-  /* Light gray to distinguish header */
   border-bottom: 1px solid #2f362a4d;
   font-weight: 400;
   color: #2f362a;
@@ -147,14 +162,42 @@ heading .olive .heading {
   font-weight: 400;
   font-family: var(--lato);
   color: #6e736a;
-}
-
-.tableContent {
   border-bottom: 1px solid #2f362a4d;
 }
 
+.itemDetail {
+  color: #2f362a;
+  font-weight: 400;
+}
+
+.subText {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-family: var(--lato);
+}
+
+/* Status Tags */
+.tagCollected, .tagRedeemed {
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-family: var(--lato);
+  font-weight: 500;
+  display: inline-block;
+}
+
+.tagCollected {
+  background-color: #e8f5e9;
+  color: #428b54;
+}
+
+.tagRedeemed {
+  background-color: #ffebee;
+  color: #e54842;
+}
+
 .more {
-  padding: 16px 143px;
+  padding: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,10 +207,53 @@ heading .olive .heading {
   font-family: var(--lato);
   font-size: 14px;
   color: #2f362a;
+  text-decoration: underline;
 }
 
-/* faq section */
+/* --- ZERO STATE --- */
+.zeroState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  text-align: center;
+  padding: 40px 0;
+}
 
+.zeroStateP {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.zeroStateP p {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  font-family: var(--lato);
+}
+
+.zeroStateButton {
+  background-color: #ffffff;
+  border: 1px solid #2f362a;
+  padding: 14px 34px;
+  color: #2f362a;
+  cursor: pointer;
+  font-family: var(--lato);
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.zeroStateButton:hover {
+  background-color: #2f362a;
+  color: #ffffff;
+}
+
+/* --- FAQ SECTION --- */
 .faqMain {
   display: flex;
   flex-direction: column;
@@ -178,6 +264,7 @@ heading .olive .heading {
   font-family: var(--lexend);
   font-weight: 500;
   font-size: 22px;
+  color: #2f362a;
 }
 
 .Qsection {
@@ -188,15 +275,11 @@ heading .olive .heading {
   gap: 6px;
 }
 
-/* QUESTION ROW */
-
 .quesStyle {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-
-/* number + question */
 
 .questionLeft {
   display: flex;
@@ -205,9 +288,9 @@ heading .olive .heading {
 
 .number {
   min-width: 28px;
+  font-family: var(--lato);
+  color: #2f362a;
 }
-
-/* question text */
 
 .quesStyle h4 {
   font-family: var(--lato);
@@ -217,20 +300,10 @@ heading .olive .heading {
   margin: 0;
 }
 
-/* plus icon */
-
-.cross {
-  margin-left: 5px;
-}
-
-/* ANSWER */
-
 .answers {
   display: grid;
   grid-template-rows: 0fr;
-  transition:
-    grid-template-rows 0.3s ease,
-    opacity 0.3s ease;
+  transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
   opacity: 0;
 }
 
@@ -239,71 +312,17 @@ heading .olive .heading {
   opacity: 1;
 }
 
-/* inner wrapper needed for animation */
-
 .answers p {
   overflow: hidden;
   margin: 0 0 0 38px;
   width: 85%;
-  /* indent under question */
   font-family: var(--lato);
   font-weight: 400;
   font-size: 15px;
   color: #6e736a;
 }
 
-.mobileOnly {
-  display: none;
-}
-
-.zeroState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 24px; /* Adds nice spacing between image, text, and button */
-  width: 100%;
-  text-align: center;
-}
-
-.zeroStateP {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap:8px;
-  color: var(--primary-color);
-  
-}
-
-.zeroStateP p {
-  /* Removed display: flex here as it messes with standard text alignment */
-  width: 100%; 
-  max-width: 400px; /* Limits width so text doesn't stretch too far on desktop */
-  margin: 0 auto;
-  text-align: center;
-}
-
-.zeroStateButton {
-  background-color: var(--white);
-  border: 1px solid var(--primary-color);
-  padding: 14px 34px;
-  color: var(--primary-color);
-  cursor: pointer; 
-  font-family: var(--lato); 
-  font-size: 15px;
-  font-weight: 500;
-
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.zeroStateButton:hover {
-  background-color: var(--primary-color);
-  color: #ffffff;
-}
-
-
-
-
+/* --- RESPONSIVE DESIGN --- */
 @media (min-width: 550px) and (max-width: 1200px) {
   .head {
     padding-right: 80px;
@@ -311,75 +330,43 @@ heading .olive .heading {
 }
 
 @media (max-width: 740px) {
-  .main {
-    display: none;
-  }
-
-  .box {
-    display: block;
-    /* Force hide the desktop table */
-  }
-  .zeroState{
-    gap:12px;
-    margin-top: 25px;
-  }
-  .zeroState p{
-    width: 80%;
-  }
-  .mobileOnly {
-    display: block;
-    /* Show the mobile cards/list */
-  }
-
-  .main1 {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
-  }
-
-  /* Your existing media query fixes */
   .head {
     padding-right: 0;
-    /* Remove that large desktop padding */
   }
 
   .border {
     margin: 0 24px;
-    border: none;
-    /* Usually cleaner for mobile */
+  }
+
+  .main1 {
+    gap: 32px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .tableHeading {
+    display: none;
   }
 
   .tableContent {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    /* Better than hard gap for mobile */
+    flex-direction: column;
+    align-items: flex-start;
     padding: 16px 10px;
-  }
-
-  .LHS {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .RHS {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
-    text-align: right;
-  }
-
-  .answers p {
-    overflow: hidden;
-    margin: 0 0 0 38px;
-    width: 85%;
-    /* indent under question */
-    font-family: var(--lato);
-    font-weight: 400;
-    font-size: 15px;
-    color: #6e736a;
+    gap: 12px;
   }
   
+  .tableContent div:last-child {
+    text-align: left !important;
+    width: 100%;
+    border-top: 1px dashed #2f362a22;
+    padding-top: 8px;
+  }
+
+  .zeroState p {
+    width: 80%;
+  }
 }

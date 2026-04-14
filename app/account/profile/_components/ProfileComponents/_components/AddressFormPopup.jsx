@@ -16,11 +16,9 @@ const AddressFormPopup = ({
   onCancel,
   isSubmitting,
 }) => {
-  // --- State for Custom Emirate Dropdown ---
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
   const emirateRef = useRef(null);
 
-  // --- Click Outside logic for Dropdown ---
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (emirateRef.current && !emirateRef.current.contains(event.target)) {
@@ -31,258 +29,190 @@ const AddressFormPopup = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const title = mode === "edit" ? "EDIT ADDRESS" : "Add Address";
-  const saveLabel = isSubmitting
-    ? "Saving..."
-    : mode === "edit"
-      ? "Update Address"
-      : "Save Address";
+  const title = mode === "edit" ? "Edit address" : "Add address";
+  const saveLabel = isSubmitting ? "Saving..." : "Save";
 
   return (
     <div className={styles.PopupOverlay} onClick={onCancel}>
-      <div className={styles.Popup} onClick={(e) => e.stopPropagation()}>
-        <h3>{title}</h3>
+      <div className={styles.Popup} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px', padding: '40px' }}>
+        <h3 style={{ 
+          fontFamily: 'var(--font-montserrat)', 
+          fontSize: '22px', 
+          fontWeight: '600', 
+          marginBottom: '32px',
+          color: '#2F362A' 
+        }}>{title}</h3>
 
-        {/* First 11 + Last name */}
-        <div className={styles.divide}>
+     
+        <div className={styles.inputGroup} style={{ marginBottom: '24px' }}>
+          <label style={{ fontSize: '16px', color: '#818686', display: 'block', marginBottom: '4px',  fontFamily: 'var(--font-raleway)',  }}>Country / Region</label>
           <input
-            placeholder="First name"
-            value={addressForm.addressFirstName || ""}
-            onChange={(e) => onFormChange("addressFirstName", e.target.value)}
-          />
-          <input
-            placeholder="Last Name"
-            value={addressForm.addressLastName || ""}
-            onChange={(e) => onFormChange("addressLastName", e.target.value)}
+            style={{ 
+              border: 'none', 
+              borderBottom: '1.5px solid #2F362A4D', 
+              width: '100%', 
+               fontFamily: 'var(--font-raleway)', 
+                fontWeight: '600', 
+              padding: '8px 0', 
+              fontSize: '16px', 
+              color: '#414343',
+              outline: 'none',
+              background: 'transparent'
+            }}
+            value="United Arab Emirates"
+            readOnly
           />
         </div>
-        {addressErrors.fullName && (
-          <p
-            style={{
-              color: "red",
-              fontSize: "12px",
-              marginTop: "-10px",
-              marginBottom: "10px",
-            }}
-          >
-            {addressErrors.fullName}
-          </p>
-        )}
 
-        {/* Country — always UAE, read-only */}
-        <input
-          style={{ outline: "none" }}
-          value="United Arab Emirates"
-          readOnly
-        />
-
-        {/* Street */}
-        <input
-          placeholder="House number, Street name"
-          value={addressForm.address || ""}
-          onChange={(e) => onFormChange("address", e.target.value)}
-        />
-        {addressErrors.address && (
-          <p
-            style={{
-              color: "red",
-              fontSize: "12px",
-              marginTop: "-10px",
-              marginBottom: "10px",
-            }}
-          >
-            {addressErrors.address}
-          </p>
-        )}
-
-        {/* Apartment */}
-        <input
-          placeholder="Apartment, suite, etc. (Optional)"
-          value={addressForm.apartment || ""}
-          onChange={(e) => onFormChange("apartment", e.target.value)}
-        />
-
-        {/* City + Emirate row */}
-        <div className={styles.Row2}>
-          <input
-            placeholder="City"
-            value={addressForm.city || ""}
-            onChange={(e) => onFormChange("city", e.target.value)}
-          />
-          <div className={styles.Field} ref={emirateRef} style={{ padding: 0 }}>
-            <div
-              className={styles.SelectContainer}
-              style={{ position: "relative", width: "100%" }}
-            >
-              <div
-                className={styles.CustomSelectTrigger}
-                onClick={() => setIsEmirateOpen(!isEmirateOpen)}
-                style={{ padding: "19px 22px", }}
-              >
-                <span style={{ textTransform: "capitalize" }}>
-                  {UAE_STATES.find((s) => s.value === addressForm.state)
-                    ?.label || "Select Emirate"}
-                </span>
-                <span
-                  className={`${styles.Arrow} ${isEmirateOpen ? styles.Rotate : ""}`}
-                >
-                  ▼
-                </span>
-              </div>
-
-              {isEmirateOpen && (
-                <div
-                  className={styles.CustomOptionsList}
-                  style={{ left: 0, width: "100%", top: "100%" }}
-                  data-lenis-prevent
-                >
-                  {UAE_STATES.map((opt) => (
-                    <div
-                      key={opt.value}
-                      className={styles.OptionItem}
-                      onClick={() => {
-                        onFormChange("state", opt.value);
-                        setIsEmirateOpen(false);
-                      }}
-                    >
-                      {opt.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+        {/* Name Row */}
+        <div className={styles.divide} style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
+          <div style={{ flex: 1 }}>
+            <input
+              className={styles.lineInput}
+              placeholder="First Name"
+              value={addressForm.addressFirstName || ""}
+              onChange={(e) => onFormChange("addressFirstName", e.target.value)}
+            />
+          </div>
+          <div style={{ flex: 1 }}>
+            <input
+              className={styles.lineInput}
+              placeholder="Last Name"
+              value={addressForm.addressLastName || ""}
+              onChange={(e) => onFormChange("addressLastName", e.target.value)}
+            />
           </div>
         </div>
 
-        {/* Phone input with +971 prefix */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            border: "1px solid #2f362a4d",
-            padding: "19px 22px",
-            fontFamily: "var(--lato)",
-            fontSize: "15px",
-            color: "#6a6c73",
-            background: "#fff",
-          }}
-        >
-          <span style={{ marginRight: "8px", userSelect: "none" }}>+971</span>
+        {/* Street */}
+        <div style={{ marginBottom: '24px' }}>
           <input
-            placeholder="50 123 4567"
-            value={
-              addressForm.phone
-                ? addressForm.phone.replace(/^\+971\s?/, "")
-                : ""
-            }
-            onChange={(e) =>
-              onFormChange(
-                "phone",
-                "+971" + e.target.value.replace(/^(\+971\s?)/, ""),
-              )
-            }
-            style={{
-              border: "none",
-              outline: "none",
-              width: "100%",
-              padding: 0,
-              fontSize: "15px",
-              color: "#6e736a",
-              background: "transparent",
-            }}
+            className={styles.lineInput}
+            placeholder="House Number, Street Name"
+            value={addressForm.address || ""}
+            onChange={(e) => onFormChange("address", e.target.value)}
           />
         </div>
-        {addressErrors.phone && (
-          <p
-            style={{
-              color: "red",
-              fontSize: "12px",
-              marginTop: "5px",
-              marginBottom: "10px",
-            }}
-          >
-            {addressErrors.phone}
-          </p>
-        )}
 
-        {/* Home / Work / Others toggle buttons */}
-        <div
-          className={styles.Popup}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            padding: "0",
-            width: "100%",
-            gap: "0",
-          }}
-        >
-          {ADDRESS_LABELS.map((label) => (
-            <button
-              key={label}
-              onClick={() => onLabelSelect(label)}
-              style={{
-                padding:
-                  "17px clamp(20px, 5vw, 64px) 20px clamp(20px, 5vw, 64px)",
-                border: "1px solid #2F362A4D",
-                marginLeft: label === ADDRESS_LABELS[0] ? "0" : "-1px",
-                backgroundColor:
-                  activeLabelBtn === label ? "#C4754E" : "#f8f9f8",
-                color: activeLabelBtn === label ? "#ffffff" : "#6C7A5F",
-                fontSize: "16px",
-                fontWeight: "400",
-                
-                width: "100%",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                outline: "none",
-              }}
-            >
-              {label}
-            </button>
-          ))}
+        {/* Apartment */}
+        <div style={{ marginBottom: '24px', position: 'relative' }}>
+          <input
+            className={styles.lineInput}
+            placeholder="Apartment, Suit etc."
+            value={addressForm.apartment || ""}
+            onChange={(e) => onFormChange("apartment", e.target.value)}
+          />
+          <span style={{ position: 'absolute', right: 0, bottom: '8px', color: '#A0A0A0', fontSize: '16px' }}>(Optional)</span>
         </div>
 
-        {/* Default address checkbox */}
-        <label className={styles.CheckRow}>
-          <input
-            type="checkbox"
-            checked={addressForm.isDefault || false}
-            onChange={(e) => onFormChange("isDefault", e.target.checked)}
-          />
-          Use this as my default Shipping Address
-        </label>
-
-        {/* Actions */}
-        <div className={styles.PopupActions}>
-          {addressGeneralError && (
-            <p
-              style={{
-                color: "red",
-                fontSize: "14px",
-                marginBottom: "10px",
-                width: "100%",
-                textAlign: "right",
+        {/* City + Emirate */}
+        <div className={styles.divide} style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
+          <div style={{ flex: 1 }}>
+            <input
+              className={styles.lineInput}
+              placeholder="City"
+              value={addressForm.city || ""}
+              onChange={(e) => onFormChange("city", e.target.value)}
+            />
+          </div>
+          <div style={{ flex: 1, position: 'relative' }} ref={emirateRef}>
+            <div 
+              onClick={() => setIsEmirateOpen(!isEmirateOpen)}
+              style={{ 
+                borderBottom: '1.5px solid #2F362A4D', 
+                padding: '8px 0', 
+                  fontFamily: 'var(--font-raleway)', 
+                fontWeight: '400', 
+                 fontSize: '16px', 
+                display: 'flex', 
+                color: '#818686',
+                justifyContent: 'space-between',
+                cursor: 'pointer',
+                color: addressForm.state ? '#2F362A' : '#A0A0A0'
               }}
             >
-              {addressGeneralError}
-            </p>
-          )}
+              <span>{UAE_STATES.find(s => s.value === addressForm.state)?.label || "Emirate"}</span>
+              <span style={{ fontSize: '16px' }}>▼</span>
+            </div>
+            {isEmirateOpen && (
+              <div className={styles.CustomOptionsList} style={{ width: '100%', top: '100%', zIndex: 10 }}>
+                {UAE_STATES.map((opt) => (
+                  <div key={opt.value} className={styles.OptionItem} onClick={() => { onFormChange("state", opt.value); setIsEmirateOpen(false); }}>
+                    {opt.label}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Phone */}
+        <div style={{ marginBottom: '32px' }}>
+          <input
+            className={styles.lineInput}
+            placeholder="Phone"
+            value={addressForm.phone ? addressForm.phone.replace(/^\+971\s?/, "") : ""}
+            onChange={(e) => onFormChange("phone", "+971" + e.target.value)}
+          />
+        </div>
+
+        {/* Save As Labels */}
+        <div style={{ marginBottom: '32px' }}>
+          <p style={{ color: '#A0A0A0', fontSize: '14px', marginBottom: '32px' }}>Save As</p>
+          <div style={{ display: 'flex', gap: '24px' }}>
+            {ADDRESS_LABELS.map((label) => (
+              <div 
+                key={label} 
+                onClick={() => onLabelSelect(label)}
+                style={{ 
+                  cursor: 'pointer',
+                  paddingBottom: '4px',
+                  borderBottom: activeLabelBtn === label ? '2px solid #C4754E' : '1px solid #2F362A4D',
+                  color: activeLabelBtn === label ? '#C4754E' : '#A0A0A0',
+                  minWidth: '156px',
+                   fontFamily: 'var(--font-raleway)', 
+                fontWeight: '400', 
+                 color: '#818686',
+                 fontSize: '16px', 
+                  transition: '0.3s'
+                }}
+              >
+                {label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
           <button
-            style={{
-              backgroundColor: "transparent",
-              border: "1px solid #6C7A5F",
-            }}
             onClick={onCancel}
+            style={{
+              flex: 1,
+              padding: '16px',
+              background: 'transparent',
+              border: '1.5px solid #C4754E',
+              color: '#C4754E',
+             
+              fontWeight: '500',
+              cursor: 'pointer'
+            }}
           >
             Cancel
           </button>
           <button
-            className={styles.SaveBtn}
             onClick={onSave}
             disabled={isSubmitting}
             style={{
-              opacity: isSubmitting ? 0.6 : 1,
-              cursor: isSubmitting ? "not-allowed" : "pointer",
+              flex: 1,
+              padding: '16px',
+              background: '#C4754E',
+              border: 'none',
+              color: '#fff',
+             
+              fontWeight: '500',
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              opacity: isSubmitting ? 0.7 : 1
             }}
           >
             {saveLabel}

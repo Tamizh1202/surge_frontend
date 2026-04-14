@@ -248,7 +248,7 @@ export default function OrdersPage() {
         {/* Always-visible search & filter toolbar */}
         <div className={styles.Top}>
           <div className={styles.Left}>
-            <h1>ALL ORDERS</h1>
+            <h1>All Orders</h1>
           </div>
           <div className={styles.Right}>
             <div className={styles.searchWrapper}>

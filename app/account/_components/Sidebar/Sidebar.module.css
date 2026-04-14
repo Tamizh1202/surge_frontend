@@ -129,21 +129,22 @@
 
 .LogoutPopup h2 {
   font-family: var(--font-montserrat);
-  font-size: 24px;
-  font-weight: 500;
-  color: #2f362a;
+  font-size: 22px;
+  font-weight: 600;
+  color: #414343;
   text-align: center;
   align-items: center;
   width: 75%;
 }
 
 .LogoutPopup p {
-  font-family: var(--lato);
-  font-size: 16px;
-  color: #6e736a;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: #818686;
   margin-top: 10px;
   text-align: center;
-  width: 65%;
+ 
 }
 
 .LogoutActions {
@@ -155,23 +156,25 @@
 
 .CancelBtn {
   min-width: 200px;
-  padding: 14px 48px;
+  padding: 12px 40px;
   background: transparent;
-  border: 1px solid #6e736a;
-  color: #6e736a;
-  font-family: var(--lato);
-  font-size: 16px;
+  border: 1px solid #C4754E;
+  color:#C4754E;
+   font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 600;
   cursor: pointer;
 }
 
 .ConfirmBtn {
   min-width: 200px;
-  padding: 14px 48px;
-  background: #6c7a5f;
+  padding: 12px 40px;
+  background:#C4754E;
   border: none;
   color: #ffffff;
-  font-family: var(--lato);
-  font-size: 16px;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 600;
   cursor: pointer;
 }
 

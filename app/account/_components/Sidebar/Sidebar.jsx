@@ -81,27 +81,7 @@ export default function Sidebar() {
               </div>
             </Link>
             <Link href="/account/subscription" className={styles.Link}>
-              <div
-                className={`${styles.Subscription} ${
-                  pathname.startsWith("/account/subscription")
-                    ? styles.active
-                    : ""
-                }`}
-              >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M7.7138 16C5.73868 16 4.01694 15.3368 2.54857 14.0105C1.0802 12.6843 0.230679 11.0142 0 9H0.98383C1.24823 10.7205 2.01046 12.1507 3.27052 13.2905C4.53058 14.4302 6.01167 15 7.7138 15C9.61045 15 11.2194 14.3208 12.5405 12.9625C13.8617 11.6042 14.5223 9.95 14.5223 8C14.5223 6.05 13.8617 4.39583 12.5405 3.0375C11.2194 1.67917 9.61045 1 7.7138 1C6.70744 1 5.76162 1.21858 4.87635 1.65575C3.99092 2.09292 3.20965 2.69483 2.53252 3.4615H4.94565V4.4615H0.905289V0.30775H1.87793V2.69625C2.62995 1.84742 3.51125 1.18583 4.52182 0.711501C5.53256 0.237167 6.59655 0 7.7138 0C8.79246 0 9.80344 0.208666 10.7467 0.625999C11.6901 1.04333 12.5143 1.6145 13.2195 2.3395C13.9246 3.0645 14.4802 3.91192 14.8861 4.88175C15.292 5.85158 15.495 6.891 15.495 8C15.495 9.109 15.292 10.1484 14.8861 11.1183C14.4802 12.0881 13.9246 12.9355 13.2195 13.6605C12.5143 14.3855 11.6901 14.9567 10.7467 15.374C9.80344 15.7913 8.79246 16 7.7138 16ZM10.8302 11.8538L7.28365 8.20775V3H8.25629V7.79225L11.5183 11.1463L10.8302 11.8538Z"
-                    fill="#6E736A"
-                  />
-                </svg>
-                <p>Manage Subscription</p>
-              </div>
+            
             </Link>
             <Link href="/account/wishlist" className={styles.Link}>
               <div
@@ -145,7 +125,7 @@ export default function Sidebar() {
                   />
                 </svg>
 
-                <p>White Mantis Beans</p>
+                <p>Surge Rewards</p>
               </div>
             </Link>
             {session && (
@@ -181,7 +161,7 @@ export default function Sidebar() {
             className={styles.LogoutPopup}
             onClick={(e) => e.stopPropagation()}
           >
-            <h2>ARE YOU SURE YOU WANT TO LOGOUT?</h2>
+            <h2>Are you sure want to log out?</h2>
             <p>
               You can always sign back in to access your specialty coffee
               profile.

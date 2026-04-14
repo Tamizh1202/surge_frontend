@@ -540,16 +540,18 @@
   font-size: var(--fs-22);
   font-weight: 600;
   color: #2F362A;
+  
   margin: 0;
 }
 
 .fixerOne p, 
 .fixerTwo h6 {
   font-size: 16px;
-  font-weight: 500;
-  color: #666;
+  font-weight: 400;
+  color: #414343;
+    font-family: var(--font-raleway);
   margin-bottom: 12px;
-  text-transform: capitalize;
+
 }
 
 /* Wrappers for the address groups */
@@ -558,7 +560,10 @@
   padding: 20px 10px;
   background-color: #F7F7F7; /* Light gray background from image */
   border-radius: 4px;
-  
+    font-size: 16px;
+  font-weight: 400;
+  color: #414343;
+    font-family: var(--font-raleway);
   display: flex;
   flex-direction: column;
 }
@@ -922,6 +927,27 @@
 
   gap: 20px; 
 }
+
+.lineInput {
+  border: none !important;
+  border-bottom: 1.5px solid #2F362A4D !important;
+  width: 100%;
+  padding: 8px 0 !important;
+  font-size: 16px !important;
+  color: #2F362A !important;
+  outline: none !important;
+  background: transparent !important;
+  font-family: var(--lato);
+}
+
+.lineInput::placeholder {
+  color: #A0A0A0;
+}
+
+.lineInput:focus {
+  border-bottom-color: #C4754E !important;
+}
+
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .main {

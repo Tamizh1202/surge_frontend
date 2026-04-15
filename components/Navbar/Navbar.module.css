@@ -94,7 +94,17 @@
 }
 
 .activeRed {
-  color: var(--primary-color) ; 
+  color: var(--primary-color) !important; 
+  text-decoration: underline !important;
+  text-decoration-color: var(--primary-color);
+  text-underline-offset: 8px; /* Moves the line down slightly for a cleaner look */
+  text-decoration-thickness: 1.5px;
+  font-weight: 400; /* Optional: makes it stand out more */
+}
+
+/* Ensure the hover doesn't remove the underline on the active link */
+.activeRed:hover {
+  opacity: 0.8;
 }
 
 

@@ -117,7 +117,6 @@ export default function BillingAddressSection({
                         />
                         <label className={styles.FloatLabel}>Apartment, suite, etc. (optional)</label>
                     </div>
-
                     <div className={styles.Row} data-lenis-prevent>
                         <div className={styles.FieldWrap} style={{ flex: 1 }}>
                             <input

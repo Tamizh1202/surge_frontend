@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from 'next/navigation';
 import styles from './OrderSuccess.module.css';
 

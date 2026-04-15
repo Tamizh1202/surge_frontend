@@ -27,7 +27,7 @@
   display: block;
   width: 100%;
   position: relative;
-  overflow: hidden; 
+  overflow: hidden;
   transform: translateZ(0);
 }
 
@@ -35,7 +35,7 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background-color: #f9f9f9;
+  background-color: var(--background);
   overflow: hidden;
 }
 
@@ -46,63 +46,70 @@
   transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
-.card:hover img, 
+.bgImage {
+  transition: transform 0.8s ease;
+  object-fit: cover;
+}
+
+/* .card:hover img,
 .card:active img {
-  transform: scale(1.10) translateY(-15px); 
+  transform: scale(1.10) translateY(-15px);
+} */
+
+.card:hover .bgImage,
+.card:active .bgImage {
+  transform: scale(1.08);
+  /* cursor: auto; */
+  /* Cinematic zoom on the coffee image */
 }
 
 .label {
   position: absolute;
-  bottom: 41px; 
-  left: 36px;
-  right: 36px;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  transition: gap 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--cards-bg);
+  /* Use your coffee theme background */
+  padding: 20px;
+  z-index: 5;
+  cursor: auto;
+  /* Pushes the description/button out of view initially */
+  /* Adjust the 80px based on the height of your description/button */
+  transform: translateY(100px);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .categoryName {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 600;
-  color: #414343;
   font-family: var(--font-montserrat);
+  font-size: var(--fs-22);
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
 }
 
 .hoverContent {
   opacity: 0;
-  max-height: 0;
-  visibility: hidden;
-  transform: translateY(20px);
-  transition: 
-    opacity 0.8s ease, 
-    transform 1s cubic-bezier(0.19, 1, 0.22, 1), 
-    max-height 1s cubic-bezier(0.19, 1, 0.22, 1);
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+  /* Starts invisible */
+  padding-top: 15px;
+  transition: opacity 0.4s ease;
 }
 
 /* Hover  */
 .card:hover .hoverContent {
   opacity: 1;
-  max-height: 500px; 
-  visibility: visible;
-  transform: translateY(0);
+  /* Fades in the text */
 }
 
 .card:hover .label {
-  gap: 20px; 
+  transform: translateY(0);
+  /* Slides everything up into view */
 }
 
 .mobileDescription {
-  margin: 0;
-  font-family: var(--font-raleway);
-  font-size: 14px;
-  line-height: 1.6;
-  color: #414343;
+  font-size: var(--fs-14);
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 15px;
 }
 
 .mobileBtn {
@@ -123,7 +130,7 @@
 
 @media (max-width: 1400px) {
   .shopSection {
-    padding: 100px 60px; 
+    padding: 100px 60px;
   }
 }
 
@@ -132,9 +139,10 @@
   .shopSection {
     padding: 80px 40px;
   }
-  .grid { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 30px; 
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
   }
 }
 
@@ -143,22 +151,23 @@
   .shopSection {
     padding: 60px 20px;
   }
-  
-  .grid { 
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 15px; 
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
   }
-  
-  .label { 
-    bottom: 25px; 
+
+  .label {
+    bottom: 25px;
     left: 20px;
     right: 20px;
   }
 
-  .categoryName { 
+  .categoryName {
     font-size: 18px;
   }
+
   .hoverContent {
-    transition: none; 
+    transition: none;
   }
 }

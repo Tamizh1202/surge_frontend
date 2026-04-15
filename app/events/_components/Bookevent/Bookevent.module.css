@@ -4,8 +4,11 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;          /* ← added */
-  overflow: hidden;        /* ← added */
+  height: 100vh;
+  /* ← added */
+  overflow: hidden;
+  /* ← added */
+  border:none;
   background-color: #ffffff;
 }
 
@@ -14,16 +17,19 @@
   justify-content: flex-start;
   flex-direction: column;
   width: 100%;
-  height: 100%;            /* ← added */
+  height: 100%;
+  /* ← added */
 }
 
 .Bottom {
-  flex: 0 0 62vh;          /* ← replaces fixed sizing, takes 62% of viewport */
+  flex: 0 0 62vh;
+  /* ← replaces fixed sizing, takes 62% of viewport */
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
   width: 100%;
-  overflow: hidden;        /* ← added so images don't bleed */
+  overflow: hidden;
+  /* ← added so images don't bleed */
 }
 
 .Marquee {
@@ -33,41 +39,60 @@
 }
 
 .Track {
-  display: flex;
-  gap: 8px;
-  animation: scrollWithStartPause 11s linear infinite;
-  white-space: nowrap;
-  width: max-content;
+  display: flex;            
+  gap: 8px;                 
+  white-space: nowrap;      
+  width: max-content;      
+  animation: scrollLoop 17s linear infinite;  
+  animation-delay: -2s;
 }
 
 .imageWrapper {
   position: relative;
-  width: 62vh;             /* ← was 554px, now matches Bottom height */
-  height: 62vh;            /* ← was 554px */
+  width: 62vh;
+  /* ← was 554px, now matches Bottom height */
+  height: 62vh;
+  /* ← was 554px */
   flex-shrink: 0;
 }
+
 .PartnerLogo {
   object-fit: cover;
   width: 100%;
   height: 100%;
-} 
-
+}
+@keyframes scrollLoop {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 4px)); }
+}
 
 @keyframes scrollWithStartPause {
-  0% { transform: translateX(0); }
-  10% { transform: translateX(0); }
-  100% { transform: translateX(calc(-50% - 4px)); }
+  0% {
+    transform: translateX(0);
+  }
+
+  10% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(calc(-50% - 4px));
+  }
 }
 
 
 
 .Content {
-  flex: 1;                 /* ← fills remaining ~38vh */
-  min-height: 0;           /* ← prevents flex overflow */
+  flex: 1;
+  /* ← fills remaining ~38vh */
+  min-height: 0;
+  /* ← prevents flex overflow */
   display: flex;
   flex-direction: column;
-  justify-content: center; /* ← vertically centers content in remaining space */
-  padding-top: 0;          /* ← removed fixed padding-top, centering handles it */
+  justify-content: center;
+  /* ← vertically centers content in remaining space */
+  padding-top: 0;
+  /* ← removed fixed padding-top, centering handles it */
   padding-left: 125px;
   padding-bottom: 0;
   gap: 8px;
@@ -135,22 +160,30 @@
 
 @media (max-width: 640px) {
   .Bottom {
-    flex: 0 0 52vh;        /* ← slightly less height for images on mobile */
+    flex: 0 0 52vh;
+    /* ← slightly less height for images on mobile */
   }
 
   .imageWrapper {
-    width: 52vh;           /* ← square to match */
+    width: 52vh;
+    /* ← square to match */
     height: 52vh;
   }
 
   .Track {
-    gap: 12px;
-    animation: scrollWithStartPause 15s linear infinite;
+    animation: scrollLoop 15s linear infinite;
+    animation-delay: -3s;
+    /* ← rename here too */
   }
 
   @keyframes scrollWithStartPause {
-    0%, 10% { transform: translateX(0); }
-    100% { transform: translateX(calc(-50% - 6px)); }
+    0% {
+      transform: translateX(0);
+    }
+
+    100% {
+      transform: translateX(calc(-50% - 6px));
+    }
   }
 
   .Content {

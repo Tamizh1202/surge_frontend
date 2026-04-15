@@ -52,7 +52,7 @@ export default function OrderDetails({ order }) {
               <span>{shipping > 0 && shipping ? `AED ${Math.round(shipping)}` : "FREE"}</span>
             </div>
             <div className={styles.detailRow}>
-              <span>Tax ( VAT {taxPercentage}% )</span>
+              <span>Beans Used</span>
               <span>{tax > 0 && tax ? `AED ${Math.round(tax)}` : "0"}</span>
             </div>
             <div className={styles.dividerSub}></div>

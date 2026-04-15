@@ -1,9 +1,9 @@
 .main {
   display: flex;
-  justify-content: left;
+ 
   align-items: center;
   height: auto;
-  width: 100%;
+ 
   padding-left: clamp(24px,
       calc(24px + (226 * ((100vw - 320px) / 1120))),
       100px);
@@ -128,6 +128,7 @@
 .Field {
   display: flex;
   align-items: center;
+
   justify-content: space-between;
   border-bottom: 1px solid var(--text-secondary);
   padding: 28px 16px 10px;
@@ -390,7 +391,6 @@
   font-weight: 400;
   color:var(--text-primary);
 }
-
 .GuestNote {
  font-family: var(--font-raleway);
   font-size: var(--fs-16);
@@ -400,10 +400,10 @@
 }
 
 .other {
-  font-family: var(--font-raleway);
-  font-size: 16px;
+ font-family: var(--font-montserrat);
+  font-size: 18px;
   margin: 0px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 12px;
    color:var(--text-primary);
 }
@@ -540,11 +540,18 @@
   font-size: var(--fs-22);
   font-weight: 600;
   color: #2F362A;
-  
   margin: 0;
 }
 
-.fixerOne p, 
+
+.fixerOne p {
+    font-size: 18px;
+  font-weight: 500;
+  color: #414343;
+  font-family: var(--font-montserrat);
+  margin-bottom: 12px;
+}
+
 .fixerTwo h6 {
   font-size: 16px;
   font-weight: 400;
@@ -637,7 +644,7 @@
 .DeletePopup {
   background: #ffffff;
   width: 100%;
-  max-width: 450px;
+  max-width: 571px;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -690,10 +697,10 @@
 .DeletePopup p,
 .PopupDeleteAddress p {
  font-family: var(--font-raleway);
-  font-size: 14px;
+  font-size: 16px;
  color: var(--text-secondary);
   text-align: center;
-  width: 90%;
+  width: 100%;
 }
 
 .Popup input,
@@ -738,7 +745,7 @@
  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
- 
+
   cursor: pointer;
   /* width: 235px; */
 }
@@ -947,6 +954,33 @@
 .lineInput:focus {
   border-bottom-color: #C4754E !important;
 }
+/* Main Container */
+.underlineSelect {
+  display: flex;
+  justify-content: space-between; /* Text left, Icon right */
+  align-items: center;
+  width: 100%;            /* Ye sabse important hai */
+  min-width: 150px;       /* Minimum width taaki doori dikhe */
+  padding: 10px 0;        /* Vertical spacing */
+  cursor: default;
+
+}
+
+/* Text styling */
+.underlineSelect span {
+  font-size: 16px;
+  color: #414343;
+  text-transform: capitalize;
+}
+
+/* Icon (SVG) styling */
+.underlineSelect svg {
+  flex-shrink: 0;         /* Icon ko dabne se rokta hai */
+  margin-left: 150px;      /* Minimum gap ensure karne ke liye */
+  fill: #414343;          /* Icon color */
+  width: 12px;            /* Thoda chota aur clean look ke liye */
+  height: auto;
+}
 
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
@@ -963,7 +997,7 @@
   }
 
   .Top {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     gap: 20px;
   }
@@ -982,12 +1016,12 @@
   }
 
   .Row {
-    display: grid;
+    display: flex;
     grid-template-columns: 1.5fr 1fr;
   }
 
   .Row2 {
-    display: grid;
+    display: flex;
     grid-template-columns: 1fr 1fr;
 
     width: 100%;
@@ -1024,14 +1058,14 @@
 
   .other {
     margin-top: 0px;
-    font-size: 14px;
+    font-size: 16px;
     margin-left: 0px;
     margin-right: 0px;
   }
 
   .fixerOne p,
   .fixerTwo p {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   .AddressHeader {

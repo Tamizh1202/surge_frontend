@@ -128,53 +128,65 @@ const PersonalInfoForm = ({
           />
         </div>
  
-      <div className={styles.Field} ref={genderRef}>
-          {editMode ? (
-            <div
-              className={styles.SelectContainer}
-              style={{ position: "relative" }}
-            >
-              <div
-                className={styles.CustomSelectTrigger}
-                onClick={() => setIsGenderOpen(!isGenderOpen)}
-              >
-                <span style={{ textTransform: "capitalize" }}>
-                  {profile.gender || "Select Gender"}
-                </span>
-                <span
-                  className={`${styles.Arrow} ${isGenderOpen ? styles.Rotate : ""}`}
-                >
-                  ▼
-                </span>
-              </div>
+    <div className={styles.Field} ref={genderRef}>
+  {editMode ? (
+    /* Editable Mode */
+    <div className={styles.SelectContainer} style={{ position: "relative" }}>
+      <div
+        className={styles.CustomSelectTrigger}
+        onClick={() => setIsGenderOpen(!isGenderOpen)}
+        style={{ cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+      >
+        <span style={{ textTransform: "capitalize" }}>
+          {profile.gender || "Select Gender"}
+        </span>
+        <svg 
+          width="17" 
+          height="9" 
+          viewBox="0 0 17 9" 
+          fill="none"
+          style={{ 
+            transform: isGenderOpen ? "rotate(180deg)" : "rotate(0deg)", 
+            transition: "transform 0.3s ease" 
+          }}
+        >
+          <path d="M8.27175 9L-0.000935071 7.02781e-07L16.5444 -1.71995e-06L8.27175 9Z" fill="#414343"/>
+        </svg>
+      </div>
 
-              {isGenderOpen && (
-                <div className={styles.CustomOptionsList}>
-                  {genderOptions.map((opt) => (
-                    <div
-                      key={opt.value}
-                      className={styles.OptionItem}
-                      onClick={() => {
-                        onFieldChange("gender", opt.value);
-                        setIsGenderOpen(false);
-                      }}
-                    >
-                      {opt.label}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <input
-              value={profile.gender || ""}
-              style={{ textTransform: "capitalize" }}
-              disabled
-              placeholder="Not Specified"
-            />
-          )}
-        </div>
-      </div>
+      {isGenderOpen && (
+        <div className={styles.CustomOptionsList}>
+          {genderOptions.map((opt) => (
+            <div
+              key={opt.value}
+              className={styles.OptionItem}
+              onClick={() => {
+                onFieldChange("gender", opt.value);
+                setIsGenderOpen(false);
+              }}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  ) : (
+    /* Read-only Mode (Ab icon ke saath) */
+    <div 
+      className={styles.underlineSelect} 
+      style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
+    >
+      <span style={{ textTransform: "capitalize" }}>
+        {profile.gender || "Not Specified"}
+      </span>
+      <svg width="17" height="9" viewBox="0 0 17 9" fill="none">
+        <path d="M8.27175 9L-0.000935071 7.02781e-07L16.5444 -1.71995e-06L8.27175 9Z" fill="#414343"/>
+      </svg>
+    </div>
+  )}
+</div>
+</div>
       {errors.general && (
         <p className={styles.ErrorText} style={{ marginTop: "8px" }}>
           {errors.general}

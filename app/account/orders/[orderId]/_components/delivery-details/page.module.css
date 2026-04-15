@@ -1,12 +1,13 @@
 .main {
   width: 100%;
+ 
 }
 
 .main h1 {
   font-size: 22px;
-  font-family: var(--lexend);
-  font-weight: 500;
-  color: #525252;
+  font-family: var(--font-montserrat);
+  font-weight: 600;
+  color: #414343;
   text-transform: uppercase;
   margin-bottom: 15px;
 }
@@ -16,6 +17,7 @@
   display: flex;
   flex-direction: column;
   border: 1px solid rgba(47, 54, 42, 0.3);
+   background-color: #F5F5F5;
 }
 
 .PickupList {
@@ -25,10 +27,10 @@
 }
 
 .PickupList p {
-  font-family: var(--lato);
-  font-size: 14px;
-  font-weight: 500;
-  color: #2f362a;
+   font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
+  color: #818686;
 }
 
 .Top {
@@ -41,16 +43,16 @@
 }
 
 .Top h1 {
-  font-family: var(--lato);
+ font-family: var(--font-raleway);
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   color: #6e736a;
 }
 
 .Top p {
-  font-family: var(--lato);
+ font-family: var(--font-raleway);
   font-weight: 400;
-  font-size: 15px;
+  font-size: 16px;
   color: #6e736a;
   margin-top: 8px;
 }

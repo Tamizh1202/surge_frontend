@@ -22,8 +22,8 @@
   display: flex;
   justify-content: left;
   flex-direction: column;
-  width: 100%;
-  gap: 30px;
+  gap: 80px;
+  width: 710px;
 }
 
 .Right {
@@ -34,9 +34,10 @@
 
 .Top {
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   align-items: center;
-  gap: 170px;
+  
+  margin: 0;
 }
 
 .Top h1 {
@@ -44,6 +45,7 @@
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
+  margin: 0;
  
 }
 

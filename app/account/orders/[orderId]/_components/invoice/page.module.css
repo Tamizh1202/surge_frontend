@@ -4,28 +4,28 @@
 
 .main h1 {
     font-size: 22px;
-    font-family: var(--lexend);
-    font-weight: 500;
-    color: #2F362A;
-    text-transform: uppercase;
+     font-family: var(--font-montserrat);
+    font-weight: 600;
+    color: #414343;
+    margin: 0;
 }
 
 .container {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+   justify-content: space-between;
     align-items: center;
 }
 
 .container button {
-    padding: 13px 23px;
+    padding: 12px 40px;
     background-color: transparent;
-    border: 1px solid #6C7A5F;
-    font-family: var(--lato);
-    font-weight: 400;
-    font-size: 15px;
-    color: #6C7A5F;
-    border: 1px solid #6C7A5F;
+    border: 1px solid #C4754E;
+   font-family: var(--font-montserrat);
+    font-weight: 600;
+    font-size: 16px;
+    color: #C4754E;
+    border: 1px solid  #C4754E;
 }
 
 @media (max-width: 675px) {

@@ -58,7 +58,7 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
           </svg>
         </button>
         <div className={styles.content}>
-          <h3>CANCEL ORDER</h3>
+          <h3>Cancel Order</h3>
           <p className={styles.description}>
             Please let us know why you're cancelling this order. This helps us
             improve your experience.

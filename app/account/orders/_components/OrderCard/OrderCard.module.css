@@ -1,256 +1,149 @@
 .orderCard {
-  width: 100%;
-  border: 1px solid rgba(47, 54, 42, 0.3);
-  border-radius: 1px;
-  margin-bottom: 20px;
-}
 
-.orderTop {
-  display: flex;
-  justify-content: space-between;
-  padding: 16px 28px;
-}
-
-.orderTopLeft {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.orderTopLeft .orderRefundAmountHeading {
-  color: #428b54;
-  font-family: var(--lato);
-  font-weight: 400;
-  letter-spacing: 0;
-}
-
-.orderStatusTitle {
-  font-family: var(--lato);
-  font-weight: 700;
-  font-size: 15px;
-  line-height: 100%;
-}
-
-.orderDateSub {
-  font-family: var(--lato);
-  font-size: 14px;
-  color: #2f362a;
-  margin-top: 6px;
-  line-height: 100%;
-}
-
-.orderTopRight {
-  text-align: right;
-}
-
-.orderTopRight p {
-  font-family: var(--lato);
-  font-size: 15px;
-  margin-bottom: 6px;
-  color: #2f362a;
-  line-height: 100%;
-}
-
-.orderTopRight span {
-  color: #6e736a;
-}
-
-.orderMiddle {
-  display: flex;
-  justify-content: space-between;
-  padding: 30px 66.5px 0px 66.5px;
-  border-top: 1px solid rgba(47, 54, 42, 0.3);
-}
-
-.orderMiddleNoBottom {
-  border-bottom: none;
-}
-
-.orderItems {
+  background: #ffffff;
+  border: 1px solid #EAEAEA; 
+  padding: 24px 16px;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
 }
 
-.itemCount {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
-  font-weight: 500;
-}
-
-.orderItem {
+.cardHeader {
   display: flex;
-  gap: 15px;
-  align-items: center;
-}
-
-.OrderItemInfo .Separator {
-  color: #6e736a;
-  font-family: var(--lato);
-  font-size: 15px;
-  line-height: 100%;
-}
-
-.orderItemImg {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-}
-
-.orderItemInfo p {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-  margin: 8px 0 0 0;
-}
-
-.orderItemInfo p:first-child {
-  margin-top: 0;
-}
-
-.orderActions {
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-end;
-}
-
-.orderDetailsLink {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #2f362a;
-  font-weight: 500;
-  width: max-content;
-}
-.orderDetailsLink:hover{
-  text-decoration: underline;
-}
-
-.cancelContainer {
-  width: 100%;
-  display: flex;
   align-items: flex-start;
-  padding: 0px 66.5px 20px;
-  border-bottom: 1px solid rgba(47, 54, 42, 0.3);
-  margin-top: 24px;
+  margin-bottom: 15px;
 }
 
-.cancelBtn {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-  background: transparent;
-  border: 1px solid #6e736a;
-  padding: 13.5px 38.5px;
-  cursor: pointer;
-}
-
-.cancelBtn:hover {
-  /* Inverse: Background fills with the border color, text turns white */
-  background-color: #6e736a;
-  color: #ffffff;
-}
-
-.orderBottom {
-  padding: 20px 28px;
+.statusGroup {
   display: flex;
-  justify-content: flex-start;
-}
+  gap: 12px;
 
-.orderBottom p {
-  font-family: var(--lato);
-  font-size: 15px;
-  color: #6e736a;
-}
-
-.orderMobileMeta {
-  display: none;
-}
-
-.fiveStar {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   align-items: center;
-  /* Keeps text and stars aligned */
-  padding: 15px 30px;
-  background-color: var(--primary-color);
-
-  /* Optional: makes it look cleaner */
 }
 
-.stars {
-  display: flex;
-  gap: 5px;
-  /* Adds space between stars */
-}
-
-.starButton {
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  outline: none;
-  display: flex;
-  align-items: center;
-  transition: transform 0.1s ease;
-}
-
-/* Subtle "pop" effect when hovering */
-.starButton:hover {
-  transform: scale(1.2);
-}
-
-.fiveStar p {
-  font-family: var(--lato);
-  font-weight: 700;
-  text-transform: capitalize;
-  color: white;
+.statusTexts h3 {
+   font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 600;
+  color: #C4754E;
   margin: 0;
 }
 
-@media (max-width: 640px) {
-  .orderTopRight {
-    display: none;
-  }
+.statusTexts p {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  color: #414343;
+  font-weight: 400;
+  margin: 4px 0 0 0;
+}
 
-  .orderMiddle {
-    padding: 20px 30px;
-  }
+.metaGroup p {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  color: #2F362A;
+  font-weight: 400;
+  text-align: right;
+  margin: 0 0 4px 0;
+}
 
-  .orderActions {
-    align-items: flex-end;
-  }
+.metaGroup span {
+  color: #6E736A;
+  font-weight: 400;
+}
 
-  .cancelContainer {
-    padding-right: 30px;
-  }
+.divider {
+  border: 0;
+  border-top: 1px solid #D9D9D9;
+  margin: 0 0 20px 0;
+}
 
-  .cancelBtn {
-    padding: 10px 19px;
-    font-size: 14px;
-  }
+/* Gray Items Box */
+.itemsBox {
+  background-color: #F8F8F8;
+  padding: 20px 24px;
+  border-radius: 4px;
+}
 
-  .orderMobileMeta {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 16px;
-    border-bottom: 1px solid rgba(47, 54, 42, 0.3);
-  }
+.itemsBoxHeader {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
+  color: #414343;
+  margin-bottom: 15px;
+}
 
-  .orderMobileMetaNoBorder {
-    border-bottom: none;
-  }
+.detailsLink {
+  color: #414343;
+  cursor: pointer;
+  font-size: 16px;
+    font-family: var(--font-raleway);
+     font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-  .orderMobileMeta p {
-    font-family: var(--lato);
-    font-size: 14px;
-    margin: 0;
-  }
+.productRow {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
 
-  .orderMobileMeta span {
-    color: #6e736a;
-  }
+.imageContainer {
+
+
+  width: 85px;
+  height: 85px;
+  display: flex;
+ 
+ 
+}
+
+.productDetails h4 {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 400;
+  color: #414343;
+  margin: 0;
+}
+
+.productDetails p {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  color: #818686;
+  margin-top: 5px;
+}
+
+.moreText {
+  font-family: var(--font-raleway);
+  font-size: 14px;
+  color: #818686;
+  margin: 10px 0 0 0;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 25px;
+}
+
+.cancelButton {
+  background: white;
+  border: 1px solid #C4754E;
+  color: #C4754E;
+  padding: 12px 40px;
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: #C4754E;
+  color: white;
 }

@@ -158,7 +158,7 @@ const AddressFormPopup = ({
 
         {/* Save As Labels */}
         <div style={{ marginBottom: '32px' }}>
-          <p style={{ color: '#A0A0A0', fontSize: '14px', marginBottom: '32px' }}>Save As</p>
+          <p style={{ color: '#A0A0A0', fontSize: '16px', marginBottom: '32px' }}>Save As</p>
           <div style={{ display: 'flex', gap: '24px' }}>
             {ADDRESS_LABELS.map((label) => (
               <div 
@@ -167,7 +167,7 @@ const AddressFormPopup = ({
                 style={{ 
                   cursor: 'pointer',
                   paddingBottom: '4px',
-                  borderBottom: activeLabelBtn === label ? '2px solid #C4754E' : '1px solid #2F362A4D',
+                  borderBottom: activeLabelBtn === label ? '2px solid #2F362A4D' : '1px solid #2F362A4D',
                   color: activeLabelBtn === label ? '#C4754E' : '#A0A0A0',
                   minWidth: '156px',
                    fontFamily: 'var(--font-raleway)', 
@@ -193,8 +193,8 @@ const AddressFormPopup = ({
               background: 'transparent',
               border: '1.5px solid #C4754E',
               color: '#C4754E',
-             
-              fontWeight: '500',
+                fontFamily: 'var(--font-raleway)', 
+              fontWeight: '400',
               cursor: 'pointer'
             }}
           >
@@ -209,8 +209,8 @@ const AddressFormPopup = ({
               background: '#C4754E',
               border: 'none',
               color: '#fff',
-             
-              fontWeight: '500',
+                fontFamily: 'var(--font-raleway)', 
+              fontWeight: '400',
               cursor: isSubmitting ? 'not-allowed' : 'pointer',
               opacity: isSubmitting ? 0.7 : 1
             }}

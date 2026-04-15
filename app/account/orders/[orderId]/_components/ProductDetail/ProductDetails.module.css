@@ -1,14 +1,19 @@
+/* Container for the entire order card */
 .orderCard {
-    width: 100%;
-    border: 1px solid rgba(47, 54, 42, 0.3);
+    width: 710px;
+  
     border-radius: 1px;
     margin-bottom: 20px;
+    background-color: #fff;
+    overflow: hidden; /* Ensures the footer corners don't bleed */
 }
 
+/* Header Section: Status and Metadata */
 .orderTop {
     display: flex;
     justify-content: space-between;
-    padding: 16px 28px;
+    padding: 16px 16px;
+    background-color: #F5F5F5;
 }
 
 .orderTopLeft {
@@ -17,17 +22,26 @@
     align-items: center;
 }
 
+.statusIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .orderStatusTitle {
-    font-family: var(--lato);
-    font-weight: 700;
-    font-size: 15px;
+    font-family: var(--font-raleway);
+    font-weight: 600;
+    font-size: 16px;
     line-height: 100%;
+    color: #C4754E;
+    margin: 0;
 }
 
 .orderDateSub {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #2f362a;
+      font-family: var(--font-raleway);
+    font-size: 16px;
+    font-weight: 400;
+    color: #414343;
     margin-top: 6px;
     line-height: 100%;
 }
@@ -37,23 +51,26 @@
 }
 
 .orderTopRight p {
-    font-family: var(--lato);
-    font-size: 15px;
+      font-family: var(--font-raleway);
+    font-size: 16px;
     margin-bottom: 6px;
+    font-weight: 400;
     color: #2f362a;
     line-height: 100%;
+    margin: 0;
+    margin-bottom: 4px;
 }
 
 .orderTopRight span {
     color: #6e736a;
 }
 
+/* Items Section */
 .orderMiddle {
     display: flex;
-    justify-content: space-between;
-    padding: 30px 66.5px;
+    flex-direction: column;
+    padding: 24px 28px;
     border-top: 1px solid rgba(47, 54, 42, 0.3);
-    border-bottom: 1px solid rgba(47, 54, 42, 0.3);
 }
 
 .orderMiddleNoBottom {
@@ -63,84 +80,82 @@
 .orderItems {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-.itemCount {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #2f362a;
-    font-weight: 500;
+    gap: 20px;
 }
 
 .orderItem {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     align-items: center;
-}
-
-.OrderItemInfo .Separator {
-    color: #6E736A;
-    font-family: var(--lato);
-    font-size: 15px;
-    line-height: 100%;
 }
 
 .orderItemImg {
     width: 80px;
     height: 80px;
     object-fit: contain;
+    background-color: #f9f9f9;
 }
 
-.orderItemInfo p {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #6e736a;
-    margin: 8px 0 0 0;
-}
-
-.orderItemInfo p:first-child {
-    margin-top: 0;
-}
-
-.orderActions {
+.orderItemInfo {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
+    gap: 16px;
 }
 
-.orderDetailsLink {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #2f362a;
-    text-decoration: underline;
-    font-weight: 500;
+.itemName {
+    font-family: var(--font-raleway);
+    font-size: 16px;
+    color: #414343;
+    margin: 0;
+    font-weight: 400;
 }
 
-.cancelBtn {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #6e736a;
-    background: transparent;
-    border: 1px solid #6e736a;
-    padding: 13.5px 38.5px;
-    cursor: pointer;
-    margin-top: 10px;
-}
-
-.orderBottom {
-    padding: 20px 28px;
+.itemMeta {
     display: flex;
-    justify-content: flex-start;
+    align-items: center;
+    gap: 12px;
+      font-family: var(--font-raleway);
+    font-size: 16px;
+    color: #818686;
+    margin: 0;
 }
 
-.orderBottom p {
-    font-family: var(--lato);
-    font-size: 15px;
-    color: #6e736a;
+.Separator {
+    color: rgba(47, 54, 42, 0.3);
+    font-weight: 300;
 }
 
+/* Footer Section: Rate This Order */
+.rateOrderFooter {
+    background-color: #B87856; /* The terracotta/burnt orange color */
+    padding: 16px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+}
+
+.rateOrderText {
+    color: #FFFFFF;
+    font-family: var(--font-raleway);
+    font-size: 16px;
+    font-weight: 700;
+     
+}
+
+.stars {
+    display: flex;
+    gap: 6px;
+}
+
+.starIcon {
+    color: #FFFFFF;
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+/* Mobile Responsiveness */
 .orderMobileMeta {
     display: none;
 }
@@ -150,29 +165,20 @@
         display: none;
     }
 
+    .orderTop {
+        padding: 16px 20px;
+    }
+
     .orderMiddle {
-        padding: 20px 30px;
-    }
-
-    .orderActions {
-        align-items: flex-end;
-    }
-
-    .cancelBtn {
-        padding: 10px 19px;
-        font-size: 14px;
+        padding: 20px;
     }
 
     .orderMobileMeta {
         display: flex;
         flex-direction: column;
         gap: 6px;
-        padding: 16px;
-        border-bottom: 1px solid rgba(47, 54, 42, 0.3);
-    }
-
-    .orderMobileMetaNoBorder {
-        border-bottom: none;
+        padding: 16px 20px;
+        border-top: 1px solid rgba(47, 54, 42, 0.1);
     }
 
     .orderMobileMeta p {
@@ -183,5 +189,9 @@
 
     .orderMobileMeta span {
         color: #6e736a;
+    }
+
+    .rateOrderFooter {
+        padding: 14px 20px;
     }
 }

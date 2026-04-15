@@ -15,7 +15,7 @@ const DeleteAccountPopup = ({ accountStatus, onKeep, onConfirm }) => {
   return (
     <div className={styles.DeletePopupOverlay} onClick={onKeep}>
       <div className={styles.DeletePopup} onClick={(e) => e.stopPropagation()}>
-        <h3>DELETE ACCOUNT</h3>
+        <h3>Delete your Account ?</h3>
 
         {accountStatus ? (
           <>
@@ -34,16 +34,14 @@ const DeleteAccountPopup = ({ accountStatus, onKeep, onConfirm }) => {
           </>
         ) : (
           <p>
-            Are you sure you want to delete your account? Any upcoming orders will still be delivered.
+         Deleting your account will permanently remove your profile, order history, and saved preferences. Any active order will still be delivered. This action cannot be undone.
           </p>
         )}
 
-        <p style={{ color: "#d32f2f", fontWeight: "500", marginTop: "16px" }}>
-          Deleting your account will permanently erase your data, history, and saved settings.
-        </p>
+       
 
         <div className={styles.DeletePopupActions}>
-          <button style={{ backgroundColor: "white", border: "1px solid #6c7a5f" }} onClick={onKeep}>Keep Account</button>
+          <button style={{ backgroundColor: "white", border: "1px solid #C4754E" , color: " #C4754E" }} onClick={onKeep}>Keep Account</button>
           <button className={styles.DeleteDanger} onClick={onConfirm}>
             Delete Anyway
           </button>

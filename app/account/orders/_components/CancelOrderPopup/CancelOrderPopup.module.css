@@ -150,10 +150,10 @@ font-family: var(--font-raleway);
   padding: 14px;
   font-family: var(--font-raleway);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 600;
   background: transparent;
-  border: 1px solid var(--text-primary);
-  color: #2f362a;
+  border: 1px solid #C4754E;
+  color: #C4754E;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -169,7 +169,7 @@ font-family: var(--font-raleway);
 font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
-  background: var(--red);
+  background: #EA2424;
   /* A coral/red color similar to the image */
   border: none;
   color: var(--background);
@@ -178,7 +178,7 @@ font-family: var(--font-raleway);
 }
 
 .CancelBtn:disabled {
-  opacity: 0.6;
+ 
   cursor: not-allowed;
 }
 

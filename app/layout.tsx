@@ -2,6 +2,7 @@ import "./globals.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
 import type { ReactNode } from "react";
+import CartSideBar from '../components/CartSideBar/CartSidebar'
 import NextAuthProvider from "../components/SessionProvider";
 
 export const metadata = {
@@ -23,7 +24,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <Navbar />
           <main>{children}</main>
           <Footer />
+         
         </NextAuthProvider>
+         <CartSideBar />
       </body>
     </html>
   );

@@ -135,7 +135,12 @@ export default function Navbar() {
           <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>Blogs</Link>
 
           <div className={styles.mobileLine}></div>
-          <Link href="/cart" className={isActive("/cart") ? styles.activeRed : ""}>Cart</Link>
+            <Link
+            href=""
+            onClick={() => (isCartOpen ? closeCart() : openCart())}
+            className={pathname === "/CartSideBar" ? styles.active : ""}
+            style={{ cursor: "pointer" }}
+          > Cart</Link>
           
           <div className={styles.mobileLine}></div>
           <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>

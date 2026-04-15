@@ -1,34 +1,39 @@
 .main {
   display: flex;
- padding: 136px 125px 32px 125px;
+  padding: 136px 125px 32px 125px;
   background-color: #fff;
 }
 
 .MainContainer {
   display: flex;
-  align-items: stretch; 
+  align-items: stretch;
   width: 100%;
- max-width: 1670px;
+  max-width: 1670px;
   overflow: hidden;
+  /* Add this to ensure children align correctly */
+  justify-content: space-between;
 }
 
 .LeftConatiner {
   position: relative;
-  width: 840px; 
+  width: 840px;
   height: 649px;
   flex-shrink: 0;
+  /* Keep the image side fixed */
 }
 
 .image {
   object-fit: cover;
 }
-.RightContainer {
 
- 
-  background-color: #F5F5F5; 
+.RightContainer {
+  background-color: #F5F5F5;
   display: flex;
   padding: 60px 125px;
- 
+  flex: 1;
+  /* THIS IS KEY: It forces the right side to grow and fill the rest of the 1670px */
+  min-width: 0;
+  /* Prevents text from pushing the container wider than its parent */
 }
 
 .RightContent {
@@ -49,7 +54,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  
+
 }
 
 .min {
@@ -69,10 +74,10 @@
 
 .head {
   font-family: var(--font-montserrat);
-  font-size: 40px; 
+  font-size: 40px;
   font-weight: 600;
   line-height: 1.1;
-  color: #c4754e; 
+  color: #c4754e;
   margin: 0;
 }
 
@@ -88,16 +93,16 @@
 
 .bottom {
   display: flex;
-  justify-content: space-between; 
-  align-items: center;            
-  width: 100%;                 
-           
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
 }
 
 .read {
   display: flex;
   align-items: center;
-  gap: 8px;                      
+  gap: 8px;
   font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
@@ -105,41 +110,85 @@
   margin: 0;
   cursor: pointer;
 }
-
 .btn {
   display: flex;
-  gap: 8px;           
-  align-items: center;
-  flex-shrink: 0;    
-  min-width: 50px;   
-  justify-content: flex-end; 
+  gap: 8px;
+  align-items: center; /* Keeps active and inactive dots vertically aligned */
+  justify-content: flex-end;
+  min-height: 20px; /* Ensure the height doesn't jump when the dot changes */
 }
-
 
 .dotImg {
-  display: block ;
-  flex-shrink: 0 ;
+  cursor: pointer;
+  display: block;
   object-fit: contain;
+  transition: all 0.3s ease; /* Makes the swap feel smooth */
 }
 
+/* Core Embla Structure */
+.embla {
+  overflow: hidden;
+  width: 100%;
+}
+
+.embla__container {
+  display: flex;
+  /* This prevents the "peeking" by ensuring the track aligns correctly */
+  backface-visibility: hidden;
+}
+
+.embla__slide {
+  flex: 0 0 100%; /* Force each slide to be exactly 100% width */
+  min-width: 100%; /* Ensure it doesn't shrink */
+  display: flex;
+  justify-content: center; /* Centers your 1670px content on large screens */
+}
+
+/* Fix for your existing MainContainer inside the slide */
+.MainContainer {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1670px; /* Your design width */
+  /* Remove overflow: hidden if it's cutting off shadows/edges */
+}
+
+/* Ensure the RightContainer fills the rest of the space properly */
+.RightContainer {
+  background-color: #F5F5F5;
+  display: flex;
+  padding: 60px 125px;
+  flex: 1; 
+  min-width: 0;
+}
+
+/* Add pointer to dots */
+.dotImg {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.dotImg:hover {
+  transform: scale(1.2);
+}
 
 @media screen and (max-width: 1600px) {
   .main {
-    padding: 136px 60px; 
+    padding: 136px 60px;
   }
 
   .LeftConatiner {
-    width: 50%; 
-    height: auto; 
-    min-height: 529px; 
+    width: 50%;
+    height: auto;
+    min-height: 529px;
   }
 
   .RightContainer {
     width: 50%;
-    height: auto; 
+    height: auto;
     min-height: 529px;
     padding: 40px 60px;
-    flex-shrink: 1; 
+    flex-shrink: 1;
   }
 }
 
@@ -147,7 +196,7 @@
 
 @media screen and (max-width: 768px) {
 
-.main {
+  .main {
     padding: 10px 0px;
     display: block;
     width: 100%;
@@ -165,25 +214,26 @@
     box-sizing: border-box;
 
   }
-   .LeftConatiner {
-    width: 100% ;
+
+  .LeftConatiner {
+    width: 100%;
     height: 250px;
     flex-shrink: 1;
 
   }
 
-.RightContainer {
+  .RightContainer {
     width: 100%;
-    min-height: 30vh; 
-    padding: 24px 24px; 
+    min-height: 30vh;
+    padding: 24px 24px;
     background-color: #F5F5F5;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap:16px; 
-}
- 
+    gap: 16px;
+  }
+
   .head {
     font-size: 24px;
     line-height: 1.2;
@@ -198,7 +248,7 @@
 
   .bottom {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -213,10 +263,10 @@
   }
 
   .dotImg {
-    width: 11px; 
+    width: 11px;
     height: auto;
     object-fit: contain;
-    display: block ;
+    display: block;
   }
 }
 
@@ -225,6 +275,7 @@
   .head {
     font-size: 20px;
   }
+
   .main {
     padding: 10px 0px;
   }

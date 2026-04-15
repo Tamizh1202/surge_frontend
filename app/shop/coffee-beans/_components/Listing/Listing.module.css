@@ -281,7 +281,6 @@ background-color: #F5F5F5;}
 
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
   padding: 0;
   overflow: hidden;
@@ -296,9 +295,7 @@ background-color: #F5F5F5;}
 
 
 .imageWrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
   transition: transform 0.35s ease-in-out;
 
 }
@@ -362,8 +359,7 @@ background-color: #F5F5F5;}
 
 .footerRow {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+
   margin-top: 15px;
 }
 

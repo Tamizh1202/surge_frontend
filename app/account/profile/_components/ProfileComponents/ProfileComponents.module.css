@@ -4,9 +4,7 @@
   align-items: center;
   height: auto;
  
-  padding-left: clamp(24px,
-      calc(24px + (226 * ((100vw - 320px) / 1120))),
-      100px);
+  padding-left: 100px;
   padding-bottom: 100px;
   background-color: #ffffff;
 }

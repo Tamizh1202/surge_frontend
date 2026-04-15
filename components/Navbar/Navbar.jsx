@@ -3,13 +3,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation"; // Pathname detect karne ke liye
+import { usePathname } from "next/navigation"; 
 import styles from "./Navbar.module.css";
 import logo from "./logo.png";
 import NavbarShop from "./NavbarShop";
+import { useCart } from "@/app/_context/CartContext";
 
 export default function Navbar() {
   const pathname = usePathname(); 
+  const { isCartOpen, openCart, closeCart } = useCart();
   const [isShopOpen, setIsShopOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -135,13 +137,14 @@ export default function Navbar() {
           <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>Blogs</Link>
 
           <div className={styles.mobileLine}></div>
-            <Link
-            href=""
+          {/* 3. Updated Cart Trigger */}
+          <span
             onClick={() => (isCartOpen ? closeCart() : openCart())}
-            className={pathname === "/CartSideBar" ? styles.active : ""}
+            className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
             style={{ cursor: "pointer" }}
-          > Cart</Link>
-          
+          > 
+            Cart 
+          </span>
           <div className={styles.mobileLine}></div>
           <Link href="/Login" className={isActive("/Login") ? styles.activeRed : ""}>Login</Link>
           <div className={styles.mobileLine}></div>

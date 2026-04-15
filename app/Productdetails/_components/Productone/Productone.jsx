@@ -7,8 +7,7 @@ import Image from 'next/image';
 import beanImg from './packet.png'; 
 import capImg from './cap.png';
 import dripImg from './d.png'; 
-import merchImg from './m.png';   
-
+import merchImg from './m.png'; 
 
 const TYPE_CONFIG = {
   beans: { 
@@ -47,9 +46,23 @@ export default function ProductPage() {
   const [selectedSize, setSelectedSize] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Scroll logic to trigger animation
+  useEffect(() => {
+    const handleScroll = () => {
+  
+      if (window.scrollY > 0) {
+        setIsExpanded(true);
+      } else {
+        setIsExpanded(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const fetchProductData = () => {
-   
       const isCapsule = slug.includes('nespresso') || slug.includes('pods');
       const isDrip = slug.includes('drip');
       const isMerch = slug.includes('shirt') || slug.includes('mug') || slug.includes('merch');
@@ -74,20 +87,20 @@ export default function ProductPage() {
           val: isCapsule ? "Nespresso Original" : "Premium Arabica", 
           process: slug.includes('ethiopia') ? "Washed" : "Natural" 
         },
-        desc: "A high-altitude heirloom from Guji, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest, white blossom aromatics, and subtle honeyed notes. . Perfect for slow brews and mindful sips, this cup is both refreshing and nuanced — a beautiful expression of terroir and craft."
+        desc: "A high-altitude heirloom from Guji, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest, white blossom aromatics, and subtle honeyed notes. Perfect for slow brews and mindful sips, this cup is both refreshing and nuanced."
       };
       setProduct(generatedData);
       setSelectedSize(TYPE_CONFIG[productType].options[0]);
       setLoading(false);
     };
-    fetchProductData();
+
+    if (slug) fetchProductData();
   }, [slug]);
 
   if (loading) return <div className={styles.loading}>Loading...</div>;
 
   const config = TYPE_CONFIG[product.type] || TYPE_CONFIG.beans;
 
-  
   const getCalculatedPrice = () => {
     let base = product.price;
     if (selectedSize === '500 gm' || selectedSize === '30 Pods' || selectedSize === '10 Bags') base = base * 1.8;
@@ -97,92 +110,100 @@ export default function ProductPage() {
 
   return (
     <div className={styles.container}>
-      <div 
-        className={styles.imageSection} 
-        onClick={() => setIsExpanded(!isExpanded)}
-        style={{ cursor: 'pointer' }}
-      >
-        <div className={styles.productWrapper}>
-          <Image src={config.defaultImg} alt={product.name} className={styles.mainImage} priority />
+  
+      <div className={styles.stickyWrapper}>
+        <div className={styles.imageSection}>
+          <div className={styles.productWrapper}>
+            <Image 
+              src={config.defaultImg} 
+              alt={product.name} 
+              className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`} 
+              priority 
+            />
+          </div>
         </div>
-      </div>
 
-      <div className={styles.detailsSection}>
-        <div className={styles.cardWrapper}>
-          
-          <div className={`${styles.card} ${isExpanded ? styles.card1Hide : styles.card1Show}`}>
-            <div className={styles.headerGroup}>
-              <h1 className={styles.title}>{product.name}</h1>
-              <p className={styles.tastingNotes}>{product.notes}</p>
-            </div>
+        <div className={styles.detailsSection}>
+          <div className={styles.cardWrapper}>
             
-            <hr className={styles.divider} />
-            
-            <div className={styles.selectionGroup}>
-              <div className={styles.priceRow}>
-                <span className={styles.buyLabel}>Buy at</span>
-                <span className={styles.price}>AED {getCalculatedPrice()}</span>
+            {/* Card 1: Main Product Info */}
+            <div className={`${styles.card} ${isExpanded ? styles.card1Hide : styles.card1Show}`}>
+              <div className={styles.headerGroup}>
+                <h1 className={styles.title}>{product.name}</h1>
+                <p className={styles.tastingNotes}>{product.notes}</p>
               </div>
               
-              <div className={styles.sizeSection}>
-                <label className={styles.label}>{config.label}</label>
-                <div className={styles.buttonGroup}>
-                  {config.options.map((s) => (
-                    <button
-                      key={s}
-                      className={`${styles.sizeButton} ${selectedSize === s ? styles.activeSize : ''}`}
-                      onClick={(e) => { e.stopPropagation(); setSelectedSize(s); }}
-                    >
-                      {s}
-                    </button>
-                  ))}
+              <hr className={styles.divider} />
+              
+              <div className={styles.selectionGroup}>
+                <div className={styles.priceRow}>
+                  <span className={styles.buyLabel}>Buy at</span>
+                  <span className={styles.price}>AED {getCalculatedPrice()}</span>
+                </div>
+                
+                <div className={styles.sizeSection}>
+                  <label className={styles.label}>{config.label}</label>
+                  <div className={styles.buttonGroup}>
+                    {config.options.map((s) => (
+                      <button
+                        key={s}
+                        className={`${styles.sizeButton} ${selectedSize === s ? styles.activeSize : ''}`}
+                        onClick={() => setSelectedSize(s)}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className={styles.actionRow}>
-              <div className={styles.quantityPicker}>
-                <button onClick={(e) => { e.stopPropagation(); setQuantity(Math.max(1, quantity - 1)); }}>−</button>
-                <span>{quantity.toString().padStart(2, '0')}</span>
-                <button onClick={(e) => { e.stopPropagation(); setQuantity(quantity + 1); }}>+</button>
+              <div className={styles.actionRow}>
+                <div className={styles.quantityPicker}>
+                  <button onClick={() => setQuantity(Math.max(1, quantity - 1))}>−</button>
+                  <span>{quantity.toString().padStart(2, '0')}</span>
+                  <button onClick={() => setQuantity(quantity + 1)}>+</button>
+                </div>
+                <button className={styles.addToCart}>Add to Cart</button>
               </div>
-              <button className={styles.addToCart} onClick={(e) => e.stopPropagation()}>Add to Cart</button>
+
+              <hr className={styles.divider} />
+              
+              <table className={styles.specsTable}>
+                <tbody>
+                  <tr><td>Origin</td><td className={styles.specValue}>{product.specs.origin}</td></tr>
+                  <tr><td>{config.specLabel}</td><td className={styles.specValue}>{product.specs.val}</td></tr>
+                  <tr><td>Process</td><td className={styles.specValue}>{product.specs.process}</td></tr>
+                </tbody>
+              </table>
             </div>
 
-            <hr className={styles.divider} />
-            
-            <table className={styles.specsTable}>
-              <tbody>
-                <tr><td>Origin</td><td className={styles.specValue}>{product.specs.origin}</td></tr>
-                <tr><td>{config.specLabel}</td><td className={styles.specValue}>{product.specs.val}</td></tr>
-                <tr><td>Process</td><td className={styles.specValue}>{product.specs.process}</td></tr>
-              </tbody>
-            </table>
-          </div>
+            {/* Card 2: Technical Specs / Description */}
+            <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
+              <p className={styles.description}>{product.desc}</p>
+              <hr className={styles.divider} />
+              <table className={styles.specsTables}>
+                <tbody>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>Creamy, velvety, and comfortably full.</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.notes}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Roast</p></td><td>Medium roast develops cocoa richness.</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Altitude</p></td><td>1,200–1,800 m maturation.</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>Long, nutty, and lingering chocolate.</td></tr>
+                </tbody>
+              </table>
+            </div>
 
-          <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
-            <p className={styles.description}>{product.desc}</p>
-            <hr className={styles.divider} />
-            <table className={styles.specsTables}>
-              <tbody>
-                <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>Creamy, velvety, and comfortably full.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.notes}</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />  <p>  Roast</p></td><td>Medium roast develops cocoa richness.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot />  <p>  Altitude</p></td><td>1,200–1,800 m, steady maturation builds sweetness.</td></tr>
-                <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>Long, nutty, and gently sweet with lingering chocolate.</td></tr>
-              </tbody>
-            </table>
           </div>
-
         </div>
       </div>
+     
+      <div className={styles.scrollSpacer}></div>
     </div>
   );
 }
 
 function Dot() {
   return (
-    <svg width="6" height="6" viewBox="0 0 8 8" fill="none" style={{marginRight: '8px'}}>
+    <svg width="6" height="6" viewBox="0 0 8 8" fill="none" style={{marginRight: '8px', marginTop: '6px'}}>
       <circle cx="4" cy="4" r="4" fill="#C4754E"/>
     </svg>
   );

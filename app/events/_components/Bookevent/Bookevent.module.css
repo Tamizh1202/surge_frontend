@@ -122,6 +122,11 @@
 
 /* --- RESPONSIVE MEDIA QUERIES --- */
 
+@media (max-width: 1280px) {
+  .Content {
+    padding-left: 60px;
+  }
+}
 @media (max-width: 1024px) {
   .Content {
     padding-left: 60px;

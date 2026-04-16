@@ -102,12 +102,40 @@
   font-weight: 400; /* Optional: makes it stand out more */
 }
 
-/* Ensure the hover doesn't remove the underline on the active link */
+
 .activeRed:hover {
   opacity: 0.8;
 }
 
+/* 1. Desktop par mobile icon hide rahega */
+.cartIconMobile {
+  display: none;
+}
 
+/* 2. Mobile (max-width: 1300px) settings */
+@media (max-width: 1299px) {
+  
+  /* Menu ke andar se Cart text aur uske upar ki line hide karein */
+  .desktopOnlyCart {
+    display: none;
+  }
+
+  /* Upar wali main bar mein SVG icon dikhayein */
+  .cartIconMobile {
+    display: block;
+    cursor: pointer;
+    margin-right: 15px; /* Hamburger se thodi doori */
+    z-index: 101; /* Taaki upar dikhe */
+  }
+
+  /* Navbar layout taaki logo aur icons sahi dikhein */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+  }
+}
 
 /*Mobile*/
 

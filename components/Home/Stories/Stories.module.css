@@ -150,6 +150,7 @@
 }
 
 @media (max-width: 1250px) {
+
   .layoutWrapper {
     gap: 30px;
   }
@@ -173,9 +174,15 @@
   }
 }
 
+@media (max-width: 1280px) {
+  .sectionContainer {
+    padding-left: 60px;
+    padding-right: 60px
+  }}
+
 @media (max-width: 1024px) {
   .sectionContainer {
-    padding: 120px 30px;
+    padding: 120px 35px;
   }
 
   .layoutWrapper {

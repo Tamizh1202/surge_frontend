@@ -154,7 +154,11 @@
   }
  
 }
-
+@media (max-width: 1024px) {
+  .container {
+    padding: 80px 60px; 
+    gap: 40px;
+  }}
 
 @media (max-width: 600px)and (min-width: 325px) {
   .container {

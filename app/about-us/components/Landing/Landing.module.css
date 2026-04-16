@@ -5,6 +5,7 @@
   background-color: #F8F8F8;
   position: relative;
   overflow: hidden;
+  box-sizing: border-box;
   gap: 0; 
 }
 

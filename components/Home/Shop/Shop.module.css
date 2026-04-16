@@ -153,14 +153,13 @@
   }
 
   .grid {
-    grid-template-columns: repeat(2, 1fr);
+   grid-template-columns: 1fr;
     gap: 15px;
   }
 
   .label {
     bottom: 25px;
-    left: 20px;
-    right: 20px;
+   
   }
 
   .categoryName {

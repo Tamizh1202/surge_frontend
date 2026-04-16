@@ -157,16 +157,28 @@
     gap: 15px;
   }
 
+  /* Moves label below the image instead of on top */
   .label {
     bottom: 25px;
    
   }
 
   .categoryName {
-    font-size: 18px;
+    font-size: 20px;
+    color: #414343;
   }
 
-  .hoverContent {
-    transition: none;
+  /* Kill the hover zoom so it doesn't feel jumpy on touch */
+  .card:hover .bgImage,
+  .card:active .bgImage {
+    transform: none;
   }
+  .mobileDescription {
+  font-size: var(--fs-14);
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 15px;
+  font-weight: 400;
+  margin-top: 0;
+}
 }

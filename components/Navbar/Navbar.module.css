@@ -213,6 +213,10 @@
     align-items: flex-start;
   }
 
+  .menuRight {
+    margin-top: 8px;
+  }
+
   .desktopOnly {
     display: none;
   }
@@ -230,10 +234,22 @@
   }
 
   .dropdownWrapper {
-    position: static;
-    padding-left: 15px;
-    box-shadow: none;
-    width: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  .dropdownWrapper.dropdownOpen {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .dropdownWrapper.dropdownOpen {
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .linkStack {

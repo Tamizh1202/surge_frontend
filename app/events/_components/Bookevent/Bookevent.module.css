@@ -120,8 +120,9 @@
 }
 
 .eventButton {
-  background-color: #c67e58;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--background);
+  font-family: var(--font-raleway);
   padding: 12px 40px;
   border: none;
   font-size: 16px;

@@ -64,7 +64,7 @@ export default function Menu() {
                    {/* upadted */}
               <div className={styles.hoverContent}>
                 <p className={styles.overlayTitle}>{item.desc}</p>
-                <Link href={item.link} className={styles.exploreLink}>
+                <Link href="/ourmenu" className={styles.exploreLink}>
                   Explore Now 
                   <span className={styles.arrowIcon}>
                     <svg width="10" height="10" viewBox="0 0 8 8" fill="none">

@@ -27,7 +27,7 @@ const AddressCard = ({ address, onEdit, onDelete }) => {
         <div className={styles.AddressCard}>
             {/* Header: Name Left, Label Right */}
             <div className={styles.AddressCardHeader}>
-                <p className={styles.Name}>{fullName}</p>
+                <p className={styles.Name}style={{fontWeight:"600"}}>{fullName}</p>
                 <p className={styles.LabelBadge}>{address.label || "Home"}</p>
             </div>
 

@@ -4,17 +4,13 @@
   align-items: start;
   width: 100%;
   height: 100%;
-  padding-left:  100px;
-  padding-bottom: clamp(
-    100px,
-    calc(100px + (199 * ((100vw - 320px) / 1120))),
-    100px
-  );
-  padding-right: clamp(
-    100px,
-    calc(100px + (199 * ((100vw - 320px) / 1120))),
-    460px
-  );
+  padding-left: 100px;
+  padding-bottom: clamp(100px,
+      calc(100px + (199 * ((100vw - 320px) / 1120))),
+      100px);
+  padding-right: clamp(100px,
+      calc(100px + (199 * ((100vw - 320px) / 1120))),
+      460px);
   background-color: #ffffff;
 }
 
@@ -36,17 +32,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  
+
   margin: 0;
 }
 
 .Top h1 {
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
- 
+
 }
 
 .searchWrapper {
@@ -57,6 +53,7 @@
 .Filter:hover {
   background-color: #6e736a;
 }
+
 .Filter:hover svg path {
   fill: #ffffff;
 }
@@ -64,72 +61,23 @@
 .searchInput {
   width: 100%;
   height: 45px;
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
   color: var(--text-secondary);
   font-weight: 400;
-  border: 1px solid  var(--text-secondary);
+  border: 1px solid var(--text-secondary);
 }
 
 .searchInput::placeholder {
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
-   color: var(--text-secondary);
+  color: var(--text-secondary);
   font-weight: 400;
 }
 
 .Filter {
   padding: 14px;
-  border: 1px solid  var(--text-secondary);
-}
-
-@media (max-width: 640px) {
-  .Top {
-    flex-direction: column;
-    gap: 24px;
-    justify-content: left;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  /* .Top h1 {
-    display: none;
-  } */
-
-  .searchWrapper {
-    max-width: 542px;
-    width: 542px;
-  }
-
-  .main {
-    padding-right: 24px;
-  }
-  .Right {
-    width: 100%;
-  }
-  .searchWrapper {
-    width: 100%;
-    max-width: 100%;
-  }
-}
-@media (min-width: 641px) and (max-width: 1024px) {
-  .main {
-    padding-right: 10px;
-  }
-  .container {
-    max-width: 450px;
-  }
-  .Top {
-    flex-direction: row;
-    align-self: flex-start;
-  }
-  .searchInput {
-    max-width: 400px;
-  }
-  .searchWrapper {
-    width: 100%;
-    max-width: 100%;
-  }
+  border: 1px solid var(--text-secondary);
 }
 
 .EmptyOrdersState {
@@ -144,7 +92,7 @@
 }
 
 .EmptyOrdersState h4 {
-    font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: 22px;
   font-weight: 600;
   color: var(--text-primary);
@@ -165,7 +113,7 @@
   background: #ffffff;
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
   cursor: pointer;
@@ -175,4 +123,135 @@
 .ShopNowBtn:hover {
   background: var(--primary-color);
   color: #ffffff;
+}
+
+/* --- Mobile SM (< 375px) --- */
+@media (max-width: 374px) {
+  .main {
+    padding-left: 0px;
+    padding-right: 12px;
+    padding-bottom: 40px;
+  }
+
+  .container {
+    width: 100%;
+    gap: 40px;
+  }
+
+  .Top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .Right {
+    width: 100%;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* --- Mobile (375px – 639px) --- */
+@media (min-width: 375px) and (max-width: 639px) {
+  .main {
+    padding-left: 0px;
+    padding-right: 16px;
+    padding-bottom: 48px;
+  }
+
+  .container {
+    width: 100%;
+    gap: 40px;
+  }
+
+  .Top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .Right {
+    width: 100%;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* --- Tablet (640px – 1023px) --- */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .main {
+    padding-left: 0px;
+    padding-right: 32px;
+    padding-bottom: 60px;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 500px;
+    gap: 60px;
+    padding-right: 50px;
+  }
+
+  .Top {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* --- Small laptop (1024px – 1279px) --- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .main {
+    /* Use logical padding for better consistency */
+    padding-inline: 4rem; /* Balanced fluid padding */
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .Top {
+    display: flex;
+    justify-content: space-between; /* Pushes content to the edges */
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .container {
+    /* Flexible width: takes up to 50% but stays within readable bounds */
+    /* flex: 0 1 50%;  */
+    max-width: 600px;
+    width: auto; /* Let flex handle it */
+  }
+
+  .searchWrapper {
+    /* Search takes the remaining space but stays compact */
+    flex: 0 1 300px; 
+    margin-left: auto; /* Ensures it stays pinned to the right */
+  }
+
+  .searchInput {
+    width: 100%; /* Spans the full width of the wrapper */
+  }
 }

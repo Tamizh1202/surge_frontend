@@ -17,9 +17,10 @@ export default function Touch() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-
+  const options = ["General", "Support", "Partnership", "Careers"];
   const ENDPOINT = "/api/website/contact";
-
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     setResponseMessage("");
@@ -68,8 +69,8 @@ export default function Touch() {
   return (
     <div className={styles.main}>
       <div className={styles.MainContainer}>
-        
-       
+
+
         <div className={styles.LeftConatiner}>
           <Image
             src={one}
@@ -77,71 +78,82 @@ export default function Touch() {
             className={styles.image}
             priority
           />
-        
+
         </div>
 
-       
+
         <div className={styles.RightContainer}>
           <div className={styles.RightContent}>
-            
-        
+
+
             <form onSubmit={handleSubmit} className={styles.formMain}>
 
               <div className={styles.Top}>
-               <div className={styles.TitleArea}>
-    <h3>Let’s Get In Touch</h3>
-    <p>Drop us a message and let’s start brewing something great.</p>
-  </div>
-               
+                <div className={styles.TitleArea}>
+                  <h3>Let’s Get In Touch</h3>
+                  <p>Drop us a message and let’s start brewing something great.</p>
+                </div>
+
                 <Link href="https://wa.me/+9710589535337">
                   <Image src={whatsappIcon} alt="Whatsapp" width={28} height={28} />
                 </Link>
-                
+
               </div>
 
-            
+
               <div className={styles.formBox}>
-                <input 
-                  type="text" 
-                  placeholder="Full Name" 
-                  value={fullName} 
-                  onChange={(e) => setFullName(e.target.value)} 
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
                 />
-                
+
                 <div className={styles.row}>
-                  <input 
-                    type="email" 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                  <input 
-                    type="text" 
-                    placeholder="Phone Number" 
-                    value={phone} 
-                    onChange={(e) => setPhone(e.target.value)} 
+                  <input
+                    type="text"
+                    placeholder="Phone Number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                   />
                 </div>
 
-                <div className={`${styles.selectWrap} ${enquiryOpen ? styles.open : ""}`}>
-                  <select
-                    value={enquiryType}
-                    onFocus={() => setEnquiryOpen(true)}
-                    onBlur={() => setEnquiryOpen(false)}
-                    onChange={(e) => {
-                      setEnquiryType(e.target.value);
-                      setEnquiryOpen(false); 
-                    }}
+                <div className={styles.container}>
+                  {/* The Trigger (What the user sees) */}
+                  <div
+                    className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
+                    onClick={() => setIsOpen(!isOpen)}
                   >
-                    <option value="" hidden>Enquiry Type</option>
-                    <option value="General">General</option>
-                    <option value="Support">Support</option>
-                    <option value="Partnership">Partnership</option>
-                    <option value="Careers">Careers</option>
-                  </select>
+                    <span>{selected || "Enquiry Type"}</span>
+                    <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}>▼</span>
+                  </div>
+
+                  {/* The Actual Dropdown Menu */}
+                  {isOpen && (
+                    <ul className={styles.optionsList}>
+                      {options.map((option) => (
+                        <li
+                          key={option}
+                          className={styles.optionItem}
+                          onClick={() => {
+                            setSelected(option);
+                            setIsOpen(false);
+                          }}
+                        >
+                          {option}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
-                 <textarea
+                <textarea
                   placeholder="How we can help you."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -161,7 +173,7 @@ export default function Touch() {
               )}
             </form>
 
-           
+
             <div className={styles.contactFooter}>
               <div className={styles.footerItem}>
                 <span>Call</span>
@@ -174,9 +186,9 @@ export default function Touch() {
               <div className={styles.footerItem}>
                 <span>Follow Us</span>
                 <p>Instagram <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E"/>
-</svg>
-</p>
+                  <path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E" />
+                </svg>
+                </p>
               </div>
             </div>
 

@@ -21,6 +21,13 @@ const WishlistPage = () => {
       price: "AED 60",
       image: coffeeImg
     },
+    {
+      id: 3, 
+      name: "Indian Banner Mariah Triple Wet Hull",
+      notes: "Hazelnut, chocolate",
+      price: "AED 67",
+      image: coffeeImg
+    },
   ];
 
   return (

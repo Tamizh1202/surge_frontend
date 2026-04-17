@@ -44,6 +44,23 @@ const WishlistComponents = () => {
           inStock: true,
         }
       }
+    },
+    {
+      id: "wish_03",
+      product: {
+        value: {
+          id: "prod_03",
+          name: "Indian Meriah",
+          tagline: "Anaerobic Natural",
+          slug: "indonesia-meriah-anaerobic",
+          description: "Floral, fruity, complex",
+          regularPrice: 80.00,
+          salePrice: 65.00,
+          productImage: cof,
+          categories: { slug: "limited-edition" },
+          inStock: true,
+        }
+      }
     }
   ]);
 

@@ -1,47 +1,47 @@
 .Main {
-  display: flex;
-  justify-content: flex-start;
   width: 100%;
   min-height: 100vh;
-  padding: 0 100px;
+  padding: 0 24px 60px 20px;
   background-color: #ffffff;
+  overflow: hidden;
 }
 
 .MainContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 1200px;
-  gap: 32px;
+  max-width: 100%;
+  gap: 24px;
+  overflow: hidden;
 }
 
 .Top {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 10px;
 }
 
 .TopLeft h3 {
-    font-family: var(--font-montserrat);
-  font-size: var(--fs-22);
+  font-family: var(--font-montserrat);
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
- 
   margin: 0;
 }
 
 .WhishListCount p {
-    font-family: var(--font-raleway);
-  font-size: var(--fs-16);
+  font-family: var(--font-raleway);
+  font-size: 14px;
   color: var(--text-secondary);
   margin: 0;
 }
 
+/* ── Grid ── */
 .Bottom {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  column-gap: 40px;
-  row-gap: 60px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+ 
 }
 
 .Card {
@@ -52,20 +52,17 @@
 }
 
 .ImgContainer {
-  width: 100%;
-  aspect-ratio: 1 / 1;
+  /* width: 100%; */
+  /* aspect-ratio: 3 / 4; */
   background-color: #f8f8f8;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   position: relative;
   overflow: hidden;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .Img {
-  width: 100%;
-  height: 100%;
+  /* width: 100%;
+  height: 100%; */
   object-fit: cover;
   transition: transform 0.35s ease;
 }
@@ -76,62 +73,70 @@
 
 .RemoveIcon {
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
   z-index: 10;
   color: #ffffff;
-  font-size: 20px;
-  text-shadow: 0 0 5px rgba(0,0,0,0.2);
+  font-size: 16px;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+  line-height: 1;
 }
 
 .CardContent {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .ProductName {
-    font-family: var(--font-raleway);
-  font-size: 16px;
-  font-weight: 400;
+  font-family: var(--font-raleway);
+  font-size: 13px;
+  font-weight: 500;
   color: #414343;
   margin: 0;
   line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .Description {
-    font-family: var(--font-raleway);
-  font-size: var(--fs-16);
+  font-family: var(--font-raleway);
+  font-size: 12px;
   color: #818686;
-  margin: 0 0 12px 0;
+  margin: 0 0 8px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .PriceRow {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end; /* Aligns price with the bottom of the button */
+  align-items: center;
+  gap: 6px;
 }
 
 .CurrentPrice {
   font-family: var(--font-montserrat);
-  font-size: 18px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 600;
   color: #414343;
+  white-space: nowrap;
 }
 
 .AddToCartBtn {
-  background-color: #C4754E; 
+  background-color: #c4754e;
   color: #ffffff;
   border: none;
-  padding: 12px 20px;
-font-family: var(--font-raleway);
-  font-size: 16px;
+  padding: 8px 12px;
+  font-family: var(--font-raleway);
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  text-align: center;
-  line-height: 1.2;
-  width: 140px; 
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: background 0.3s ease;
 }
 
@@ -139,26 +144,97 @@ font-family: var(--font-raleway);
   background-color: #a36648;
 }
 
-/* Empty State Styles */
+/* ── Empty State ── */
 .EmptyState {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 100px 0;
+  padding: 80px 0;
+}
+
+.EmptyText {
+  font-family: var(--font-raleway);
+  font-size: 14px;
+  color: #818686;
+  margin-top: 14px;
 }
 
 .ShopNow {
-  margin-top: 20px;
-  padding: 12px 30px;
+  margin-top: 16px;
+  padding: 10px 28px;
   background: transparent;
-  border: 1px solid #C4754E;
-  color: #C4754E;
+  border: 1px solid #c4754e;
+  color: #c4754e;
   cursor: pointer;
   font-family: var(--font-raleway);
+  font-size: 13px;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 640px) {
+.ShopNow:hover {
+  background-color: #c4754e;
+  color: #fff;
+}
+
+/* ── Responsive ── */
+
+/* 1280px laptop */
+@media (max-width: 1280px) {
+  .Main {
+    padding: 0 16px 48px 16px;
+  }
+  .Bottom {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .Bottom {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+/* Large phones */
+@media (max-width: 767px) {
+  .Main {
+    padding: 0 12px 40px 12px;
+  }
+  .Bottom {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .ProductName {
+    font-size: 12px;
+  }
+  .Description {
+    font-size: 11px;
+  }
+  .CurrentPrice {
+    font-size: 12px;
+  }
+  .AddToCartBtn {
+    font-size: 11px;
+    padding: 7px 10px;
+  }
+}
+
+/* Small phones */
+@media (max-width: 479px) {
+  .Main {
+    padding: 0 10px 32px 10px;
+  }
   .Bottom {
     grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ImgContainer {
+    aspect-ratio: 4 / 3;
+  }
+  .ProductName,
+  .Description {
+    white-space: normal;
   }
 }

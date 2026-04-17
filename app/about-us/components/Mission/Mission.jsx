@@ -14,36 +14,48 @@ export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useLayoutEffect(() => {
+useLayoutEffect(() => {
     const cards = cardsRef.current;
+    
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: `+=${cards.length * 100}%`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+        
+          fastScrollEnd: true, 
+          invalidateOnRefresh: true,
+        },
+      });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: `+=${cards.length * 100}%`, 
-        pin: true,
-        scrub: 1,
-      },
-    });
+      cards.forEach((card, index) => {
+        if (index === 0) return; 
 
-    cards.forEach((card, index) => {
-      if (index === 0) return; 
+        tl.fromTo(
+          card,
+          { 
+            yPercent: 120, 
+            opacity: 0,
+          }, 
+          { 
+            yPercent: -50, 
+            opacity: 1, 
+            ease: "none",
+            duration: 1,
+        
+            force3D: false, 
+          }, 
+          index - 1
+        );
+      });
+    }, containerRef);
 
-      tl.fromTo(
-        card,
-        { y: "100%" }, 
-        { y: "0%", ease: "none", duration: 1 }, 
-        index - 1
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
-
-
   
   return (
     <section ref={containerRef} className={styles.landContainer}>

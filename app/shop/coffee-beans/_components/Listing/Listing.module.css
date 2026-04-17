@@ -114,6 +114,7 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
+
   gap: 52px;
 }
 
@@ -265,6 +266,7 @@
 .productGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  
   column-gap: 30px;
   row-gap: 52px;
 }
@@ -302,7 +304,8 @@
 
 
 .imageWrapper img {
-
+width: 100%;
+height: 100%;
   transition: transform 0.35s ease-in-out;
 
 }
@@ -552,7 +555,7 @@
 
 @media (max-width: 950px) {
   .mainContainer {
-    padding: 20px;
+    padding: 20px ;
     gap: 20px;
   }
 

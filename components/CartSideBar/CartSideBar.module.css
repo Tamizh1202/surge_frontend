@@ -208,14 +208,11 @@
 @media (max-width: 1299px) {
   .sidebar {
     position: fixed;
-    top: 0;          /* Navbar ko cover karne ke liye 0 */
+    top: 0;         
     right: 0;
-    width: 100%;     /* Pura screen width */
-    height: 100vh;   /* Pura screen height */
-    
-    /* Navbar 10000 pe hai, toh isko 10001 ya zyada rakhein */
+    width: 100%;    
+    height: 100vh;  
     z-index: 20000;  
-    
     background-color: #F5F5F5;
     display: flex;
     flex-direction: column;
@@ -226,22 +223,29 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.5);
-    z-index: 19999; /* Sidebar se just neeche */
+    z-index: 19999; 
   }
 
-  /* Content area scrollable banane ke liye taaki footer na chupe */
   .content {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    margin-top: 0; /* Kyunki ab sidebar top 0 se hai */
+    margin-top: 0; 
   }
 
   .footer {
     flex-shrink: 0;
     background: white;
     padding: 20px;
-    margin: 0; /* Padding handle karegi layout ko */
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+    margin: 0; 
+    
+  }
+}
+
+
+@media (max-width: 1299px) and (min-width: 900px) {
+  .sidebar {
+    width: 600px; 
+    top: 0;
   }
 }

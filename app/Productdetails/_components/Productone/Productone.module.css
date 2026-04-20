@@ -1,9 +1,29 @@
 
 .container {
+
   display: flex;
+
   min-height: 100vh;
+
   background-color: #f8f8f8;
-  overflow: hidden; 
+
+  overflow: hidden;
+
+}
+
+
+.stickyWrapper {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow: hidden;
+}
+
+
+.scrollSpacer {
+  pointer-events: none;
 }
 
 .imageSection {
@@ -12,12 +32,12 @@
   justify-content: center;
   align-items: center;
   background-color: #ffffff;
- 
 }
 
 .productWrapper {
   position: relative;
   width: 456px;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mainImage {
@@ -34,320 +54,6 @@
   position: relative;
 }
 
-.card {
-  background: white;
-  padding: 46px 61px;
-  width: 100%;
-  max-width: 500px;
-  display: flex;
-  flex-direction: column;
-  gap: 32px; 
-  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  position: absolute; 
-}
-
-.headerGroup {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 8px;
-
-}
-.title {
-
-  color: #C4754E;
-
-  font-size: 22px;
-
-  font-weight: 600;
-
-    font-family: var(--font-montserrat);
-
-  margin: 0;
-
-}
-
-
-
-.tastingNotes {
-
-  color: #818686;
-
-  font-size: 16px;
-
-font-family: var(--font-raleway);
-
-  font-weight: 400;
-
-  margin: 0;
-
-}
-
-
-
-
-
-.selectionGroup {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 33px;
-
-}
-
-
-
-.priceRow {
-
-  display: flex;
-
-  align-items: baseline;
-
-}
-
-
-
-.sizeSection {
-
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 16px;
-
-}
-
-
-
-.actionRow {
-
-  display: flex;
-
-  gap: 16px;
-
-}
-
-
-
-
-
-.divider {
-
-  border: 0;
-
-  border-top: 1px solid #818686;
-
-  margin: 0;
-
-}
-
-
-
-.buyLabel {
-
-  color: #C4754E;
-
-  font-family: var(--font-raleway);
-
-   margin-right: 12px;
-
-font-size: 16px;
-
-font-weight: 400
-
-; }
-
-.price {
-
-   font-weight: 600;
-
-    font-size: 22px;
-
-    font-family: var(--font-montserrat);
-
-    color: #414343;
-
-  }
-
-
-
-.label {
-
-  color: #888;
-
-   font-weight: 400;
-
-    font-size: 16px;
-
-     font-family: var(--font-raleway);
-
-}
-
-
-
-.buttonGroup {
-
-  display: flex;
-
-  gap: 16px;
-
-}
-
-
-
-.sizeButton {
-
-  padding: 12px 16px;
-
-  border: 1px solid #C4754E;
-
-  background: transparent;
-
-  color: #C4754E;
-
-   font-weight: 400;
-
-    font-size: 16px;
-
-     font-family: var(--font-raleway);
-
-  cursor: pointer;
-
-}
-
-
-
-.activeSize {
-
-  background: white;
-
-  color: #C4754E;
-
-}
-
-
-
-.quantityPicker {
-
-  display: flex;
-
-  align-items: center;
-
-  border: 1px solid #C4754E;
-
-  color: #C4754E;
-
-}
-
-
-
-.quantityPicker button {
-
-  background: none;
-
-  border: none;
-
-  padding: 13px 22px;
-
-  cursor: pointer;
-
-  color: #C4754E;
-
-}
-
-
-
-.addToCart {
-
-  flex-grow: 1;
-
-  background-color: #bc7753;
-
-  color: white;
-
-  border: none;
-
-  padding: 12px 99px;
-
-  cursor: pointer;
-
-  font-size: 16px;
-
-   font-family: var(--font-raleway);
-
-  font-weight: 600;
-
-}
-
-
-
-.specsTable {
-
-  width: 100%;
-
-  font-size: 16px;
-
-   font-family: var(--font-raleway);
-
-  font-weight: 400;
-
-  color: #818686;
-
-  margin: 0;
-
-}
-
-
-
-.specsTable td {
-
-  padding: 16px 0 0 ;
-
-    font-size: 16px;
-
-   font-family: var(--font-raleway);
-
-  font-weight: 400;
-
-}
-.specsTables td {
-
-  padding: 16px ;
-
-    font-size: 16px;
-
-   font-family: var(--font-raleway);
-color: #414343;
-  font-weight: 400;
-
-}
-.specsTables p {
-
-
-margin: 0;
-    font-size: 16px;
-
-   font-family: var(--font-raleway);
-color: #C4754E;
-  font-weight: 400;
-
-}
-
-
-.specValue {
-  color: #414343;
-  font-weight: 400;
-    font-size: 16px;
-
-   font-family: var(--font-raleway);
-
-}
-
-
 .cardWrapper {
   position: relative;
   width: 100%;
@@ -358,139 +64,946 @@ color: #C4754E;
   align-items: center;
 }
 
+.card {
+
+  background: white;
+
+  padding: 46px 61px;
+
+  width: 100%;
+
+  max-width: 500px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 32px;
+
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+
+  position: absolute;
+
+}
+
+/* --- Animation States --- */
 
 .card1Show {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+  z-index: 2;
 }
 
 .card1Hide {
-  transform: translateY(-120%); 
+  transform: translateY(-40px);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
 }
 
 .card2Show {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+  z-index: 2;
 }
 
 .card2Hide {
-  transform: translateY(120%); 
+  transform: translateY(40px);
   opacity: 0;
   visibility: hidden;
+  pointer-events: none;
+}
+
+/* --- Typography & Elements --- */
+.headerGroup {
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+  gap: 8px;
+
+
+
+}
+
+.title {
+
+
+
+  color: #C4754E;
+
+
+
+  font-size: 22px;
+
+
+
+  font-weight: 600;
+
+
+
+    font-family: var(--font-montserrat);
+
+
+
+  margin: 0;
+
+
+
 }
 
 
-.description { 
-  font-size: 14px;
+
+
+
+
+
+.tastingNotes {
+
+
+
+  color: #818686;
+
+
+
+  font-size: 16px;
+
+
+
+font-family: var(--font-raleway);
+
+
+
   font-weight: 400;
-   line-height: 1.6; 
-   color: #414343;
-    font-family: var(--font-raleway); 
+
+
+
+  margin: 0;
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+.selectionGroup {
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+  gap: 33px;
+
+
+
+}
+
+
+
+
+
+
+
+.priceRow {
+
+
+
+  display: flex;
+
+
+
+  align-items: baseline;
+
+
+
+}
+
+
+
+
+
+
+
+.sizeSection {
+
+
+
+  display: flex;
+
+
+
+  flex-direction: column;
+
+
+
+  gap: 16px;
+
+
+
+}
+
+
+
+
+
+
+
+.actionRow {
+
+
+
+  display: flex;
+
+
+
+  gap: 16px;
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+.divider {
+
+
+
+  border: 0;
+
+
+
+  border-top: 1px solid #818686;
+
+
+
+  margin: 0;
+
+
+
+}
+
+
+
+
+
+
+
+.buyLabel {
+
+
+
+  color: #C4754E;
+
+
+
+  font-family: var(--font-raleway);
+
+
+
+   margin-right: 12px;
+
+
+
+font-size: 16px;
+
+
+
+font-weight: 400
+
+
+
+; }
+
+
+
+.price {
+
+
+
+   font-weight: 600;
+
+
+
+    font-size: 22px;
+
+
+
+    font-family: var(--font-montserrat);
+
+
+
+    color: #414343;
+
+
+
+  }
+
+
+
+
+
+
+
+.label {
+
+
+
+  color: #888;
+
+
+
+   font-weight: 400;
+
+
+
+    font-size: 16px;
+
+
+
+     font-family: var(--font-raleway);
+
+
+
+}
+
+
+
+
+
+
+
+.buttonGroup {
+
+
+
+  display: flex;
+
+
+
+  gap: 16px;
+
+
+
+}
+
+
+
+
+
+
+
+.sizeButton {
+
+
+
+  padding: 12px 16px;
+
+
+
+  border: 1px solid #C4754E;
+
+
+
+  background: transparent;
+
+
+
+  color: #C4754E;
+
+
+
+   font-weight: 400;
+
+
+
+    font-size: 16px;
+
+
+
+     font-family: var(--font-raleway);
+
+
+
+  cursor: pointer;
+
+
+
+}
+
+
+
+
+
+
+
+.activeSize {
+
+
+
+  background: white;
+
+
+
+  color: #C4754E;
+
+
+
+}
+
+
+
+
+
+
+
+.quantityPicker {
+
+
+
+  display: flex;
+
+
+
+  align-items: center;
+
+
+
+  border: 1px solid #C4754E;
+
+
+
+  color: #C4754E;
+
+
+
+}
+
+
+
+
+
+
+
+.quantityPicker button {
+
+
+
+  background: none;
+
+
+
+  border: none;
+
+
+
+  padding: 13px 22px;
+
+
+
+  cursor: pointer;
+
+
+
+  color: #C4754E;
+
+
+
+}
+
+
+
+
+
+
+
+.addToCart {
+
+
+
+  flex-grow: 1;
+
+
+
+  background-color: #bc7753;
+
+
+
+  color: white;
+
+
+
+  border: none;
+
+
+
+  padding: 12px 99px;
+
+
+
+  cursor: pointer;
+
+
+
+  font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+
+
+  font-weight: 600;
+
+
+
+}
+
+
+
+
+
+
+
+.specsTable {
+
+
+
+  width: 100%;
+
+
+
+  font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+
+
+  font-weight: 400;
+
+
+
+  color: #818686;
+
+
+
+  margin: 0;
+
+
+
+}
+
+
+
+
+
+
+
+.specsTable td {
+
+
+
+  padding: 16px 0 0 ;
+
+
+
+    font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+
+
+  font-weight: 400;
+
+
+
+}
+
+.specsTables td {
+
+
+
+  padding: 16px ;
+
+
+
+    font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+color: #414343;
+
+  font-weight: 400;
+
+
+
+}
+
+.specsTables p {
+
+
+
+
+
+margin: 0;
+
+    font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+color: #C4754E;
+
+  font-weight: 400;
+
+
+
+}
+
+
+
+
+
+.specValue {
+
+  color: #414343;
+
+  font-weight: 400;
+
+    font-size: 16px;
+
+
+
+   font-family: var(--font-raleway);
+
+
+
+}
+
+
+
+
+
+.cardWrapper {
+
+  position: relative;
+
+  width: 100%;
+
+  max-width: 500px;
+
+  height: 650px;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+}
+
+
+
+
+
+.card1Show {
+
+  transform: translateY(0);
+
+  opacity: 1;
+
+  visibility: visible;
+
+}
+
+
+
+.card1Hide {
+
+  transform: translateY(-120%);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+}
+
+
+
+.card2Show {
+
+  transform: translateY(0);
+
+  opacity: 1;
+
+  visibility: visible;
+
+}
+
+
+
+.card2Hide {
+
+  transform: translateY(120%);
+
+  opacity: 0;
+
+  visibility: hidden;
+
+}
+
+
+
+
+
+.description {
+
+  font-size: 14px;
+
+  font-weight: 400;
+
+   line-height: 1.6;
+
+   color: #414343;
+
+    font-family: var(--font-raleway);
+
+}
+
+
+
 
 
 .bulletLabel {
+
   display: flex;
+
   align-items: center;
+
   gap: 12px;
+
   color: #C4754E;
+
   font-weight: 600;
+
   font-size: 16px;
+
   font-family: var(--font-raleway);
+
   position: relative;
+
   padding-left: 20px;
+
 }
+
+
+
+
+
+
 
 
 
 
 
 .mobileHeader {
+
   display: none;
+
 }
 
+
+
 @media (max-width: 1399px) and (min-width: 1025px) {
+
   .productWrapper {
+
     width: 400px;
+
   }
+
   .card {
+
     max-width: 460px;
+
     padding: 40px;
+
   }
+
 }
+
+
+
 
 
 @media (max-width: 1024px) {
+
   .container {
+
     flex-direction: row;
+
   }
+
   .imageSection {
+
     flex: 0.8;
+
   }
+
   .productWrapper {
+
     width: 320px;
+
   }
+
   .card {
+
     padding: 30px;
+
     max-width: 450px;
+
     gap: 20px;
+
   }
+
   .cardWrapper {
+
     height: 600px;
+
   }
+
 }
+
+
 
 @media (min-width: 600px) and (max-width: 900px) {
   .container {
     flex-direction: column;
-    height: auto; 
-    min-height: 100vh;
+    height: auto;
+    overflow-x: hidden;
+  }
 
+  .stickyWrapper {
+    height: auto;
+    position: relative;
+    display: block;
   }
 
   .imageSection {
     width: 100%;
-    height: auto;
-    padding: 100px 0;
-    flex: none;
+    padding: 90px 0 30px 0; 
+    background-color: #ffffff;
   }
 
   .productWrapper {
-    width: 300px; 
+    width: 55%; 
+    max-width: 300px; 
     margin: 0 auto;
   }
 
   .detailsSection {
     width: 100%;
-    flex: none;
-    padding: 0 20px 40px 20px; 
-    min-height: auto; 
+ 
+    padding: 20px 15px 60px 15px; 
+    background-color: #F8F8F8;
+    box-sizing: border-box;
+    margin-top: -20px;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
   .cardWrapper {
-    position: relative;
-    width: 100%;
-    max-width: 500px;
-    height: 580px; 
-    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    height: auto;
+
+    width: 100%; 
+    max-width: 800px;
+    position: static;
   }
 
   .card {
-    position: absolute;
-    width: 100%;
-    padding: 30px 40px; 
-    left: 0;
-    gap: 20px; 
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    width: 100%; 
+    max-width: 100%; 
+    padding: 30px 20px; 
+    box-sizing: border-box;
+    
+    background: #ffffff;
+   
+   
+    margin-bottom: 5px;
+    transition: none;
   }
 
+  .buttonGroup {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .sizeButton {
+    flex: 1;
+    padding: 12px 5px;
+  }
+
+  .actionRow {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+ .addToCart {
+    flex-grow: 1;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
+  }
 }
+
 
 
 
@@ -501,89 +1014,94 @@ color: #C4754E;
   .container {
     flex-direction: column;
     height: auto;
-    overflow-x: hidden;
-    background-color: #ffffff;
+    overflow-x: hidden; 
+  }
+
+  .stickyWrapper {
+    height: auto;
+    position: relative;
+    display: block;
   }
 
   .imageSection {
     width: 100%;
-    padding: 90px 0;
-    display: flex;
-    justify-content: center;
+    padding: 100px 0; 
+    background-color: #ffffff;
   }
 
   .productWrapper {
-    width: 240px; 
+   
+    width: 70%; 
+    max-width: 300px; 
     margin: 0 auto;
   }
 
   .detailsSection {
     width: 100%;
-    padding: 20px 15px 40px 15px; 
-    display: block;
-    position: static;
-    background-color: #F5F5F5;
-    box-sizing: border-box; 
+  
+    padding: 40px 20px 80px 20px; 
+    background-color: #F8F8F8;
+    box-sizing: border-box;
+    margin-top: -20px;
   }
 
   .cardWrapper {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 30px; 
     height: auto;
-    position: static;
     width: 100%;
+    position: static;
   }
 
   .card {
-    position: relative ;
-    transform: none ;
-    opacity: 1 ;
-    visibility: visible ;
-    width: 100%; 
-    max-width: 100% ;
-    box-sizing: border-box ; 
+    position: relative !important;
+    transform: none !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     
-    padding: 30px 20px; 
-    left: auto ;
-    top: auto ;
-    margin: 0 auto;
+
+    width: 100%; 
+    max-width: 100%; 
+    padding: 35px 20px; 
+    box-sizing: border-box;
+    
+    background: #ffffff;
     
    
-    transition: none; 
+    margin-bottom: 5px;
   }
 
 
   .buttonGroup {
     display: flex;
-    justify-content: space-between;
     gap: 8px;
+    justify-content: space-between;
   }
 
   .sizeButton {
-    flex: 1;
-    padding: 10px 2px;
+    flex: 1; 
+    padding: 12px 2px;
     font-size: 13px;
     white-space: nowrap;
   }
 
   .actionRow {
+    display: flex;
     flex-direction: row; 
     gap: 10px;
-    align-items: center;
+    align-items: stretch;
   }
-
-  .quantityPicker button {
-    padding: 10px 15px; 
+.quantityPicker {
+    display: flex;
+    justify-content: center;
+    min-width: 100px;
   }
 
   .addToCart {
-    padding: 12px 10px;
-    font-size: 14px;
-    white-space: nowrap;
-  }
-
-  .specsTable {
-    font-size: 14px;
+    flex-grow: 1;
+    padding: 14px 20px;
+    font-size: 15px;
+    font-weight: 700;
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import styles from './OrderSuccess.module.css';
+import styles from './page.module.css';
 
 // ─────────────────────────────────────────────────────────────
 // Mock order data — swap this out with your real API response
@@ -105,7 +105,6 @@ export default function OrderSuccess({ order = ORDER_DATA }) {
       {/* ── Order detail card ── */}
       <div className={styles.DetailCard}>
         <p className={styles.DetailCardLabel}>Order details</p>
-
         {/* 2-col grid pairs */}
         <div className={styles.DetailGrid}>
           {gridRows.map((row) => (
@@ -129,7 +128,6 @@ export default function OrderSuccess({ order = ORDER_DATA }) {
             </div>
           ))}
         </div>
-
         {/* Full-width rows */}
         {fullRows.map((row) => (
           <div key={row.id} className={`${styles.DetailCell} ${styles.FullWidth}`}>

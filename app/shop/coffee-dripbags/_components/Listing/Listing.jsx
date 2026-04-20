@@ -6,7 +6,7 @@ import coffeeImg from './d.png';
 import Link from 'next/link';
 
 const PRODUCTS = [
-  { id: 'cap-0', slug: "columbia-roast-capsules", name: "Columbia Roast Capsules", notes: "Citrus, nutty, chocolate", price: "AED 55" },
+  { id: 'cap-0', slug: "columbia-roast-capsules", name: "Columbia Roast Capsules", notes: "Stone fruit,honey jasmine", price: "AED 55" },
   { id: 'cap-1', slug: "ethiopia-blend-pods", name: "Ethiopia Blend Pods", notes: "Floral, berry, bright", price: "AED 65" },
   { id: 'cap-2', slug: "dark-italian-roast-pods", name: "Dark Italian Roast Pods", notes: "Caramel, smoky, bold", price: "AED 70" },
   { id: 'cap-3', slug: "decaf-delight-capsules", name: "Decaf Delight Capsules", notes: "Smooth, nutty, mild", price: "AED 58" },

@@ -2,6 +2,7 @@
 import React, { useState, useEffect, Suspense } from "react";
 import styles from "./page.module.css";
 import CheckoutForm from "./_components/CheckoutForm";
+// import OrderSuccess from "./success/page";
 
 // TODO: replace with Surge mock placeholder image — drop a `1.png` next to this file or update path
 const placeholderImage = "/1.png";
@@ -67,6 +68,10 @@ function CheckoutContent() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [openMenuId, setOpenMenuId] = useState(null);
   const [useShippingAsBilling, setUseShippingAsBilling] = useState(false);
+
+  // ── Order completion state ──
+  const [orderComplete, setOrderComplete] = useState(false);
+  const [orderData, setOrderData] = useState(null);
 
   const [shippingForm, setShippingForm] = useState({
     firstName: "", lastName: "", address: "", apartment: "",
@@ -159,6 +164,10 @@ function CheckoutContent() {
       billingForm={billingForm}
       subscriptionId={subscriptionId}
       variationId={variationId}
+      orderComplete={orderComplete}
+      setOrderComplete={setOrderComplete}
+      orderData={orderData}
+      setOrderData={setOrderData}
     />
   );
 }

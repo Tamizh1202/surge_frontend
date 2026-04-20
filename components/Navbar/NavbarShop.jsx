@@ -22,18 +22,18 @@ const NavbarShop = ({ onClose }) => {
     <div className={styles.megaMenuContainer}>
       <div className={styles.imageGrid}>
         {categories.map((cat) => (
-          <Link 
-            key={cat.name} 
-            href={cat.href} 
-            onClick={onClose} 
+          <Link
+            key={cat.name}
+            href={cat.href}
+            onClick={onClose}
             className={styles.gridItem}
           >
             <div className={styles.imageWrapper}>
-              <Image 
-                src={cat.src} 
+              <Image
+                src={cat.src}
                 alt={cat.name}
-               width={281}
-               height={386}
+                width={281}
+                height={386}
                 className={styles.featuredImage}
               />
             </div>

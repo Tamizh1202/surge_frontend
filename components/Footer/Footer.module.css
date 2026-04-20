@@ -41,7 +41,7 @@
   gap: 12px;
   max-width: 420px;
   min-width: 0;
-  justify-content: flex-end;
+  
 }
 
 .promoHeading {
@@ -570,7 +570,7 @@
 
   .appBtn {
     padding: 5px 10px;
-    min-width: unset;
+   
   }
 
   .divider {

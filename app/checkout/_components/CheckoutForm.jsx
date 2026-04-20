@@ -10,6 +10,7 @@ import BillingAddressSection from "./BillingAddressSection";
 import { PaymentCardSection, PaymentButtonSection } from "./PaymentSection";
 import OrderSummary from "./OrderSummary";
 
+
 // TODO: replace with Surge's actual cart context
 const useCart = () => ({ openCart: () => { }, isBeansApplied: false, appliedCoupon: null });
 
@@ -61,6 +62,12 @@ export default function CheckoutForm({
   checkoutMode,
   subscriptionId,
   variationId,
+  // ── New props for order completion ──
+  // These control whether we show the success view or the checkout form on the LHS
+  orderComplete,
+  setOrderComplete,
+  orderData,
+  setOrderData,
 }) {
   const { isBeansApplied, appliedCoupon } = useCart();
   const router = useRouter();
@@ -93,6 +100,29 @@ export default function CheckoutForm({
     setTimeout(() => {
       setIsProcessing(false);
       toast.success("Dummy checkout complete");
+
+      // ── After successful payment, flip to the success view ──
+      // Build the order object from what we already have, then toggle the flag.
+      // The LHS will now render <OrderSuccess> instead of the form fields,
+      // while the RHS OrderSummary stays visible since it's outside the conditional.
+      setOrderData({
+        id: "2864297643", // replace with real order id from API response
+        paymentMethod: { brand: "Visa", last4: "6494" },
+        billingAddress: {
+          line1: billingForm.address || shippingForm.address,
+          line2: billingForm.apartment || shippingForm.apartment,
+          city: billingForm.city || shippingForm.city,
+          zip: "450123",
+        },
+        shippingAddress: {
+          line1: shippingForm.address,
+          line2: shippingForm.apartment,
+          city: shippingForm.city,
+          zip: "450123",
+        },
+        contactEmail: email,
+      });
+      setOrderComplete(true);
     }, 800);
   };
 
@@ -100,62 +130,78 @@ export default function CheckoutForm({
     <div className={styles.Main} onClick={() => setOpenMenuId(null)}>
       <div className={styles.MainConatiner}>
         <div className={styles.Left}>
-          <div className={styles.One}>
-            <p style={{ fontWeight: "400" }}>EXPRESS CHECKOUT</p>
-            <div className={styles.ExpressContainer}>
-              <ExpressCheckoutElement />
-            </div>
-          </div>
 
-          <ContactSection
-            email={email}
-            setEmail={setEmail}
-            setEmailUserTyped={setEmailUserTyped}
-            status={status}
-            session={session}
-            validationErrors={validationErrors}
-            clearError={clearError}
-            setValidationErrors={setValidationErrors}
-          />
+          {/*
+            ── Conditional LHS rendering ──
+            When orderComplete is true, we swap out ALL the checkout form sections
+            (express checkout, contact, delivery, shipping, payment, billing)
+            with the OrderSuccess component. Because it's inside the same
+            styles.Left container, it inherits the exact same width, padding,
+            and grid positioning — no extra layout CSS needed.
+          */}
+          {orderComplete ? (
+            <OrderSuccess order={orderData} />
+          ) : (
+            <>
+              <div className={styles.One}>
+                <p style={{ fontWeight: "400" }}>EXPRESS CHECKOUT</p>
+                <div className={styles.ExpressContainer}>
+                  <ExpressCheckoutElement />
+                </div>
+              </div>
 
-          <DeliverySelector delivery={delivery} setDelivery={setDelivery} />
+              <ContactSection
+                email={email}
+                setEmail={setEmail}
+                setEmailUserTyped={setEmailUserTyped}
+                status={status}
+                session={session}
+                validationErrors={validationErrors}
+                clearError={clearError}
+                setValidationErrors={setValidationErrors}
+              />
 
-          <ShippingAddressSection
-            delivery={delivery}
-            status={status}
-            savedAddresses={savedAddresses}
-            setSavedAddresses={setSavedAddresses}
-            selectedAddressId={selectedAddressId}
-            setSelectedAddressId={setSelectedAddressId}
-            shippingForm={shippingForm}
-            setShippingForm={setShippingForm}
-            validationErrors={validationErrors}
-            clearError={clearError}
-            setValidationErrors={setValidationErrors}
-            session={session}
-          />
+              <DeliverySelector delivery={delivery} setDelivery={setDelivery} />
 
-          <PaymentCardSection validationErrors={validationErrors} />
+              <ShippingAddressSection
+                delivery={delivery}
+                status={status}
+                savedAddresses={savedAddresses}
+                setSavedAddresses={setSavedAddresses}
+                selectedAddressId={selectedAddressId}
+                setSelectedAddressId={setSelectedAddressId}
+                shippingForm={shippingForm}
+                setShippingForm={setShippingForm}
+                validationErrors={validationErrors}
+                clearError={clearError}
+                setValidationErrors={setValidationErrors}
+                session={session}
+              />
 
-          <BillingAddressSection
-            delivery={delivery}
-            useShippingAsBilling={useShippingAsBilling}
-            setUseShippingAsBilling={setUseShippingAsBilling}
-            billingForm={billingForm}
-            setBillingForm={setBillingForm}
-            validationErrors={validationErrors}
-            clearError={clearError}
-            setValidationErrors={setValidationErrors}
-          />
+              <PaymentCardSection validationErrors={validationErrors} />
 
-          <PaymentButtonSection
-            isProcessing={isProcessing}
-            handlePayment={handlePayment}
-          />
+              <BillingAddressSection
+                delivery={delivery}
+                useShippingAsBilling={useShippingAsBilling}
+                setUseShippingAsBilling={setUseShippingAsBilling}
+                billingForm={billingForm}
+                setBillingForm={setBillingForm}
+                validationErrors={validationErrors}
+                clearError={clearError}
+                setValidationErrors={setValidationErrors}
+              />
+
+              <PaymentButtonSection
+                isProcessing={isProcessing}
+                handlePayment={handlePayment}
+              />
+            </>
+          )}
         </div>
 
         <div className={styles.Line}></div>
 
+        {/* ── RHS: OrderSummary always renders, regardless of orderComplete ── */}
         <OrderSummary
           product={product}
           cartTotals={cartTotals}

@@ -88,7 +88,8 @@
 }
 
 .link:hover {
-  opacity: 0.7;
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 .arrow {
@@ -154,7 +155,11 @@
   }
  
 }
-
+@media (max-width: 1024px) {
+  .container {
+    padding: 80px 60px; 
+    gap: 40px;
+  }}
 
 @media (max-width: 600px)and (min-width: 325px) {
   .container {

@@ -270,7 +270,8 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 50px 0;
+    padding-bottom: 50px;
+    padding-top: 0px;
   }
 
   .locationGrid {
@@ -305,6 +306,7 @@
   .container .topSection {
     padding-left: 20px;
     padding-right: 20px;
+    padding-bottom: 20px;
   }
   .container .jobItem {
     display: flex;

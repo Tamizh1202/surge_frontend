@@ -86,8 +86,8 @@
 .storyImg {
   object-fit: cover;
   transition:
-    opacity 0.9s ease,
-    transform 0.9s ease;
+    opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sideImg {
@@ -98,7 +98,7 @@
   /* base zoom on center */
 }
 
-/* Incoming — slides in from right, fades in */
+/* Incoming — fades in */
 .imgVisible {
   opacity: 1;
   transform: scale(1);
@@ -108,8 +108,7 @@
   transform: scale(1.08);
 }
 
-/* Outgoing — slides out to left, fades out */
-
+/* Outgoing — fades out */
 .imgExit {
   opacity: 0;
   transform: scale(0.95);
@@ -126,6 +125,22 @@
 
 .centerSlot .imgHidden {
   transform: scale(1.11) translateY(20px);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PARALLAX LAYER
+   Wider than its slot so the image has room to shift horizontally.
+   The JS animates translateX on this div via requestAnimationFrame.
+   ───────────────────────────────────────────────────────────── */
+.parallaxLayer {
+  position: absolute;
+  top: 0;
+  /* Extra width on each side so the shift doesn't reveal blank edges */
+  left: -50px;
+  width: calc(100% + 100px);
+  height: 100%;
+  will-change: transform;
+  /* No CSS transition here — the JS rAF loop handles smooth easing */
 }
 
 /* ─── Responsive ─── */
@@ -173,9 +188,16 @@
   }
 }
 
+@media (max-width: 1280px) {
+  .sectionContainer {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+}
+
 @media (max-width: 1024px) {
   .sectionContainer {
-    padding: 120px 30px;
+    padding: 120px 35px;
   }
 
   .layoutWrapper {

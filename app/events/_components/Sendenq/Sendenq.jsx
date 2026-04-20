@@ -88,7 +88,7 @@ export default function Sendenq() {
                     value={formData.email} onChange={handleChange} 
                   />
                   <input 
-                    type="text" name="phone" placeholder="Phone Number" 
+                    type="number" name="phone" placeholder="Phone Number" 
                     value={formData.phone} onChange={handleChange} 
                   />
                 </div>
@@ -114,7 +114,7 @@ export default function Sendenq() {
                 </div>
                 <div className={styles.row}>
                   <input 
-                    type="text" name="package" placeholder="Package (e.g. 30, 50)" 
+                    type="number" name="package" placeholder="Package (e.g. 30, 50)" 
                     value={formData.package} onChange={handleChange} 
                   />
                   <input 

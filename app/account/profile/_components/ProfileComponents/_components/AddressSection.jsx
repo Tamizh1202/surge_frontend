@@ -45,7 +45,6 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
   const otherAddresses = defaultAddress
     ? addressList.filter((a) => a.id !== defaultAddress.id)
     : addressList;
-
   return (
     <div className={styles.AddressSection}>
       {/* Header */}
@@ -72,7 +71,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
         defaultAddress ? (
           <>
             <div className={styles.fixerOne}>
-              <p>Default address</p>
+              <p style={{fontWeight:"600"}}>Default address</p>
               <AddressCard
                 address={defaultAddress}
                 onEdit={onEdit}
@@ -82,7 +81,7 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
 
             {otherAddresses.length > 0 && (
               <div className={styles.fixerOne}>
-                <h6 className={styles.other}>Other addresses</h6>
+                <h6 className={styles.other} style={{fontWeight:"600"}}>Other addresses</h6>
                 {otherAddresses.map((addr) => (
                   <AddressCard
                     key={addr.id}
@@ -95,7 +94,6 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
             )}
           </>
         ) : (
-        
           <div className={styles.fixerTwo}>
             {addressList.map((addr) => (
               <AddressCard
@@ -108,7 +106,6 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
           </div>
         )
       ) : (
-        /* This part is now a backup in case mockAddresses is also cleared */
         <div className={styles.NoAddressCard}>
           <Image
             src={AddressZero}

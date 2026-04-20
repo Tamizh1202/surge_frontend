@@ -14,36 +14,49 @@ export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useLayoutEffect(() => {
+useLayoutEffect(() => {
     const cards = cardsRef.current;
+    
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top top",
+          end: `+=${cards.length * 120}%`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+        
+          fastScrollEnd: true, 
+          invalidateOnRefresh: true,
+        },
+      });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: `+=${cards.length * 100}%`, 
-        pin: true,
-        scrub: 1,
-      },
-    });
+      cards.forEach((card, index) => {
+        if (index === 0) return; 
 
-    cards.forEach((card, index) => {
-      if (index === 0) return; 
+        tl.fromTo(
+          card,
+          { 
+            yPercent: 120, 
+            opacity: 0,
+          }, 
+          { 
+            yPercent: -50, 
+            opacity: 1, 
+            ease: "none",
+            duration: 1,
+        
+            force3D: false, 
+          }, 
+          index - 1
+        );
+      });
+      tl.to({}, { duration: 1 });
+    }, containerRef);
 
-      tl.fromTo(
-        card,
-        { y: "100%" }, 
-        { y: "0%", ease: "none", duration: 1 }, 
-        index - 1
-      );
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
-
-
   
   return (
     <section ref={containerRef} className={styles.landContainer}>
@@ -77,9 +90,7 @@ export default function Mission() {
           >
             <h1 className={styles.text}>Our Mission</h1>
             <p className={styles.content}>
-              To deliver consistently exceptional coffee experiences while
-              staying true to our local heritage, elevating every cup with
-              purpose, pride, and precision.
+          To deliver consistently exceptional coffee experiences while staying true  to our local heritage, elevating every cup with purpose, pride, and  precision.
             </p>
             <div className={styles.number}>01</div>
           </div>
@@ -91,9 +102,7 @@ export default function Mission() {
           >
             <h1 className={styles.text}>Our Vision </h1>
             <p className={styles.content}>
-              To become the leading Emirati specialty coffee brand recognized
-              for excellence, authenticity, and innovation both locally and
-              beyond.
+             To become the leading Emirati specialty coffee brand recognized for  excellence, authenticity, and innovation both locally and beyond
             </p>
             <div className={styles.number}>02</div>
           </div>
@@ -105,9 +114,7 @@ export default function Mission() {
           >
             <h1 className={styles.text}>Sugre Approach</h1>
             <p className={styles.content}>
-              At Surge, we blend global specialty coffee standards with Dubai’s
-              local spirit. Every cup is crafted with premium beans, served with
-              consistency, and designed to bring people together.
+             At Surge, we blend global specialty coffee standards with Dubai’s local spirit. Every cup is crafted with premium beans, served with consistency, and designed to bring people together because coffee is more than a drink, it’s a daily experience.
             </p>
             <div className={styles.number}>03</div>
           </div>

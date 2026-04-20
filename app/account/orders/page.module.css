@@ -228,6 +228,7 @@
     padding-inline: 4rem; /* Balanced fluid padding */
     box-sizing: border-box;
     width: 100%;
+    
   }
 
   .Top {
@@ -253,5 +254,11 @@
 
   .searchInput {
     width: 100%; /* Spans the full width of the wrapper */
+  }
+}
+
+@media (min-width:1000px) and (max-width:1400){
+  .main{
+    padding-left: 40px;
   }
 }

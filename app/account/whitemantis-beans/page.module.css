@@ -1,15 +1,25 @@
 .head {
-  padding-right: 410px;
-  padding-bottom: 100px;
-  padding-left: 100px;
+  box-sizing: border-box;
+  width: 100%;
   overflow: hidden;
+
+  /* 1. Bottom padding scales from 40px to 100px */
+  padding-bottom: clamp(40px, 8vw, 100px);
+
+  /* 2. Left padding scales from 16px to 100px */
+  padding-left: clamp(16px, 8vw, 100px);
+
+  /* 3. The Right padding fix: 
+     Scales from 16px (mobile) to 450px (desktop) 
+     The '25vw' ensures it grows as the screen widens */
+  padding-right: clamp(16px, 25vw, 450px);
 }
 
 .border {
 
   display: flex;
   flex-direction: column;
- 
+
   /* width:900px */
 }
 
@@ -20,10 +30,13 @@
   font-size: 22px;
 }
 
+
 .main1 {
   display: flex;
   flex-direction: column;
   gap: 80px;
+  width: 100%;
+  /* ← was 700px */
 }
 
 .olive {
@@ -111,17 +124,18 @@ heading .olive .heading {
 }
 
 .heading h1 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-weight: 600;
   font-size: 22px;
   color: #414343;
 
   margin: 0;
 }
+
 .gridss {
   display: flex;
   flex-direction: column;
- 
+
   width: 100%;
 }
 
@@ -137,7 +151,7 @@ heading .olive .heading {
 
 .tableHeading {
   /* Light gray to distinguish header */
-background-color: #F5F5F5;
+  background-color: #F5F5F5;
   font-weight: 500;
   color: #414343;
   font-family: var(--font-montserrat);
@@ -146,7 +160,7 @@ background-color: #F5F5F5;
 
 .tableContent {
   font-weight: 400;
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
   color: #818686;
 }
@@ -175,7 +189,7 @@ background-color: #F5F5F5;
 }
 
 .faqHeading h1 {
-     font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-weight: 600;
   font-size: 22px;
   color: #414343;
@@ -188,7 +202,7 @@ background-color: #F5F5F5;
   padding: 25px 12px;
   display: flex;
   flex-direction: column;
-  
+
 }
 
 /* QUESTION ROW */
@@ -197,6 +211,7 @@ background-color: #F5F5F5;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  gap:4px;
 }
 
 /* number + question */
@@ -209,15 +224,15 @@ background-color: #F5F5F5;
 .number {
   min-width: 28px;
   font-size: 16px;
-     font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-weight: 400;
-   color: #2F362A;
+  color: #2F362A;
 }
 
 /* question text */
 
 .quesStyle h4 {
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-weight: 400;
   font-size: 16px;
   color: #2F362A;
@@ -251,13 +266,14 @@ background-color: #F5F5F5;
 .activeSection {
   background-color: #F5F5F5;
 }
+
 .answers p {
   overflow: hidden;
   margin: 0 0 0 40px;
   width: 85%;
-  
+
   /* indent under question */
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-weight: 400;
   font-size: 16px;
   color: #6E736A;
@@ -281,15 +297,16 @@ background-color: #F5F5F5;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap:8px;
+  gap: 8px;
   color: var(--primary-color);
-  
+
 }
 
 .zeroStateP p {
   /* Removed display: flex here as it messes with standard text alignment */
-  width: 100%; 
-  max-width: 400px; /* Limits width so text doesn't stretch too far on desktop */
+  width: 100%;
+  max-width: 400px;
+  /* Limits width so text doesn't stretch too far on desktop */
   margin: 0 auto;
   text-align: center;
 }
@@ -299,8 +316,8 @@ background-color: #F5F5F5;
   border: 1px solid var(--primary-color);
   padding: 14px 34px;
   color: var(--primary-color);
-  cursor: pointer; 
-  font-family: var(--lato); 
+  cursor: pointer;
+  font-family: var(--lato);
   font-size: 15px;
   font-weight: 500;
 
@@ -315,7 +332,6 @@ background-color: #F5F5F5;
 .rewardsBanner {
   position: relative;
   width: 100%;
- 
 }
 
 .bannerImg {
@@ -324,17 +340,58 @@ background-color: #F5F5F5;
   display: block;
 }
 
+.bannerOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5%; /* scales with image width */
+  box-sizing: border-box;
+  gap: 8px;
+}
 
 .balanceWrapper {
   display: flex;
   align-items: baseline;
-  gap: 12px;
+  gap: 8px;
+}
+
+.balanceWrapper h2 {
+  font-size: clamp(20px, 4vw, 40px); /* scales smoothly */
+  font-weight: 600;
+  font-family: var(--font-montserrat);
+  margin: 0;
+  color: white; /* adjust to match your banner */
+}
+
+.balanceWrapper p {
+  font-size: clamp(12px, 1.5vw, 16px);
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  margin: 0;
+  color: white;
+}
+
+.validityText {
+  font-size: clamp(10px, 1.2vw, 14px);
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  margin: 0;
+  margin-top: 16px;
+  color: red;
+  opacity: 0.85;
 }
 
 .totalNumber {
-  font-size: 48px; /* Adjust size to match image */
+  font-size: 48px;
+  /* Adjust size to match image */
   font-weight: 600;
-  color: #C4754E; /* Peach/Brown tone from the image */
+  color: #C4754E;
+  /* Peach/Brown tone from the image */
 }
 
 .beanLabel {
@@ -351,13 +408,20 @@ background-color: #F5F5F5;
   font-weight: 500;
   font-family: var(--font-raleway);
   margin: 0;
-  color:#414343;
+  color: #414343;
 }
 
 
 @media (min-width: 550px) and (max-width: 1200px) {
   .head {
     padding-right: 80px;
+    padding-left: 0px;
+  }
+}
+
+@media (min-width: 1000px) and (max-width: 1400px) {
+  .head {
+    padding-left: 40px;
   }
 }
 
@@ -366,45 +430,48 @@ background-color: #F5F5F5;
     display: none;
   }
 
-  .box {
-    display: block;
-    /* Force hide the desktop table */
+  .box .grid {
+    display: none;
   }
-  .zeroState{
-    gap:12px;
-    margin-top: 25px;
-  }
-  .zeroState p{
-    width: 80%;
-  }
+
   .mobileOnly {
     display: block;
-    /* Show the mobile cards/list */
+  }
+
+  .zeroState {
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .zeroState p {
+    width: 80%;
   }
 
   .main1 {
     display: flex;
     flex-direction: column;
     gap: 32px;
+    width: 100%;
   }
 
-  /* Your existing media query fixes */
   .head {
     padding-right: 0;
-    /* Remove that large desktop padding */
+    padding-left: 0px;
+    width: 100vw;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .border {
     margin: 0 24px;
     border: none;
-    /* Usually cleaner for mobile */
   }
 
   .tableContent {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    /* Better than hard gap for mobile */
     padding: 16px 10px;
   }
 
@@ -426,49 +493,66 @@ background-color: #F5F5F5;
     overflow: hidden;
     margin: 0 0 0 38px;
     width: 85%;
-    /* indent under question */
     font-family: var(--lato);
     font-weight: 400;
     font-size: 15px;
     color: #6e736a;
   }
-  
+
+  .stepsGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .stepItem {
+    align-items: center;
+    text-align: center;
+  }
+
+  .stepsGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px !important;
+  }
+
+  .stepItem p {
+    width: 100%;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+  }
 }
 
-/* Container for the whole section */
 .box {
   display: flex;
   flex-direction: column;
-  gap: 32px; /* Spacing between title and grid */
- 
+  gap: 32px;
 }
 
-/* Heading style */
 .heading h1 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-weight: 600;
   font-size: 22px;
   color: #414343;
-
   margin: 0;
 }
 
-/* 3-column Grid */
 .stepsGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 40px;
 }
 
-/* Individual Item Wrapper */
 .stepItem {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Aligning content to left like your image */
+  align-items: flex-start;
   text-align: left;
 }
 
-/* Icon Circle Styling */
 .iconCircle {
   width: 50px;
   height: 50px;
@@ -479,10 +563,8 @@ background-color: #F5F5F5;
   justify-content: center;
   font-size: 22px;
   margin-bottom: 20px;
-
 }
 
-/* Step Title */
 .stepItem h3 {
   font-family: var(--font-raleway);
   font-weight: 600;
@@ -491,30 +573,12 @@ background-color: #F5F5F5;
   margin: 0 0 10px 0;
 }
 
-/* Step Description */
 .stepItem p {
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-weight: 500;
   font-size: 12px;
   color: #818686;
   line-height: 1.6;
   margin: 0;
-  width: 90%; /* Prevents text from stretching too wide */
-}
-
-/* Responsive for Mobile */
-@media (max-width: 740px) {
-  .stepsGrid {
-    grid-template-columns: 1fr; /* Stack vertically on mobile */
-    gap: 32px;
-  }
-  
-  .stepItem {
-    align-items: center;
-    text-align: center;
-  }
-  
-  .stepItem p {
-    width: 100%;
-  }
+  width: 90%;
 }

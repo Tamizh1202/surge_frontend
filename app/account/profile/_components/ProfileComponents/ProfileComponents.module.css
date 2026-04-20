@@ -1,9 +1,9 @@
 .main {
   display: flex;
- 
+
   align-items: center;
   height: auto;
- 
+
   padding-left: 100px;
   padding-bottom: 100px;
   background-color: #ffffff;
@@ -62,11 +62,11 @@
   padding: 13px 2px;
   border: none;
   cursor: pointer;
-  background-color:var(--primary-color);
+  background-color: var(--primary-color);
 }
 
 .pfrembtn {
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
   color: var(--primary-color);
@@ -129,10 +129,10 @@
 
   justify-content: space-between;
   border-bottom: 1px solid var(--text-secondary);
-  padding: 28px 16px 10px;
+  padding: 28px 12px 10px;
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
-  color:var(--text-primary);
+  color: var(--text-primary);
   background-color: var(--background);
   position: relative;
   /* Essential for the dropdown list */
@@ -143,7 +143,7 @@
   font-size: 16px;
   color: var(--text-secondary);
   white-space: nowrap;
-  margin-right: 6px;
+  margin-right: 4px;
   user-select: none;
 }
 
@@ -167,8 +167,8 @@
   display: flex;
   gap: 160px;
   align-items: center;
-  padding: 19px 22px ;
-  border:  1px solid  #2f362a4d;
+  padding-top: 19px;
+  /* border: 1px solid #2f362a4d; */
   cursor: pointer;
   user-select: none;
 }
@@ -187,7 +187,7 @@
   padding: 12px 16px;
   cursor: pointer;
   font-size: 16px;
- color: var(--text-secondary);
+  color: var(--text-secondary);
   transition: background 0.2s;
 }
 
@@ -212,7 +212,7 @@
 .Name1 {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  
+
 }
 
 .divide {
@@ -229,22 +229,23 @@
 .Field,
 .SelectContainer {
   /* Whichever div wraps both the Trigger and the List */
- 
+
   position: relative;
 }
 
 .CustomOptionsList {
   position: absolute;
-  top: calc(100% + 14px);
+  top: calc(100% + 11px);
   /* Moves it exactly below the Field padding */
-  left: -16px;
+  left: -12px;
+  right: -10px;
   /* Counteracts the Field padding to align with border */
-  width: calc(100% + 32px);
+  width: calc(100% + 23px);
   /* Makes it flush with the outer Field border */
   background: #ffffff;
   border: 1px solid #e2e4df;
   box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
-  z-index: 1000;
+  z-index: 10;
   max-height: 200px;
   overflow-y: auto;
 }
@@ -319,8 +320,8 @@
   color: #C4754E;
   border: 1px solid #C4754E;
   padding: 14px 40px;
-   font-size: 16px;
-     font-family: var(--font-raleway);
+  font-size: 16px;
+  font-family: var(--font-raleway);
   cursor: pointer;
 }
 
@@ -333,8 +334,8 @@
 }
 
 .ErrorText {
-  color:var(--red);
-   font-family: var(--font-raleway);
+  color: var(--red);
+  font-family: var(--font-raleway);
   font-size: 16px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -351,7 +352,7 @@
 
 .AddressText .Label {
   color: var(--text-secondary);
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-weight: 600;
   font-size: var(--fs-16);
 }
@@ -376,34 +377,35 @@
 }
 
 .AddressText .Head {
-   color:var(--text-primary);
- font-family: var(--font-raleway);
+  color: var(--text-primary);
+  font-family: var(--font-raleway);
   font-weight: 400;
   font-size: var(--fs-16);
 }
 
 .AddressSection p {
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   margin: 0px;
   font-weight: 400;
-  color:var(--text-primary);
+  color: var(--text-primary);
 }
+
 .GuestNote {
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   margin-bottom: 40px;
   font-weight: 400;
- color:var(--text-primary);
+  color: var(--text-primary);
 }
 
 .other {
- font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: 18px;
   margin: 0px;
   font-weight: 500;
   margin-bottom: 12px;
-   color:var(--text-primary);
+  color: var(--text-primary);
 }
 
 .AddressHeader {
@@ -414,7 +416,7 @@
 }
 
 .AddressHeader h4 {
- font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   margin: 0;
@@ -427,19 +429,20 @@
   padding: 14px 40px;
   font-family: var(--font-raleway);
   font-size: 16px;
-  color:#C4754E;
+  color: #C4754E;
   font-weight: 600;
   background-color: #ffffff;
   cursor: pointer;
- 
+
 }
+
 .AddAddressBtn {
-  display: flex !important; 
+  display: flex !important;
   align-items: center;
   gap: 8px;
 
   background-color: transparent;
-  border: 1px solid #C4754E !important; 
+  border: 1px solid #C4754E !important;
 
   outline: none;
   padding: 14px 40px;
@@ -448,22 +451,24 @@
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
-  min-height: 40px; 
+  min-height: 40px;
 }
 
 
 .AddAddressBtn svg {
   flex-shrink: 0;
 }
+
 .AddressCard {
   border-top: 1px solid #2f362a4d;
- padding-top: 16px;
+  padding-top: 16px;
   display: flex;
-    justify-content: space-between;
+  justify-content: space-between;
 
   align-items: flex-start;
   flex-direction: column;
-  gap: 8px; /* Vertical gap between rows */
+  gap: 8px;
+  /* Vertical gap between rows */
   font-family: var(--lato);
   font-size: 15px;
   font-weight: 400;
@@ -473,47 +478,48 @@
 /* 1. This handles the "Name on Left, Home on Right" */
 .AddressCardHeader {
   display: flex;
-  justify-content: space-between; 
+  justify-content: space-between;
   align-items: center;
   width: 100%;
   /* margin-bottom: 4px; */
 }
 
 .Name {
-    font-weight: 600;
-    font-size: 16px;
-    color: #1a1a1a;
-    margin: 0;
+  font-weight: 600;
+  font-size: 16px;
+  color: #1a1a1a;
+  margin: 0;
 }
 
 .LabelBadge {
-    background: #FFFFFF;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    color: #6E736A;
+  background: #FFFFFF;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  color: #6E736A;
 }
 
 .AddressContent {
-    color: #6E736A;
-    display: flex;
-    font-size: 14px;
-    gap:10px;
-    flex-direction: column;
-    /* line-height: 1.6; */
+  color: #6E736A;
+  display: flex;
+  font-size: 14px;
+  gap: 10px;
+  flex-direction: column;
+  /* line-height: 1.6; */
 }
 
 .AddressActions {
-    display: flex;
-    justify-content: flex-end; /* Pushes icons to bottom right */
-    gap: 16px;
-    
+  display: flex;
+  justify-content: flex-end;
+  /* Pushes icons to bottom right */
+  gap: 16px;
+
 }
 
 .ActionIcon {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .AddressActions {
@@ -532,7 +538,7 @@
 }
 
 .DeleteAccount h4 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   color: #2F362A;
@@ -541,33 +547,35 @@
 
 
 .fixerOne p {
-    font-size: 18px;
+  font-size: 18px;
   font-weight: 400;
   color: #414343;
   font-family: var(--font-raleway);
   margin-bottom: 16px;
-  line-height:normal;
+  line-height: normal;
 }
 
 .fixerTwo h6 {
   font-size: 16px;
   font-weight: 400;
   color: #414343;
-    font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   margin-bottom: 12px;
 
 }
 
 /* Wrappers for the address groups */
-.fixerOne, .fixerTwo {
+.fixerOne,
+.fixerTwo {
   width: 100%;
   padding: 20px 10px;
-  background-color: #F7F7F7; /* Light gray background from image */
+  background-color: #F7F7F7;
+  /* Light gray background from image */
   border-radius: 4px;
-    font-size: 16px;
+  font-size: 16px;
   font-weight: 400;
   color: #414343;
-    font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   display: flex;
   flex-direction: column;
 }
@@ -581,8 +589,8 @@
   padding: 12px 26px;
   border: 1px solid var(--primary-color);
   background: #ffffff;
-   font-weight: 400;
-   font-family: var(--font-raleway);
+  font-weight: 400;
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   color: var(--primary-color);
   cursor: pointer;
@@ -649,27 +657,27 @@
 }
 
 .Popup h3 {
- font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
-  color:var(--text-primary);
+  color: var(--text-primary);
   margin-bottom: 28px;
 }
 
 .DeletePopup h3,
 .PopupDeleteAddress h3 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
-   color:var(--text-primary);
+  color: var(--text-primary);
   margin-bottom: 10px;
   text-align: center;
 }
 
 .Popup p {
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
-  color:var(--text-secondary);
+  color: var(--text-secondary);
   margin: 0;
 }
 
@@ -678,7 +686,7 @@
   line-height: 1.2;
   margin-top: 6px;
   margin-bottom: 10px;
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   display: block;
 }
 
@@ -693,9 +701,9 @@
 
 .DeletePopup p,
 .PopupDeleteAddress p {
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
- color: var(--text-secondary);
+  color: var(--text-secondary);
   text-align: center;
   width: 100%;
 }
@@ -704,7 +712,7 @@
 .Popup select {
   padding: 19px 22px;
   border: 1px solid #2f362a4d;
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   color: var(--text-secondary);
   opacity: 0.9;
   font-size: var(--fs-16);
@@ -728,9 +736,9 @@
 
 .PopupActions button {
   padding: 13.5px 6px;
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
-    color:var(--text-primary);
+  color: var(--text-primary);
   font-weight: 600;
   cursor: pointer;
   width: 235px;
@@ -739,7 +747,7 @@
 .DeletePopupActions button,
 .PopupActionsDeleteAddress button {
   padding: 13px 48px;
- font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
 
@@ -748,13 +756,13 @@
 }
 
 .PersonalInfoSection h4 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
-  color:var(--text-primary);
+  color: var(--text-primary);
   margin: 0;
-  
- 
+
+
 }
 
 .PersonalInfoSection .AddressHeader {
@@ -882,7 +890,7 @@
   color: #ffffff;
   border: none;
   cursor: pointer;
-    font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
   font-size: 16px;
 }
 
@@ -890,7 +898,7 @@
   color: var(--text-secondary);
   font-size: var(--fs-16);
   font-weight: 400;
-   font-family: var(--font-raleway);
+  font-family: var(--font-raleway);
 }
 
 .txt a {
@@ -928,8 +936,8 @@
 .Name1,
 .Row {
   display: flex;
-
-  gap: 20px; 
+  justify-content: space-between;
+  gap: 20px;
 }
 
 .lineInput {
@@ -951,14 +959,19 @@
 .lineInput:focus {
   border-bottom-color: #C4754E !important;
 }
+
 /* Main Container */
 .underlineSelect {
   display: flex;
-  justify-content: space-between; /* Text left, Icon right */
+  justify-content: space-between;
+  /* Text left, Icon right */
   align-items: center;
-  width: 100%;            /* Ye sabse important hai */
-  min-width: 150px;       /* Minimum width taaki doori dikhe */
-  padding: 10px 0;        /* Vertical spacing */
+  width: 100%;
+  /* Ye sabse important hai */
+  min-width: 150px;
+  /* Minimum width taaki doori dikhe */
+  /* padding: 10px 0; */
+  /* Vertical spacing */
   cursor: default;
 
 }
@@ -972,25 +985,31 @@
 
 /* Icon (SVG) styling */
 .underlineSelect svg {
-  flex-shrink: 0;         /* Icon ko dabne se rokta hai */
-  margin-left: 150px;      /* Minimum gap ensure karne ke liye */
-  fill: #414343;          /* Icon color */
-  width: 12px;            /* Thoda chota aur clean look ke liye */
+  flex-shrink: 0;
+  /* Icon ko dabne se rokta hai */
+  margin-left: 150px;
+  /* Minimum gap ensure karne ke liye */
+  fill: #414343;
+  /* Icon color */
+  width: 12px;
+  /* Thoda chota aur clean look ke liye */
   height: auto;
 }
 
 /* ── Responsive ───────────────────────────────────────────────── */
 @media (max-width: 640px) {
   .main {
-    padding-left: 24px;
+    /* padding-left: 24px;
     padding-right: 24px;
     padding-top: 40px;
-    padding-bottom: 80px;
+    padding-bottom: 80px; */
+    padding: 0;
+
   }
 
   .TopLeft img {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 150px;
+    max-height: 150px;
   }
 
   .Top {
@@ -1015,6 +1034,7 @@
   .Row {
     display: flex;
     grid-template-columns: 1.5fr 1fr;
+    gap:6px;
   }
 
   .Row2 {
@@ -1023,7 +1043,10 @@
 
     width: 100%;
   }
-
+  .CustomSelectTrigger{
+    padding: 19px 0px;
+    gap:130px;
+  }
   .Row2 input,
   .Row2 select {
     min-width: 0;
@@ -1066,14 +1089,18 @@
   }
 
   .AddressHeader {
-    flex-direction: column;
-    gap: 16px;
-    justify-content: flex-start;
+    flex-direction: row;
+
+    justify-content: space-between;
     align-items: baseline;
   }
 
   .AddressHeader h4 {
     font-size: 20px;
+  }
+
+  .AddressSection {
+    padding-right: 20px;
   }
 
   .DeleteAccount {
@@ -1125,5 +1152,11 @@
   .Row {
     display: flex;
     grid-template-columns: 1.5fr 1fr;
+  }
+}
+
+@media (min-width:1000px) and (max-width:1400){
+  .main{
+    padding-left: 40px;
   }
 }

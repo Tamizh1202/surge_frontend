@@ -1,18 +1,19 @@
 .Main {
   width: 100%;
   min-height: 100vh;
-  padding: 0 24px 60px 20px;
+  padding: 0 120px 60px 100px;
   background-color: #ffffff;
-  overflow: hidden;
+  box-sizing: border-box;
+  /* overflow: hidden ← THIS was eating your right padding, removed */
 }
 
 .MainContainer {
   display: flex;
   flex-direction: column;
   width: 100%;
-  max-width: 100%;
   gap: 24px;
-  overflow: hidden;
+  box-sizing: border-box;
+  /* no overflow, no padding here — .Main handles it */
 }
 
 .Top {
@@ -36,18 +37,22 @@
   margin: 0;
 }
 
-/* ── Grid ── */
 .Bottom {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 280px));
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .Card {
   display: flex;
   flex-direction: column;
   width: 100%;
+  min-width: 0;
+  /* ← prevents grid blowout */
   position: relative;
+  box-sizing: border-box;
 }
 
 .ImgContainer {
@@ -97,6 +102,7 @@
   display: flex;
   flex-direction: column;
   gap: 3px;
+  min-width: 0;
 }
 
 .ProductName {
@@ -154,7 +160,6 @@
   background-color: #a36648;
 }
 
-/* ── Empty State ── */
 .EmptyState {
   display: flex;
   flex-direction: column;
@@ -188,23 +193,32 @@
 
 /* ── Responsive ── */
 
-/* 1280x720 and smaller laptops */
 @media (max-width: 1280px) {
+  .Main {
+    padding: 0 20px 48px 20px;
+  }
+
   .Bottom {
-    grid-template-columns: repeat(3, minmax(0, 240px));
+    grid-template-columns: repeat(3, 1fr);
     gap: 16px;
   }
 
   .AddToCartBtn {
-    padding: 10px 18px;
+    padding: 10px 16px;
     font-size: 12px;
   }
 }
 
-/* Tablet */
+@media (min-width:1000px) and (max-width:1400px) {
+  .Main {
+    padding-left: 40px !important;
+    padding-right: 80px;
+  }
+}
+
 @media (max-width: 1024px) {
   .Main {
-    padding: 0 20px 48px 16px;
+    padding: 0 20px 48px 0px;
   }
 
   .Bottom {
@@ -213,25 +227,22 @@
   }
 
   .AddToCartBtn {
-    padding: 11px 22px;
+    padding: 11px 20px;
     font-size: 13px;
   }
 }
 
-/* Large phone */
 @media (max-width: 640px) {
   .Main {
-    padding: 0 16px 40px 16px;
+    padding: 0 0px 40px 0px;
   }
 
   .MainContainer {
     gap: 16px;
-    padding: 0 12px;
-    box-sizing: border-box;
   }
 
   .Bottom {
-    grid-template-columns: repeat(2, 190px);
+    grid-template-columns: repeat(2, 1fr);
     gap: 14px;
   }
 
@@ -278,22 +289,9 @@
   }
 }
 
-
-
-
-
-
-
-
-
-/* Small phone */
 @media (max-width: 400px) {
   .Main {
-    padding: 0 10px 28px 10px;
-  }
-
-  .MainContainer {
-    padding: 0 8px;
+    padding: 0 12px 28px 12px;
   }
 
   .TopLeft h3 {
@@ -306,7 +304,7 @@
 
   .Bottom {
     grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
+    gap: 10px;
   }
 
   .ImgContainer {
@@ -339,3 +337,5 @@
     right: 6px;
   }
 }
+
+/* @media (max-width:) */

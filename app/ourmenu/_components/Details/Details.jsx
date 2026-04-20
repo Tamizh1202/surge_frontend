@@ -107,6 +107,8 @@ export default function Details() {
 
     return () => mm.revert();
   }, []);
+
+  
   const handleItemHover = (sectionIndex, item) => {
     setActiveSelection({
       id: item.id,

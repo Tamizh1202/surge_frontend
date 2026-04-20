@@ -281,7 +281,6 @@
     padding: 40px 20px 0;
     flex-direction: column;
     overflow: hidden;
-    /* Bahar ka scroll band */
 
     background: #fff;
     position: relative;
@@ -316,7 +315,7 @@
   .menuImage {
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 354 / 211;
     object-fit: cover;
     display: block;
   }
@@ -333,7 +332,7 @@
     padding: 16px 0;
     border-bottom: 1px solid #414343;
     background: #fff;
-    /* Card ka color */
+   
   }
 
   .menuItem:hover {

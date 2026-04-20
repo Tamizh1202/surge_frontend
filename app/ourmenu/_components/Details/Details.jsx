@@ -79,40 +79,35 @@ export default function Details() {
   });
 
 
+useLayoutEffect(() => {
+  let mm = gsap.matchMedia();
 
+  mm.add("(max-width: 768px)", () => {
+    sectionsRef.current.forEach((section) => {
+      const itemList = section.querySelector(`.${styles.itemList}`);
+      
+      if (itemList) {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=150%", 
+            pin: true,     
+            scrub: 0.05,    // Isse scroll instantly aur fast hoga
+          }
+        });
 
-  useLayoutEffect(() => {
-    let mm = gsap.matchMedia();
-
-
-    mm.add("(max-width: 768px)", () => {
-      const sections = sectionsRef.current;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: `+=${sections.length * 100}%`,
-          pin: true,
-          scrub: 1,
-        },
-      });
-
-      sections.forEach((section, index) => {
-        if (index === 0) return;
-
-        tl.fromTo(
-          section,
-          { y: "100%" },
-          { y: "0%", ease: "none", duration: 1 },
-          index - 1
-        );
-      });
+        tl.to(itemList, {
+     
+          y: "-100%", 
+          ease: "none"
+        });
+      }
     });
+  });
 
-    return () => mm.revert();
-  }, []);
-
+  return () => mm.revert();
+}, []);
   const handleItemHover = (sectionIndex, item) => {
     setActiveSelection({
       id: item.id,

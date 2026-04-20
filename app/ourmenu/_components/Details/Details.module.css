@@ -269,69 +269,234 @@
   }
 }
 
-@media (min-width: 325px) and (max-width: 768px) {
-  .container {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
+@media (max-width: 768px) {
 
-  }
+
 
   .selectedSection {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
+
+
+
     height: 100vh;
 
-    padding: 60px 20px;
-    box-sizing: border-box;
+   width: 100%;
+
     display: flex;
+
+    padding: 60px 20px 0;
+
+
+
     flex-direction: column;
-    z-index: 1;
+
+
+
+    overflow: hidden; /* Bahar ka scroll band */
+
+
+
+    background: #fff;
+
+
+
+    position: relative;
+
+
+
   }
 
+
+
+
+
+
+
   .menuContainer {
+
+
+
     display: flex;
+
+
+
     flex-direction: column;
-    gap: 40px;
-    align-items: center;
-    width: 100%;
+
+ 
+
     flex: 1;
-    overflow-y: auto;
-    padding-bottom: 20px;
+
+
+
+    position: relative;
+
+
+
+    overflow: hidden;
+
+
+
   }
+
 
 
   .categoryTitle {
+
     font-size: 22px;
+
     margin-bottom: 20px;
+
     color: #C4754E;
+
     flex-shrink: 0;
+
   }
+
+
+
+
+
+
+
 
   .imageWrapper {
+
+
+
     width: 100%;
-    order: -1;
+
+
+
+    z-index: 10;         
+
+
+
+    background: #ffffff;  
+
+
+
+    padding-bottom: 20px;
+
+
+
+    position: relative;
+
+
+
+    order: -1;            /* Image ko hamesha list ke upar rakhega */
+
+
+
     flex-shrink: 0;
+
+
+
   }
+
+
+
+
+
+
 
   .menuImage {
+
+
+
     width: 100%;
+
+
+
     height: auto;
+
+
+
     aspect-ratio: 16 / 9;
+
+
+
     object-fit: cover;
+
+
+
+    display: block;
+
+
+
   }
+
+
+
+
+
+
+
+ 
+
+
 
   .itemList {
+
+
+
     width: 100%;
+
+
+
+    position: relative;
+
+
+
+    z-index: 5;           /* Image ke niche (piche) rahega */
+
+
+
+    padding-top: 10px;
+
+
+
+  
+
+
+
+    pointer-events: none; 
+
+
+
   }
 
+
+
+
+
+
+
   .menuItem {
+
+
+
     padding: 16px 0;
+
+
+
     border-bottom: 1px solid #414343;
-    display: flex;
-    justify-content: space-between;
+
+
+
+    background: #fff; /* Card ka color */
+
+
+
   }
+
+.menuItem:hover {
+  background-color: #F5F5F5;
+
 }
+
+.activeItem {
+  background-color: #F5F5F5;
+
+}
+
+}
+

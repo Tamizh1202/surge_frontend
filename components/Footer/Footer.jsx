@@ -99,22 +99,22 @@ export default function Footer() {
               <h4>Company</h4>
               <Link href="/about-us">About us</Link>
               <Link href="/events">Events</Link>
-              <Link href="/menu">Cafe Menu</Link>
+              <Link href="/ourmenu">Cafe Menu</Link>
               <Link href="/blogs">Blogs</Link>
-              <Link href="/careers">Careers</Link>
+              {/* <Link href="/careers">Careers</Link> */}
             </div>
             <div className={styles.column}>
               <h4>Shop</h4>
-              <Link href="/shop/beans">Coffee Beans</Link>
-              <Link href="/shop/capsules">Coffee Capsules</Link>
-              <Link href="/shop/drip-bags">Coffee Drip Bags</Link>
-              <Link href="/shop/merch">Merchandise</Link>
+              <Link href="/shop/coffee-beans">Coffee Beans</Link>
+              <Link href="/shop/coffee-capsules">Coffee Capsules</Link>
+              <Link href="/shop/coffee-dripbags">Coffee Drip Bags</Link>
+              <Link href="/shop/merchandise">Merchandise</Link>
             </div>
             <div className={styles.column}>
               <h4>Account</h4>
-              <Link href="/profile">Profile</Link>
-              <Link href="/orders">Orders</Link>
-              <Link href="/wishlist">Wishlist</Link>
+              <Link href="/account/profile">Profile</Link>
+              <Link href="/account/orders">Orders</Link>
+              <Link href="/account/wishlist">Wishlist</Link>
             </div>
             <div className={styles.column}>
               <h4>Support</h4>
@@ -149,7 +149,7 @@ export default function Footer() {
             <div className={styles.infoBlock}>
               <p className={styles.label}>Join Us</p>
               <a
-                href="https://www.instagram.com/whitemantis.ae"
+                href="https://www.instagram.com/surge.ae/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.accentLink}

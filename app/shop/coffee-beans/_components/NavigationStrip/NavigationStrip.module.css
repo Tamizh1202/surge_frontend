@@ -11,10 +11,7 @@
   box-sizing: border-box; 
   
   /* Your clamp math remains the same */
-  padding: clamp(32px, calc(32px + (0 * ((100vw - 320px) / 1120))), 32px)
-           clamp(24px, calc(24px + (101 * ((100vw - 320px) / 1120))), 125px)
-           clamp(32px, calc(32px + (40 * ((100vw - 320px) / 1120))), 72px)
-           clamp(24px, calc(24px + (101 * ((100vw - 320px) / 1120))), 125px);
+  padding: 50px 0px 50px 0px;
 }
 .MainConatiner {
   display: flex;
@@ -23,6 +20,7 @@
   height: 100%;
   flex-direction: column;
   gap: clamp(8px, calc(8px + (17 * ((100vw - 320px) / 1120))), 25px);
+  display: none;
 }
 .Up {
   display: flex;

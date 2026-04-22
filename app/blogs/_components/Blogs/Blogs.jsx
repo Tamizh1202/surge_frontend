@@ -13,10 +13,10 @@ import squaretwo from './square2.png';
 import squarethree from './square3.png';
 
 
- const BlogData = [
+const BlogData = [
   {
     id: 1,
-  
+
     image: oneImg,
     readTime: "6 min read",
     title: <>The craft behind every cup:<br /> Inside surge’s coffee journey</>,
@@ -24,7 +24,7 @@ import squarethree from './square3.png';
   },
   {
     id: 2,
-  
+
     image: oneImg,
     readTime: "4 min read",
     title: <>Ethical Sourcing:<br /> Beyond the Bean</>,
@@ -32,7 +32,7 @@ import squarethree from './square3.png';
   },
   {
     id: 3,
-   
+
     image: oneImg,
     readTime: "5 min read",
     title: <>Roasting Mastery:<br /> Science meets Art</>,
@@ -97,14 +97,14 @@ export default function Blogs() {
                     </div>
 
                     <div className={styles.bottom}>
-                     
-                        <h2 className={styles.read}>
-                          Read More
-                          <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
-                            <path d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201" stroke="#C4754E" />
-                          </svg>
-                        </h2>
-                     
+
+                      <h2 className={styles.read}>
+                        Read More
+                        <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
+                          <path d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201" stroke="#C4754E" />
+                        </svg>
+                      </h2>
+
 
                       <div className={styles.btn}>
                         {/* FIX: Yahan bhi 'BlogData' map karein */}

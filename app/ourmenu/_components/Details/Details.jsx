@@ -108,7 +108,7 @@ export default function Details() {
     return () => mm.revert();
   }, []);
 
-  
+
   const handleItemHover = (sectionIndex, item) => {
     setActiveSelection({
       id: item.id,
@@ -135,6 +135,7 @@ export default function Details() {
                   key={item.id}
                   className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
                   onMouseEnter={() => handleItemHover(sectionIndex, item)}
+                  onClick={() => handleItemHover(sectionIndex, item)}  // ← add this
                 >
                   <div className={styles.itemInfo}>
                     <h1>{item.name}</h1>

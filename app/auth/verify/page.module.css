@@ -10,9 +10,9 @@
 
 .card {
   background: #fff;
-  padding: clamp(40px, 6vh, 74px) clamp(24px, 5vw, 65px);
+  padding: clamp(40px, 6vh, 55px) clamp(24px, 5vw, 65px);
   width: 100%;
-  max-width: 480px;
+  max-width: 420px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -121,7 +121,7 @@
 .timerRow {
   display: flex;
   justify-content: flex-end;
- 
+
 }
 
 .timerText {
@@ -222,17 +222,20 @@
   white-space: nowrap;
   margin: 0;
 }
-.LowerText{
+
+.LowerText {
   display: flex;
   flex-direction: row;
-  gap:105px;
-  align-items: flex-end;
+  width: 100%;
+  justify-content: space-between;
   margin-top: 20px;
-  
+
 }
-.LowerText p{
-  margin:0px;
+
+.LowerText p {
+  margin: 0px;
 }
+
 /* ── Mobile ── */
 .mobilelegal {
   display: none;
@@ -250,6 +253,8 @@
     width: calc(100% - 32px);
     margin: 0 16px;
     gap: 28px;
+    position: relative;
+    top: 10px;
   }
 
   .headingBlock p {
@@ -261,7 +266,7 @@
     gap: 24px;
   }
 
-  .socials > button {
+  .socials>button {
     padding: 14px 0;
   }
 

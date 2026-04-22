@@ -325,7 +325,7 @@
     position: relative;
     z-index: 5;
     padding-top: 10px;
-    pointer-events: none;
+    /* pointer-events: none; */
   }
 
   .menuItem {

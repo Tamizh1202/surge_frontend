@@ -153,32 +153,45 @@
   }
 
   .grid {
-   grid-template-columns: 1fr;
+    grid-template-columns: 1fr;
     gap: 15px;
   }
 
-  /* Moves label below the image instead of on top */
   .label {
-    bottom: 25px;
-   
+    position: absolute;
+    bottom: 0;
+    background-color: transparent;
+    transform: none;
+    transition: none;
+  }
+
+  .hoverContent {
+    opacity: 1;
+    transition: none;
   }
 
   .categoryName {
-    font-size: 20px;
-    color: #414343;
+    font-size: var(--fs-20);
+    color: var(--text-primary);
+    font-weight: 600;
   }
 
-  /* Kill the hover zoom so it doesn't feel jumpy on touch */
   .card:hover .bgImage,
   .card:active .bgImage {
     transform: none;
   }
+  .hoverContent{
+    margin:0;
+    padding:0;
+  }
   .mobileDescription {
-  font-size: var(--fs-14);
-  color: var(--text-primary);
-  line-height: 1.4;
-  margin-bottom: 15px;
-  font-weight: 400;
-  margin-top: 0;
-}
+    font-size: var(--fs-14);
+    color: var(--text-primary);
+    width: 85%;
+    margin-bottom: 20px;
+    font-weight: 500;
+    margin-top: 0;
+    line-height: 1.3;
+    padding-top: 8px;
+  }
 }

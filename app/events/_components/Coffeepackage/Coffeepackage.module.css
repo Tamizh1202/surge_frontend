@@ -167,7 +167,8 @@
   }
 
   .grid {
-    gap: 15px;
+    column-gap: 16px;
+    row-gap: 32px;
   }
 
   .card {

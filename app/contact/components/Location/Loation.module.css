@@ -1,4 +1,3 @@
-
 .container {
   width: 100%;
   max-width: none;
@@ -162,7 +161,7 @@
 
 
 @media (min-width: 851px) and (max-width: 1050px) {
- 
+
   .container {
     padding: 80px 0;
   }
@@ -175,14 +174,14 @@
     justify-content: space-around;
   }
 
-  
+
   .mapContainer {
     margin-top: 60px;
     padding: 0 40px;
   }
 
   .mapImg {
-    height: 500px; 
+    height: 500px;
     max-width: 100%;
     object-fit: cover;
   }
@@ -198,11 +197,11 @@
   }
 
   .description {
-    width: 100%; 
+    width: 100%;
     margin-bottom: 50px;
   }
 
- 
+
   .jobGrid {
     column-gap: 50px;
     gap: 30px;
@@ -233,34 +232,42 @@
     padding-left: 100px;
     padding-right: 100px;
   }
-  
+
   .jobGrid {
     column-gap: 60px;
   }
 
   .jobItem {
-    align-items: center; 
+    align-items: center;
     gap: 20px;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
   }
 }
 
 @media (max-width: 1024px) {
- .container {
-    padding: 80px 0; 
+  .container {
+    padding: 80px 0;
   }
-  .careersSection, .topSection {
+
+  .careersSection,
+  .topSection {
     padding-left: 40px;
     padding-right: 40px;
   }
 
   .description {
     width: 100%;
+    margin-bottom: 32px;
+    margin-top: 8px;
+  }
+
+  .heading {
+    margin: 0px;
   }
 
   .mapImg {
     height: auto;
-    max-height: 400px; 
+    max-height: 400px;
   }
 
   .jobItem {
@@ -287,7 +294,7 @@
   }
 
   .jobItem {
-    align-items: flex-end; 
+    align-items: flex-end;
     flex-wrap: nowrap;
     padding-bottom: 20px;
   }
@@ -299,34 +306,63 @@
   .divider {
     margin-bottom: 40px;
   }
+
+  .jobInfo h3 {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    font-family: var(--font-raleway);
+    margin: 0;
+  }
+
+  .jobInfo p {
+    font-size: var(--fs-14);
+    color: #818686;
+    font-weight: 400;
+    font-family: var(--font-raleway);
+    margin: 5px 0 0;
+    /* line-height: 1.4; */
+    width: 90%;
+  }
+  .detailLink{
+    font-size: var(--fs-12);
+  }
+  .emailFooter {
+  margin-top: 30px;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  color: #414343;
+  
 }
+}
+
 @media (max-width: 480px) {
 
-  .container .careersSection, 
+  .container .careersSection,
   .container .topSection {
     padding-left: 20px;
     padding-right: 20px;
     padding-bottom: 20px;
   }
+
   .container .jobItem {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     justify-content: space-between;
-    align-items: center; 
+    align-items: center;
     gap: 15px;
-   
+
   }
 
-  .container .jobInfo p {
-    font-size: 14px;
-   
-  }
+  
 
   .container .detailLink {
-    white-space: nowrap; 
+    white-space: nowrap;
     font-size: 14px;
-    flex-shrink: 0; 
+    flex-shrink: 0;
     align-self: center;
   }
-  
+  .emailFooter{
+    line-height: 0.8;
+  }
 }

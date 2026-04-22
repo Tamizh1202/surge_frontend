@@ -142,32 +142,34 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 16px;
-  gap:15px;
+  gap: 15px;
 }
 
 .coffeeName {
-  line-height: 1.4em;
-  min-height: 2.8em;
+
   font-family: var(--font-montserrat);
-  font-weight: 500;
-  color: #414343;
+  font-size: var(--fs-18);
+  font-weight: 600;
+  /* font-weight: 500; */
+  color: var(--text-primary);
   margin: 0 0 0 0;
 }
 
 .coffeeNotes {
-  font-size: 15px;
+  font-size: var(--fs-18);
   font-family: var(--font-raleway);
   font-weight: 400;
-  color: #818686;
+  color: var(--text-secondary);
   margin-bottom: 16px;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 
 .price {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: var(--fs-18);
+  font-weight: 600;
+
   margin: 0;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-raleway);
 }
 
@@ -210,6 +212,11 @@
     min-width: calc((100% - 30px) / 2);
     aspect-ratio: 6 / 7;
     padding: 20px;
+  }
+
+  .coffeeName {
+    line-height: 1.2em;
+    min-height: 2.4em;
   }
 
   .productImageWrapper {

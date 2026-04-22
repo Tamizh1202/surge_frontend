@@ -43,7 +43,7 @@
   max-width: 577px;
   display: flex;
   flex-direction: column;
-  padding-top: 203px;
+  padding-top: 270px;
   padding-left: 20px;
   padding-right: 20px;
   box-sizing: border-box;
@@ -185,7 +185,7 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-size: var(--fs-16);
+  font-size: var(--fs-14);
   color: var(--text-secondary);
   transition: all 0.3s ease;
 }
@@ -213,7 +213,7 @@
 .optionItem {
   padding: 12px 20px;
   cursor: pointer;
-  font-size: var(--fs-16);
+  font-size: var(--fs-14);
   color: var(--text-secondary);
   transition: background 0.2s ease;
 }
@@ -265,136 +265,88 @@
   }
 }
 
-
 @media (max-width: 1024px) {
-
-  .main,
-  .MainContainer {
-    height: auto;
-
-
+  .main {
+    height: 100vh;
+    overflow: hidden;
   }
 
   .MainContainer {
     flex-direction: column;
+    height: 100%;
   }
 
   .LeftConatiner {
-    height: 40vh;
+    height: 30vh;
     flex: none;
+  }
+
+  .RightContainer {
+    height: 75vh;
+    overflow-y: auto;
+    align-items: flex-start;
   }
 
   .RightContent {
     padding-top: 50px;
+    padding-bottom: 30px;
+    /* controls the bottom gap intentionally */
     max-width: 90%;
-
-
+    height: auto;
+    justify-content: flex-start;
   }
 
   .contactFooter {
-    margin-top: 60px;
-
+    margin-top: 35px;
+    margin-bottom: 0;
+    /* override the base 21px */
   }
 }
 
 @media (min-width: 325px) and (max-width: 767px) {
-
-  .main,
-  .MainContainer {
-    height: auto;
-    max-height: none;
-    overflow-x: hidden;
+  .main {
+    height: 100vh;
+    overflow: hidden;
   }
 
-
-  .RightContainer {
-    background-color: #f5f5f5;
-    width: 100%;
+  .Bottom {
+    padding-top: 15px;
   }
 
   .MainContainer {
     flex-direction: column;
+    height: 100%;
+    overflow-x: hidden;
   }
 
   .LeftConatiner {
-    height: 300px;
+    height: 22vh;
+    /* shrunk from 300px */
     flex: none;
+  }
+
+  .RightContainer {
+    height: 78vh;
+    overflow-y: auto;
+    width: 100%;
+    background-color: #f5f5f5;
   }
 
   .RightContent {
     padding-top: 40px;
     margin: 0;
     height: auto;
-    gap: 32px;
+    gap: 1 0px;
     display: flex;
     flex-direction: column;
   }
-
-  .formMain {
-    gap: 20px;
-    /* padding: 0 20px; */
-  }
-
-  .formBox {
-    gap: 10px;
-  }
-
-  .formBox input,
-  .formBox select,
-  .formBox textarea {
-    padding: 12px 0;
-    font-size: 14px;
-  }
-
-  .row {
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .btn {
-    width: 100%;
-    padding: 12px;
-  }
-
 
   .contactFooter {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-    background-color: #ffffff;
-
-    margin: 0;
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    padding: 40px 40px 60px 40px;
-    box-sizing: border-box;
-  }
-
-  .footerItem {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    min-width: 0;
-  }
-
-  .footerItem span {
-    font-size: 14px;
-    font-weight: 400;
-    color: #414343;
-    white-space: nowrap;
-  }
-
-  .footerItem p {
-    font-size: 14px;
-    color: #C4754E;
-    font-weight: 400;
-    white-space: nowrap;
-    overflow: hidden;
-    margin: 0;
+    flex-direction: row;
+    gap: 18px;
+    margin-top: 25px;
+    flex-wrap: wrap;
+    padding-top: 30px;
   }
 }
 

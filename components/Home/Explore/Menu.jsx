@@ -7,13 +7,8 @@ import beverages from "./Menu3.png";
 import desserts from "./Menu4.png";
 
 const MobileArrow = () => (
-  <svg 
-    className={styles.mobileArrow} 
-    width="20" height="20" viewBox="0 0 24 24" fill="none" 
-    stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"
-  >
-    <line x1="7" y1="17" x2="17" y2="7"></line>
-    <polyline points="7 7 17 7 17 17"></polyline>
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0.75 8.75L8.75 0.75M8.75 0.75H0.75M8.75 0.75V8.75" stroke="#414343" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 );
 
@@ -52,8 +47,8 @@ export default function Menu() {
             <div className={styles.imageWrapper}>
               <Image src={item.img} alt={item.title} className={styles.image} fill />
             </div>
-          
-          
+
+
 
             <div className={styles.contentStack}>
               <div className={styles.cardTitle}>
@@ -61,14 +56,14 @@ export default function Menu() {
                 <MobileArrow />
               </div>
 
-                   {/* upadted */}
+              {/* upadted */}
               <div className={styles.hoverContent}>
                 <p className={styles.overlayTitle}>{item.desc}</p>
                 <Link href="/ourmenu" className={styles.exploreLink}>
-                  Explore Now 
+                  Explore Now
                   <span className={styles.arrowIcon}>
                     <svg width="10" height="10" viewBox="0 0 8 8" fill="none">
-                      <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
+                      <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E" />
                     </svg>
                   </span>
                 </Link>

@@ -3,7 +3,7 @@
   background-color: #F5F5F5;
   display: flex;
   flex-direction: column;
-  gap: 32px; 
+  gap: 32px;
 }
 
 .sectionHeading {
@@ -25,7 +25,7 @@
   display: flex;
   flex-direction: column;
   background-color: #FFFFFF;
-  
+
 }
 
 .imageWrapper {
@@ -33,7 +33,7 @@
   height: 368px;
   display: flex;
   flex-shrink: 0;
-  overflow: hidden; 
+  overflow: hidden;
 }
 
 
@@ -42,19 +42,19 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s ease; 
+  transition: transform 0.5s ease;
 }
 
 
 .card:hover .mainImg {
-  transform: scale(1.1); 
+  transform: scale(1.1);
 }
 
 .cardBody {
   padding: 32px 20px 28px;
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
   flex-grow: 1;
 }
 
@@ -70,7 +70,7 @@
 .cardDesc {
   font-size: 16px;
   color: #818686;
-    font-weight: 400;
+  font-weight: 400;
   line-height: 1.5;
   font-family: var(--font-raleway);
   margin: 0;
@@ -82,7 +82,7 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
 }
 
 .pointItem {
@@ -103,7 +103,7 @@
 }
 
 .enquireLink {
-  margin-top: auto; 
+  margin-top: auto;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -113,7 +113,8 @@
   text-decoration: none;
   font-family: var(--font-raleway);
 }
-.enquireLink:hover{
+
+.enquireLink:hover {
   text-decoration: underline;
 }
 
@@ -125,6 +126,7 @@
   .container {
     padding: 60px 60px;
   }
+
   .imageWrapper {
     height: 300px;
   }
@@ -134,6 +136,11 @@
   .card {
     min-width: calc(50% - 32px);
   }
+
+  .card:hover .mainImg {
+    transform: none;
+  }
+
   .imageWrapper {
     height: 280px;
   }
@@ -143,9 +150,11 @@
   .container {
     padding: 40px 20px;
   }
+
   .card {
     min-width: 100%;
   }
+
   .imageWrapper {
     height: 220px;
   }
@@ -156,8 +165,8 @@
     padding: 40px 20px;
     display: flex;
     flex-direction: column;
-   
-    gap: 28px; 
+
+    gap: 28px;
     background-color: #FFFFFF;
   }
 
@@ -165,48 +174,48 @@
     font-size: 20px;
     font-weight: 600;
     color: #414343;
-    margin: 0; 
+    margin: 0;
   }
 
   .grid {
     display: flex;
     flex-direction: column;
-    gap: 24px; 
+    gap: 24px;
   }
 
-.imageWrapper {
-  width: 100%;
-  height: 333px; 
-  display: flex;
-  flex-shrink: 0;
-  padding: 12px; 
-  box-sizing: border-box; 
-  background-color: #F5F5F5; 
-}
+  .imageWrapper {
+    width: 100%;
+    height: 333px;
+    display: flex;
+    flex-shrink: 0;
+    padding: 12px;
+    box-sizing: border-box;
+    background-color: #F5F5F5;
+  }
 
-.mainImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; 
-  display: block;
-}
+  .mainImg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  background-color: #F5F5F5;
-  width: 100%;
-  overflow: hidden;
-  gap: 0; 
-}
-
-  .cardBody {
-   
-    padding: 24px 20px 32px; 
+  .card {
     display: flex;
     flex-direction: column;
-  
-    gap: 16px; 
+    background-color: #F5F5F5;
+    width: 100%;
+    overflow: hidden;
+    gap: 0;
+  }
+
+  .cardBody {
+    padding: 24px 20px 12px;
+    padding-top: 0px;
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
     flex-grow: 1;
   }
 
@@ -222,38 +231,41 @@
     color: #818686;
     line-height: 1.5;
     margin: 0;
+    width: 85%;
   }
 
   .pointsList {
     display: flex;
     flex-direction: column;
-    gap: 12px; 
+    gap: 5px;
     padding: 0;
     margin: 0;
     list-style: none;
+    margin-top: 4px;
   }
 
   .pointItem {
     display: flex;
     align-items: flex-start;
-    gap: 10px; 
+    gap: 10px;
     font-size: 14px;
     color: #818686;
   }
 
   .squareIcon {
     flex-shrink: 0;
-    padding-top: 5px; 
+    padding-top: 5px;
     display: flex;
   }
 
   .enquireLink {
-    margin-top: auto; 
+    margin-top: auto;
     display: flex;
     align-items: center;
     gap: 6px;
     font-size: 14px;
     color: #C4754E;
     text-decoration: none;
+    margin-top: 24px;
   }
 }

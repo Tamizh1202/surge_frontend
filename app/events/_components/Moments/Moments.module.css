@@ -76,7 +76,7 @@
     flex-direction: column; 
     padding: 40px 20px;
     height: auto; 
-    gap: 32px;
+    gap: 8px;
   }
 
   .leftSection, .rightSection {
@@ -99,7 +99,7 @@
     margin-top: 0;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 180px 180px; 
-    gap: 12px;
+    gap: 8px;
   }
 }
 

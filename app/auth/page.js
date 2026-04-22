@@ -135,7 +135,9 @@ function AuthPageContent() {
         router.push(verifyUrl);
       }
     } catch (e) {
-      setError(e.response.data.message || "Something went wrong");
+      console.log("Full error:", e);           // see the raw error
+      console.log("Response:", e.response);   // check if response exists
+      setError(e.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
     }
@@ -389,7 +391,7 @@ function AuthPageContent() {
               aria-label="Sign in with Apple"
             >
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_5492_20142)">
+                <g clipPath="url(#clip0_5492_20142)">
                   <path d="M14.137 0H9.86301C4.41582 0 0 4.41582 0 9.86301V14.137C0 19.5842 4.41582 24 9.86301 24H14.137C19.5842 24 24 19.5842 24 14.137V9.86301C24 4.41582 19.5842 0 14.137 0Z" fill="#1E4BC6" />
                   <path d="M19.7255 12.0073C19.7255 7.74031 16.2664 4.28125 11.9995 4.28125C7.7325 4.28125 4.27344 7.74031 4.27344 12.0073C4.27344 16.2742 7.7325 19.7333 11.9995 19.7333C16.2664 19.7333 19.7255 16.2742 19.7255 12.0073Z" fill="white" />
                   <path d="M13.7649 8.87853C13.7649 7.87988 12.9553 7.07031 11.9567 7.07031C10.958 7.07031 10.1484 7.87988 10.1484 8.87853C10.1484 9.87718 10.958 10.6868 11.9567 10.6868C12.9553 10.6868 13.7649 9.87718 13.7649 8.87853Z" fill="#6D90FF" />

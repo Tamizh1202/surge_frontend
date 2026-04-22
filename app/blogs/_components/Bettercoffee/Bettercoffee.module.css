@@ -1,5 +1,5 @@
 .container {
-  padding: 88px 125px;
+  padding: 10px 125px 88px 125px;
   background-color: #ffffff;
 }
 
@@ -99,7 +99,7 @@
 
 @media (min-width: 1125px) and (max-width: 1450px) {
   .container {
-    padding: 80px 60px;
+    padding: 10px 60px 80px 60px;
   }
 
   .grid {

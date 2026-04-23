@@ -194,7 +194,7 @@ export default function Navbar() {
                         <Link href="/account/orders" className={isActive("/account/orders") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Orders</Link>
                       </li>
                       <li>
-                        <Link href="/account/manage-subscription" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Manage Subscription</Link>
+                        <Link href="/account/whitemantis-beans" className={isActive("/account/manage-subscription") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Surge Rewards</Link>
                       </li>
                       <li>
                         <Link href="/account/wishlist" className={isActive("/account/wishlist") ? styles.activeRed : ""} onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}>Wishlist</Link>

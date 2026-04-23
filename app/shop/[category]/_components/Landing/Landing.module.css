@@ -1,7 +1,6 @@
 .bgImage {
   width: 100%;
- 
-  height: 428px; 
+  height: 400px; 
   background-image: url("./table.png");
   background-repeat: no-repeat;
   background-position: center;
@@ -9,13 +8,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: height 0.3s ease-in-out;
 }
-
-
-
-
 
 
 @media screen and (max-width: 1024px) {
@@ -26,8 +20,8 @@
 
 
 @media screen and (max-width: 768px) {
-  .bgimage {
-    height: 300px; 
+  .bgImage {                   /* was .bgimage */
+    height: 300px;
     background-position: center;
   }
 }

@@ -178,7 +178,7 @@ const PersonalInfoForm = ({
               style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
             >
               <span style={{ textTransform: "capitalize" }}>
-                {profile.gender || "Not Specified"}
+                {profile.gender || "Gender"}
               </span>
               <svg width="17" height="9" viewBox="0 0 17 9" fill="none">
                 <path d="M8.27175 9L-0.000935071 7.02781e-07L16.5444 -1.71995e-06L8.27175 9Z" fill="#ffffff" />

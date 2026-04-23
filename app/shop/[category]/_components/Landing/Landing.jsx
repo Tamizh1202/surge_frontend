@@ -1,4 +1,5 @@
 import styles from "./Landing.module.css";
+import tablePng from "./table.png";  // import it properly
 
 const BANNER_IMAGES = {
     "coffee-beans": "/banners/coffee-beans.png",
@@ -8,7 +9,7 @@ const BANNER_IMAGES = {
 };
 
 export default function Landing({ category }) {
-    const bgImage = BANNER_IMAGES[category] || BANNER_IMAGES["coffee-beans"];
+    const bgImage = "/table.png";
 
     return (
         <section

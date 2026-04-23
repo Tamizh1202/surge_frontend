@@ -59,7 +59,7 @@
   font-weight: 600;
   color: #ffffff;
   width: 230px;
-  padding: 13px 2px;
+  padding: 13px 20px;
   border: none;
   cursor: pointer;
   background-color: var(--primary-color);
@@ -189,6 +189,7 @@
   font-size: 16px;
   color: var(--text-secondary);
   transition: background 0.2s;
+  font-family: var(--font-raleway);
 }
 
 .OptionItem:hover {
@@ -237,8 +238,8 @@
   position: absolute;
   top: calc(100% + 11px);
   /* Moves it exactly below the Field padding */
-  left: -12px;
-  right: -10px;
+  /* left: -12px;
+  right: -10px; */
   /* Counteracts the Field padding to align with border */
   width: calc(100% + 23px);
   /* Makes it flush with the outer Field border */
@@ -256,6 +257,7 @@
   font-size: 14px;
   color: #6e736a;
   transition: background 0.2s;
+  font-size: var(--font-montserrat);
   background: #ffffff;
 }
 
@@ -568,10 +570,8 @@
 .fixerOne,
 .fixerTwo {
   width: 100%;
-  padding: 20px 10px;
+  padding: 8px 16px;
   background-color: #F7F7F7;
-  /* Light gray background from image */
-  border-radius: 4px;
   font-size: 16px;
   font-weight: 400;
   color: #414343;
@@ -580,8 +580,253 @@
   flex-direction: column;
 }
 
+/* Entire inline removed from there */
+/* Overlay & Popup */
+.popupOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
 
+.popup {
+  background: #fff;
+  padding: 40px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
+}
 
+.popupTitle {
+  font-family: var(--font-montserrat);
+  font-size: 22px;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 32px;
+  color: #2f362a;
+}
+
+/* Country field */
+.inputGroup {
+  margin-bottom: 24px;
+}
+
+.inputLabel {
+  font-size: 16px;
+  color: #818686;
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-raleway);
+}
+
+.readOnlyInput {
+  border: none;
+  border-bottom: 1px solid var(--text-secondary);
+  width: 100%;
+  font-family: var(--font-raleway);
+  font-weight: 500;
+  padding: 8px 0;
+  font-size: 16px;
+  color: var(--text-primary);
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+/* Shared line input */
+.lineInput {
+  border: none;
+  border-bottom: 1.5px solid #2f362a4d;
+  width: 100%;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  padding: 8px 0;
+  font-size: 16px;
+  color: #2f362a;
+  outline: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.lineInput::placeholder {
+  color: #a0a0a0;
+}
+
+/* Layout helpers */
+.row {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.flex1 {
+  flex: 1;
+}
+
+.fieldWrapper {
+  margin-bottom: 24px;
+}
+
+.fieldWrapperRelative {
+  position: relative;
+  margin-bottom: 24px;
+}
+
+.optionalTag {
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  color: #a0a0a0;
+  font-size: 16px;
+  font-family: var(--font-raleway);
+}
+
+/* Emirate dropdown */
+.emirateWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.emirateField {
+  border-bottom: 1.5px solid #2f362a4d;
+  padding: 8px 0;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.emirateValue {
+  color: var(--cards-bg);
+}
+
+.emirateSelected {
+  color: var(--text-secondary);
+  /* color: var(--text-primary); */
+}
+
+.arrow {
+  display: inline-block;
+  font-size: 12px;
+  color: #818686;
+  transition: transform 0.3s ease;
+}
+
+.arrowRotated {
+  transform: rotate(180deg);
+}
+
+.customOptionsList {
+  position: absolute;
+  top: 100%;
+  width: 100%;
+  background: #fff;
+  border: 1px solid #2f362a4d;
+  z-index: 10;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.optionItem {
+  padding: 10px 12px;
+  font-family: var(--font-raleway);
+  font-size: 15px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.optionItem:hover {
+  background: #f5f5f5;
+}
+
+/* Phone */
+.phoneWrapper {
+  margin-bottom: 32px;
+}
+
+/* Save As */
+.saveAsWrapper {
+  margin-bottom: 32px;
+}
+
+.saveAsTitle {
+  color: #a0a0a0;
+  font-size: 16px;
+  margin-bottom: 20px;
+  font-family: var(--font-raleway);
+}
+
+.labelGroup {
+  display: flex;
+  gap: 24px;
+}
+
+.labelBtn {
+  flex: 1;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-bottom: 1px solid #2f362a4d;
+  background-color: #fff;
+  height: 30px;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  color: #6E736A;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: all 0.3s;
+}
+
+.labelBtnActive {
+  border-bottom: 2px solid #2f362a4d;
+  background-color: #f5f5f5;
+}
+
+/* Footer */
+.footerActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.cancelBtn {
+  flex: 1;
+  padding: 16px;
+  background: transparent;
+  border: 1.5px solid #c4754e;
+  color: #c4754e;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.saveBtn {
+  flex: 1;
+  padding: 16px;
+  background: #c4754e;
+  border: none;
+  color: #fff;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.saveBtnDisabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* inline stylings done here */
 
 
 .DeleteAccount button {
@@ -612,24 +857,28 @@
   z-index: 11000;
   gap: 0;
 }
-.DeleteAddressUpper{
+
+.DeleteAddressUpper {
   display: flex;
-  gap:10px;
+  gap: 10px;
   flex-direction: column;
   align-items: center;
 }
-.DeleteAddressUpper h3{
-  margin:0px;
+
+.DeleteAddressUpper h3 {
+  margin: 0px;
   font-style: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
 }
-.DeleteAddressUpper p{
-  margin:0px;
+
+.DeleteAddressUpper p {
+  margin: 0px;
   font-size: var(--fs-16);
   font-weight: 400;
   color: var(--text-secondary);
 }
+
 .DeletePopupOverlay,
 .PopupOverlayDeleteAddress {
   position: fixed;
@@ -642,6 +891,16 @@
   z-index: 110;
   padding-left: 25px;
   padding-right: 25px;
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.arrowRotated {
+  /* ← was arrow-rotated */
+  transform: rotate(180deg);
 }
 
 .Popup {
@@ -662,12 +921,24 @@
   color: #6e736a;
 }
 
-.PopupDeleteAddress,
 .DeletePopup {
   background: #ffffff;
   width: 100%;
+  max-width: 570px;
+  height: 230px;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  justify-content: center;
+}
+
+.PopupDeleteAddress {
+  background: #ffffff;
+  width: 100%;
   max-width: 500px;
-  height: 200px;
+  height: 180px;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -682,15 +953,18 @@
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 28px;
+
 }
 
-.DeletePopup h3{
+.DeletePopup h3 {
   font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 10px;
+  margin: 0px;
+  margin-bottom: 13px;
   text-align: center;
+  align-self: baseline;
 }
 
 .Popup p {
@@ -718,12 +992,24 @@
   margin-bottom: 12px;
 }
 
-.DeletePopup p{
+.DeletePopupActions {
+  display: flex;
+  justify-content: flex-start;
+  align-self: baseline;
+  gap: 16px;
+  margin-top: 28px;
+  width: 100%;
+  /* box-sizing: border-box; */
+}
+
+.DeletePopup p {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: var(--text-secondary);
   text-align: center;
   width: 100%;
+  text-align: left;
+  margin: 0px;
 }
 
 .Popup input,
@@ -744,7 +1030,7 @@
   margin-top: 32px;
 }
 
-.DeletePopupActions,
+
 .PopupActionsDeleteAddress {
   display: flex;
   justify-content: flex-start;
@@ -763,13 +1049,22 @@
   width: 235px;
 }
 
-.DeletePopupActions button,
+
+.DeletePopupActions button {
+  padding: 14px 56px;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 600;
+  cursor: pointer;
+  /* width: 235px; */
+}
+
+
 .PopupActionsDeleteAddress button {
   padding: 13px 48px;
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
-
   cursor: pointer;
   /* width: 235px; */
 }
@@ -1053,7 +1348,7 @@
   .Row {
     display: flex;
     grid-template-columns: 1.5fr 1fr;
-    gap:6px;
+    gap: 6px;
   }
 
   .Row2 {
@@ -1062,10 +1357,12 @@
 
     width: 100%;
   }
-  .CustomSelectTrigger{
+
+  .CustomSelectTrigger {
     padding: 19px 0px;
-    gap:130px;
+    gap: 130px;
   }
+
   .Row2 input,
   .Row2 select {
     min-width: 0;
@@ -1104,7 +1401,7 @@
 
   .fixerOne p,
   .fixerTwo p {
-    font-size: 16px;
+    font-size: var(--fs-14);
   }
 
   .AddressHeader {
@@ -1114,12 +1411,22 @@
     align-items: baseline;
   }
 
+  .DeletePopupActions button {
+    padding: 13px 48px;
+  }
+
+  .DeletePopup {
+    box-sizing: content-box;
+    padding: 24px;
+  }
+
   .AddressHeader h4 {
     font-size: 20px;
   }
 
   .AddressSection {
     padding-right: 20px;
+    gap: 35px;
   }
 
   .DeleteAccount {
@@ -1146,6 +1453,29 @@
   .DeletePopupOverlay {
     padding-left: 25px;
     padding-right: 25px;
+  }
+
+  .labelGroup {
+    gap: 15px;
+  }
+
+  .popup {
+    background: #fff;
+    padding: 25px 30px;
+    width: 100%;
+    position: relative;
+    top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .SectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 }
 
@@ -1174,8 +1504,8 @@
   }
 }
 
-@media (min-width:1000px) and (max-width:1400){
-  .main{
+@media (min-width:1000px) and (max-width:1400) {
+  .main {
     padding-left: 40px;
   }
 }

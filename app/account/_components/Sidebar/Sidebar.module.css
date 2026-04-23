@@ -1,8 +1,8 @@
 .Main {
   display: flex;
-  
+
   height: 100%;
-  
+
   padding-left: clamp(40px,
       calc(40px + (370 * ((100vw - 320px) / 1120))),
       410px);
@@ -14,7 +14,7 @@
   justify-content: left;
   flex-direction: column;
   gap: 23px;
- 
+
   height: 100%;
 }
 
@@ -32,7 +32,7 @@
 }
 
 .UserName h3 {
-   font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
@@ -46,7 +46,7 @@
   font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
-   color: var(--text-primary);
+  color: var(--text-primary);
 }
 
 .Bottom {
@@ -63,7 +63,7 @@
   display: flex;
   justify-content: left;
   cursor: pointer;
-    margin-top: 16px;
+  margin-top: 16px;
   align-items: center;
   padding: 21px 0 21px 16px;
   width: clamp(100px, 30vw, 300px);
@@ -109,43 +109,46 @@
 .LogoutOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.4);
+  /* backdrop-filter: blur(6px); */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999999999;
+  z-index: 999;
 }
 
 .LogoutPopup {
   background: #ffffff;
   width: 100%;
-  max-width: 546px;
-  padding: 32px 32px;
+  max-width: 500px;
+  height:140px;
+  padding: 32px;
   z-index: 100000;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .LogoutPopup h2 {
   font-family: var(--font-montserrat);
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
-  color: #414343;
+  color: var(--text-primary);
   text-align: center;
   align-items: center;
   width: 75%;
+  margin: 0px;
 }
 
 .LogoutPopup p {
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
-  color: #818686;
-  margin-top: 10px;
+  color: var(--text-secondary);
+  margin-top: 15px;
   text-align: center;
- 
+  margin-bottom: 0px;
 }
 
 .LogoutActions {
@@ -160,8 +163,8 @@
   padding: 12px 40px;
   background: transparent;
   border: 1px solid #C4754E;
-  color:#C4754E;
-   font-family: var(--font-raleway);
+  color: #C4754E;
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 600;
   cursor: pointer;
@@ -170,7 +173,7 @@
 .ConfirmBtn {
   min-width: 200px;
   padding: 12px 40px;
-  background:#C4754E;
+  background: #C4754E;
   border: none;
   color: #ffffff;
   font-family: var(--font-raleway);

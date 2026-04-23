@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import styles from "../ProfileComponents.module.css";
+import styles from "../ProfileComponents.module.css"
 import { ADDRESS_LABELS, UAE_STATES } from "../profileConstants";
 
 const AddressFormPopup = ({
@@ -33,40 +33,22 @@ const AddressFormPopup = ({
   const saveLabel = isSubmitting ? "Saving..." : "Save";
 
   return (
-    <div className={styles.PopupOverlay} onClick={onCancel}>
-      <div className={styles.Popup} onClick={(e) => e.stopPropagation()} style={{ maxWidth: '500px', padding: '40px' }}>
-        <h3 style={{ 
-          fontFamily: 'var(--font-montserrat)', 
-          fontSize: '22px', 
-          fontWeight: '600', 
-          marginBottom: '32px',
-          color: '#2F362A' 
-        }}>{title}</h3>
+    <div className={styles.popupOverlay} onClick={onCancel}>
+      <div className={styles.popup} onClick={(e) => e.stopPropagation()}>
+        <h3 className={styles.popupTitle}>{title}</h3>
 
-     
-        <div className={styles.inputGroup} style={{ marginBottom: '24px' }}>
-          <label style={{ fontSize: '16px', color: '#818686', display: 'block', marginBottom: '4px',  fontFamily: 'var(--font-raleway)',  }}>Country / Region</label>
+        <div className={styles.inputGroup}>
+          <label className={styles.inputLabel}>Country / Region</label>
           <input
-            style={{ 
-              border: 'none', 
-              borderBottom: '1.5px solid #2F362A4D', 
-              width: '100%', 
-               fontFamily: 'var(--font-raleway)', 
-                fontWeight: '600', 
-              padding: '8px 0', 
-              fontSize: '16px', 
-              color: '#414343',
-              outline: 'none',
-              background: 'transparent'
-            }}
+            className={styles.readOnlyInput}
             value="United Arab Emirates"
             readOnly
           />
         </div>
 
         {/* Name Row */}
-        <div className={styles.divide} style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
-          <div style={{ flex: 1 }}>
+        <div className={styles.row}>
+          <div className={styles.flex1}>
             <input
               className={styles.lineInput}
               placeholder="First Name"
@@ -74,7 +56,7 @@ const AddressFormPopup = ({
               onChange={(e) => onFormChange("addressFirstName", e.target.value)}
             />
           </div>
-          <div style={{ flex: 1 }}>
+          <div className={styles.flex1}>
             <input
               className={styles.lineInput}
               placeholder="Last Name"
@@ -84,8 +66,7 @@ const AddressFormPopup = ({
           </div>
         </div>
 
-        {/* Street */}
-        <div style={{ marginBottom: '24px' }}>
+        <div className={styles.fieldWrapper}>
           <input
             className={styles.lineInput}
             placeholder="House Number, Street Name"
@@ -95,19 +76,19 @@ const AddressFormPopup = ({
         </div>
 
         {/* Apartment */}
-        <div style={{ marginBottom: '24px', position: 'relative' }}>
+        <div className={styles.fieldWrapperRelative}>
           <input
             className={styles.lineInput}
             placeholder="Apartment, Suit etc."
             value={addressForm.apartment || ""}
             onChange={(e) => onFormChange("apartment", e.target.value)}
           />
-          <span style={{ position: 'absolute', right: 0, bottom: '8px', color: '#A0A0A0', fontSize: '16px' }}>(Optional)</span>
+          <span className={styles.optionalTag}>(Optional)</span>
         </div>
 
         {/* City + Emirate */}
-        <div className={styles.divide} style={{ display: 'flex', gap: '24px', marginBottom: '24px' }}>
-          <div style={{ flex: 1 }}>
+        <div className={styles.row}>
+          <div className={styles.flex1}>
             <input
               className={styles.lineInput}
               placeholder="City"
@@ -115,29 +96,29 @@ const AddressFormPopup = ({
               onChange={(e) => onFormChange("city", e.target.value)}
             />
           </div>
-          <div style={{ flex: 1, position: 'relative' }} ref={emirateRef}>
-            <div 
+          <div className={styles.emirateWrapper} ref={emirateRef}>
+            <div
+              className={styles.emirateField}
               onClick={() => setIsEmirateOpen(!isEmirateOpen)}
-              style={{ 
-                borderBottom: '1.5px solid #2F362A4D', 
-                padding: '8px 0', 
-                  fontFamily: 'var(--font-raleway)', 
-                fontWeight: '400', 
-                 fontSize: '16px', 
-                display: 'flex', 
-                color: '#818686',
-                justifyContent: 'space-between',
-                cursor: 'pointer',
-                color: addressForm.state ? '#2F362A' : '#A0A0A0'
-              }}
             >
-              <span>{UAE_STATES.find(s => s.value === addressForm.state)?.label || "Emirate"}</span>
-              <span style={{ fontSize: '16px' }}>▼</span>
+              <span className={`${styles.emirateValue} ${addressForm.state ? styles.emirateSelected : ""}`}>
+                {UAE_STATES.find((s) => s.value === addressForm.state)?.label || "Emirate"}
+              </span>
+              <span className={`${styles.arrow} ${isEmirateOpen ? styles.arrowRotated : ""}`}>
+                ▼
+              </span>
             </div>
             {isEmirateOpen && (
-              <div className={styles.CustomOptionsList} style={{ width: '100%', top: '100%', zIndex: 10 }}>
+              <div className={styles.customOptionsList}>
                 {UAE_STATES.map((opt) => (
-                  <div key={opt.value} className={styles.OptionItem} onClick={() => { onFormChange("state", opt.value); setIsEmirateOpen(false); }}>
+                  <div
+                    key={opt.value}
+                    className={styles.optionItem}
+                    onClick={() => {
+                      onFormChange("state", opt.value);
+                      setIsEmirateOpen(false);
+                    }}
+                  >
                     {opt.label}
                   </div>
                 ))}
@@ -147,7 +128,7 @@ const AddressFormPopup = ({
         </div>
 
         {/* Phone */}
-        <div style={{ marginBottom: '32px' }}>
+        <div className={styles.phoneWrapper}>
           <input
             className={styles.lineInput}
             placeholder="Phone"
@@ -157,25 +138,14 @@ const AddressFormPopup = ({
         </div>
 
         {/* Save As Labels */}
-        <div style={{ marginBottom: '32px' }}>
-          <p style={{ color: '#A0A0A0', fontSize: '16px', marginBottom: '32px' }}>Save As</p>
-          <div style={{ display: 'flex', gap: '24px' }}>
+        <div className={styles.saveAsWrapper}>
+          <p className={styles.saveAsTitle}>Save As</p>
+          <div className={styles.labelGroup}>
             {ADDRESS_LABELS.map((label) => (
-              <div 
-                key={label} 
+              <div
+                key={label}
                 onClick={() => onLabelSelect(label)}
-                style={{ 
-                  cursor: 'pointer',
-                  paddingBottom: '4px',
-                  borderBottom: activeLabelBtn === label ? '2px solid #2F362A4D' : '1px solid #2F362A4D',
-                  color: activeLabelBtn === label ? '#C4754E' : '#A0A0A0',
-                  minWidth: '156px',
-                   fontFamily: 'var(--font-raleway)', 
-                fontWeight: '400', 
-                 color: '#818686',
-                 fontSize: '16px', 
-                  transition: '0.3s'
-                }}
+                className={`${styles.labelBtn} ${activeLabelBtn === label ? styles.labelBtnActive : ""}`}
               >
                 {label}
               </div>
@@ -184,36 +154,14 @@ const AddressFormPopup = ({
         </div>
 
         {/* Footer Actions */}
-        <div style={{ display: 'flex', gap: '16px', marginTop: '32px' }}>
-          <button
-            onClick={onCancel}
-            style={{
-              flex: 1,
-              padding: '16px',
-              background: 'transparent',
-              border: '1.5px solid #C4754E',
-              color: '#C4754E',
-                fontFamily: 'var(--font-raleway)', 
-              fontWeight: '400',
-              cursor: 'pointer'
-            }}
-          >
+        <div className={styles.footerActions}>
+          <button className={styles.cancelBtn} onClick={onCancel}>
             Cancel
           </button>
           <button
+            className={`${styles.saveBtn} ${isSubmitting ? styles.saveBtnDisabled : ""}`}
             onClick={onSave}
             disabled={isSubmitting}
-            style={{
-              flex: 1,
-              padding: '16px',
-              background: '#C4754E',
-              border: 'none',
-              color: '#fff',
-                fontFamily: 'var(--font-raleway)', 
-              fontWeight: '400',
-              cursor: isSubmitting ? 'not-allowed' : 'pointer',
-              opacity: isSubmitting ? 0.7 : 1
-            }}
           >
             {saveLabel}
           </button>

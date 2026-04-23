@@ -81,7 +81,7 @@
 
 .categoryName {
   font-family: var(--font-montserrat);
-  font-size: var(--fs-22);
+  font-size: var(--fs-18);
   font-weight: 600;
   margin: 0;
   color: var(--text-primary);

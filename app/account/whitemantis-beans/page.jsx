@@ -138,29 +138,29 @@ const WhiteMantisBeans = () => {
                 </div>
                 <div className={styles.main1}>
 
+                    <div>
+                        <div className={styles.rewardsBanner}>
+                            <Image
+                                src={coinsbanner}
+                                alt="Surge Rewards Banner"
+                                width={1200}
+                                height={200}
+                                className={styles.bannerImg}
+                                priority
+                            />
+                            <div className={styles.bannerOverlay}>
+                                <div className={styles.balanceWrapper}>
+                                    <h2>500</h2>
+                                    <p>Surge Beans</p>
+                                </div>
 
-                    <div className={styles.rewardsBanner}>
-                        <Image
-                            src={coinsbanner}
-                            alt="Surge Rewards Banner"
-                            width={1200}
-                            height={200}
-                            className={styles.bannerImg}
-                            priority
-                        />
-                        <div className={styles.bannerOverlay}>
-                            <div className={styles.balanceWrapper}>
-                                <h2>500</h2>
-                                <p>Surge Beans</p>
                             </div>
-                           
-                        </div>
-                         <p className={styles.validityText}>
+                            <p className={styles.validityText}>
                                 Surge Beans are valid for 12 months from the date they're earned.
                             </p>
+                        </div>
+
                     </div>
-
-
 
 
                     <section className={styles.box}>
@@ -189,11 +189,12 @@ const WhiteMantisBeans = () => {
                                 </svg>
                                 </div>
                                 <h3>Redeem Favorites</h3>
-                                <p>Cash in your Beans for free espressos, pastries, or bags.</p>
+                                <p>Cash in your Beans for free espressos, pastries, or bags of coffee.</p>
                             </div>
                         </div>
                     </section>
                     <div className={styles.box}>
+
                         <div className={styles.heading}>
                             <h1>Transaction History</h1>
                         </div>
@@ -223,11 +224,11 @@ const WhiteMantisBeans = () => {
                                 <div className={styles.gridss}>
 
                                     <div className={styles.tableHeading}>
-                                        <div>Details</div>
-                                        <div> Type</div>
-                                        <div>Date</div>
-                                        <div>Expiry Date</div>
-                                        <div>Beans</div>
+                                        <div style={{display:"flex",justifyContent:"center"}}>Details</div>
+                                        <div style={{display:"flex",justifyContent:"center"}}> Type</div>
+                                        <div style={{display:"flex",justifyContent:"center"}}>Date</div>
+                                        <div style={{display:"flex",justifyContent:"center"}}>Expiry Date</div>
+                                        <div style={{display:"flex",justifyContent:"center"}}>Beans</div>
                                     </div>
                                     {displayData.map((item, index) => {
                                         const { datePart: txDate, timePart: txTime } = formatDateParts(item.transaction_date);
@@ -241,8 +242,27 @@ const WhiteMantisBeans = () => {
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <div className={styles.itemDate}
-                                                    style={{ color: item.coins.includes('+') ? '#428B54' : '#E54842' }}>
+                                                <div
+                                                    className={styles.itemType}
+                                                    style={{
+                                                        // Dynamic Colors based on your logic
+                                                        color: item.coins.includes('+') ? '#428B54' : '#E54842',
+                                                        backgroundColor: item.coins.includes('+') ? '#EBF7EE' : '#FDEEEE',
+
+                                                        display: 'inline-flex',    
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        padding: '4px 16px',      
+
+                                                       
+                                                        borderRadius: '100px',     
+                                                        width: 'clamp(40px, 6vw, 80px)',
+                                                        fontSize: 'var(--fs-14)',
+                                                        fontWeight: '500',
+                                                        textTransform: 'capitalize',
+                                                      
+                                                    }}
+                                                >
                                                     {item.transaction_type}
                                                 </div>
                                                 <div className={styles.itemDate}>

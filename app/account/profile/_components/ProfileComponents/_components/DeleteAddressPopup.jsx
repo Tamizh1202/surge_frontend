@@ -17,7 +17,7 @@ const DeleteAddressPopup = ({ onConfirm, onCancel }) => {
         onClick={(e) => e.stopPropagation()}
       >
         <div className={styles.DeleteAddressUpper}>
-          <h3>DELETE CONFIRMATION</h3>
+          <h3>Delete Confirmation</h3>
           <p>Are you sure you want to delete this address?</p>
         </div>
 

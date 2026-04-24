@@ -1,201 +1,233 @@
 'use client';
 
-import { useState, useLayoutEffect, useRef } from 'react';
+import { useState, useLayoutEffect, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useSearchParams } from 'next/navigation';
 import styles from './Details.module.css';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import axiosClient from "@/lib/axios";
+import { formatImageUrl } from "@/lib/imageUtils";
 
-// Image imports
-import breakfastImg from './breakfast.png';
-import breadImg from './bread.png';
-import pastryImg from './pastry.png';
+// Fallback image
 import beveragesImg from './beverages.png';
-import cakeImg from './cake.png';
-import canpesImg from './canapes.png';
-import cImg from './cookies.png';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const SECTIONS = [
-  {
-    title: "Breakfast",
-    image: breakfastImg,
-    items: [
-      { id: 101, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breakfastImg },
-      { id: 102, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
-      { id: 103, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: cakeImg },
-      { id: 104, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: canpesImg },
-      { id: 105, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: cImg },
-      { id: 106, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: breakfastImg },
-    ]
-  },
-  {
-    title: "Bread",
-    image: breadImg,
-    items: [
-      { id: 201, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breadImg },
-      { id: 202, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
-      { id: 203, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: cakeImg },
-      { id: 204, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: canpesImg },
-      { id: 205, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: breakfastImg },
-      { id: 206, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: breakfastImg },
-    ]
-  },
-  {
-    title: "Pastries",
-    image: pastryImg,
-    items: [
-      { id: 301, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: pastryImg },
-      { id: 302, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: canpesImg },
-      { id: 303, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: pastryImg },
-      { id: 304, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: pastryImg },
-      { id: 305, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: pastryImg },
-      { id: 306, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: pastryImg },
-    ]
-  },
-  {
-    title: "Beverages",
-    image: beveragesImg,
-    items: [
-      { id: 401, name: 'Almond Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: beveragesImg },
-      { id: 402, name: 'Basque Cheesecake', price: 'AED 12', note: 'Caramelized top, creamy center', image: pastryImg },
-      { id: 403, name: 'Blueberry Cheesecake', price: 'AED 12', note: 'Rich and fruity', image: breakfastImg },
-      { id: 404, name: 'Blueberry Danish', price: 'AED 12', note: 'Buttery, flaky almond delight', image: breakfastImg },
-      { id: 405, name: 'Chocolate Cake', price: 'AED 12', note: 'Decadent cocoa', image: breakfastImg },
-      { id: 406, name: 'Chocolate Mousse', price: 'AED 12', note: 'Light and airy', image: breakfastImg },
-    ]
-  }
-];
-
 export default function Details() {
-  const containerRef = useRef(null);
-  const sectionsRef = useRef([]);
+    const searchParams = useSearchParams();
+    const shopId = searchParams.get("shop");
+    const selectedCategory = searchParams.get("category");
 
-  const [activeSelection, setActiveSelection] = useState({
-    id: 101,
-    image: breakfastImg,
-    sectionIndex: 0
-  });
+    const containerRef = useRef(null);
+    const sectionsRef = useRef([]);
 
+    const [sections, setSections] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [activeSelection, setActiveSelection] = useState({
+        id: null,
+        image: null,
+        sectionIndex: 0
+    });
 
-  useLayoutEffect(() => {
-    let mm = gsap.matchMedia();
-
-    mm.add("(max-width: 768px)", () => {
-      sectionsRef.current.forEach((section, index) => {
-        const itemList = section.querySelector(`.${styles.itemList}`);
-
-        if (itemList) {
-          const listHeight = itemList.scrollHeight;
-          const isLast = index === sectionsRef.current.length - 1;
-
-          gsap.to(itemList, {
-            y: -listHeight,
-            ease: "none",
-            scrollTrigger: {
-              trigger: section,
-              start: "top top",
-              end: () => `+=${listHeight}`,
-              pin: true,
-              pinSpacing: false,
-              scrub: 0.05,
-              ...(isLast && {
-                onUpdate: (self) => {
-                  const remaining = listHeight * (1 - self.progress);
-                  itemList.style.height = `${remaining}px`;
-                  itemList.style.overflow = 'hidden';
-
-                  const spacer = section.parentElement;
-                  if (spacer?.classList.contains('pin-spacer')) {
-                    const imageH = section.querySelector(`.${styles.imageWrapper}`)?.offsetHeight || 0;
-                    spacer.style.height = `${imageH + remaining + 80}px`;
-                    spacer.style.minHeight = '0px';
-                  }
-                },
-                onLeave: () => {
-                  itemList.style.height = '0px';
-                  const spacer = section.parentElement;
-                  if (spacer?.classList.contains('pin-spacer')) {
-                    spacer.style.height = '0px';
-                    spacer.style.minHeight = '0px';
-                  }
-                },
-                onEnterBack: () => {
-                  itemList.style.height = '';
-                  itemList.style.overflow = '';
-                  const spacer = section.parentElement;
-                  if (spacer?.classList.contains('pin-spacer')) {
-                    spacer.style.height = '';
-                    spacer.style.minHeight = '';
-                  }
-                }
-              })
+    useEffect(() => {
+        const fetchMenuItems = async () => {
+            if (!shopId) {
+                setLoading(false);
+                return;
             }
-          });
+            setLoading(true);
+            try {
+                const response = await axiosClient.get(`/api/shop/${shopId}/menu-items?page=1&limit=100`);
+                const items = response.data.items || [];
+
+                // Group by category
+                const groups = items.reduce((acc, item) => {
+                    const catId = item.category?.id;
+                    const catTitle = item.category?.title || 'Other';
+                    if (!acc[catId]) {
+                        acc[catId] = {
+                            id: catId,
+                            title: catTitle,
+                            items: []
+                        };
+                    }
+                    acc[catId].items.push({
+                        id: item.id,
+                        name: item.name,
+                        price: item.salePrice ? `AED ${item.salePrice}` : item.price ? `AED ${item.price}` : '',
+                        note: item.tagline || '',
+                        image: formatImageUrl(item.image?.url) || beveragesImg
+                    });
+                    return acc;
+                }, {});
+
+                const dynamicSections = Object.values(groups);
+
+                setSections(dynamicSections);
+
+                if (dynamicSections.length > 0 && dynamicSections[0].items.length > 0) {
+                    setActiveSelection({
+                        id: dynamicSections[0].items[0].id,
+                        image: dynamicSections[0].items[0].image,
+                        sectionIndex: 0
+                    });
+                }
+            } catch (error) {
+                console.error("Error fetching menu items:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchMenuItems();
+    }, [shopId]);
+
+    useEffect(() => {
+        if (!loading && selectedCategory && sections.length > 0) {
+            const index = sections.findIndex(s => String(s.id) === String(selectedCategory));
+            if (index !== -1 && sectionsRef.current[index]) {
+                const element = sectionsRef.current[index];
+                const offset = 80; // Adjust for sticky header if any
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - offset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
         }
-      });
-    });
+    }, [selectedCategory, loading, sections]);
 
-    return () => mm.revert();
-  }, []);
 
-  const handleItemHover = (sectionIndex, item) => {
-    setActiveSelection({
-      id: item.id,
-      image: item.image,
-      sectionIndex: sectionIndex
-    });
-  };
+    useLayoutEffect(() => {
+        if (loading || sections.length === 0) return;
 
-  return (
-    <main ref={containerRef} className={styles.container}>
-      {SECTIONS.map((section, sectionIndex) => (
-        <section
-          key={sectionIndex}
-          ref={(el) => (sectionsRef.current[sectionIndex] = el)}
-          className={styles.selectedSection}
-        >
-          <h2 className={styles.categoryTitle}>{section.title}</h2>
+        let mm = gsap.matchMedia();
 
-          <div className={styles.menuContainer}>
-            {/* Item List Pehle */}
-            <div className={styles.itemList}>
-              {section.items.map((item) => (
-                <div
-                  key={item.id}
-                  className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
-                  onMouseEnter={() => handleItemHover(sectionIndex, item)}
-                  onClick={() => handleItemHover(sectionIndex, item)}  // ← add this
+        mm.add("(max-width: 768px)", () => {
+            sectionsRef.current.forEach((section, index) => {
+                if (!section) return;
+                const itemList = section.querySelector(`.${styles.itemList}`);
+
+                if (itemList) {
+                    const listHeight = itemList.scrollHeight;
+                    const isLast = index === sectionsRef.current.length - 1;
+
+                    gsap.to(itemList, {
+                        y: -listHeight,
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: section,
+                            start: "top top",
+                            end: () => `+=${listHeight}`,
+                            pin: true,
+                            pinSpacing: false,
+                            scrub: 0.05,
+                            ...(isLast && {
+                                onUpdate: (self) => {
+                                    const remaining = listHeight * (1 - self.progress);
+                                    itemList.style.height = `${remaining}px`;
+                                    itemList.style.overflow = 'hidden';
+
+                                    const spacer = section.parentElement;
+                                    if (spacer?.classList.contains('pin-spacer')) {
+                                        const imageH = section.querySelector(`.${styles.imageWrapper}`)?.offsetHeight || 0;
+                                        spacer.style.height = `${imageH + remaining + 80}px`;
+                                        spacer.style.minHeight = '0px';
+                                    }
+                                },
+                                onLeave: () => {
+                                    itemList.style.height = '0px';
+                                    const spacer = section.parentElement;
+                                    if (spacer?.classList.contains('pin-spacer')) {
+                                        spacer.style.height = '0px';
+                                        spacer.style.minHeight = '0px';
+                                    }
+                                },
+                                onEnterBack: () => {
+                                    itemList.style.height = '';
+                                    itemList.style.overflow = '';
+                                    const spacer = section.parentElement;
+                                    if (spacer?.classList.contains('pin-spacer')) {
+                                        spacer.style.height = '';
+                                        spacer.style.minHeight = '';
+                                    }
+                                }
+                            })
+                        }
+                    });
+                }
+            });
+        });
+
+        return () => mm.revert();
+    }, [loading, sections]);
+
+    const handleItemHover = (sectionIndex, item) => {
+        setActiveSelection({
+            id: item.id,
+            image: item.image,
+            sectionIndex: sectionIndex
+        });
+    };
+
+    if (loading) return <div className={styles.loading}>Loading menu...</div>;
+    if (sections.length === 0) {
+        return (
+            <div className={styles.noItems}>
+                {!shopId ? "Please select a shop to view the menu." : "No items found for this selection."}
+            </div>
+        );
+    }
+
+    return (
+        <main ref={containerRef} className={styles.container}>
+            {sections.map((section, sectionIndex) => (
+                <section
+                    key={section.id || sectionIndex}
+                    ref={(el) => (sectionsRef.current[sectionIndex] = el)}
+                    className={styles.selectedSection}
                 >
-                  <div className={styles.itemInfo}>
-                    <h1>{item.name}</h1>
-                    <p>{item.note}</p>
-                  </div>
-                  <span className={styles.price}>{item.price}</span>
-                </div>
-              ))}
-            </div>
+                    <h2 className={styles.categoryTitle}>{section.title}</h2>
 
+                    <div className={styles.menuContainer}>
+                        <div className={styles.itemList}>
+                            {section.items.map((item) => (
+                                <div
+                                    key={item.id}
+                                    className={`${styles.menuItem} ${activeSelection.id === item.id ? styles.activeItem : ''}`}
+                                    onMouseEnter={() => handleItemHover(sectionIndex, item)}
+                                    onClick={() => handleItemHover(sectionIndex, item)}
+                                >
+                                    <div className={styles.itemInfo}>
+                                        <h1>{item.name}</h1>
+                                        <p>{item.note}</p>
+                                    </div>
+                                    <span className={styles.price}>{item.price}</span>
+                                </div>
+                            ))}
+                        </div>
 
-            <div className={styles.imageWrapper}>
-              <div
-                key={activeSelection.sectionIndex === sectionIndex ? activeSelection.id : `default-${sectionIndex}`}
-                className={styles.imageAnimWrapper}
-              >
-                <Image
-                  src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : section.defaultImage || section.image}
-                  alt={section.title}
-                  width={541}
-                  height={541}
-                  className={styles.menuImage}
-                  priority={sectionIndex === 0}
-                />
-              </div>
-            </div>
-          </div>
-        </section>
-      ))}
-    </main>
-  );
+                        <div className={styles.imageWrapper}>
+                            <div
+                                key={activeSelection.sectionIndex === sectionIndex ? activeSelection.id : `default-${sectionIndex}`}
+                                className={styles.imageAnimWrapper}
+                            >
+                                <Image
+                                    src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : (section.items[0]?.image || beveragesImg)}
+                                    alt={section.title}
+                                    width={541}
+                                    height={541}
+                                    className={styles.menuImage}
+                                    priority={sectionIndex === 0}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            ))}
+        </main>
+    );
 }

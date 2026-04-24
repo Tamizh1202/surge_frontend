@@ -345,3 +345,13 @@
     background-color: #F5F5F5;
   }
 }
+
+.loading, .noItems {
+  width: 100%;
+  padding: 100px 20px;
+  text-align: center;
+  font-family: var(--font-montserrat);
+  font-size: 20px;
+  color: #818686;
+  background-color: #ffffff;
+}

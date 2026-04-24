@@ -36,11 +36,20 @@ export default function ShopSelector() {
     fetchShops();
   }, []);
 
+  useEffect(() => {
+    if (!loading && shops.length > 0 && !selectedShop) {
+      handleShopClick(shops[0].id);
+    }
+  }, [loading, shops, selectedShop]);
+
+
   const handleShopClick = (shopId) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("shop", shopId);
+    params.delete("category");
     router.push(`?${params.toString()}`, { scroll: false });
   };
+
 
   if (loading) {
     return (
@@ -66,9 +75,8 @@ export default function ShopSelector() {
         {shops.map((shop) => (
           <button
             key={shop.id}
-            className={`${styles.shopButton} ${
-              selectedShop === String(shop.id) ? styles.activeShop : ""
-            }`}
+            className={`${styles.shopButton} ${selectedShop === String(shop.id) ? styles.activeShop : ""
+              }`}
             onClick={() => handleShopClick(shop.id)}
           >
             <div className={styles.shopIcon}>

@@ -1,10 +1,9 @@
 "use client";
 import React, { useState } from "react";
-import { useCart } from "../_context/CartContext";
+import { useCart } from "@/app/_context/CartContext";
 
-const AddToCart = ({ product }) => {
-  const { addItem } = useCart();
-
+const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
+  const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
 
   const handleAddToCart = async (e) => {
@@ -13,7 +12,6 @@ const AddToCart = ({ product }) => {
 
     if (loading) return;
 
-    // Check if product prop is provided
     if (!product) {
       console.error("Product prop is required for AddToCart component");
       return;
@@ -21,13 +19,14 @@ const AddToCart = ({ product }) => {
 
     setLoading(true);
     try {
-      await addItem(product.product_id, product.quantity || 1, {
-        name: product.name,
-        variation_id: product.variation_id,
-        description: product.description,
-        image: product.image,
-        tagline: product.tagline,
-      });
+      const productId = product.productId || product.id || product.product;
+      const variationId =
+        product.variationId || product.vId || product.variantId || "";
+      const finalQuantity = propQuantity || product.quantity || 1;
+
+      await addToCart(productId, finalQuantity, variationId, product);
+
+      if (onSuccess) onSuccess();
     } catch (err) {
       console.error("Add to cart error", err);
     } finally {
@@ -54,10 +53,10 @@ const AddToCart = ({ product }) => {
         opacity: loading ? 0.6 : 1,
       }}
       onMouseEnter={(e) => {
-        if (!loading) e.target.style.backgroundColor = "#5f6f57";
+        if (!loading) e.target.style.backgroundColor = "#C4754E";
       }}
       onMouseLeave={(e) => {
-        if (!loading) e.target.style.backgroundColor = "#6C7A5F";
+        if (!loading) e.target.style.backgroundColor = "#C4754E";
       }}
     >
       {loading ? "Adding..." : "Add to Cart"}

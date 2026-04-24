@@ -1,128 +1,168 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styles from "./WhislistComponents.module.css";
 import Image from "next/image";
 import zeroWish from "./zeroWish.png";
-import cof from "./cof.png";
 import { useRouter } from "next/navigation";
-import Link from "next/link"; // For the "View Cart" button in popup
+import { useWishlist } from "@/app/_context/WishlistContext";
+import { useCart } from "@/app/_context/CartContext";
+import { formatImageUrl } from "@/lib/imageUtils";
+import {
+  getSortedVariants,
+} from "@/app/_utils/productVariants";
+// import SubscriptionPopup from "@/app/shop/[category]/_components/Listing/_components/SubscriptionPopup";
+// import AddToCartPopup from "@/app/_components/AddToCartPopup/AddToCartPopup";
 
 const WishlistComponents = () => {
   const router = useRouter();
+  const { items: wishlistData, loading, remove } = useWishlist();
+  const { addToCart } = useCart();
 
-  const [wishlistData, setWishlistData] = useState([
-    {
-      id: "wish_01",
-      product: {
-        value: {
-          id: "prod_01",
-          name: "Indonesia Banner Mariah",
-          tagline: "Triple Wet Hull",
-          slug: "indonesia-banner-mariah",
-          description: "Citrus, nutty, chocolate",
-          regularPrice: 75.00,
-          salePrice: 60.00,
-          productImage: cof,
-          categories: { slug: "coffee-beans" },
-          inStock: true,
-        }
-      }
-    },
-    {
-      id: "wish_02",
-      product: {
-        value: {
-          id: "prod_02",
-          name: "Indonesia Meriah",
-          tagline: "Anaerobic Natural",
-          slug: "indonesia-meriah-anaerobic",
-          description: "Floral, fruity, complex",
-          regularPrice: 80.00,
-          salePrice: 65.00,
-          productImage: cof,
-          categories: { slug: "limited-edition" },
-          inStock: true,
-        }
-      }
-    }, 
-    {
-      id: "wish_02",
-      product: {
-        value: {
-          id: "prod_02",
-          name: "Indonesia Meriah",
-          tagline: "Anaerobic Natural",
-          slug: "indonesia-meriah-anaerobic",
-          description: "Floral, fruity, complex",
-          regularPrice: 80.00,
-          salePrice: 65.00,
-          productImage: cof,
-          categories: { slug: "limited-edition" },
-          inStock: true,
-        }
-      }
-    },{
-      id: "wish_02",
-      product: {
-        value: {
-          id: "prod_02",
-          name: "Indonesia Meriah",
-          tagline: "Anaerobic Natural",
-          slug: "indonesia-meriah-anaerobic",
-          description: "Floral, fruity, complex",
-          regularPrice: 80.00,
-          salePrice: 65.00,
-          productImage: cof,
-          categories: { slug: "limited-edition" },
-          inStock: true,
-        }
-      }
-    },
-    {
-      id: "wish_03",
-      product: {
-        value: {
-          id: "prod_03",
-          name: "Indian Meriah",
-          tagline: "Anaerobic Natural",
-          slug: "indonesia-meriah-anaerobic",
-          description: "Floral, fruity, complex",
-          regularPrice: 80.00,
-          salePrice: 65.00,
-          productImage: cof,
-          categories: { slug: "limited-edition" },
-          inStock: true,
-        }
-      }
-    }
-  ]);
+  // Logic from provided snippet
+  const [selectedVariations, setSelectedVariations] = useState({});
+  const [showSubscribePopup, setShowSubscribePopup] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedFrequency, setSelectedFrequency] = useState(null);
+  const [selectedQuantity, setSelectedQuantity] = useState(2);
+  const popupRef = useRef(null);
 
-  const [loading, setLoading] = useState(false);
-
-  // New States for "Added to Cart" checking
-  const [addingId, setAddingId] = useState(null); // Tracks which specific button is "Adding..."
-  const [showPopup, setShowPopup] = useState(false);
+  const [addingId, setAddingId] = useState(null);
   const [activeProduct, setActiveProduct] = useState(null);
 
-  const handleRemoveMock = (id) => {
-    setWishlistData((prev) => prev.filter((item) => item.id !== id));
+
+  useEffect(() => {
+    if (wishlistData?.length > 0) {
+      const initialSelections = {};
+      wishlistData.forEach((item) => {
+        const productDoc = item.product?.value;
+        if (productDoc?.variants?.length > 0) {
+          const sorted = getSortedVariants(productDoc);
+          initialSelections[item.id] = sorted[0];
+        }
+      });
+      setSelectedVariations(initialSelections);
+    }
+  }, [wishlistData]);
+
+  useEffect(() => {
+    if (!showSubscribePopup) return;
+    const handleClickOutside = (e) => {
+      if (popupRef.current && !popupRef.current.contains(e.target)) {
+        setShowSubscribePopup(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showSubscribePopup]);
+
+  const handleRemove = async (productId) => {
+    await remove(productId);
   };
 
-  const handleAddToCart = (product) => {
+  const handleProductClick = (slug, category) => {
+    router.push(`/shop/${category}/${slug}`);
+  };
+
+  const handleOpenCartPopup = (item) => {
+    setProductForCart(item);
+    setShowCartPopup(true);
+  };
+
+  const handleOpenSubscribePopup = (product) => {
+    let subFreqs = [];
+    let discount = 0;
+    if (product.hasVariantOptions && product.variants?.length > 0) {
+      const subVariant = product.variants.find((v) => v.hasVariantSub) || product.variants[0];
+      subFreqs = subVariant.subFreq || [];
+      discount = subVariant.subscriptionDiscount || 0;
+      setSelectedProduct({
+        parent: product,
+        variant: subVariant,
+        isVariant: true,
+        discount,
+        subFreqs,
+      });
+    } else {
+      subFreqs = product.subFreq || [];
+      discount = product.subscriptionDiscount || 0;
+      setSelectedProduct({
+        parent: product,
+        isVariant: false,
+        discount,
+        subFreqs,
+      });
+    }
+    if (subFreqs.length > 0) setSelectedFrequency(subFreqs[0]);
+    setSelectedQuantity(2);
+    setShowSubscribePopup(true);
+  };
+
+  const handleSubscriptionCheckout = () => {
+    if (!selectedProduct || !selectedFrequency) return;
+    const params = new URLSearchParams({
+      mode: "subscription",
+      productId: selectedProduct.parent.id,
+      subscriptionId: selectedFrequency.id || selectedFrequency._id || "",
+      variationId: selectedProduct.isVariant ? selectedProduct.variant.id : "",
+      quantity: selectedQuantity.toString(),
+    });
+    router.push(`/checkout?${params.toString()}`);
+  };
+
+  const getFrequencyLabel = (freq) => {
+    if (!freq) return "";
+    const plural = freq.duration > 1 ? "s" : "";
+    return `Every ${freq.duration} ${freq.interval}${plural}`;
+  };
+
+  const getVariationImage = (item) => {
+    const selectedVariation = selectedVariations[item.id];
+    if (selectedVariation?.variantImage) {
+      return formatImageUrl(selectedVariation.variantImage);
+    }
+    const productDoc = item.product?.value;
+    return formatImageUrl(productDoc?.variants?.[0]?.variantImage) || formatImageUrl(productDoc?.productImage);
+  };
+
+  const getVariationPrice = (item, productDoc) => {
+    const selectedVariation = selectedVariations[item.id];
+    const price = selectedVariation ? (selectedVariation.variantSalePrice || selectedVariation.variantRegularPrice || 0) : (productDoc?.salePrice || productDoc?.regularPrice || 0);
+    return `AED ${parseFloat(price).toFixed(2)}`;
+  };
+
+  const getRegularPrice = (item, productDoc) => {
+    const selectedVariation = selectedVariations[item.id];
+    if (selectedVariation) {
+      const regular = selectedVariation.variantRegularPrice;
+      const sale = selectedVariation.variantSalePrice;
+      if (regular && sale && parseFloat(regular) > parseFloat(sale)) return `AED ${parseFloat(regular).toFixed(2)}`;
+    }
+    if (productDoc?.salePrice && productDoc?.regularPrice && parseFloat(productDoc.regularPrice) > parseFloat(productDoc.salePrice)) {
+      return `AED ${parseFloat(productDoc.regularPrice).toFixed(2)}`;
+    }
+    return null;
+  };
+
+  const handleAddToCart = async (productDoc, itemId) => {
     if (addingId) return;
 
-    setAddingId(product.id);
-    setActiveProduct(product);
+    setAddingId(itemId);
+    setActiveProduct(productDoc);
+    try {
+      // Use existing selection or fallback to first variant
+      const selectedVariation = selectedVariations[itemId] || productDoc.variants?.[0];
 
-    // Simulation of adding to cart
-    setTimeout(() => {
+      await addToCart(productDoc.id, 1, selectedVariation?.id || null, {
+        name: productDoc.name,
+        image: getVariationImage({ id: itemId, product: { value: productDoc } }),
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error);
+    } finally {
       setAddingId(null);
-      setShowPopup(true);
-
-      // Auto-hide popup after 4 seconds
-      setTimeout(() => setShowPopup(false), 4000);
-    }, 800);
+    }
   };
+
 
   if (loading) {
     return (
@@ -147,28 +187,33 @@ const WishlistComponents = () => {
           <div className={styles.EmptyState}>
             <Image src={zeroWish} alt="No products" width={140} height={140} priority />
             <p className={styles.EmptyText}>Your wish list is empty.</p>
+            <p className={styles.EmptySubText}>Explore more and shortlist some items.</p>
             <button className={styles.ShopNow} onClick={() => router.push("/shop")}>Shop now</button>
           </div>
         ) : (
           <div className={styles.Bottom}>
             {wishlistData.map((item) => {
-              const product = item.product.value;
-              const isAdding = addingId === product.id;
+              const product = item.product?.value;
+              if (!product) return null;
+              const isAdding = addingId === item.id;
+              const imageUrl = getVariationImage(item);
 
               return (
                 <div key={item.id} className={styles.Card}>
-                  <div className={styles.RemoveIcon} onClick={() => handleRemoveMock(item.id)}>✕</div>
-                  <div className={styles.ImgContainer}>
-                    <Image src={product.productImage} alt={product.name} width={295} height={339} className={styles.Img} />
+                  <div className={styles.RemoveIcon} onClick={() => handleRemove(product.id)}>✕</div>
+                  <div className={styles.ImgContainer} onClick={() => handleProductClick(product.slug, product.categories?.slug)} style={{ cursor: 'pointer' }}>
+                    <Image src={imageUrl} alt={product.name} width={295} height={339} className={styles.Img} />
                   </div>
                   <div className={styles.CardContent}>
-                    <h4 className={styles.ProductName}>{product.name} {product.tagline}</h4>
+                    <h4 className={styles.ProductName} onClick={() => handleProductClick(product.slug, product.categories?.slug)} style={{ cursor: 'pointer' }}>
+                      {product.name} {product.tagline}
+                    </h4>
                     <p className={styles.Description}>{product.description}</p>
                     <div className={styles.PriceRow}>
-                      <span className={styles.CurrentPrice}>AED {product.salePrice.toFixed(2)}</span>
+                      <span className={styles.CurrentPrice}>{getVariationPrice(item, product)}</span>
                       <button
                         className={styles.AddToCartBtn}
-                        onClick={() => handleAddToCart(product)}
+                        onClick={() => handleAddToCart(product, item.id)}
                         disabled={isAdding}
                         style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
                       >
@@ -183,61 +228,21 @@ const WishlistComponents = () => {
         )}
       </div>
 
-      {/* --- ADDED TO CART POPUP --- */}
-      {showPopup && activeProduct && (
-        <div style={{
-          position: 'fixed',
-          top: '20px',
-          right: '20px',
-          width: '320px',
-          backgroundColor: '#fff',
-          boxShadow: '0 10px 30px rgba(0,0,0,0.15)',
-          padding: '20px',
-          zIndex: 10000,
-          borderRadius: '4px',
-          border: '1px solid #f0f0f0',
-          animation: 'slideIn 0.3s ease-out'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-            <span style={{ fontWeight: '600', fontSize: '16px', color: '#1a1a1a' }}>Added to Cart</span>
-            <button onClick={() => setShowPopup(false)} style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '18px', color: '#999' }}>✕</button>
-          </div>
+      {/* <SubscriptionPopup
+        showSubscribePopup={showSubscribePopup}
+        setShowSubscribePopup={setShowSubscribePopup}
+        selectedProduct={selectedProduct}
+        setSelectedProduct={setSelectedProduct}
+        selectedFrequency={selectedFrequency}
+        setSelectedFrequency={setSelectedFrequency}
+        selectedQuantity={selectedQuantity}
+        setSelectedQuantity={setSelectedQuantity}
+        handleSubscriptionCheckout={handleSubscriptionCheckout}
+        getFrequencyLabel={getFrequencyLabel}
+        popupRef={popupRef}
+        styles={styles}
+      /> */}
 
-          <div style={{ display: 'flex', gap: '12px', marginBottom: '20px' }}>
-            <div style={{ width: '60px', height: '60px', flexShrink: 0 }}>
-              <Image src={activeProduct.productImage} alt="Product" width={60} height={60} style={{ objectFit: 'cover' }} />
-            </div>
-            <div>
-              <div style={{ fontSize: '13px', fontWeight: '500', color: '#333', lineHeight: '1.4' }}>{activeProduct.name}</div>
-              <div style={{ fontSize: '12px', color: '#777' }}>{activeProduct.tagline}</div>
-            </div>
-          </div>
-
-          <button
-            onClick={() => router.push('/cart')}
-            style={{
-              width: '100%',
-              backgroundColor: '#C4815E',
-              color: 'white',
-              border: 'none',
-              padding: '12px',
-              fontSize: '14px',
-              fontWeight: '500',
-              cursor: 'pointer'
-            }}
-          >
-            View Cart
-          </button>
-        </div>
-      )}
-
-      {/* Basic animation style */}
-      <style jsx>{`
-        @keyframes slideIn {
-          from { transform: translateX(100%); opacity: 0; }
-          to { transform: translateX(0); opacity: 1; }
-        }
-      `}</style>
     </div>
   );
 };

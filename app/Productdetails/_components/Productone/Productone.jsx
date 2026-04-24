@@ -3,42 +3,45 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import styles from './Productone.module.css';
 import Image from 'next/image';
+import AddToCart from '@/components/AddToCart';
 
-import beanImg from './packet.png'; 
+import beanImg from './packet.png';
 import capImg from './cap.png';
-import dripImg from './d.png'; 
-import merchImg from './m.png'; 
+import dripImg from './d.png';
+import merchImg from './m.png';
+
+import { formatImageUrl } from '@/lib/imageUtils';
 
 const TYPE_CONFIG = {
-  beans: { 
-    defaultImg: beanImg, 
-    label: "Size", 
-    options: ['250 gm', '500 gm', '1 kg'], 
-    specLabel: "Variety" 
+  beans: {
+    defaultImg: beanImg,
+    label: "Size",
+    options: ['250 gm', '500 gm', '1 kg'],
+    specLabel: "Variety"
   },
-  capsule: { 
-    defaultImg: capImg, 
-    label: "Pack Count", 
-    options: ['10 Pods', '30 Pods', '50 Pods'], 
-    specLabel: "Compatibility" 
+  capsule: {
+    defaultImg: capImg,
+    label: "Pack Count",
+    options: ['10 Pods', '30 Pods', '50 Pods'],
+    specLabel: "Compatibility"
   },
-  drip: { 
-    defaultImg: dripImg, 
-    label: "Quantity", 
-    options: ['5 Bags', '10 Bags', '20 Bags'], 
-    specLabel: "Roast" 
+  drip: {
+    defaultImg: dripImg,
+    label: "Quantity",
+    options: ['5 Bags', '10 Bags', '20 Bags'],
+    specLabel: "Roast"
   },
-  merch: { 
-    defaultImg: merchImg, 
-    label: "Select Size", 
-    options: ['S', 'M', 'L', 'XL'], 
-    specLabel: "Material" 
+  merch: {
+    defaultImg: merchImg,
+    label: "Select Size",
+    options: ['S', 'M', 'L', 'XL'],
+    specLabel: "Material"
   }
 };
 
-export default function ProductPage() {
+export default function ProductOne({ initialProduct }) {
   const params = useParams();
-  const slug = params.slug; 
+  const slug = params.slug;
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -49,7 +52,6 @@ export default function ProductPage() {
   // Scroll logic to trigger animation
   useEffect(() => {
     const handleScroll = () => {
-  
       if (window.scrollY > 0) {
         setIsExpanded(true);
       } else {
@@ -62,97 +64,119 @@ export default function ProductPage() {
   }, []);
 
   useEffect(() => {
-    const fetchProductData = () => {
-      const isCapsule = slug.includes('nespresso') || slug.includes('pods');
-      const isDrip = slug.includes('drip');
-      const isMerch = slug.includes('shirt') || slug.includes('mug') || slug.includes('merch');
-      
+    if (initialProduct) {
+      const categorySlug = initialProduct.categories?.slug || "";
       let productType = 'beans';
-      if (isCapsule) productType = 'capsule';
-      else if (isDrip) productType = 'drip';
-      else if (isMerch) productType = 'merch';
+      if (categorySlug.includes('capsule')) productType = 'capsule';
+      else if (categorySlug.includes('drip')) productType = 'drip';
+      else if (categorySlug.includes('merch')) productType = 'merch';
 
-      let priceValue = 65; 
-      if (slug.includes('-0')) priceValue = 55;
-      if (slug.includes('-3')) priceValue = 58;
-      if (slug.includes('-2')) priceValue = 70;
-      if (slug.includes('ethiopia')) priceValue = 75;
-      const generatedData = {
-        name: slug.replace(/-/g, ' ').toUpperCase(),
-        price: priceValue,
+      const mappedData = {
+        name: initialProduct.name,
+        price: initialProduct.salePrice || initialProduct.regularPrice,
         type: productType,
-        notes: isCapsule ? "Floral, berry, bright" : "Citrus, nutty, chocolate",
-        specs: { 
-          origin: slug.split('-')[0].toUpperCase(), 
-          val: isCapsule ? "Nespresso Original" : "Premium Arabica", 
-          process: slug.includes('ethiopia') ? "Washed" : "Natural" 
+        notes: initialProduct.tastingNotes || "",
+        specs: {
+          origin: initialProduct.farm || "",
+          val: productType === 'beans' ? (initialProduct.variety || "") : (initialProduct.material || ""),
+          process: initialProduct.process || ""
         },
-        desc: "A high-altitude heirloom from Guji, bright and expressive with delicate floral lift and stone-fruit sweetness. Silky in body with a tea-like finish, it unfolds in layers of citrus zest, white blossom aromatics, and subtle honeyed notes. Perfect for slow brews and mindful sips, this cup is both refreshing and nuanced."
+        desc: initialProduct.description || "",
+        image: formatImageUrl(initialProduct.productImage),
+        variants: initialProduct.variants || [],
+        techSpecs: {
+          body: initialProduct.body || "N/A",
+          aroma: initialProduct.aroma || "N/A",
+          roast: initialProduct.roast || "N/A",
+          altitude: initialProduct.altitude || "N/A",
+          finish: initialProduct.finish || "N/A"
+        }
       };
-      setProduct(generatedData);
-      setSelectedSize(TYPE_CONFIG[productType].options[0]);
+
+      setProduct(mappedData);
+
+      // Handle variants for sizes
+      if (initialProduct.variants && initialProduct.variants.length > 0) {
+        setSelectedSize(initialProduct.variants[0].variantName);
+      } else {
+        setSelectedSize(TYPE_CONFIG[productType].options[0]);
+      }
+
       setLoading(false);
-    };
+    }
+  }, [initialProduct]);
 
-    if (slug) fetchProductData();
-  }, [slug]);
-
-  if (loading) return <div className={styles.loading}>Loading...</div>;
+  if (loading || !product) return <div className={styles.loading}>Loading...</div>;
 
   const config = TYPE_CONFIG[product.type] || TYPE_CONFIG.beans;
+  const currentVariant = product.variants.find(v => v.variantName === selectedSize);
+  const displayPrice = currentVariant
+    ? (currentVariant.variantSalePrice || currentVariant.variantRegularPrice)
+    : product.price;
 
-  const getCalculatedPrice = () => {
-    let base = product.price;
-    if (selectedSize === '500 gm' || selectedSize === '30 Pods' || selectedSize === '10 Bags') base = base * 1.8;
-    if (selectedSize === '1 kg' || selectedSize === '50 Pods' || selectedSize === '20 Bags') base = base * 3.2;
-    return Math.round(base * quantity);
-  };
+  const productImage = currentVariant?.variantImage
+    ? formatImageUrl(currentVariant.variantImage)
+    : (product.image || config.defaultImg);
 
   return (
     <div className={styles.container}>
-  
+
       <div className={styles.stickyWrapper}>
         <div className={styles.imageSection}>
           <div className={styles.productWrapper}>
-            <Image 
-              src={config.defaultImg} 
-              alt={product.name} 
-              className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`} 
-              priority 
+            <Image
+              src={productImage}
+              alt={product.name}
+              width={541}
+              height={541}
+              className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`}
+              priority
             />
           </div>
         </div>
 
         <div className={styles.detailsSection}>
           <div className={styles.cardWrapper}>
-            
+
             {/* Card 1: Main Product Info */}
             <div className={`${styles.card} ${isExpanded ? styles.card1Hide : styles.card1Show}`}>
               <div className={styles.headerGroup}>
                 <h1 className={styles.title}>{product.name}</h1>
                 <p className={styles.tastingNotes}>{product.notes}</p>
               </div>
-              
+
               <hr className={styles.divider} />
-              
+
               <div className={styles.selectionGroup}>
                 <div className={styles.priceRow}>
                   <span className={styles.buyLabel}>Buy at</span>
-                  <span className={styles.price}>AED {getCalculatedPrice()}</span>
+                  <span className={styles.price}>AED {Math.round(displayPrice * quantity)}</span>
                 </div>
-                
+
                 <div className={styles.sizeSection}>
                   <label className={styles.label}>{config.label}</label>
                   <div className={styles.buttonGroup}>
-                    {config.options.map((s) => (
-                      <button
-                        key={s}
-                        className={`${styles.sizeButton} ${selectedSize === s ? styles.activeSize : ''}`}
-                        onClick={() => setSelectedSize(s)}
-                      >
-                        {s}
-                      </button>
-                    ))}
+                    {product.variants.length > 0 ? (
+                      product.variants.map((v) => (
+                        <button
+                          key={v.id || v.variantName}
+                          className={`${styles.sizeButton} ${selectedSize === v.variantName ? styles.activeSize : ''}`}
+                          onClick={() => setSelectedSize(v.variantName)}
+                        >
+                          {v.variantName}
+                        </button>
+                      ))
+                    ) : (
+                      config.options.map((s) => (
+                        <button
+                          key={s}
+                          className={`${styles.sizeButton} ${selectedSize === s ? styles.activeSize : ''}`}
+                          onClick={() => setSelectedSize(s)}
+                        >
+                          {s}
+                        </button>
+                      ))
+                    )}
                   </div>
                 </div>
               </div>
@@ -163,11 +187,24 @@ export default function ProductPage() {
                   <span>{quantity.toString().padStart(2, '0')}</span>
                   <button onClick={() => setQuantity(quantity + 1)}>+</button>
                 </div>
-                <button className={styles.addToCart}>Add to Cart</button>
+                <AddToCart
+                  product={{
+                    productId: initialProduct.id,
+                    name: product.name,
+                    description: product.desc,
+                    image: productImage,
+                    tagline: product.notes,
+                    variationId: currentVariant?.id || initialProduct.variants?.[0]?.id || null,
+                  }}
+                  quantity={quantity}
+                />
+
+
               </div>
 
+
               <hr className={styles.divider} />
-              
+
               <table className={styles.specsTable}>
                 <tbody>
                   <tr><td>Origin</td><td className={styles.specValue}>{product.specs.origin}</td></tr>
@@ -183,11 +220,11 @@ export default function ProductPage() {
               <hr className={styles.divider} />
               <table className={styles.specsTables}>
                 <tbody>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>Creamy, velvety, and comfortably full.</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.notes}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Roast</p></td><td>Medium roast develops cocoa richness.</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Altitude</p></td><td>1,200–1,800 m maturation.</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>Long, nutty, and lingering chocolate.</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>{product.techSpecs.body}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.techSpecs.aroma}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Roast</p></td><td>{product.techSpecs.roast}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Altitude</p></td><td>{product.techSpecs.altitude}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>{product.techSpecs.finish}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -195,16 +232,17 @@ export default function ProductPage() {
           </div>
         </div>
       </div>
-     
+
       <div className={styles.scrollSpacer}></div>
     </div>
   );
 }
 
+
 function Dot() {
   return (
-    <svg width="6" height="6" viewBox="0 0 8 8" fill="none" style={{marginRight: '8px', marginTop: '6px'}}>
-      <circle cx="4" cy="4" r="4" fill="#C4754E"/>
+    <svg width="6" height="6" viewBox="0 0 8 8" fill="none" style={{ marginRight: '8px', marginTop: '6px' }}>
+      <circle cx="4" cy="4" r="4" fill="#C4754E" />
     </svg>
   );
 }

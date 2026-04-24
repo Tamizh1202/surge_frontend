@@ -4,82 +4,92 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./CartSideBar.module.css";
 import { useCart } from "@/app/_context/CartContext";
-import coffeebag from './c.png'
+import { useRouter } from "next/navigation";
+import { formatImageUrl } from "@/lib/imageUtils";
 import Link from "next/link";
-
-const initialCartData = {
-  products: [
-    {
-      product_id: 1,
-      name: "Indonesia Meriah Anaerobic Natural, 1kg",
-      image: coffeebag,
-      quantity: 1,
-      price: 16.00
-    },
-    {
-      product_id: 2,
-      name: "Indonesia Meriah Anaerobic Natural, 1kg",
-      image: coffeebag,
-      quantity: 1,
-      price: 16.00
-    }
-  ],
-  subtotal: 32.00,
-  total: 42.00
-};
+import cartZero from "./cartZero.png";
 
 const CartSideBar = () => {
-  const { isCartOpen, closeCart } = useCart();
+  const {
+    isCartOpen,
+    closeCart,
+    items,
+    removeItem,
+    updateQuantity,
+    cartTotals,
+    loading,
+  } = useCart();
+
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
-  const [cartData, setCartData] = useState(initialCartData);
+  const [itemErrors, setItemErrors] = useState({});
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Handle Delete
-  const handleDelete = (id) => {
-    const updatedProducts = cartData.products.filter(p => p.product_id !== id);
-    updateTotals(updatedProducts);
+  useEffect(() => {
+    if (isCartOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isCartOpen]);
+
+  const isCartEmpty = !items || items.length === 0;
+
+  const handleIncrease = async (product, vId) => {
+    const key = `${product}_${vId || ""}`;
+    const result = await updateQuantity(product, vId, null, "increment");
+    if (result && !result.ok) {
+      setItemErrors((prev) => ({ ...prev, [key]: result.message }));
+    } else {
+      setItemErrors((prev) => {
+        const n = { ...prev };
+        delete n[key];
+        return n;
+      });
+    }
   };
 
-  const handleQuantity = (id, delta) => {
-    const updatedProducts = cartData.products.map(p => {
-      if (p.product_id === id) {
-        const newQty = Math.max(1, p.quantity + delta);
-        return { ...p, quantity: newQty };
-      }
-      return p;
-    });
-    updateTotals(updatedProducts);
+  const handleDecrease = async (product, vId, currentQty) => {
+    if (currentQty > 1) {
+      const key = `${product}_${vId || ""}`;
+      setItemErrors((prev) => {
+        const n = { ...prev };
+        delete n[key];
+        return n;
+      });
+      await updateQuantity(product, vId, null, "decrement");
+    }
   };
 
-  const updateTotals = (products) => {
-    const newSubtotal = products.reduce((acc, p) => acc + (p.price * p.quantity), 0);
-    setCartData({
-      products,
-      subtotal: newSubtotal,
-      total: newSubtotal + 10
-    });
+  const handleRemove = async (product, vId) => {
+    await removeItem(product, vId);
   };
 
- 
+  const handleCheckout = () => {
+    closeCart();
+    router.push("/checkout?mode=cart");
+  };
+
   if (!isMounted) return null;
 
   return (
     <>
-    
-      <div 
-        className={`${styles.overlay} ${isCartOpen ? styles.overlayVisible : ""}`} 
-        onClick={closeCart} 
+      <div
+        className={`${styles.overlay} ${isCartOpen ? styles.overlayVisible : ""}`}
+        onClick={closeCart}
       />
-      
-      {/* Sidebar: Smoothly slides from right */}
+
       <aside className={`${styles.sidebar} ${isCartOpen ? styles.open : ""}`}>
         <div className={styles.header}>
           <div className={styles.headerTitle}>
             <h4>Your Cart</h4>
-            <span>({cartData.products.length} items)</span>
+            <span>({items?.length || 0} items)</span>
           </div>
           <button className={styles.closeBtn} onClick={closeCart}>
             <CloseIcon />
@@ -88,54 +98,105 @@ const CartSideBar = () => {
 
         <div className={styles.content}>
           <div className={styles.itemList}>
-            {cartData.products.map((item) => (
-              <div className={styles.productCard} key={item.product_id}>
-                <div className={styles.prodImageWrapper}>
-                  <Image src={item.image} alt={item.name} width={100} height={100} className={styles.prodImage} />
-                </div>
-
-                <div className={styles.prodInfo}>
-                  <div className={styles.prodHeader}>
-                    <h5>{item.name}</h5>
-                    <button className={styles.removeIconBtn} onClick={() => handleDelete(item.product_id)}>
-                      <TrashIcon />
-                    </button>
-                  </div>
-
-                  <div className={styles.prodFooter}>
-                    <div className={styles.qtyControls}>
-                      <button onClick={() => handleQuantity(item.product_id, 1)}><PlusIcon /></button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => handleQuantity(item.product_id, -1)}><MinusIcon /></button>
-                    </div>
-                    <span className={styles.price}>
-                      AED {(item.price * item.quantity).toFixed(2)}
-                    </span>
-                  </div>
-                </div>
+            {isCartEmpty ? (
+              <div className={styles.EmptyState}>
+                <Image
+                  src={cartZero}
+                  alt="No products"
+                  width={145}
+                  height={160}
+                />
+                <h4>Your Cart is empty</h4>
+                <p>Explore our curated coffee collections.</p>
+                <button
+                  className={styles.StartShopping}
+                  onClick={() => {
+                    closeCart();
+                    router.push("/shop");
+                  }}
+                >
+                  Start Shopping
+                </button>
               </div>
-            ))}
+            ) : (
+              items.map((item) => {
+                const key = `${item.product}_${item.vId || ""}`;
+                return (
+                  <div className={styles.productCard} key={key}>
+                    <div className={styles.prodImageWrapper}>
+                      <Image
+                        src={formatImageUrl(item.image)}
+                        alt={item.name}
+                        width={100}
+                        height={100}
+                        className={styles.prodImage}
+                      />
+                    </div>
+
+                    <div className={styles.prodInfo}>
+                      <div className={styles.prodHeader}>
+                        <div className={styles.nameGroup}>
+                          <h5>{item.name}</h5>
+                          <p className={styles.tagline}>{item.tagline} {item.variantName ? `, ${item.variantName}` : ""}</p>
+                        </div>
+                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId)}>
+                          <TrashIcon />
+                        </button>
+                      </div>
+
+                      <div className={styles.prodFooter}>
+                        <div className={styles.qtyContainer}>
+                          <div className={styles.qtyControls}>
+                            <button
+                              onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
+                              disabled={item.quantity <= 1}
+                            >
+                              <MinusIcon />
+                            </button>
+                            <span>{String(item.quantity).padStart(2, "0")}</span>
+                            <button
+                              onClick={() => handleIncrease(item.product, item.vId)}
+                              disabled={!!itemErrors[key]}
+                            >
+                              <PlusIcon />
+                            </button>
+                          </div>
+                          {itemErrors[key] && (
+                            <p className={styles.errorText}>{itemErrors[key]}</p>
+                          )}
+                        </div>
+                        <span className={styles.price}>
+                          AED {Number(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            )}
           </div>
         </div>
 
-        <div className={styles.footer}>
-          <div className={styles.subtotalRow}>
-            <span>Subtotal</span>
-            <span>AED {cartData.subtotal.toFixed(2)}</span>
+        {!isCartEmpty && (
+          <div className={styles.footer}>
+            <div className={styles.subtotalRow}>
+              <span>Subtotal</span>
+              <span>AED {Number(cartTotals?.subtotal || 0).toFixed(2)}</span>
+            </div>
+            <button className={styles.checkoutBtn} onClick={handleCheckout}>
+              Checkout
+            </button>
+            <p className={styles.taxDisclaimer}>
+              Taxes and shipping calculated at checkout
+            </p>
           </div>
-          <Link href="/checkout" className={styles.checkoutLink} onClick={closeCart}>
-            <button className={styles.checkoutBtn}>Checkout</button>
-          </Link>
-          <p className={styles.taxDisclaimer}>
-            Taxes and shipping calculated at checkout
-          </p>
-        </div>
+        )}
       </aside>
     </>
   );
 };
 
-// Icons (Same as before)
+// Icons
 const CloseIcon = () => (
   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.4 14.5954L0 13.1359L5.6 7.29772L0 1.45954L1.4 0L7 5.83818L12.6 0L14 1.45954L8.4 7.29772L14 13.1359L12.6 14.5954L7 8.75727L1.4 14.5954Z" fill="#414343" />

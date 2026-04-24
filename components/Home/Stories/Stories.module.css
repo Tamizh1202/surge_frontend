@@ -12,7 +12,7 @@
   width: 100%;
   justify-content: space-between;
   align-items: flex-end;
-  gap:100px;
+  gap: 100px;
 }
 
 .textStack {
@@ -55,113 +55,187 @@
   transition: opacity 0.2s;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   IMAGE CAROUSEL — fixed containers, crossfade + parallax inside
-   ───────────────────────────────────────────────────────────── */
+/* ─── IMAGE CAROUSEL ─── */
+
+/* Container: sized to exactly fit 3 slots + 2 gaps */
+/* 260 + 16 + 260 + 16 + 260 = 812px */
 .imageFlexContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-end;
-  flex-shrink: 0;
-  gap: 16px;
-  height: 480px;
-}
-
-.imageSlot {
   position: relative;
-  overflow: hidden;
+  width: 812px;
+  height: 480px;
   flex-shrink: 0;
 }
 
-.sideSlot {
+.slideTrack {
+  position: absolute;
+  inset: 0;
+  /* fills the slot exactly */
+}
+
+/* Every image wrapper transitions smoothly between slot positions */
+.imageWrapper {
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+  /* clips the sliding belt */
+}
+
+.slideTrack {
+  position: absolute;
+  inset: 0;
+}
+
+/* NEW — wraps the image in center slot for zoom */
+.zoomLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.frame {
+  position: absolute;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.frameLeft {
+  left: 0;
   width: 260px;
   height: 307px;
-}
-
-.centerSlot {
-  width: 260px;
-  height: 480px;
-}
-
-/* All images are stacked and always in DOM */
-.storyImg {
-  object-fit: cover;
-  transition:
-    opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.sideImg {
   filter: grayscale(100%);
 }
 
-.centerImg {
-  /* base zoom on center */
+.frameCenter {
+  left: 276px;
+  width: 260px;
+  height: 480px;
+  filter: grayscale(0%);
 }
 
-/* Incoming — fades in */
+.frameRight {
+  left: 552px;
+  width: 260px;
+  height: 307px;
+  filter: grayscale(100%);
+}
+
+/* Track inside each frame — slides left, then snaps back */
+.frameTrack {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.botLayer,
+.topLayer {
+  position: absolute;
+  inset: 0;
+}
+
+.botLayer {
+  z-index: 1;
+}
+
+.topLayer {
+  z-index: 2;
+  will-change: transform;
+}
+
+/* Zoom wrapper — only used in left and center frames */
+.zoomWrap {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+}
+
+.storyImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.slotLeft {
+  left: 0px;
+  width: 260px;
+  height: 307px;
+  filter: grayscale(100%);
+}
+
+.slotCenter {
+  left: 276px;
+  width: 260px;
+  height: 480px;
+  filter: grayscale(0%);
+}
+
+.slotRight {
+  left: 552px;
+  width: 260px;
+  height: 307px;
+  filter: grayscale(100%);
+}
+
+/* Instant teleport — no transition, invisible, off-screen right */
+/* .slotHiddenRight {
+  left: 880px;
+  width: 260px;
+  height: 307px;
+  filter: grayscale(100%);
+  opacity: 0;
+  transition: none;
+  pointer-events: none;
+} */
+
 .imgVisible {
   opacity: 1;
-  transform: scale(1);
-}
-
-.centerSlot .imgVisible {
-  transform: scale(1.08);
-}
-
-/* Outgoing — fades out */
-.imgExit {
-  opacity: 0;
-  transform: scale(0.95);
-}
-
-.centerSlot .imgExit {
-  transform: scale(1.11) translateY(-20px);
 }
 
 .imgHidden {
   opacity: 0;
-  transform: scale(1.15);
-}
-
-.centerSlot .imgHidden {
-  transform: scale(1.11) translateY(20px);
-}
-
-/* ─────────────────────────────────────────────────────────────
-   PARALLAX LAYER
-   Wider than its slot so the image has room to shift horizontally.
-   The JS animates translateX on this div via requestAnimationFrame.
-   ───────────────────────────────────────────────────────────── */
-.parallaxLayer {
-  position: absolute;
-  top: 0;
-  /* Extra width on each side so the shift doesn't reveal blank edges */
-  left: -50px;
-  width: calc(100% + 100px);
-  height: 100%;
-  will-change: transform;
-  /* No CSS transition here — the JS rAF loop handles smooth easing */
 }
 
 /* ─── Responsive ─── */
+
 @media (max-width: 1450px) {
   .textStack {
     flex: 0 1 380px;
   }
 
-  .sideSlot {
+  /* 220 + 16 + 220 + 16 + 220 = 692px */
+  .imageFlexContainer {
+    width: 692px;
+    height: 400px;
+  }
+
+  .slotLeft {
+    width: 220px;
+    height: 260px;
+    left: 0;
+  }
+
+  .slotCenter {
+    width: 220px;
+    height: 400px;
+    left: 236px;
+  }
+
+  .slotRight {
+    width: 220px;
+    height: 260px;
+    left: 472px;
+  }
+
+  .slotHiddenRight {
+    left: 730px;
     width: 220px;
     height: 260px;
   }
+}
 
-  .centerSlot {
-    width: 220px;
-    height: 400px;
-  }
-
-  .imageFlexContainer {
-    height: 400px;
+@media (max-width: 1280px) {
+  .sectionContainer {
+    padding-left: 60px;
+    padding-right: 60px;
   }
 }
 
@@ -174,25 +248,34 @@
     flex: 0 1 300px;
   }
 
-  .sideSlot {
+  /* 180 + 16 + 180 + 16 + 180 = 572px */
+  .imageFlexContainer {
+    width: 572px;
+    height: 340px;
+  }
+
+  .slotLeft {
     width: 180px;
     height: 220px;
+    left: 0;
   }
 
-  .centerSlot {
+  .slotCenter {
     width: 180px;
     height: 340px;
+    left: 196px;
   }
 
-  .imageFlexContainer {
-    height: 340px;
+  .slotRight {
+    width: 180px;
+    height: 220px;
+    left: 392px;
   }
-}
 
-@media (max-width: 1280px) {
-  .sectionContainer {
-    padding-left: 60px;
-    padding-right: 60px;
+  .slotHiddenRight {
+    left: 600px;
+    width: 180px;
+    height: 220px;
   }
 }
 
@@ -214,19 +297,34 @@
     max-width: 502px;
   }
 
+  /* Full width, percentage-based slot positions */
   .imageFlexContainer {
     width: 100%;
     height: 320px;
   }
 
-  .sideSlot {
-    flex: 1;
-    height: 220px;
+  .slotLeft {
+    left: 0;
+    width: 30%;
+    height: 210px;
   }
 
-  .centerSlot {
-    flex: 1.5;
+  .slotCenter {
+    left: calc(30% + 12px);
+    width: calc(40% - 24px);
     height: 320px;
+  }
+
+  .slotRight {
+    left: calc(70% + 0px);
+    width: 30%;
+    height: 210px;
+  }
+
+  .slotHiddenRight {
+    left: 110%;
+    width: 30%;
+    height: 210px;
   }
 }
 
@@ -249,11 +347,19 @@
     height: 240px;
   }
 
-  .sideSlot {
+  .slotLeft {
     height: 160px;
   }
 
-  .centerSlot {
+  .slotCenter {
     height: 240px;
+  }
+
+  .slotRight {
+    height: 160px;
+  }
+
+  .slotHiddenRight {
+    height: 160px;
   }
 }

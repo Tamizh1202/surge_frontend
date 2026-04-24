@@ -549,7 +549,7 @@
 
 
 .fixerOne p {
-  font-size: 18px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #414343;
   font-family: var(--font-raleway);

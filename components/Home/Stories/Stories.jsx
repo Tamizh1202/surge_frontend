@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "./Stories.module.css";
 
@@ -9,84 +9,103 @@ import story3 from "../Stories/story3.jpg";
 
 const IMAGES = [story1, story2, story3];
 const ROTATE_MS = 2800;
-const PARALLAX_PX = 40; // how far the inner layer shifts (tweak to taste)
+const SLIDE_MS  = 850;
+const EASE = `${SLIDE_MS}ms cubic-bezier(0.4,0,0.2,1)`;
 
-const AboutSection = () => {
-  const total = IMAGES.length;
-  const [centerIndex, setCenterIndex] = useState(0);
-  const [prevIndex, setPrevIndex] = useState(null);
+function mod(n, m) { return ((n % m) + m) % m; }
 
-  // Parallax offset animated with requestAnimationFrame for smoothness
-  // Each slot gets its own animated value: [left, center, right]
-  const parallaxTargets = useRef([0, 0, 0]);
-  const parallaxCurrent = useRef([0, 0, 0]);
-  const layerRefs = useRef([null, null, null]);
-  const rafRef = useRef(null);
+export default function AboutSection() {
+  const total   = IMAGES.length;
+  const cur     = useRef(0);
+  const busy    = useRef(false);
 
-  // ── Smooth parallax animation loop ────────────────────────────────
-  const animateParallax = useCallback(() => {
-    for (let i = 0; i < 3; i++) {
-      const target = parallaxTargets.current[i];
-      const current = parallaxCurrent.current[i];
-      const diff = target - current;
+  const flTop   = useRef(null);
+  const fcTop   = useRef(null);
+  const frTop   = useRef(null);
 
-      if (Math.abs(diff) > 0.05) {
-        parallaxCurrent.current[i] += diff * 0.12;
-      } else {
-        parallaxCurrent.current[i] = target;
-      }
+  const flTopImg = useRef(null);
+  const flBotImg = useRef(null);
+  const fcTopImg = useRef(null);
+  const fcBotImg = useRef(null);
+  const frTopImg = useRef(null);
+  const frBotImg = useRef(null);
 
-      const el = layerRefs.current[i];
-      if (el) {
-        el.style.transform = `translateX(${parallaxCurrent.current[i]}px)`;
-      }
-    }
+  // set src on an img ref safely
+  const setSrc = (ref, imgSrc) => {
+    if (ref.current) ref.current.src = imgSrc.src ?? imgSrc;
+  };
 
-    rafRef.current = requestAnimationFrame(animateParallax);
+  // initial paint
+  useEffect(() => {
+    const C = cur.current;
+    setSrc(flTopImg, IMAGES[mod(C - 1, total)]);
+    setSrc(flBotImg, IMAGES[mod(C + 2, total)]);
+    setSrc(fcTopImg, IMAGES[mod(C,     total)]);
+    setSrc(fcBotImg, IMAGES[mod(C + 1, total)]);
+    setSrc(frTopImg, IMAGES[mod(C + 1, total)]);
+    setSrc(frBotImg, IMAGES[mod(C + 2, total)]);
   }, []);
 
-  // ── Kick off parallax whenever centerIndex changes ────────────────
-  useEffect(() => {
-    // Nudge the current position forward, then let it ease back to 0.
-    // This creates a single smooth drift in one direction — no back-and-forth.
-    for (let i = 0; i < 3; i++) {
-      parallaxCurrent.current[i] += PARALLAX_PX;
-      parallaxTargets.current[i] = 0;
-    }
-
-    cancelAnimationFrame(rafRef.current);
-    rafRef.current = requestAnimationFrame(animateParallax);
-
-    return () => cancelAnimationFrame(rafRef.current);
-  }, [centerIndex, animateParallax]);
-
-  // ── Auto-rotate ───────────────────────────────────────────────────
   useEffect(() => {
     const interval = setInterval(() => {
-      setCenterIndex((prev) => {
-        setPrevIndex(prev);
-        return (prev + 1) % total;
+      if (busy.current) return;
+      busy.current = true;
+
+      const C    = cur.current;
+      const next = mod(C + 1, total);
+      const nn   = mod(C + 2, total);
+      const nnn  = mod(C + 3, total);
+
+      // 1. slide all tops left together
+      [flTop, frTop].forEach(r => {
+        r.current.style.transition = `transform ${EASE}`;
+        r.current.style.transform  = 'translateX(-100%)';
       });
+      fcTop.current.style.transition = `transform ${EASE}`;
+      fcTop.current.style.transform  = 'translateX(-100%) scale(1.15)';
+
+      setTimeout(() => {
+        cur.current = next;
+
+        // 2. snap back, no transition
+        [flTop, fcTop, frTop].forEach(r => {
+          r.current.style.transition = 'none';
+          r.current.style.transform  = 'translateX(0) scale(1.15)';
+        });
+
+        // 3. load new images
+        setSrc(flTopImg, IMAGES[mod(next - 1, total)]);
+        setSrc(flBotImg, IMAGES[nnn]);
+        setSrc(fcTopImg, IMAGES[next]);
+        setSrc(fcBotImg, IMAGES[nn]);
+        setSrc(frTopImg, IMAGES[nn]);
+        setSrc(frBotImg, IMAGES[nnn]);
+
+        // 4. zoom center in
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            fcTop.current.style.transition = `transform ${EASE}`;
+            fcTop.current.style.transform  = 'translateX(0) scale(1)';
+            // left and right settle without zoom
+            flTop.current.style.transition = 'none';
+            flTop.current.style.transform  = 'translateX(0)';
+            frTop.current.style.transition = 'none';
+            frTop.current.style.transform  = 'translateX(0)';
+            setTimeout(() => { busy.current = false; }, SLIDE_MS + 50);
+          });
+        });
+      }, SLIDE_MS);
+
     }, ROTATE_MS);
+
     return () => clearInterval(interval);
   }, [total]);
-
-  // ── Helpers ───────────────────────────────────────────────────────
-  const get = (offset) => ((centerIndex + offset) % total + total) % total;
-
-  const getImgClass = (imgIdx, activeIdx) => {
-    if (imgIdx === activeIdx) return styles.imgVisible;
-    if (imgIdx === prevIndex) return styles.imgExit;
-    return styles.imgHidden;
-  };
 
   return (
     <section className={styles.sectionContainer}>
       <div className={styles.layoutWrapper}>
         <div className={styles.textStack}>
-          <h2 className={styles.title}>
-            Built in Dubai, Brewed with Purpose
-          </h2>
+          <h2 className={styles.title}>Built in Dubai, Brewed with Purpose</h2>
           <p className={styles.description}>
             Surge is an Emirati-owned specialty coffee brand driven by quality,
             authenticity, and community. Since 2016, we've been crafting coffee
@@ -97,63 +116,39 @@ const AboutSection = () => {
         </div>
 
         <div className={styles.imageFlexContainer}>
-          {/* Left slot */}
-          <div className={`${styles.imageSlot} ${styles.sideSlot}`}>
-            <div
-              className={styles.parallaxLayer}
-              ref={(el) => (layerRefs.current[0] = el)}
-            >
-              {IMAGES.map((src, i) => (
-                <Image
-                  key={i}
-                  src={src}
-                  alt="Surge Story"
-                  fill
-                  className={`${styles.storyImg} ${styles.sideImg} ${getImgClass(i, get(-1))}`}
-                />
-              ))}
+
+          {/* LEFT frame */}
+          <div className={`${styles.frame} ${styles.frameLeft}`}>
+            <div className={styles.botLayer}>
+              <img ref={flBotImg} alt="" className={styles.storyImg} />
+            </div>
+            <div className={styles.topLayer} ref={flTop}>
+              <img ref={flTopImg} alt="Surge Story" className={styles.storyImg} />
             </div>
           </div>
 
-          {/* Center slot */}
-          <div className={`${styles.imageSlot} ${styles.centerSlot}`}>
-            <div
-              className={styles.parallaxLayer}
-              ref={(el) => (layerRefs.current[1] = el)}
-            >
-              {IMAGES.map((src, i) => (
-                <Image
-                  key={i}
-                  src={src}
-                  alt="Surge Story"
-                  fill
-                  className={`${styles.storyImg} ${styles.centerImg} ${getImgClass(i, get(0))}`}
-                />
-              ))}
+          {/* CENTER frame */}
+          <div className={`${styles.frame} ${styles.frameCenter}`}>
+            <div className={styles.botLayer}>
+              <img ref={fcBotImg} alt="" className={styles.storyImg} />
+            </div>
+            <div className={styles.topLayer} ref={fcTop}>
+              <img ref={fcTopImg} alt="Surge Story" className={styles.storyImg} />
             </div>
           </div>
 
-          {/* Right slot */}
-          <div className={`${styles.imageSlot} ${styles.sideSlot}`}>
-            <div
-              className={styles.parallaxLayer}
-              ref={(el) => (layerRefs.current[2] = el)}
-            >
-              {IMAGES.map((src, i) => (
-                <Image
-                  key={i}
-                  src={src}
-                  alt="Surge Story"
-                  fill
-                  className={`${styles.storyImg} ${styles.sideImg} ${getImgClass(i, get(1))}`}
-                />
-              ))}
+          {/* RIGHT frame */}
+          <div className={`${styles.frame} ${styles.frameRight}`}>
+            <div className={styles.botLayer}>
+              <img ref={frBotImg} alt="" className={styles.storyImg} />
+            </div>
+            <div className={styles.topLayer} ref={frTop}>
+              <img ref={frTopImg} alt="Surge Story" className={styles.storyImg} />
             </div>
           </div>
+
         </div>
       </div>
     </section>
   );
-};
-
-export default AboutSection;
+}

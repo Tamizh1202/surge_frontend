@@ -89,6 +89,7 @@ export default function Details() {
         if (itemList) {
           const listHeight = itemList.scrollHeight;
           const isLast = index === sectionsRef.current.length - 1;
+
           gsap.to(itemList, {
             y: -listHeight,
             ease: "none",
@@ -97,8 +98,39 @@ export default function Details() {
               start: "top top",
               end: () => `+=${listHeight}`,
               pin: true,
-              pinSpacing: isLast,
+              pinSpacing: false,
               scrub: 0.05,
+              ...(isLast && {
+                onUpdate: (self) => {
+                  const remaining = listHeight * (1 - self.progress);
+                  itemList.style.height = `${remaining}px`;
+                  itemList.style.overflow = 'hidden';
+
+                  const spacer = section.parentElement;
+                  if (spacer?.classList.contains('pin-spacer')) {
+                    const imageH = section.querySelector(`.${styles.imageWrapper}`)?.offsetHeight || 0;
+                    spacer.style.height = `${imageH + remaining + 80}px`;
+                    spacer.style.minHeight = '0px';
+                  }
+                },
+                onLeave: () => {
+                  itemList.style.height = '0px';
+                  const spacer = section.parentElement;
+                  if (spacer?.classList.contains('pin-spacer')) {
+                    spacer.style.height = '0px';
+                    spacer.style.minHeight = '0px';
+                  }
+                },
+                onEnterBack: () => {
+                  itemList.style.height = '';
+                  itemList.style.overflow = '';
+                  const spacer = section.parentElement;
+                  if (spacer?.classList.contains('pin-spacer')) {
+                    spacer.style.height = '';
+                    spacer.style.minHeight = '';
+                  }
+                }
+              })
             }
           });
         }
@@ -107,7 +139,6 @@ export default function Details() {
 
     return () => mm.revert();
   }, []);
-
 
   const handleItemHover = (sectionIndex, item) => {
     setActiveSelection({

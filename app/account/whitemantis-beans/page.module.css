@@ -382,7 +382,7 @@ heading .olive .heading {
 }
 
 .validityText {
-  font-size: var(--fs-12);
+  font-size: var(--fs-14);
   font-weight: 500;
   font-family: var(--font-raleway);
   margin: 0;

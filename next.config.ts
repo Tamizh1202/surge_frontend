@@ -4,10 +4,18 @@ const payloadUrl = process.env.NEXT_PUBLIC_SERVER_URL;
 
 const nextConfig = {
   images: {
+    unoptimized: process.env.NODE_ENV !== "production",
+
     remotePatterns: [
       {
         protocol: "http",
         hostname: "localhost",
+        port: "3000",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001",
       },
       {
         protocol: "https",
@@ -22,8 +30,9 @@ const nextConfig = {
         hostname: "lh3.googleusercontent.com",
       },
       {
-        protocol: "https",
+        protocol: payloadUrl ? new URL(payloadUrl).protocol.replace(":", "") : "https",
         hostname: payloadUrl ? new URL(payloadUrl).hostname : "",
+        port: payloadUrl ? new URL(payloadUrl).port : "",
       },
       {
         protocol: "https",
@@ -38,6 +47,7 @@ const nextConfig = {
         hostname: "storage-admin-api.whitemantis.ae",
       },
     ],
+
   },
   // Empty turbopack config to silence Next.js 16 warning
   turbopack: {},

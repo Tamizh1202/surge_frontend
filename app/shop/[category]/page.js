@@ -19,13 +19,13 @@ export default async function ShopCategory({ params }) {
   const categories = data.docs ?? [];
   const match = categories.find((cat) => cat.slug === category);
 
-  if (!match) notFound();
+  // if (!match) notFound();
 
   return (
     <>
-      <Landing category={category} />
+      <Landing />
       {/* <NavigationStrip /> */}
-      <Listing category={category} />
+      <Listing category={match} />
     </>
   );
 }

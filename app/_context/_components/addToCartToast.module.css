@@ -65,7 +65,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   margin-bottom: 16px;
-  color: #2f362a;
+  color: var(--text-primary)  ;
   text-transform: uppercase;
 }
 
@@ -108,13 +108,13 @@
 
 .productQty {
   font-size: 13px;
-  color: #666;
+  color: var(--text-primary);
   margin: 4px 0 0;
 }
 
 .viewCartButton {
   width: 100%;
-  background: #6b7b5c;
+  background: var(--primary-color);
   color: #ffffff;
   padding: 14px;
   font-size: 14px;
@@ -129,7 +129,7 @@
 }
 
 .viewCartButton:hover {
-  background: #5a6a4b;
+  background: #b05a2f;
 }
 
 .viewCartButton:active {

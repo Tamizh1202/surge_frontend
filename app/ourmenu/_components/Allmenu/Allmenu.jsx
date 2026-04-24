@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./Allmenu.module.css";
 import breakfast from "./breakfast.png";
 import breads from "./bread.png";
@@ -12,37 +12,62 @@ import { useState, useEffect } from "react";
 import { formatImageUrl } from "@/lib/imageUtils";
 
 export default function Menu() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const shopId = searchParams.get("shop");
+  const selectedCategory = searchParams.get("category");
 
   const [categories, setCategories] = useState([]);
+  const [availableCategoryIds, setAvailableCategoryIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCafeCategories = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        const response = await axiosClient.get("/api/app-categories");
-
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch shops");
+        // Fetch Categories
+        const catRes = await axiosClient.get("/api/app-categories");
+        if (catRes.status === 200 && catRes.data.docs) {
+          setCategories(catRes.data.docs);
         }
 
-        const data = response.data;
-
-        console.log(data);
-
-        if (data && data.docs) {
-          setCategories(data.docs);
+        // Fetch products if shopId exists to know which categories have items
+        if (shopId) {
+          const prodRes = await axiosClient.get(
+            `/api/shop/${shopId}/menu-items?page=1&limit=100`
+          );
+          const items = prodRes.data.items || [];
+          const ids = new Set(
+            items.map((item) => item.category?.id).filter((id) => id != null)
+          );
+          setAvailableCategoryIds(ids);
+        } else {
+          setAvailableCategoryIds(new Set());
         }
       } catch (error) {
-        console.error("Error fetching shops:", error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCafeCategories();
-  }, []);
+    fetchData();
+  }, [shopId]);
+
+  const displayedCategories = shopId
+    ? categories.filter((cat) => availableCategoryIds.has(cat.id))
+    : categories;
+
+
+  const handleCategoryClick = (categoryId) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (params.get("category") === String(categoryId)) {
+      params.delete("category");
+    } else {
+      params.set("category", categoryId);
+    }
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <section className={styles.menuSection}>
@@ -63,8 +88,9 @@ export default function Menu() {
         {loading ? (
           <p>Loading categories...</p>
         ) : (
-          categories.map((category) => {
+          displayedCategories.map((category) => {
             // Mapping logic for static images
+
             let categoryImage = desserts;
             const slug = category.slug.toLowerCase();
 
@@ -75,11 +101,13 @@ export default function Menu() {
             } else if (slug.includes("breakfast")) {
               categoryImage = breakfast;
             }
-
-            console.log(categories);
-
             return (
-              <div key={category.id} className={styles.card}>
+              <div
+                key={category.id}
+                className={styles.card}
+                onClick={() => handleCategoryClick(category.id)}
+              >
+
                 <div className={styles.imageWrapper}>
                   <Image
                     src={formatImageUrl(category.image.url) || categoryImage}
@@ -98,3 +126,4 @@ export default function Menu() {
     </section>
   );
 }
+

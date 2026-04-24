@@ -112,8 +112,8 @@ export function CartProvider({ children }) {
     if (status !== "authenticated") return;
     try {
       const [balanceRes, configRes] = await Promise.all([
-        axiosClient.get("/api/user-wt-coins"),
-        axiosClient.get("/api/globals/wt-coins"),
+        axiosClient.get("/api/user-surge-coins"),
+        axiosClient.get("/api/globals/surge-coins"),
       ]);
 
       if (balanceRes.data.docs?.[0]) {
@@ -152,10 +152,10 @@ export function CartProvider({ children }) {
       total: Math.max(
         0,
         prev.subtotal -
-          (prev.discount || 0) +
-          (prev.shipping || 0) +
-          (prev.tax || 0) -
-          coinsDiscount,
+        (prev.discount || 0) +
+        (prev.shipping || 0) +
+        (prev.tax || 0) -
+        coinsDiscount,
       ),
     }));
   }, [
@@ -217,24 +217,25 @@ export function CartProvider({ children }) {
 
   // ─── Add ─────────────────────────────────────────────────────────────────────
 
-  const addToCart = async (product, quantity = 1, vId) => {
+  const addToCart = async (product, quantity = 1, vId, details = null) => {
     if (session?.user) {
       try {
         const res = await axiosClient.post("/api/website/cart", {
           product,
           quantity,
-          vId: vId || "",
+          vId: vId || null,
         });
+
         const data = res.data;
         applyCartResponse(data);
         // Show toast with the item that was just added/updated
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
-            (i.vId || "") === (vId || ""),
+            (i.vId || null) === (vId || null),
         );
-        if (added) {
-          addToCartToast({ ...added, quantity }, openCart);
+        if (added || details) {
+          addToCartToast({ ...(added || {}), ...(details || {}), quantity }, openCart);
         }
       } catch (e) {
         console.error("Error adding to cart:", e);
@@ -254,8 +255,8 @@ export function CartProvider({ children }) {
             String(i.product) === String(product) &&
             (i.vId || null) === (vId || null),
         );
-        if (added) {
-          addToCartToast({ ...added, quantity }, openCart);
+        if (added || details) {
+          addToCartToast({ ...(added || {}), ...(details || {}), quantity }, openCart);
         }
       } catch (e) {
         console.error("Error adding to cart:", e);
@@ -264,14 +265,16 @@ export function CartProvider({ children }) {
     }
   };
 
+
   // ─── Remove ──────────────────────────────────────────────────────────────────
 
   const removeItem = async (product, vId) => {
     if (session?.user) {
       try {
         const res = await axiosClient.delete("/api/website/cart", {
-          data: { product, vId: vId || "" },
+          data: { product, vId: vId || null },
         });
+
         applyCartResponse(res.data);
       } catch (e) {
         console.error("Error removing from cart:", e);
@@ -290,8 +293,9 @@ export function CartProvider({ children }) {
       try {
         const res = await axiosClient.patch("/api/website/cart", {
           product,
-          vId: vId || "",
+          vId: vId || null,
           quantity,
+
           action,
         });
         applyCartResponse(res.data);

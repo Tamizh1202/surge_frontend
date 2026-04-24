@@ -15,7 +15,7 @@ const axiosClient = axios.create({
 
 // Automatically attach the payload-token from cookies on every request
 axiosClient.interceptors.request.use((config) => {
-  const payloadToken = Cookies.get("paylaod-token");
+  const payloadToken = Cookies.get("payload-token");
 
   if (payloadToken) {
     config.headers["Authorization"] = `JWT ${payloadToken}`;

@@ -7,6 +7,8 @@ import NextAuthProvider from "../components/SessionProvider";
 // 1. Import both Providers
 import { AuthProvider } from "./_context/AuthContext";
 import { CartProvider } from "./_context/CartContext";
+import { WishlistProvider } from "./_context/WishlistContext";
+import { Toaster } from "react-hot-toast";
 
 export const metadata = {
   title: "Surge Coffee",
@@ -43,13 +45,23 @@ export default async function RootLayout({
       <body suppressHydrationWarning>
         <NextAuthProvider>
           {/* 2. AuthProvider must be the parent of CartProvider */}
+          <Toaster
+            position="top-right"
+            containerStyle={{
+              top: 100,
+              right: 24,
+              zIndex: 9999,
+            }}
+          />
           <AuthProvider>
             <CartProvider>
-              <Navbar categories={categories} />
-              <main>{children}</main>
-              <Footer categories={categories} />
-              {/* 3. CartSideBar is now inside both providers */}
-              <CartSideBar />
+              <WishlistProvider>
+                <Navbar categories={categories} />
+                <main>{children}</main>
+                <Footer categories={categories} />
+                {/* 3. CartSideBar is now inside both providers */}
+                <CartSideBar />
+              </WishlistProvider>
             </CartProvider>
           </AuthProvider>
         </NextAuthProvider>

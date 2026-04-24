@@ -72,7 +72,18 @@
   font-size: var(--fs-18);
   font-weight: 500;
   color: var(--text-primary);
+  transition: all 0.3s ease;
 }
+
+.activeCard .cardTitle {
+  background-color: #C6825B;
+  color: white;
+}
+
+.activeCard {
+  transform: translateY(-5px);
+}
+
 
 @media (min-width: 768px) {
   .menuSection {

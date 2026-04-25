@@ -72,17 +72,38 @@ const PersonalInfoForm = ({
       </div>
 
       {/* First name + Last name row */}
+      {/* First name + Last name row */}
       <div className={styles.Name}>
-        <div className={styles.Field}>
-          <input
-            value={profile.firstName || ""}
-            placeholder={!isGuestUser ? "Enter your name" : ""}
-            disabled={!editMode || isGuestUser}
-            onChange={(e) => onFieldChange("firstName", e.target.value)}
-          />
-          {errors.firstName && <p className={styles.errorText}>{errors.firstName}</p>}
-        </div>
-
+        {editMode ? (
+          <>
+            <div className={styles.Field}>
+              <input
+                value={profile.firstName || ""}
+                placeholder="First name"
+                disabled={isGuestUser}
+                onChange={(e) => onFieldChange("firstName", e.target.value)}
+              />
+            </div>
+            <div className={styles.Field}>
+              <input
+                value={profile.lastName || ""}
+                placeholder="Last name"
+                disabled={isGuestUser}
+                onChange={(e) => onFieldChange("lastName", e.target.value)}
+              />
+            </div>
+          </>
+        ) : (
+          <div className={styles.Field}>
+            <input
+              value={
+                [profile.firstName, profile.lastName].filter(Boolean).join(" ") || ""
+              }
+              placeholder={!isGuestUser ? "No name added" : ""}
+              disabled
+            />
+          </div>
+        )}
       </div>
 
       {/* Email + OTP trigger */}
@@ -131,7 +152,9 @@ const PersonalInfoForm = ({
         <div className={styles.Field} ref={genderRef}>
           {editMode ? (
             /* Editable Mode */
-            <div className={styles.SelectContainer} style={{ position: "relative" }}>
+            <div className={`${styles.SelectContainer}${styles.width}`} 
+            // style={{ position: "relative" }}
+            >
               <div
                 className={styles.CustomSelectTrigger}
                 onClick={() => setIsGenderOpen(!isGenderOpen)}
@@ -175,7 +198,7 @@ const PersonalInfoForm = ({
             /* Read-only Mode (Ab icon ke saath) */
             <div
               className={styles.underlineSelect}
-              style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
+              // style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
             >
               <span style={{ textTransform: "capitalize" }}>
                 {profile.gender || "Gender"}

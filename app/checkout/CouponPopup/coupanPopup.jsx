@@ -74,7 +74,7 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                 </div>
 
                 {/* Available Offers */}
-                <p className={styles.offersLabel}>Available Offers</p>
+                <p className={styles.offersLabel} style={{marginBottom:"16px"}}>Available Offers</p>
 
                 <ul className={styles.couponList}>
                     {filtered.length === 0 && (

@@ -201,7 +201,7 @@
   display: grid;
 
 
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1fr 1fr  !important;
 }
 
 .Popup .Row2 {
@@ -547,6 +547,17 @@
   margin: 0;
 }
 
+.Name {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
+  width: 100%;
+}
+
+.Name .Field {
+  flex: 1;
+  min-width: 0;
+}
 
 .fixerOne p {
   font-size: var(--fs-16);
@@ -783,6 +794,7 @@
   display: flex;
   align-items: center;
   transition: all 0.3s;
+  justify-content: center;
 }
 
 .labelBtnActive {
@@ -1247,11 +1259,25 @@
   color: var(--primary-color);
 }
 
-.Name1,
-.Row {
+.Name1 {
   display: flex;
   justify-content: space-between;
   gap: 20px;
+}
+
+.Name .Field:only-child {
+  grid-column: 1 / -1;
+}
+
+/* .Row {
+  display: flex;
+  gap: 12px;
+} */
+.Row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 45px;
+  width: 100%;
 }
 
 .lineInput {
@@ -1346,21 +1372,24 @@
   }
 
   .Row {
-    display: flex;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 6px;
+    display: grid   !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px;
+    width: 100%;
   }
 
   .Row2 {
     display: flex;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr  !important;
 
     width: 100%;
   }
 
   .CustomSelectTrigger {
     padding: 19px 0px;
-    gap: 130px;
+    display: flex;
+    justify-content: space-between;
+    gap:100px;
   }
 
   .Row2 input,
@@ -1449,6 +1478,9 @@
   .buttons {
     padding: 13px 40px;
   }
+  .width{
+    width: 100px;
+  }
 
   .DeletePopupOverlay {
     padding-left: 25px;
@@ -1499,8 +1531,13 @@
   }
 
   .Row {
-    display: flex;
-    grid-template-columns: 1.5fr 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+  .CustomSelectTrigger{
+    gap:140px;
   }
 }
 

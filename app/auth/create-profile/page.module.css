@@ -114,6 +114,16 @@
   white-space: nowrap;
 }
 
+.nameRow {
+  display: flex;
+  gap: 12px;
+}
+
+.nameRow .inputemail {
+  flex: 1;
+  min-width: 0;
+}
+
 .phoneField {
   flex: 1;
   height: 100%;

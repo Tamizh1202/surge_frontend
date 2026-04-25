@@ -108,16 +108,28 @@ function CreateProfileContent() {
               suppressHydrationWarning
             />
 
-            <input
-              type="text"
-              placeholder="Full name*"
-              className={styles.inputemail}
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-              disabled={loading}
-              suppressHydrationWarning
-            />
+            <div className={styles.nameRow}>
+              <input
+                type="text"
+                placeholder="First name*"
+                className={styles.inputemail}
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+                disabled={loading}
+                suppressHydrationWarning
+              />
+              <input
+                type="text"
+                placeholder="Last name*"
+                className={styles.inputemail}
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+                disabled={loading}
+                suppressHydrationWarning
+              />
+            </div>
 
             {/* Phone */}
             <div className={styles.numberInput}>
@@ -158,7 +170,7 @@ function CreateProfileContent() {
 
               {isGenderOpen && (
                 <div className={styles.genderDropdown}>
-                  
+
                   {genderOptions.map((opt) => (
                     <label key={opt.value} className={styles.genderOption}>
                       <span>{opt.label}</span>

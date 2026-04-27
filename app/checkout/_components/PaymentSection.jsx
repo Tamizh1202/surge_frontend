@@ -2,21 +2,7 @@
 import { useState, useEffect } from "react";
 import styles from "../page.module.css";
 
-// TODO: replace with real @stripe/react-stripe-js PaymentElement when wiring Stripe
-const PaymentElement = () => (
-  <div
-    style={{
-      padding: "14px 12px",
-      border: "1px solid #e0e0e0",
-      borderRadius: "4px",
-      background: "#fff",
-      color: "#888",
-      fontSize: "14px",
-    }}
-  >
-    Card number · MM / YY · CVC (Stripe placeholder)
-  </div>
-);
+import { PaymentElement } from "@stripe/react-stripe-js";
 
 // TODO: replace ALL White Mantis branding/contact info with Surge equivalents
 const POLICIES = {

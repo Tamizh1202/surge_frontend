@@ -3,25 +3,10 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "../page.module.css";
 import CouponsPopup from "../CouponPopup/coupanPopup";
-// TODO: replace with Surge's auth — returns { status: "authenticated" | "unauthenticated" }
-const useSession = () => ({ status: "unauthenticated" });
+import { useSession } from "next-auth/react";
+import { useCart } from "@/app/_context/CartContext";
+import { formatImageUrl } from "@/lib/imageUtils";
 
-// TODO: replace with Surge's cart context
-const useCart = () => ({
-  openCouponModal: () => console.log("TODO: open coupon modal"),
-  isBeansApplied: false,
-  toggleBeans: () => { },
-  beansBalance: 0,
-  applyCoupon: async () => ({ ok: false, message: "Coupons not wired yet" }),
-  removeCoupon: () => { },
-  appliedCoupon: null,
-  coinConfig: { pointsToAed: 10, pointsEarn: 1 },
-});
-
-// TODO: replace with Surge's image url formatter
-const formatImageUrl = (url) => url || "";
-
-// TODO: replace with Surge's actual placeholder image (drop a 1.png next to page.jsx)
 const placeholderImage = "/1.png";
 
 export default function OrderSummary({
@@ -29,8 +14,9 @@ export default function OrderSummary({
   cartTotals,
   delivery,
   checkoutMode,
-  isProcessing,      // ← add
+  isProcessing,
   handlePayment,
+  isAddressSelected,
 }) {
   const {
     openCouponModal,
@@ -127,11 +113,8 @@ export default function OrderSummary({
       <div className={styles.CouponSection}>
         <div className={styles.CouponHeader}>
           <h3>Coupons and Offers</h3>
-          <button onClick={() => setShowCoupons(true)} className={styles.viewCouponsLink}>
-            View Coupons ›
-          </button>
           {checkoutMode !== "subscription" && !appliedCoupon && status === "authenticated" && (
-            <div className={styles.ViewAll} onClick={openCouponModal}>
+            <div className={styles.ViewAll} onClick={() => setShowCoupons(true)}>
               <span>View all coupons</span>
               <svg width="6" height="10" viewBox="0 0 6 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 9L5 5L1 1" stroke="#6E736A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
@@ -241,7 +224,9 @@ export default function OrderSummary({
                 ? "Free (Pickup)"
                 : checkoutMode === "subscription"
                   ? "Free"
-                  : "Calculated at next step"
+                  : isAddressSelected
+                    ? "Free"
+                    : "Calculated at next step"
               : `AED ${Number(cartTotals.shipping || 0).toFixed(2)}`}
           </h5>
         </div>

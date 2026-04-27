@@ -224,6 +224,55 @@
   }
 }
 
+/* Rating Styles */
+.fiveStar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: var(--primary-color);
+  margin-top: 15px;
+}
+
+.stars {
+  display: flex;
+  gap: 5px;
+}
+
+.starButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  align-items: center;
+  transition: transform 0.1s ease;
+}
+
+.starButton:hover {
+  transform: scale(1.2);
+}
+
+.fiveStar p {
+  font-family: var(--font-raleway);
+  font-weight: 600;
+  text-transform: capitalize;
+  color: white;
+  margin: 0;
+  font-size: 16px;
+}
+
+@media (max-width: 640px) {
+  .fiveStar {
+    padding: 12px 16px;
+  }
+  .fiveStar p {
+    font-size: 14px;
+  }
+}
+
 /* --- Mobile (375px – 639px) --- */
 @media (min-width: 375px) and (max-width: 639px) {
   .orderCard {

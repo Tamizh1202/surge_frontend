@@ -9,6 +9,7 @@ import logo from "./logo.png";
 import NavbarShop from "./NavbarShop";
 import { useCart } from "@/app/_context/CartContext";
 import { useSession } from "next-auth/react";
+import { useAuth } from "@/app/_context/AuthContext";
 
 /**
  * @param {{ categories: any[] }} props
@@ -49,6 +50,19 @@ export default function Navbar({ categories = [] }) {
   }, []);
 
   // ── Account: mobile only click, desktop hover ─────────────────
+
+  const { logout } = useAuth();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsAccountOpen(false);
+      setMenuOpen(false);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
+  };
 
   const isActive = (path) => pathname === path;
 
@@ -309,15 +323,12 @@ export default function Navbar({ categories = [] }) {
                         </Link>
                       </li>
                       <li>
-                        <Link
-                          href="/account/logout"
-                          onClick={() => {
-                            setIsAccountOpen(false);
-                            setMenuOpen(false);
-                          }}
+                        <span
+                          style={{ cursor: "pointer" }}
+                          onClick={handleLogout}
                         >
                           Logout
-                        </Link>
+                        </span>
                       </li>
                     </ul>
                   </div>

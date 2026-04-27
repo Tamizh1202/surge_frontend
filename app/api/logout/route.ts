@@ -14,7 +14,9 @@ async function handleLogout(_request: NextRequest) {
   const cookieStore = await cookies();
 
   // Invalidate the JWT on the Payload side
-  const payloadToken = cookieStore.get("paylaod-token")?.value;
+  const payloadToken =
+    cookieStore.get("payload-token")?.value ||
+    cookieStore.get("paylaod-token")?.value;
   if (payloadToken) {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {

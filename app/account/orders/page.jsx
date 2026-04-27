@@ -9,75 +9,10 @@ import CancelOrderPopup from "./_components/CancelOrderPopup/CancelOrderPopup";
 import FilterOrdersPopup from "./_components/FilterPopup/FilterOrdersPopup";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-
-// --- JSON MOCK DATA ---
-const MOCK_ORDERS = [
-  {
-    id: "2864297643",
-    invoiceId: "#2864297643",
-    orderTotal: 250,
-    deliveryStatus: "placed", // Order Placed
-    createdAt: "2025-12-17T10:42:00Z",
-    deliveringBy: "Dec 28, 2025",
-    items: [
-      { product: { name: "Indonesia Meriah Anaerobic Natural", weight: "1kg" } },
-      { product: { name: "Brazil Santos Dark Roast", weight: "500g" } },
-    ]
-  },
-  {
-    id: "2864297645",
-    invoiceId: "#2864297645",
-    orderTotal: 85,
-    deliveryStatus: "shipped", // In Progress
-    createdAt: "2026-04-20T14:20:00Z",
-    deliveringBy: "Apr 25, 2026",
-    items: [
-      { product: { name: "Colombia Huila", weight: "250g" } }
-    ]
-  },
-  {
-    id: "2864297644",
-    invoiceId: "#2864297644",
-    orderTotal: 120,
-    deliveryStatus: "delivered", // Delivered
-    createdAt: "2025-12-10T08:30:00Z",
-    deliveredOn: "Dec 15, 2025",
-    items: [
-      { product: { name: "Ethiopia Yirgacheffe", weight: "1kg" } }
-    ]
-  },
-{
-    id: "2864297646",
-    invoiceId: "#2864297646",
-    orderTotal: 45,
-    deliveryStatus: "cancelled",
-    createdAt: "2026-03-01T09:00:00Z",
-    cancelledOn: "2026-03-02T10:00:00Z",
-  
-    items: [
-      { product: { name: "Cold Brew Pack", weight: "5pk" } }
-    ]
-  },
-  {
-    id: "2864297647",
-    invoiceId: "#2864297647",
-    orderTotal: 190,
-    deliveryStatus: "refunded",
-    createdAt: "2026-02-15T11:00:00Z",
-    returnedOn: "2026-02-20T11:00:00Z",
-  
-    items: [
-      { product: { name: "Espresso Roast", weight: "1kg" } }
-    ]
-  }
-];
-
-// TOGGLE THIS: use MOCK_ORDERS to see list, [] to see Empty State
-const INITIAL_DATA = MOCK_ORDERS; 
-
+import axiosClient from "@/lib/axios";
 export default function OrdersPage() {
-  const [orders, setOrders] = useState(INITIAL_DATA);
-  const [loading, setLoading] = useState(false); // Set to false to see JSON data immediately
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [fetchingMore, setFetchingMore] = useState(false);
   const [page, setPage] = useState(1);
   const [hasNextPage, setHasNextPage] = useState(false);
@@ -90,19 +25,161 @@ export default function OrdersPage() {
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [filters, setFilters] = useState({ status: "All", time: "" });
 
-  // Mock fetch logic
-  const fetchOrders = async (pageNumber = 1) => {
-    // When using JSON data, we just simulate a delay
-    if (pageNumber === 1) setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      // Logic: If searching for something not in mock, show empty
-      if (searchQuery && !MOCK_ORDERS.some(o => o.invoiceId.includes(searchQuery))) {
-        setOrders([]);
-      } else {
-        setOrders(INITIAL_DATA);
+  const fetchOrders = async (
+    pageNumber = 1,
+    activeFilters = filters,
+    activeSearch = debouncedSearch,
+  ) => {
+    if (!session || !session.user || !session.user.id) {
+      return;
+    }
+
+    try {
+      if (pageNumber === 1) setLoading(true);
+      else setFetchingMore(true);
+
+      const userId = session.user.id;
+
+      // All conditions to AND together
+      const andConditions = [
+        { user: { equals: userId } },
+        {
+          paymentStatus: {
+            in: ["completed", "refunded", "refund-initiated"],
+          },
+        },
+      ];
+
+      // Add Search Query
+      if (activeSearch) {
+        andConditions.push({
+          or: [{ invoiceId: { like: activeSearch } }],
+        });
       }
-    }, 300);
+
+      // Add Status Filter
+      if (activeFilters.status && activeFilters.status !== "All") {
+        if (activeFilters.status === "In progress") {
+          andConditions.push({
+            deliveryStatus: { in: ["placed", "shipped"] },
+          });
+        } else if (activeFilters.status === "Delivered") {
+          andConditions.push({
+            deliveryStatus: { equals: "delivered" },
+          });
+        } else if (activeFilters.status === "Cancelled") {
+          andConditions.push({
+            or: [
+              { deliveryStatus: { equals: "cancelled" } },
+              { deliveryStatus: { equals: "refund-initiated" } },
+              { deliveryStatus: { equals: "refunded" } },
+            ],
+          });
+        }
+      }
+
+      // Add Time Filter
+      if (activeFilters.time) {
+        const now = new Date();
+        let startDate;
+        if (activeFilters.time === "Last 30 days") {
+          startDate = new Date(now.setDate(now.getDate() - 30));
+        } else if (activeFilters.time === "Last 6 months") {
+          startDate = new Date(now.setMonth(now.getMonth() - 6));
+        } else if (activeFilters.time === "Last year") {
+          startDate = new Date(now.setFullYear(now.getFullYear() - 1));
+        }
+        if (startDate) {
+          andConditions.push({
+            createdAt: { greater_than_equal: startDate.toISOString() },
+          });
+        }
+      }
+
+      const where = { and: andConditions };
+
+      // Payload CMS v3 uses qs-like parsing.
+      const flattenParams = (obj, prefix = "") => {
+        const result = [];
+        for (const key in obj) {
+          const value = obj[key];
+          const fullKey = prefix ? `${prefix}[${key}]` : key;
+          if (Array.isArray(value)) {
+            value.forEach((item, i) => {
+              if (typeof item === "object" && item !== null) {
+                flattenParams(item, `${fullKey}[${i}]`).forEach((p) =>
+                  result.push(p),
+                );
+              } else {
+                result.push([`${fullKey}[${i}]`, String(item)]);
+              }
+            });
+          } else if (typeof value === "object" && value !== null) {
+            flattenParams(value, fullKey).forEach((p) => result.push(p));
+          } else {
+            result.push([fullKey, String(value)]);
+          }
+        }
+        return result;
+      };
+
+      const params = new URLSearchParams();
+      flattenParams({ where }).forEach(([k, v]) => params.append(k, v));
+      params.append("sort", "-createdAt");
+      params.append("depth", "2");
+      params.append("limit", "5");
+      params.append("page", pageNumber.toString());
+
+      const selectFields = [
+        "id",
+        "invoiceId",
+        "orderTotal",
+        "deliveryStatus",
+        "paymentStatus",
+        "createdAt",
+        "items",
+        "refundedOn",
+        "refundReason",
+        "deliveringBy",
+        "deliveredOn",
+        "refundedAmount",
+        "deliveryOption",
+        "origin",
+        "isPickupReady",
+        "pickedUpDate",
+        "orderRating",
+      ];
+      selectFields.forEach((field) =>
+        params.append(`select[${field}]`, "true"),
+      );
+
+      const response = await axiosClient.get(
+        `/api/web-orders?${params.toString()}`,
+      );
+      const data = response.data;
+
+      let newOrders = [];
+      let hasNext = false;
+
+      if (data.docs && Array.isArray(data.docs)) {
+        newOrders = data.docs;
+        hasNext = data.hasNextPage;
+      }
+
+      if (pageNumber === 1) {
+        setOrders(newOrders);
+      } else {
+        setOrders((prev) => [...prev, ...newOrders]);
+      }
+
+      setHasNextPage(hasNext);
+      setPage(pageNumber);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setLoading(false);
+      setFetchingMore(false);
+    }
   };
 
   useEffect(() => {
@@ -111,21 +188,43 @@ export default function OrdersPage() {
   }, [searchQuery]);
 
   useEffect(() => {
-    fetchOrders(1);
-  }, [debouncedSearch, filters]);
+    if (status === "authenticated" && session?.user?.id) {
+      fetchOrders(1, filters, debouncedSearch);
+    } else if (status === "unauthenticated") {
+      setLoading(false);
+    }
+  }, [status, session, debouncedSearch, filters]);
 
   const handleLoadMore = () => {
     if (!fetchingMore && hasNextPage) fetchOrders(page + 1);
   };
 
   const handleCancelButton = (orderId) => {
+    if (!orderId) return;
     setSelectedOrderId(orderId);
     setIsCancelPopupOpen(true);
   };
 
-  const handleConfirmCancel = (reason) => {
-    toast.success(`Mock: Order ${selectedOrderId} cancelled for ${reason}`);
-    setIsCancelPopupOpen(false);
+  const handleConfirmCancel = async (reason) => {
+    if (!selectedOrderId) return;
+    try {
+      const response = await axiosClient.get(
+        `api/web-orders/${selectedOrderId}/cancel`,
+        { params: { reason } },
+      );
+
+      if (response.status === 200) {
+        fetchOrders(1);
+        setIsCancelPopupOpen(false);
+        setSelectedOrderId(null);
+        toast.success("Order cancelled successfully.");
+      }
+    } catch (error) {
+      const resData = error?.response?.data;
+      const backendMsg =
+        resData?.message || resData?.error || resData?.errors?.[0]?.message;
+      toast.error(backendMsg || error?.message || "Failed to cancel order.");
+    }
   };
 
   return (
@@ -159,19 +258,47 @@ export default function OrdersPage() {
         {loading ? (
           <p style={{ textAlign: "center", padding: "20px" }}>Loading orders...</p>
         ) : orders.length > 0 ? (
-          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-            {orders.map((order) => (
-              <OrderCard key={order.id} order={order} handleCancelButton={handleCancelButton} />
-            ))}
-          </div>
+          <>
+            <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+              {orders.map((order) => (
+                <OrderCard key={order.id} order={order} handleCancelButton={handleCancelButton} />
+              ))}
+            </div>
+            {hasNextPage && (
+              <div style={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                <button
+                  onClick={handleLoadMore}
+                  disabled={fetchingMore}
+                  className={styles.loadMoreBtn}
+                  style={{
+                    padding: "12px 30px",
+                    backgroundColor: "transparent",
+                    border: "1px solid #2F362A",
+                    color: "#2F362A",
+                    cursor: fetchingMore ? "not-allowed" : "pointer",
+                    fontWeight: "500",
+                    fontSize: "15px",
+                  }}
+                >
+                  {fetchingMore ? "Loading..." : "Load More"}
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className={styles.EmptyOrdersState}>
             <Image src={orderZero} alt="No orders" width={140} height={160} />
-            {searchQuery || (filters.status && filters.status !== "All") ? (
+            {debouncedSearch || (filters.status && filters.status !== "All") || filters.time ? (
               <>
                 <h4>No orders found</h4>
                 <p>Try adjusting your search or filters.</p>
-                <button className={styles.ShopNowBtn} onClick={() => { setSearchQuery(""); setFilters({status: "All"}); }}>
+                <button
+                  className={styles.ShopNowBtn}
+                  onClick={() => {
+                    setSearchQuery("");
+                    setFilters({ status: "All", time: "" });
+                  }}
+                >
                   Clear filters
                 </button>
               </>
@@ -204,4 +331,4 @@ export default function OrdersPage() {
       )}
     </div>
   );
-}
+}

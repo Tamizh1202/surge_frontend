@@ -56,7 +56,7 @@ function AuthPageContent() {
           }
 
           if (res.data.token) {
-            Cookies.set("paylaod-token", res.data.token, { expires: 7 });
+            Cookies.set("payload-token", res.data.token, { expires: 7 });
           }
 
           // Update NextAuth session with the correct backend user ID and data

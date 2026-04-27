@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import styles from "./coupanPopup.module.css";
 
 const couponsData = [
@@ -16,11 +17,15 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
     const [search, setSearch] = useState("");
     const [expanded, setExpanded] = useState(null);
     const [applied, setApplied] = useState(null);
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         document.body.style.overflow = "hidden";
         return () => { document.body.style.overflow = ""; };
     }, []);
+
+    if (!mounted) return null;
 
     const filtered = couponsData.filter(
         (c) =>
@@ -33,12 +38,9 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
         onApply?.(coupon);
     };
 
-    return (
-        // backdrop is the outer div — drawer is INSIDE it as a child
+    const content = (
         <div className={styles.backdrop} onClick={onClose}>
             <div className={styles.drawer} onClick={(e) => e.stopPropagation()}>
-
-                {/* Header */}
                 <div className={styles.header}>
                     <button className={styles.backBtn} onClick={onClose}>
                         <svg width="16" height="12" viewBox="0 0 16 12" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +53,6 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                     </div>
                 </div>
 
-                {/* Search + Apply */}
                 <div className={styles.inputRow}>
                     <input
                         type="text"
@@ -73,8 +74,7 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                     </button>
                 </div>
 
-                {/* Available Offers */}
-                <p className={styles.offersLabel} style={{marginBottom:"16px"}}>Available Offers</p>
+                <p className={styles.offersLabel} style={{ marginBottom: "16px" }}>Available Offers</p>
 
                 <ul className={styles.couponList}>
                     {filtered.length === 0 && (
@@ -88,7 +88,6 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                             <div className={styles.couponBody}>
                                 <div className={styles.couponLeft}>
                                     <div className={styles.couponCodeRow}>
-
                                         <span className={styles.couponCode}>{coupon.code}</span>
                                     </div>
                                     <div className={styles.couponDesc}>
@@ -118,8 +117,9 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                         </li>
                     ))}
                 </ul>
-
             </div>
         </div>
     );
+
+    return createPortal(content, document.body);
 }

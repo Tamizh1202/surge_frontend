@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-// import { useAuth } from "@/app/_context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 
 import styles from "./Sidebar.module.css";
 
@@ -13,10 +13,10 @@ export default function Sidebar() {
   const [showLogout, setShowLogout] = React.useState(false);
   const { data: session } = useSession();
 
-  // const { logout } = useAuth();
+  const { logout } = useAuth();
   const handleLogout = async () => {
     try {
-      // await logout();
+      await logout();
       window.location.href = "/";
     } catch (error) {
       console.error("Logout error:", error);
@@ -38,11 +38,10 @@ export default function Sidebar() {
           <div className={styles.Bottom}>
             <Link href="/account/profile" className={styles.Link}>
               <div
-                className={`${styles.Profile} ${
-                  pathname === "/account" || pathname === "/account/profile"
-                    ? styles.active
-                    : ""
-                }`}
+                className={`${styles.Profile} ${pathname === "/account" || pathname === "/account/profile"
+                  ? styles.active
+                  : ""
+                  }`}
               >
                 <svg
                   width="16"
@@ -61,9 +60,8 @@ export default function Sidebar() {
             </Link>
             <Link href="/account/orders" className={styles.Link}>
               <div
-                className={`${styles.Orders} ${
-                  pathname.startsWith("/account/orders") ? styles.active : ""
-                }`}
+                className={`${styles.Orders} ${pathname.startsWith("/account/orders") ? styles.active : ""
+                  }`}
               >
                 <svg
                   width="15"
@@ -81,13 +79,12 @@ export default function Sidebar() {
               </div>
             </Link>
             <Link href="/account/subscription" className={styles.Link}>
-            
+
             </Link>
             <Link href="/account/wishlist" className={styles.Link}>
               <div
-                className={`${styles.Wishlist} ${
-                  pathname.startsWith("/account/wishlist") ? styles.active : ""
-                }`}
+                className={`${styles.Wishlist} ${pathname.startsWith("/account/wishlist") ? styles.active : ""
+                  }`}
               >
                 <svg
                   width="18"
@@ -104,13 +101,12 @@ export default function Sidebar() {
                 <p>Wishlist</p>
               </div>
             </Link>
-            <Link href="/account/whitemantis-beans" className={styles.Link}>
+            <Link href="/account/surge-beans" className={styles.Link}>
               <div
-                className={`${styles.Wishlist} ${
-                  pathname.startsWith("/account/whitemantis-beans")
-                    ? styles.active
-                    : ""
-                }`}
+                className={`${styles.Wishlist} ${pathname.startsWith("/account/surge-beans")
+                  ? styles.active
+                  : ""
+                  }`}
               >
                 <svg
                   width="18"
@@ -125,7 +121,7 @@ export default function Sidebar() {
                   />
                 </svg>
 
-                <p>Surge Rewards</p>
+                <p>Surge Beans</p>
               </div>
             </Link>
             {session && (

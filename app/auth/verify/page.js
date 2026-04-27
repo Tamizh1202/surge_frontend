@@ -100,6 +100,11 @@ function Otp() {
         return;
       }
 
+      if (verifyData.token || verifyData.jwt) {
+        const Cookies = (await import("js-cookie")).default;
+        Cookies.set("payload-token", verifyData.token || verifyData.jwt, { expires: 7 });
+      }
+
       const redirectParam = searchParams.get("redirect") || "/";
 
       if (verifyData.isNewUser) {

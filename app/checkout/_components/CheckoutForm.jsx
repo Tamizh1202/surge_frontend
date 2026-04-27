@@ -9,36 +9,22 @@ import ShippingAddressSection from "./ShippingAddressSection";
 import BillingAddressSection from "./BillingAddressSection";
 import { PaymentCardSection, PaymentButtonSection } from "./PaymentSection";
 import OrderSummary from "./OrderSummary";
+import ExpressCheckoutSection from "./ExpressCheckoutSection";
+import OrderSuccess from "../success/page";
 
 
-// TODO: replace with Surge's actual cart context
-const useCart = () => ({ openCart: () => { }, isBeansApplied: false, appliedCoupon: null });
-
-// TODO: replace with Surge's actual toast
-const toast = { error: (msg) => console.error(msg), success: (msg) => console.log(msg) };
-
-// TODO: replace with Surge's actual validator
-const validateCheckoutForm = () => ({ isValid: true, errors: {} });
-
-// TODO: replace with Surge's actual checkout utils
-const scrollToFirstError = () => { };
-const formatCheckoutAddress = (a = {}) => ({
-  addressFirstName: a.firstName || "",
-  addressLastName: a.lastName || "",
-  addressLine1: a.address || "",
-  addressLine2: a.apartment || "",
-  city: a.city || "",
-  emirates: a.emirates || "dubai",
-  phoneNumber: a.phone || "",
-  addressCountry: "United Arab Emirates",
-});
-
-// TODO: dummy ExpressCheckoutElement — replace when wiring Stripe
-const ExpressCheckoutElement = () => (
-  <div style={{ padding: "12px", border: "1px dashed #ccc", borderRadius: "6px", textAlign: "center", color: "#888" }}>
-    Express Checkout (Stripe placeholder)
-  </div>
-);
+import { useStripe, useElements } from "@stripe/react-stripe-js";
+import { useCart } from "@/app/_context/CartContext";
+import axiosClient from "@/lib/axios";
+import { toast } from "react-hot-toast";
+import { validateCheckoutForm } from "@/utils/validatorFunctions";
+import {
+  formatCheckoutAddress,
+  buildOneTimePayload,
+  buildSuccessUrl,
+  scrollToFirstError,
+} from "@/utils/checkoutUtils";
+import { saveAddressAPI } from "@/app/account/profile/_components/ProfileComponents/profileApiUtils";
 
 export default function CheckoutForm({
   session,
@@ -63,17 +49,19 @@ export default function CheckoutForm({
   subscriptionId,
   variationId,
   // ── New props for order completion ──
-  // These control whether we show the success view or the checkout form on the LHS
   orderComplete,
   setOrderComplete,
   orderData,
   setOrderData,
 }) {
+  const stripe = useStripe();
+  const elements = useElements();
   const { isBeansApplied, appliedCoupon } = useCart();
   const router = useRouter();
 
   const [isProcessing, setIsProcessing] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
+  const [isExpressAvailable, setIsExpressAvailable] = useState(false);
 
   const [email, setEmail] = useState(session?.user?.email || "");
   const [emailUserTyped, setEmailUserTyped] = useState(false);
@@ -84,46 +72,114 @@ export default function CheckoutForm({
   const clearError = (key) =>
     setValidationErrors((prev) => ({ ...prev, [key]: "" }));
 
-  // TODO: wire real Stripe + backend payment flow
+  // ── Payment Handler ──
   const handlePayment = async () => {
+    if (!stripe || !elements) return;
+
+    // 1. Validate fields
     const { isValid, errors } = validateCheckoutForm({
-      email, delivery, status, selectedAddressId,
-      shippingForm, billingForm, useShippingAsBilling,
+      email,
+      delivery,
+      status,
+      selectedAddressId,
+      shippingForm,
+      billingForm,
+      useShippingAsBilling,
     });
+
     if (!isValid) {
       setValidationErrors(errors);
       setTimeout(() => scrollToFirstError(errors, styles.InputError), 100);
       return;
     }
-    setIsProcessing(true);
-    console.log("Dummy payment submitted", { email, delivery, shippingForm, billingForm });
-    setTimeout(() => {
-      setIsProcessing(false);
-      toast.success("Dummy checkout complete");
 
-      // ── After successful payment, flip to the success view ──
-      // Build the order object from what we already have, then toggle the flag.
-      // The LHS will now render <OrderSuccess> instead of the form fields,
-      // while the RHS OrderSummary stays visible since it's outside the conditional.
-      setOrderData({
-        id: "2864297643", // replace with real order id from API response
-        paymentMethod: { brand: "Visa", last4: "6494" },
-        billingAddress: {
-          line1: billingForm.address || shippingForm.address,
-          line2: billingForm.apartment || shippingForm.apartment,
-          city: billingForm.city || shippingForm.city,
-          zip: "450123",
-        },
-        shippingAddress: {
-          line1: shippingForm.address,
-          line2: shippingForm.apartment,
-          city: shippingForm.city,
-          zip: "450123",
-        },
-        contactEmail: email,
+    setIsProcessing(true);
+
+    try {
+      // 2. Trigger Stripe validation
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        toast.error(submitError.message);
+        setIsProcessing(false);
+        return;
+      }
+
+      // 3. Build backend payload
+      const shipAddr = delivery === "ship"
+        ? formatCheckoutAddress(
+            status === "authenticated" && selectedAddressId
+              ? savedAddresses.find((a) => a.id === selectedAddressId)
+              : shippingForm
+          )
+        : null;
+
+      const billAddr = (useShippingAsBilling && delivery === "ship")
+        ? { ...shipAddr }
+        : formatCheckoutAddress(billingForm);
+
+      const payload = buildOneTimePayload({
+        delivery: delivery === "ship" ? "delivery" : "pickup",
+        shippingAddress: shipAddr,
+        billingAddress: billAddr,
+        shippingAddressAsBillingAddress: useShippingAsBilling,
+        email: email,
+        products: product.map((p) => ({
+          productId: p.id,
+          variantId: p.vId || "",
+          quantity: p.quantity,
+        })),
+        useWTCoins: !!isBeansApplied,
+        appliedCouponCode: appliedCoupon?.code || "",
       });
-      setOrderComplete(true);
-    }, 800);
+
+      // 4. Call backend to create order and get client secret
+      const res = await axiosClient.post("/api/checkout/one-time", payload);
+      const data = res.data;
+
+      if (!data.success) throw new Error(data.error || "Checkout failed");
+
+      // 5. Save address if opted in
+      if (shippingForm.saveAddress && status === "authenticated" && session?.user?.id && delivery === "ship") {
+        try {
+          await saveAddressAPI(session.user.id, {
+            label: "Home",
+            addressFirstName: shippingForm.firstName.trim(),
+            addressLastName: shippingForm.lastName.trim(),
+            street: shippingForm.address.trim(),
+            apartment: (shippingForm.apartment || "").trim(),
+            country: "United Arab Emirates",
+            city: shippingForm.city.trim(),
+            emirates: shippingForm.emirates || "dubai",
+            phoneNumber: shippingForm.phone.trim(),
+            isDefaultAddress: false,
+          });
+        } catch (saveErr) {
+          console.error("Failed to auto-save address", saveErr);
+        }
+      }
+
+      // 6. Confirm payment with Stripe
+      const { error: confirmError } = await stripe.confirmPayment({
+        elements,
+        clientSecret: data.clientSecret,
+        confirmParams: {
+          return_url: `${window.location.origin}${buildSuccessUrl("cart", data)}`,
+        },
+      });
+
+      if (confirmError) {
+        toast.error(confirmError.message || "Payment confirmation failed");
+        setIsProcessing(false);
+      }
+      // If success, Stripe redirects automatically to return_url
+
+    } catch (e) {
+      console.error(e);
+      const resData = e?.response?.data;
+      const backendMsg = resData?.message || resData?.error || resData?.errors?.[0]?.message;
+      toast.error(backendMsg || e.message || "An error occurred");
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -143,10 +199,10 @@ export default function CheckoutForm({
             <OrderSuccess order={orderData} />
           ) : (
             <>
-              <div className={styles.One}>
+              <div className={styles.One} style={{ display: isExpressAvailable ? "flex" : "none" }}>
                 <p style={{ fontWeight: "400" }}>EXPRESS CHECKOUT</p>
                 <div className={styles.ExpressContainer}>
-                  <ExpressCheckoutElement />
+                  <ExpressCheckoutSection onAvailabilityChange={setIsExpressAvailable} />
                 </div>
               </div>
 
@@ -209,6 +265,7 @@ export default function CheckoutForm({
           checkoutMode={checkoutMode}
           isProcessing={isProcessing}
           handlePayment={handlePayment}
+          isAddressSelected={delivery === "pickup" || (status === "authenticated" ? !!selectedAddressId : !!shippingForm.emirates)}
         />
       </div>
     </div>

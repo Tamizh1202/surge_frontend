@@ -1,7 +1,7 @@
 import "./globals.css";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
 import CartSideBar from "../components/CartSideBar/CartSidebar";
 import NextAuthProvider from "../components/SessionProvider";
 // 1. Import both Providers
@@ -9,6 +9,7 @@ import { AuthProvider } from "./_context/AuthContext";
 import { CartProvider } from "./_context/CartContext";
 import { WishlistProvider } from "./_context/WishlistContext";
 import { Toaster } from "react-hot-toast";
+import AuthToast from "@/components/AuthToast/AuthToast";
 
 export const metadata = {
   title: "Surge Coffee",
@@ -22,7 +23,7 @@ export default async function RootLayout({
   let categories = [];
   try {
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt&select[slug]=true&select[title]=true&select[image]=true&depth=0&limit=100`,
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt&select[slug]=true&select[title]=true&select[image]=true&depth=2&limit=100`,
       {
         next: { revalidate: 3600 }, // Cache for 1 hour
       },
@@ -53,6 +54,9 @@ export default async function RootLayout({
               zIndex: 9999,
             }}
           />
+          <Suspense fallback={null}>
+            <AuthToast />
+          </Suspense>
           <AuthProvider>
             <CartProvider>
               <WishlistProvider>

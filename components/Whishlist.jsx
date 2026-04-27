@@ -12,10 +12,10 @@ const Wishlist = ({ product }) => {
   // Check if product is already in wishlist
   const isInWishlist = product
     ? items.some((it) => {
-        const itemProductId =
-          it.product?.value?.id || it.product?.id || it.product;
-        return String(itemProductId) === String(product.id);
-      })
+      const itemProductId =
+        it.product?.value?.id || it.product?.id || it.product;
+      return String(itemProductId) === String(product.id);
+    })
     : false;
 
   const handleToggle = async (e) => {
@@ -32,8 +32,10 @@ const Wishlist = ({ product }) => {
 
     // Prevent guests from calling the wishlist API
     if (status !== "authenticated") {
-      toast.error("Login to add to wishlist");
-      return "Login to add to wishlist";
+      toast.error("Please login to save your favorite coffee to your wishlist!", {
+        id: "wishlist-guest-error",
+      });
+      return;
     }
 
     setLoading(true);

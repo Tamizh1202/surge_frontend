@@ -9,7 +9,6 @@ import merchImg from "./shop4.png";
 import { formatImageUrl } from "@/lib/imageUtils";
 
 const NavbarShop = ({ onClose, categories = [] }) => {
-
   return (
     <div className={styles.megaMenuContainer}>
       <div className={styles.imageGrid}>

@@ -94,15 +94,22 @@ const PersonalInfoForm = ({
             </div>
           </>
         ) : (
-          <div className={styles.Field}>
-            <input
-              value={
-                [profile.firstName, profile.lastName].filter(Boolean).join(" ") || ""
-              }
-              placeholder={!isGuestUser ? "No name added" : ""}
-              disabled
-            />
-          </div>
+          <>
+            <div className={styles.Field}>
+              <input
+                value={profile.firstName || ""}
+                placeholder={!isGuestUser ? "First name" : ""}
+                disabled
+              />
+            </div>
+            <div className={styles.Field}>
+              <input
+                value={profile.lastName || ""}
+                placeholder={!isGuestUser ? "Last name" : ""}
+                disabled
+              />
+            </div>
+          </>
         )}
       </div>
 

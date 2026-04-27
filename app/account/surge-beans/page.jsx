@@ -6,7 +6,7 @@ import styles from './page.module.css';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import beansZero from "./beansZero.png"
-import coinsbanner from './banner.png'
+import coinsbanner from './bg.png'
 const QUESTIONS = [
     {
         question: "What are Surge Beans and how do they work?",
@@ -29,24 +29,6 @@ const QUESTIONS = [
         answer: "Yes, Beans may have an expiry period. We recommend checking your account dashboard regularly to view your current balance and track validity details."
     }
 ];
-const MOCK_TRANSACTIONS = [
-    {
-        details: "Order Id: 2864297643",
-        transaction_type: "Collected",
-        transaction_date: "2025-12-17T10:42:00",
-        expiry_date: "2026-12-17T10:42:00",
-        coins: "+25",
-        _sortDate: new Date("2025-12-17T10:42:00")
-    },
-    {
-        details: "Order Id: 2854297643",
-        transaction_type: "Redeemed",
-        transaction_date: "2025-12-17T10:42:00",
-        expiry_date: null,
-        coins: "-25",
-        _sortDate: new Date("2025-12-17T10:42:00")
-    }
-];
 function formatDateParts(isoString) {
     if (!isoString) return { datePart: 'N/A', timePart: '' };
     const d = new Date(isoString);
@@ -63,17 +45,12 @@ const WhiteMantisBeans = () => {
     const [visibleCount, setVisibleCount] = useState(10);
     const [totalBalance, setTotalBalance] = useState(0);
     const router = useRouter();
+
     useEffect(() => {
         const fetchBeans = async () => {
-            // 1. Initialize with your JSON data
-            let merged = MOCK_TRANSACTIONS.map(item => ({
-                ...item,
-                _sortDate: new Date(item.transaction_date)
-            }));
-
             if (session?.user?.id) {
                 try {
-                    const response = await axiosClient.get(`/api/user-wt-coins`, {
+                    const response = await axiosClient.get(`/api/user-surge-coins`, {
                         params: {
                             'where[user][equals]': session.user.id,
                             'sort': '-date',
@@ -103,21 +80,19 @@ const WhiteMantisBeans = () => {
                         _sortDate: new Date(item.redeemedAt),
                     }));
 
-                    // 2. Combine JSON data with API data
-                    merged = [...merged, ...earningTransactions, ...redemptionTransactions];
+                    const merged = [...earningTransactions, ...redemptionTransactions]
+                        .sort((a, b) => b._sortDate - a._sortDate);
 
+                    setAllTransactions(merged);
                 } catch (error) {
                     console.error("BEANS API ERROR:", error.response?.data || error.message);
                 }
             }
-
-            // 3. Sort everything by date (Newest first)
-            const sortedData = merged.sort((a, b) => b._sortDate - a._sortDate);
-            setAllTransactions(sortedData);
         };
 
         fetchBeans();
     }, [session]);
+
     const toggleQuestion = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
@@ -138,28 +113,29 @@ const WhiteMantisBeans = () => {
                 </div>
                 <div className={styles.main1}>
 
+                    <div>
+                        <div className={styles.rewardsBanner}>
+                            <Image
+                                src={coinsbanner}
+                                alt="Surge Rewards Banner"
+                                width={1200}
+                                height={200}
+                                className={styles.bannerImg}
+                                priority
+                            />
+                            <div className={styles.bannerOverlay}>
+                                <div className={styles.balanceWrapper}>
+                                    <h2>{totalBalance}</h2>
+                                    <p>Surge Beans</p>
+                                </div>
 
-                    <div className={styles.rewardsBanner}>
-                        <Image
-                            src={coinsbanner}
-                            alt="Surge Rewards Banner"
-                            width={1200}
-                            height={200}
-                            className={styles.bannerImg}
-                            priority
-                        />
-                        <div className={styles.bannerOverlay}>
-                            <div className={styles.balanceWrapper}>
-                                <h2>500</h2>
-                                <p>Surge Beans</p>
                             </div>
                             <p className={styles.validityText}>
                                 Surge Beans are valid for 12 months from the date they're earned.
                             </p>
                         </div>
+
                     </div>
-
-
 
 
                     <section className={styles.box}>
@@ -188,15 +164,16 @@ const WhiteMantisBeans = () => {
                                 </svg>
                                 </div>
                                 <h3>Redeem Favorites</h3>
-                                <p>Cash in your Beans for free espressos, pastries, or bags.</p>
+                                <p>Cash in your Beans for free espressos, pastries, or bags of coffee.</p>
                             </div>
                         </div>
                     </section>
                     <div className={styles.box}>
+
                         <div className={styles.heading}>
                             <h1>Transaction History</h1>
                         </div>
-                        {displayData.length === 1 ? (
+                        {displayData.length === 0 ? (
                             <div className={styles.zeroState}>
                                 <Image
                                     src={beansZero}
@@ -208,7 +185,7 @@ const WhiteMantisBeans = () => {
 
                                 <div className={styles.zeroStateP}>
                                     <p style={{ color: 'black', }}>No White Mantis Beans yet</p>
-                                    <p>Start earning beans when you shop, subscribe, or join academy workshops.</p>
+                                    <p>Start earning beans when you shop.</p>
                                 </div>
 
 
@@ -222,11 +199,11 @@ const WhiteMantisBeans = () => {
                                 <div className={styles.gridss}>
 
                                     <div className={styles.tableHeading}>
-                                        <div>Details</div>
-                                        <div> Type</div>
-                                        <div>Date</div>
-                                        <div>Expiry Date</div>
-                                        <div>Beans</div>
+                                        <div style={{ display: "flex", justifyContent: "center" }}>Details</div>
+                                        <div style={{ display: "flex", justifyContent: "center" }}> Type</div>
+                                        <div style={{ display: "flex", justifyContent: "center" }}>Date</div>
+                                        <div style={{ display: "flex", justifyContent: "center" }}>Expiry Date</div>
+                                        <div style={{ display: "flex", justifyContent: "center" }}>Beans</div>
                                     </div>
                                     {displayData.map((item, index) => {
                                         const { datePart: txDate, timePart: txTime } = formatDateParts(item.transaction_date);
@@ -240,8 +217,27 @@ const WhiteMantisBeans = () => {
                                                         </div>
                                                     ))}
                                                 </div>
-                                                <div className={styles.itemDate}
-                                                    style={{ color: item.coins.includes('+') ? '#428B54' : '#E54842' }}>
+                                                <div
+                                                    className={styles.itemType}
+                                                    style={{
+                                                        // Dynamic Colors based on your logic
+                                                        color: item.coins.includes('+') ? '#428B54' : '#E54842',
+                                                        backgroundColor: item.coins.includes('+') ? '#EBF7EE' : '#FDEEEE',
+
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'center',
+                                                        padding: '4px 16px',
+
+
+                                                        borderRadius: '100px',
+                                                        width: 'clamp(40px, 6vw, 80px)',
+                                                        fontSize: 'var(--fs-14)',
+                                                        fontWeight: '500',
+                                                        textTransform: 'capitalize',
+
+                                                    }}
+                                                >
                                                     {item.transaction_type}
                                                 </div>
                                                 <div className={styles.itemDate}>

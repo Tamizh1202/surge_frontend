@@ -65,23 +65,27 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
-    await axiosClient.post("/api/website/auth/logout");
+    try {
+      await fetch("/api/logout", { method: "POST" });
+    } catch (e) {
+      console.error("Local logout error:", e);
+    }
     try {
       // also sign out of NextAuth if user used social sign-in
       await nextAuthSignOut({ redirect: false });
-    } catch (e) {}
+    } catch (e) { }
     // Cart system removed: clear any cart-related localStorage keys if present
     try {
       if (typeof window !== "undefined") {
         localStorage.removeItem("cart");
       }
-    } catch (e) {}
+    } catch (e) { }
     setUser(null);
   }
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, login, logout, signup, reload: () => {} }}
+      value={{ user, loading, login, logout, signup, reload: () => { } }}
     >
       {children}
     </AuthContext.Provider>

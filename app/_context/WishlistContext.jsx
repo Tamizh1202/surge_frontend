@@ -2,6 +2,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import axiosClient from "@/lib/axios";
+import { toast } from "react-hot-toast";
 
 const WishlistContext = createContext(null);
 
@@ -32,6 +33,12 @@ export function WishlistProvider({ children }) {
   }, [status]);
 
   const add = async (productId) => {
+    if (status !== "authenticated") {
+      toast.error("Please login to add items to your wishlist!", {
+        id: "wishlist-guest-error",
+      });
+      return;
+    }
     try {
       await axiosClient.post("/api/wishlist", { productId, origin: "store" });
       await refresh();
@@ -40,11 +47,16 @@ export function WishlistProvider({ children }) {
       const resData = e?.response?.data;
       const backendMsg =
         resData?.message || resData?.error || resData?.errors?.[0]?.message;
-      // Note: Not adding toast here as it's not present in original, but extracting message for potential future use or debugging
     }
   };
 
   const remove = async (productId) => {
+    if (status !== "authenticated") {
+      toast.error("Please login to manage your wishlist!", {
+        id: "wishlist-guest-error",
+      });
+      return;
+    }
     try {
       await axiosClient.delete("/api/wishlist", {
         data: { productId, origin: "store" },
@@ -56,6 +68,12 @@ export function WishlistProvider({ children }) {
   };
 
   const toggle = (productId) => {
+    if (status !== "authenticated") {
+      toast.error("Please login to use the wishlist!", {
+        id: "wishlist-guest-error",
+      });
+      return;
+    }
     const exists = items.find((it) => {
       const itemProductId =
         it.product?.value?.id || it.product?.id || it.product;

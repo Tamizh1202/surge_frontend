@@ -1411,7 +1411,9 @@
     width: 100%;
     box-sizing: border-box;
   }
-
+  .Name{
+    gap:12px;
+  }
   .Name1 {
     grid-template-columns: 1fr;
   }

@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import styles from "./Stories.module.css";
 
 import story1 from "../Stories/story1.jpg";
@@ -17,72 +16,95 @@ function mod(n, m) { return ((n % m) + m) % m; }
 export default function AboutSection() {
   const cur = useRef(0);
   const busy = useRef(false);
+  const winL = useRef(null);
+  const winC = useRef(null);
+  const winR = useRef(null);
 
-  const refs = {
-    flTop: useRef(null), flBg: useRef(null),
-    fcTop: useRef(null), fcBg: useRef(null),
-    frTop: useRef(null), frBg: useRef(null),
-  };
-
-  function fill(ref, idx) {
-    if (!ref.current) return;
-    const img = ref.current.querySelector("img");
-    if (img) img.src = IMAGES[mod(idx, TOTAL)].src;
+  function makeEl(idx, scaleVal) {
+    const i = mod(idx, TOTAL);
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:absolute;inset:0;';
+    const inner = document.createElement('div');
+    inner.style.cssText = `
+      position:absolute;inset:0;
+      transform-origin:center center;
+      transform:scale(${scaleVal});
+    `;
+    const img = document.createElement('img');
+    img.src = IMAGES[i].src;
+    img.alt = 'Surge Story';
+    img.style.cssText = 'width:100%;height:100%;object-fit:cover;display:block;';
+    inner.appendChild(img);
+    wrap.appendChild(inner);
+    return wrap;
   }
 
-  function setTf(ref, tx, sc, animate) {
-    if (!ref.current) return;
-    ref.current.style.transition = animate
-      ? `transform ${DUR}ms cubic-bezier(0.4,0,0.2,1)`
-      : "none";
-    ref.current.style.transform = `translateX(${tx}px) scale(${sc})`;
-    ref.current.style.transformOrigin = "center center";
+  function buildWindow(winEl, curIdx, nextIdx, curScale, nxtScale) {
+    winEl.innerHTML = '';
+    const curEl = makeEl(curIdx, curScale);
+    curEl.style.transform = 'translateX(0px)';
+    const nxtEl = makeEl(nextIdx, nxtScale);
+    nxtEl.style.transform = 'translateX(260px)';
+    winEl.appendChild(curEl);
+    winEl.appendChild(nxtEl);
   }
 
   function init() {
     const c = cur.current;
-    fill(refs.flTop, c - 1); fill(refs.fcTop, c);
-    fill(refs.frTop, c + 1); fill(refs.frBg,  c + 2);
-    fill(refs.flBg,  c);     fill(refs.fcBg,  c + 1);
-
-    setTf(refs.flTop, 0,   1.0, false);
-    setTf(refs.fcTop, 0,   1.5, false);
-    setTf(refs.frTop, 0,   1.0, false);
-    setTf(refs.frBg,  180, 1.0, false);
-    setTf(refs.flBg,  180, 1.2, false);
-    setTf(refs.fcBg,  180, 1.0, false);
+    buildWindow(winL.current, mod(c - 1, TOTAL), mod(c,     TOTAL), 1.0, 1.0);
+    buildWindow(winC.current, mod(c,     TOTAL),  mod(c + 1, TOTAL), 1.5, 1.0);
+    buildWindow(winR.current, mod(c + 1, TOTAL),  mod(c + 2, TOTAL), 1.0, 1.0);
   }
 
   function rotate() {
     if (busy.current) return;
     busy.current = true;
 
-    setTf(refs.flTop, -180, 1.0, true);
-    setTf(refs.flBg,     0, 1.0, true);
+    const ease = `${DUR}ms cubic-bezier(0.4,0,0.2,1)`;
 
-    setTf(refs.fcTop, -180, 1.2, true);
-    setTf(refs.fcBg,     0, 1.5, true);
+    function animateWindow(winEl, curScaleEnd, nxtScaleEnd) {
+      const children = [...winEl.children];
+      children.forEach(child => {
+        const curTx = parseFloat(child.style.transform.replace('translateX(', '')) || 0;
+        child.style.transition = `transform ${ease}`;
+        child.style.transform = `translateX(${curTx - 260}px)`;
+      });
+      if (children[0]) {
+        const inner = children[0].querySelector('div');
+        inner.style.transition = `transform ${ease}`;
+        inner.style.transform = `scale(${curScaleEnd})`;
+      }
+      if (children[1]) {
+        const inner = children[1].querySelector('div');
+        inner.style.transition = `transform ${ease}`;
+        inner.style.transform = `scale(${nxtScaleEnd})`;
+      }
+    }
 
-    setTf(refs.frTop, -180, 1.5, true);
-    setTf(refs.frBg,     0, 1.0, true);
+    animateWindow(winL.current, 1.0, 1.0);
+    animateWindow(winC.current, 1.2, 1.5);
+    animateWindow(winR.current, 1.5, 1.0);
 
     setTimeout(() => {
       cur.current = mod(cur.current + 1, TOTAL);
       const c = cur.current;
 
-      fill(refs.flTop, c - 1); fill(refs.fcTop, c);
-      fill(refs.frTop, c + 1); fill(refs.frBg,  c + 2);
-      fill(refs.flBg,  c);     fill(refs.fcBg,  c + 1);
+      function refreshWindow(winEl, nextIdx, nxtScale) {
+        winEl.children[0].remove();
+        const remaining = winEl.children[0];
+        remaining.style.transition = 'none';
+        const nxtEl = makeEl(nextIdx, nxtScale);
+        nxtEl.style.cssText += 'transition:none;';
+        nxtEl.style.transform = 'translateX(260px)';
+        winEl.appendChild(nxtEl);
+      }
 
-      setTf(refs.flTop, 0,   1.0, false);
-      setTf(refs.fcTop, 0,   1.5, false);
-      setTf(refs.frTop, 0,   1.0, false);
-      setTf(refs.frBg,  180, 1.0, false);
-      setTf(refs.flBg,  180, 1.2, false);
-      setTf(refs.fcBg,  180, 1.0, false);
+      refreshWindow(winL.current, mod(c,     TOTAL), 1.0);
+      refreshWindow(winC.current, mod(c + 1, TOTAL), 1.0);
+      refreshWindow(winR.current, mod(c + 2, TOTAL), 1.0);
 
       busy.current = false;
-    }, DUR + 60);
+    }, DUR + 80);
   }
 
   useEffect(() => {
@@ -90,19 +112,6 @@ export default function AboutSection() {
     const interval = setInterval(rotate, GAP);
     return () => clearInterval(interval);
   }, []);
-
-  const layer = (ref, zIndex) => (
-    <div
-      ref={ref}
-      style={{ position: "absolute", inset: 0, zIndex }}
-    >
-      {/* plain img tag — we mutate src directly via ref */}
-      <img
-        alt="Surge Story"
-        style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-      />
-    </div>
-  );
 
   return (
     <section className={styles.sectionContainer}>
@@ -119,22 +128,9 @@ export default function AboutSection() {
         </div>
 
         <div className={styles.imageFlexContainer}>
-
-          <div className={`${styles.frame} ${styles.frameLeft}`}>
-            {layer(refs.flBg, 1)}
-            {layer(refs.flTop, 2)}
-          </div>
-
-          <div className={`${styles.frame} ${styles.frameCenter}`}>
-            {layer(refs.fcBg, 1)}
-            {layer(refs.fcTop, 2)}
-          </div>
-
-          <div className={`${styles.frame} ${styles.frameRight}`}>
-            {layer(refs.frBg, 1)}
-            {layer(refs.frTop, 2)}
-          </div>
-
+          <div ref={winL} className={`${styles.frame} ${styles.frameLeft}`} />
+          <div ref={winC} className={`${styles.frame} ${styles.frameCenter}`} />
+          <div ref={winR} className={`${styles.frame} ${styles.frameRight}`} />
         </div>
       </div>
     </section>

@@ -1,22 +1,22 @@
 import styles from './Enquire.module.css';
 import Image from "next/image";
 
-import cupImg from './Enq1.png'; 
+import cupImg from './Enq1.png';
 import cupImg2 from './Enq2.png';
 import cupImg3 from './Enq3.png';
 
 const packages = [
   {
     id: 1,
-    title: "Tell Us About Your Event", 
+    title: "Tell Us About Your Event",
     description: "Share your event date, time, location, and guest count. Well recommend the perfect coffee setup for your occasion.",
-    image: cupImg 
+    image: cupImg
   },
   {
     id: 2,
     title: "Choose Your Package",
     description: "Choose a cups package and tailor it with add-ons to suit your event. Flexible setups designed to match your guest count and style.",
-    image: cupImg2 
+    image: cupImg2
   },
   {
     id: 3,
@@ -45,23 +45,23 @@ export default function CoffeePackages() {
               <p className={styles.cardDescription}>{pkg.description}</p>
             </div>
             <div className={styles.imageWrapper}>
-              <Image 
-                src={pkg.image} 
-                alt={pkg.title} 
-                className={styles.cupImage} 
+              <Image
+                src={pkg.image}
+                alt={pkg.title}
+                className={styles.cupImage}
               />
             </div>
           </div>
         ))}
 
-      
+
         <div className={styles.cardBox}>
           <p className={styles.cardText}>Ready to elevate your  event?</p>
-          <a href="#enquire" className={styles.enquireLink}>
-            Enquire Now 
+          <a href="#enquiry-form" className={styles.enquireLink}>
+            Enquire Now
             <span className={styles.arrowIcon}>
               <svg width="10" height="10" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="white" strokeWidth="1.2"/>
+                <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="white" strokeWidth="1.2" />
               </svg>
             </span>
           </a>

@@ -53,6 +53,7 @@
   cursor: pointer;
   align-self: flex-start;
   transition: transform 0.2s ease;
+  text-decoration: none;
 }
 
 .rightvideo {

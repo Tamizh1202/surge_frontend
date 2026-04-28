@@ -130,6 +130,7 @@
   cursor: pointer;
   margin-top: 24px;
   transition: opacity 0.3s ease;
+  text-decoration: none;
 }
 
 .eventButton:hover {

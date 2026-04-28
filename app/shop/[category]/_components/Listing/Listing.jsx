@@ -62,25 +62,34 @@ export default function Listing({ category }) {
     }, [category?.id]);
 
     useEffect(() => {
+        setPage(1);
+        setProducts([]);
+    }, [category?.id, selectedSort]);
+
+    useEffect(() => {
         async function fetchData() {
             if (!category?.id) return;
             setLoading(true);
             try {
+                const sortParam = selectedSort === 'Price:High to Low' ? '-salePrice,-regularPrice' :
+                    selectedSort === 'Price:Low to High' ? 'salePrice,regularPrice' :
+                        '-createdAt';
+
                 const res = await axiosClient.get(
                     `/api/web-products`,
                     {
                         params: {
                             'where[categories][equals]': category.id,
                             'where[_status][equals]': 'published',
-                            limit: 10,
-                            page: 1,
-                            sort: '-createdAt',
+                            limit: 9,
+                            page: page,
+                            sort: sortParam,
                             depth: 1
                         }
                     }
                 );
                 const allProducts = res.data.docs || [];
-                setProducts(allProducts);
+                setProducts(prev => page === 1 ? allProducts : [...prev, ...allProducts]);
                 setTotalProducts(res.data.totalDocs || 0);
                 setHasNextPage(res.data.hasNextPage);
                 setError(null);
@@ -92,7 +101,7 @@ export default function Listing({ category }) {
             }
         }
         fetchData();
-    }, [category?.id]);
+    }, [category?.id, page, selectedSort]);
 
     const filteredProducts = products.filter((product) => {
         if (selectedFilters.length === 0) return true;

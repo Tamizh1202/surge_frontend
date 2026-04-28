@@ -12,7 +12,7 @@ import { Toaster } from "react-hot-toast";
 import AuthToast from "@/components/AuthToast/AuthToast";
 
 export const metadata = {
-  title: "Surge Coffee",
+  title: "Surge Coffee",                
 };
 
 export default async function RootLayout({

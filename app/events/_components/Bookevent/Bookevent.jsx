@@ -24,7 +24,7 @@ const Partnerships = () => {
   return (
     <div className={styles.Main}>
       <div className={styles.MainConatiner}>
-      
+
         <div className={styles.Bottom}>
           <div className={styles.Marquee}>
             <div className={styles.Track}>
@@ -43,14 +43,14 @@ const Partnerships = () => {
           </div>
         </div>
 
-       
+
         <div className={styles.Content}>
           <h1 className={styles.Title}>Bold coffee, made the surge way</h1>
           <p className={styles.Subtitle}>
-            Premium coffee bar setup for offices, launches, weddings, pop-ups, 
+            Premium coffee bar setup for offices, launches, weddings, pop-ups,
             and private parties in Dubai.
           </p>
-          <button className={styles.eventButton}>Book an Event</button>
+          <a href='#enquiry-form' className={styles.eventButton}>Book an Event</a>
         </div>
       </div>
     </div>

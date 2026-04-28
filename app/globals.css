@@ -1,27 +1,25 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Raleway:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Raleway:wght@400;500;600&display=swap");
 
 :root {
-  --font-lato: 'Lato', sans-serif;
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-raleway: 'Raleway', sans-serif;
-
+  --font-lato: "Lato", sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-raleway: "Raleway", sans-serif;
 
   --background: #ffffff;
   --black: black;
-  --primary-color: #C4754E;
-  --cards-bg: #F5F5F5;
+  --primary-color: #c4754e;
+  --cards-bg: #f5f5f5;
   --text-primary: #414343;
   --text-secondary: #818686;
-  --green: #40A65A;
-  --red: #EA2424;
-  --surge-app: #FBF5F1;
+  --green: #40a65a;
+  --red: #ea2424;
+  --surge-app: #fbf5f1;
   --brown: #333333;
 
-
-  --lato: 'Raleway', sans-serif;
-  --lexend: 'Montserrat', sans-serif;
+  --lato: "Raleway", sans-serif;
+  --lexend: "Montserrat", sans-serif;
 
   /* --fs-12: 12px;  */
   /* clamp(0.75rem, 0.15vw + 0.71rem, 0.875rem); */
@@ -75,6 +73,10 @@
   /* 22px → 24px */
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html,
 body {
   margin: 0;
@@ -101,7 +103,6 @@ h3 {
   font-size: var(--fs-22);
   font-weight: 600;
 }
-
 
 p {
   font-family: var(--font-raleway);

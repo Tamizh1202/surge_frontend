@@ -72,6 +72,7 @@
   --fs-22: clamp(1.25rem, 0.38vw + 1.16rem, 1.375rem);
   /* 20px → 22px */
   --fs-24: clamp(1.375rem, 0.56vw + 1.25rem, 1.5rem);
+  --fs-60: clamp(3.625rem, 0.56vw + 3.5rem, 3.75rem);
   /* 22px → 24px */
 }
 

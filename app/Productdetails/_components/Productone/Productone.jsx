@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import styles from './Productone.module.css';
 import Image from 'next/image';
@@ -49,20 +49,31 @@ export default function ProductOne({ initialProduct }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Scroll logic to trigger animation
+  const scrollPhaseRef = useRef(0);
+
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 0) {
+    const handleWheel = (e) => {
+      const phase = scrollPhaseRef.current;
+
+      if (phase === 0 && e.deltaY > 0) {
+        e.preventDefault();
         setIsExpanded(true);
-      } else {
+        scrollPhaseRef.current = 2;
+        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
+      }
+
+      else if (phase === 2 && e.deltaY < 0) {
+        e.preventDefault();
         setIsExpanded(false);
+        scrollPhaseRef.current = 0;
+        window.scrollTo({ top: 0, behavior: 'instant' });
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleWheel);
   }, []);
-
+  // Map initialProduct to local state
   useEffect(() => {
     if (initialProduct) {
       const categorySlug = initialProduct.categories?.slug || "";
@@ -95,7 +106,6 @@ export default function ProductOne({ initialProduct }) {
 
       setProduct(mappedData);
 
-      // Handle variants for sizes
       if (initialProduct.variants && initialProduct.variants.length > 0) {
         setSelectedSize(initialProduct.variants[0].variantName);
       } else {
@@ -121,7 +131,7 @@ export default function ProductOne({ initialProduct }) {
   return (
     <div className={styles.container}>
 
-      <div className={styles.stickyWrapper}>
+      <div className={styles.stickyWrapper} id="sticky-section">
         <div className={styles.imageSection}>
           <div className={styles.productWrapper}>
             <Image

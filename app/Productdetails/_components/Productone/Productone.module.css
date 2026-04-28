@@ -1,16 +1,16 @@
-
-.container {
-
-  display: flex;
-
-  min-height: 100vh;
-
-  background-color: #f8f8f8;
-
-  overflow: hidden;
-
+html,
+body {
+  overflow: auto;
+  height: 100%;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 200vh;
+  /* tall enough to scroll past the sticky section */
+  background-color: #f8f8f8;
+}
 
 .stickyWrapper {
   display: flex;
@@ -21,11 +21,10 @@
   overflow: hidden;
 }
 
-
 .scrollSpacer {
+  height: 0;
   pointer-events: none;
 }
-
 .imageSection {
   flex: 1;
   display: flex;
@@ -58,32 +57,22 @@
   position: relative;
   width: 100%;
   max-width: 500px;
-  height: 650px; 
+  height: 650px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .card {
-
   background: white;
-
   padding: 46px 61px;
-
   width: 100%;
-
   max-width: 500px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 32px;
-
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-
   position: absolute;
-
 }
 
 /* --- Animation States --- */
@@ -116,740 +105,223 @@
   pointer-events: none;
 }
 
-/* --- Typography & Elements --- */
+/* -phy & Elements --- */
 .headerGroup {
-
-
-
   display: flex;
-
-
-
   flex-direction: column;
-
-
-
   gap: 8px;
-
-
-
 }
 
 .title {
-
-
-
   color: #C4754E;
-
-
-
   font-size: 22px;
-
-
-
   font-weight: 600;
-
-
-
-    font-family: var(--font-montserrat);
-
-
-
+  font-family: var(--font-montserrat);
   margin: 0;
-
-
-
 }
-
-
-
-
-
-
 
 .tastingNotes {
-
-
-
   color: #818686;
-
-
-
   font-size: 16px;
-
-
-
-font-family: var(--font-raleway);
-
-
-
+  font-family: var(--font-raleway);
   font-weight: 400;
-
-
-
   margin: 0;
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
 .selectionGroup {
-
-
-
   display: flex;
-
-
-
   flex-direction: column;
-
-
-
   gap: 33px;
-
-
-
 }
-
-
-
-
-
-
 
 .priceRow {
-
-
-
   display: flex;
-
-
-
   align-items: baseline;
-
-
-
 }
-
-
-
-
-
-
 
 .sizeSection {
-
-
-
   display: flex;
-
-
-
   flex-direction: column;
-
-
-
   gap: 16px;
-
-
-
 }
-
-
-
-
-
-
 
 .actionRow {
-
-
-
   display: flex;
-
-
-
   gap: 16px;
-
-
-
 }
-
-
-
-
-
-
-
-
-
-
 
 .divider {
-
-
-
   border: 0;
-
-
-
   border-top: 1px solid #818686;
-
-
-
   margin: 0;
-
-
-
 }
-
-
-
-
-
-
 
 .buyLabel {
-
-
-
   color: #C4754E;
-
-
-
   font-family: var(--font-raleway);
-
-
-
-   margin-right: 12px;
-
-
-
-font-size: 16px;
-
-
-
-font-weight: 400
-
-
-
-; }
-
-
+  margin-right: 12px;
+  font-size: 16px;
+  font-weight: 400;
+}
 
 .price {
-
-
-
-   font-weight: 600;
-
-
-
-    font-size: 22px;
-
-
-
-    font-family: var(--font-montserrat);
-
-
-
-    color: #414343;
-
-
-
-  }
-
-
-
-
-
-
+  font-weight: 600;
+  font-size: 22px;
+  font-family: var(--font-montserrat);
+  color: #414343;
+}
 
 .label {
-
-
-
   color: #888;
-
-
-
-   font-weight: 400;
-
-
-
-    font-size: 16px;
-
-
-
-     font-family: var(--font-raleway);
-
-
-
+  font-weight: 400;
+  font-size: 16px;
+  font-family: var(--font-raleway);
 }
-
-
-
-
-
-
 
 .buttonGroup {
-
-
-
   display: flex;
-
-
-
   gap: 16px;
-
-
-
 }
-
-
-
-
-
-
 
 .sizeButton {
-
-
-
   padding: 12px 16px;
-
-
-
   border: 1px solid #C4754E;
-
-
-
   background: transparent;
-
-
-
   color: #C4754E;
-
-
-
-   font-weight: 400;
-
-
-
-    font-size: 16px;
-
-
-
-     font-family: var(--font-raleway);
-
-
-
+  font-weight: 400;
+  font-size: 16px;
+  font-family: var(--font-raleway);
   cursor: pointer;
-
-
-
 }
-
-
-
-
-
-
 
 .activeSize {
-
-
-
   background: white;
-
-
-
   color: #C4754E;
-
-
-
 }
-
-
-
-
-
-
 
 .quantityPicker {
-
-
-
   display: flex;
-
-
-
   align-items: center;
-
-
-
   border: 1px solid #C4754E;
-
-
-
   color: #C4754E;
-
-
-
 }
-
-
-
-
-
-
 
 .quantityPicker button {
-
-
-
   background: none;
-
-
-
   border: none;
-
-
-
   padding: 13px 22px;
-
-
-
   cursor: pointer;
-
-
-
   color: #C4754E;
-
-
-
 }
-
-
-
-
-
-
 
 .addToCart {
-
-
-
   flex-grow: 1;
-
-
-
   background-color: #bc7753;
-
-
-
   color: white;
-
-
-
   border: none;
-
-
-
   padding: 12px 99px;
-
-
-
   cursor: pointer;
-
-
-
   font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-
-
+  font-family: var(--font-raleway);
   font-weight: 600;
-
-
-
 }
-
-
-
-
-
-
 
 .specsTable {
-
-
-
   width: 100%;
-
-
-
   font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-
-
+  font-family: var(--font-raleway);
   font-weight: 400;
-
-
-
   color: #818686;
-
-
-
   margin: 0;
-
-
-
 }
 
-
-
-
-
-
-
 .specsTable td {
-
-
-
-  padding: 16px 0 0 ;
-
-
-
-    font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-
-
+  padding: 16px 0 0;
+  font-size: 16px;
+  font-family: var(--font-raleway);
   font-weight: 400;
-
-
-
 }
 
 .specsTables td {
-
-
-
-  padding: 16px ;
-
-
-
-    font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-color: #414343;
-
+  padding: 16px;
+  font-size: 16px;
+  font-family: var(--font-raleway);
+  color: #414343;
   font-weight: 400;
-
-
-
 }
 
 .specsTables p {
-
-
-
-
-
-margin: 0;
-
-    font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-color: #C4754E;
-
+  margin: 0;
+  font-size: 16px;
+  font-family: var(--font-raleway);
+  color: #C4754E;
   font-weight: 400;
-
-
-
 }
-
-
-
-
 
 .specValue {
-
   color: #414343;
-
   font-weight: 400;
-
-    font-size: 16px;
-
-
-
-   font-family: var(--font-raleway);
-
-
-
+  font-size: 16px;
+  font-family: var(--font-raleway);
 }
-
-
-
-
 
 .cardWrapper {
-
   position: relative;
-
   width: 100%;
-
   max-width: 500px;
-
   height: 650px;
-
   display: flex;
-
   justify-content: center;
-
   align-items: center;
-
 }
-
-
-
-
 
 .card1Show {
-
   transform: translateY(0);
-
   opacity: 1;
-
   visibility: visible;
-
 }
-
-
 
 .card1Hide {
-
   transform: translateY(-120%);
-
   opacity: 0;
-
   visibility: hidden;
-
 }
-
-
 
 .card2Show {
-
   transform: translateY(0);
-
   opacity: 1;
-
   visibility: visible;
-
 }
-
-
 
 .card2Hide {
-
   transform: translateY(120%);
-
   opacity: 0;
-
   visibility: hidden;
-
 }
-
-
-
-
 
 .description {
-
   font-size: 14px;
-
   font-weight: 400;
-
-   line-height: 1.6;
-
-   color: #414343;
-
-    font-family: var(--font-raleway);
-
+  line-height: 1.6;
+  color: #414343;
+  font-family: var(--font-raleway);
 }
-
-
-
-
 
 .bulletLabel {
-
   display: flex;
-
   align-items: center;
-
   gap: 12px;
-
   color: #C4754E;
-
   font-weight: 600;
-
   font-size: 16px;
-
   font-family: var(--font-raleway);
-
   position: relative;
-
   padding-left: 20px;
-
 }
-
-
-
-
-
-
-
-
-
-
 
 .mobileHeader {
-
   display: none;
-
 }
-
-
 
 @media (max-width: 1399px) and (min-width: 1025px) {
 
@@ -858,7 +330,9 @@ color: #C4754E;
     width: 400px;
 
   }
-
+  .detailsSection{
+    top:50px;
+  }
   .card {
 
     max-width: 460px;
@@ -928,20 +402,20 @@ color: #C4754E;
 
   .imageSection {
     width: 100%;
-    padding: 90px 0 30px 0; 
+    padding: 90px 0 30px 0;
     background-color: #ffffff;
   }
 
   .productWrapper {
-    width: 55%; 
-    max-width: 300px; 
+    width: 55%;
+    max-width: 300px;
     margin: 0 auto;
   }
 
   .detailsSection {
     width: 100%;
- 
-    padding: 20px 15px 60px 15px; 
+
+    padding: 20px 15px 60px 15px;
     background-color: #F8F8F8;
     box-sizing: border-box;
     margin-top: -20px;
@@ -956,7 +430,7 @@ color: #C4754E;
     gap: 25px;
     height: auto;
 
-    width: 100%; 
+    width: 100%;
     max-width: 800px;
     position: static;
   }
@@ -966,14 +440,14 @@ color: #C4754E;
     transform: none !important;
     opacity: 1 !important;
     visibility: visible !important;
-    width: 100%; 
-    max-width: 100%; 
-    padding: 30px 20px; 
+    width: 100%;
+    max-width: 100%;
+    padding: 30px 20px;
     box-sizing: border-box;
-    
+
     background: #ffffff;
-   
-   
+
+
     margin-bottom: 5px;
     transition: none;
   }
@@ -996,7 +470,7 @@ color: #C4754E;
     margin-top: 5px;
   }
 
- .addToCart {
+  .addToCart {
     flex-grow: 1;
     padding: 14px 20px;
     font-size: 15px;
@@ -1014,7 +488,7 @@ color: #C4754E;
   .container {
     flex-direction: column;
     height: auto;
-    overflow-x: hidden; 
+    overflow-x: hidden;
   }
 
   .stickyWrapper {
@@ -1025,21 +499,21 @@ color: #C4754E;
 
   .imageSection {
     width: 100%;
-    padding: 100px 0; 
+    padding: 100px 0;
     background-color: #ffffff;
   }
 
   .productWrapper {
-   
-    width: 70%; 
-    max-width: 300px; 
+
+    width: 70%;
+    max-width: 300px;
     margin: 0 auto;
   }
 
   .detailsSection {
     width: 100%;
-  
-    padding: 40px 20px 80px 20px; 
+
+    padding: 40px 20px 80px 20px;
     background-color: #F8F8F8;
     box-sizing: border-box;
     margin-top: -20px;
@@ -1048,7 +522,7 @@ color: #C4754E;
   .cardWrapper {
     display: flex;
     flex-direction: column;
-    gap: 30px; 
+    gap: 30px;
     height: auto;
     width: 100%;
     position: static;
@@ -1059,16 +533,16 @@ color: #C4754E;
     transform: none !important;
     opacity: 1 !important;
     visibility: visible !important;
-    
 
-    width: 100%; 
-    max-width: 100%; 
-    padding: 35px 20px; 
+
+    width: 100%;
+    max-width: 100%;
+    padding: 35px 20px;
     box-sizing: border-box;
-    
+
     background: #ffffff;
-    
-   
+
+
     margin-bottom: 5px;
   }
 
@@ -1080,7 +554,7 @@ color: #C4754E;
   }
 
   .sizeButton {
-    flex: 1; 
+    flex: 1;
     padding: 12px 2px;
     font-size: 13px;
     white-space: nowrap;
@@ -1088,11 +562,12 @@ color: #C4754E;
 
   .actionRow {
     display: flex;
-    flex-direction: row; 
+    flex-direction: row;
     gap: 10px;
     align-items: stretch;
   }
-.quantityPicker {
+
+  .quantityPicker {
     display: flex;
     justify-content: center;
     min-width: 100px;

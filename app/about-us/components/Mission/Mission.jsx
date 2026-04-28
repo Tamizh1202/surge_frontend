@@ -22,7 +22,7 @@ useLayoutEffect(() => {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: `+=${cards.length * 120}%`,
+          end: `+=${cards.length * 100}%`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,

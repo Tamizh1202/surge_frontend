@@ -1,9 +1,11 @@
-"use client"
+"use client";
 import React, { useState, useEffect, useRef } from 'react';
-import { useParams } from 'next/navigation';
 import styles from './Productone.module.css';
 import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
+
+import { gsap } from 'gsap';
+import { Observer } from 'gsap/dist/Observer';
 
 import beanImg from './packet.png';
 import capImg from './cap.png';
@@ -13,66 +15,69 @@ import merchImg from './m.png';
 import { formatImageUrl } from '@/lib/imageUtils';
 
 const TYPE_CONFIG = {
-  beans: {
-    defaultImg: beanImg,
-    label: "Size",
-    options: ['250 gm', '500 gm', '1 kg'],
-    specLabel: "Variety"
-  },
-  capsule: {
-    defaultImg: capImg,
-    label: "Pack Count",
-    options: ['10 Pods', '30 Pods', '50 Pods'],
-    specLabel: "Compatibility"
-  },
-  drip: {
-    defaultImg: dripImg,
-    label: "Quantity",
-    options: ['5 Bags', '10 Bags', '20 Bags'],
-    specLabel: "Roast"
-  },
-  merch: {
-    defaultImg: merchImg,
-    label: "Select Size",
-    options: ['S', 'M', 'L', 'XL'],
-    specLabel: "Material"
-  }
+  beans: { defaultImg: beanImg, label: "Size", options: ['250 gm', '500 gm', '1 kg'], specLabel: "Variety" },
+  capsule: { defaultImg: capImg, label: "Pack Count", options: ['10 Pods', '30 Pods', '50 Pods'], specLabel: "Compatibility" },
+  drip: { defaultImg: dripImg, label: "Quantity", options: ['5 Bags', '10 Bags', '20 Bags'], specLabel: "Roast" },
+  merch: { defaultImg: merchImg, label: "Select Size", options: ['S', 'M', 'L', 'XL'], specLabel: "Material" }
 };
 
 export default function ProductOne({ initialProduct }) {
-  const params = useParams();
-  const slug = params.slug;
-
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [quantity, setQuantity] = useState(1);
   const [selectedSize, setSelectedSize] = useState("");
   const [isExpanded, setIsExpanded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
 
-  const scrollPhaseRef = useRef(0);
+  const isExpandedRef = useRef(false);
+  // Tracks whether the page is at the very top.
+  // Updated by a native scroll listener — always accurate, never stale.
+  const isAtTopRef = useRef(true);
 
   useEffect(() => {
-    const handleWheel = (e) => {
-      const phase = scrollPhaseRef.current;
+    isExpandedRef.current = isExpanded;
+  }, [isExpanded]);
 
-      if (phase === 0 && e.deltaY > 0) {
-        e.preventDefault();
-        setIsExpanded(true);
-        scrollPhaseRef.current = 2;
-        window.scrollTo({ top: 1, behavior: 'instant' });
-      }
-
-      else if (phase === 2 && e.deltaY < 0 && window.scrollY === 0) {
-        e.preventDefault();
-        setIsExpanded(false);
-        scrollPhaseRef.current = 0;
-      }
+  useEffect(() => {
+    // Native scroll listener keeps isAtTopRef accurate at all times.
+    // We do NOT read scrollY inside the GSAP callback because GSAP fires
+    // before the browser commits the scroll position — always reads stale.
+    const onScroll = () => {
+      isAtTopRef.current = window.scrollY <= 5;
     };
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    gsap.registerPlugin(Observer);
+
+    const obs = Observer.create({
+      target: window,
+      type: "wheel,touch",
+      tolerance: 20,
+      onChange: (self) => {
+        const expanded = isExpandedRef.current;
+        const isAtTop = isAtTopRef.current;
+
+        // A → B: scrolling DOWN while at the top of the page
+        if (!expanded && self.deltaY > 0 && isAtTop) {
+          setIsExpanded(true);
+        }
+
+        // B → A: scrolling UP only if we are already back at the very top
+        // If the user is mid-page scrolling up, this is skipped entirely —
+        // the browser just scrolls normally until they reach the top.
+        if (expanded && self.deltaY < 0 && isAtTop) {
+          setIsExpanded(false);
+        }
+      },
+      preventDefault: false
+    });
+
+    return () => {
+      obs.kill();
+      window.removeEventListener('scroll', onScroll);
+    };
   }, []);
-  // Map initialProduct to local state
+
+  // Data mapping
   useEffect(() => {
     if (initialProduct) {
       const categorySlug = initialProduct.categories?.slug || "";
@@ -105,7 +110,7 @@ export default function ProductOne({ initialProduct }) {
 
       setProduct(mappedData);
 
-      if (initialProduct.variants && initialProduct.variants.length > 0) {
+      if (initialProduct.variants?.length > 0) {
         setSelectedSize(initialProduct.variants[0].variantName);
       } else {
         setSelectedSize(TYPE_CONFIG[productType].options[0]);
@@ -122,7 +127,6 @@ export default function ProductOne({ initialProduct }) {
   const displayPrice = currentVariant
     ? (currentVariant.variantSalePrice || currentVariant.variantRegularPrice)
     : product.price;
-
   const productImage = currentVariant?.variantImage
     ? formatImageUrl(currentVariant.variantImage)
     : (product.image || config.defaultImg);
@@ -207,10 +211,7 @@ export default function ProductOne({ initialProduct }) {
                   }}
                   quantity={quantity}
                 />
-
-
               </div>
-
 
               <hr className={styles.divider} />
 
@@ -229,11 +230,11 @@ export default function ProductOne({ initialProduct }) {
               <hr className={styles.divider} />
               <table className={styles.specsTables}>
                 <tbody>
-                  <tr><td className={styles.bulletLabel}><Dot /><p>Body </p></td><td>{product.techSpecs.body}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Aroma </p></td><td>{product.techSpecs.aroma}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Roast</p></td><td>{product.techSpecs.roast}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Altitude</p></td><td>{product.techSpecs.altitude}</td></tr>
-                  <tr><td className={styles.bulletLabel}><Dot /><p> Finish</p></td><td>{product.techSpecs.finish}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Body</p></td><td>{product.techSpecs.body}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Aroma</p></td><td>{product.techSpecs.aroma}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Roast</p></td><td>{product.techSpecs.roast}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Altitude</p></td><td>{product.techSpecs.altitude}</td></tr>
+                  <tr><td className={styles.bulletLabel}><Dot /><p>Finish</p></td><td>{product.techSpecs.finish}</td></tr>
                 </tbody>
               </table>
             </div>
@@ -246,7 +247,6 @@ export default function ProductOne({ initialProduct }) {
     </div>
   );
 }
-
 
 function Dot() {
   return (

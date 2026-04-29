@@ -1,14 +1,35 @@
 /* ─────────────────────────────────────────────────────────────
    OrderSuccess.module.css
-   Uses global CSS variables from your root stylesheet.
    ───────────────────────────────────────────────────────────── */
 
 .Wrapper {
+  /* width: 100%; */
+  min-height: 100vh;
+  background-color: white;
+}
+
+/* ── Two-column layout ── */
+.SuccessLayout {
+  display: flex;
+  gap: 100px;
+  align-items: flex-start;
+  /* max-width: 1200px; */
+  margin-left: 400px;
+  margin-top: 250px;
+  /* padding: 120px 40px 100px 40px; */
+}
+
+.LeftSide {
+  width: 500px;
   display: flex;
   flex-direction: column;
-  gap: 0;
-  width: 100%;
-  max-width: 500px;
+  /* gap: 24px;  */
+}
+
+.RightSide {
+  flex: 0.8;
+  position: sticky;
+  top: 100px;
 }
 
 /* ── Heading row ── */
@@ -16,7 +37,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
 }
 
 .CheckIcon {
@@ -26,27 +47,27 @@
 }
 
 .ThankYou {
-  font-family: var(--lato);           /* Raleway in your setup */
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--green);
   margin: 0;
+
 }
 
 /* ── Confirmation banner ── */
 .ConfirmBanner {
-  border: 1px solid #e0e0e0;
+  border-bottom: 0.5px solid #818686;
   padding: 20px 18px;
-  margin-bottom: 24px;
   background-color: var(--cards-bg);
 }
 
 .ConfirmTitle {
-  font-family: var(--font-montserrat);         /* Montserrat in your setup */
+  font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
 }
 
 .ConfirmSub {
@@ -60,10 +81,9 @@
 
 /* ── Detail card ── */
 .DetailCard {
-  border: 1px solid #e0e0e0;
   padding: 20px 18px;
-  margin-bottom: 32px;
   background-color: var(--background);
+  margin-bottom: 50px;
 }
 
 .DetailCardLabel {
@@ -74,7 +94,6 @@
   margin: 0 0 14px 0;
 }
 
-/* ── 2-column grid for paired fields ── */
 .DetailGrid {
   margin-top: 10px;
   display: grid;
@@ -89,7 +108,6 @@
   gap: 9px;
 }
 
-/* contact row spans full width */
 .FullWidth {
   grid-column: 1 / -1;
   margin-top: 20px;
@@ -101,7 +119,7 @@
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 600;
-  color: var(--head);
+  color: var(--text-primary);
   margin: 0;
 }
 
@@ -142,48 +160,295 @@
   opacity: 0.88;
 }
 
+/* ── Right: Order Summary ── */
+.SummaryBox {
+  background: var(--background);
+  /* border: 1px solid #e5e5e5; */
+  /* padding: 28px; */
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 520px;
+
+}
+
+.SummaryHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.SummaryHeader h3 {
+  margin: 0;
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-22);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.SummaryHeader p {
+  margin: 0;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.SummaryItems {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: 300px;
+  overflow-y: auto;
+
+}
+
+.SummaryItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.SummaryItemInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.SummaryItemName {
+  margin: 0;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.SummaryItemInfo span {
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+.SummaryItemPrice {
+  margin: 0;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--text-primary);
+  /* white-space: nowrap; */
+}
+
+.SummaryTotals {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.TotalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TotalRow p {
+  margin: 0;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  color: var(--text-primary);
+}
+
+.GrandTotal {
+  border-top: 1px solid var(--text-secondary);
+  padding-top: 16px;
+}
+
+.GrandTotal p {
+  font-family: var(--font-montserrat);
+  font-size: var(--fs-16);
+  font-weight: 600;
+  color: var(--text-primary) !important;
+}
+
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════════════════════════════ */
 
-/* Tablet */
-@media (max-width: 900px) {
-  .Wrapper {
-    max-width: 100%;
+@media (min-width: 1481px) and (max-width: 1820px) {
+  .SuccessLayout {
+    margin-left: 150px;
+    gap: 80px;
+  }
+ 
+  .LeftSide {
+    width: 480px;
+  }
+ 
+  .SummaryBox {
+    width: 480px;
   }
 }
-
-/* Mobile */
-@media (max-width: 600px) {
+ 
+/* ─── Standard desktop / small laptop ─── */
+@media (min-width: 1025px) and (max-width: 1480px) {
+  .SuccessLayout {
+    margin-left: 175px;
+    margin-top: 180px;
+    gap: 60px;
+  }
+ 
+  .LeftSide {
+    width: 420px;
+  }
+ 
+  .SummaryBox {
+    width: 420px;
+  }
+}
+ 
+/* ─── Tablet landscape — still two columns ─── */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .SuccessLayout {
+    margin-left: 40px;
+    margin-right: 40px;
+    margin-top: 130px;
+    gap: 40px;
+  }
+ 
+  .LeftSide {
+    width: 100%;
+    flex: 1;
+  }
+ 
+  .RightSide {
+    flex: 0 0 300px;
+    top: 110px;
+  }
+ 
+  .SummaryBox {
+    /* width: 100%; */
+    width:320px;
+  }
+ 
+  .SummaryItems {
+    max-height: 220px;
+  }
+ 
+  .DetailGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+ 
+/* ─── Mobile — single column ─── */
+@media (max-width: 640px) {
+  .SuccessLayout {
+    flex-direction: column;
+    margin-left: 24px;
+    margin-right: 24px;
+    margin-top: 100px;
+    gap: 0;
+  }
+ 
+  /* Form/details on top, summary below */
+  .LeftSide {
+    order: 1;
+    width: 100%;
+  }
+ 
+  .RightSide {
+    order: 2;
+    width: 100%;
+    position: static;
+    top: auto;
+    /* margin-top: 60px; */
+  }
+ 
+  .SummaryBox {
+    width: 100%;
+    gap: 32px;
+    margin-top: 80px;
+    margin-bottom: 80px;
+  }
+ 
+  .SummaryItems {
+    max-height: 200px;
+  }
+ 
+  .SummaryItem {
+    gap: 12px;
+  }
+ 
+  .SummaryItemName,
+  .SummaryItemInfo span,
+  .SummaryItemPrice {
+    font-size: var(--fs-14);
+  }
+ 
+  .TotalRow p {
+    font-size: var(--fs-14);
+  }
+ 
+  .GrandTotal p {
+    font-size: var(--fs-14);
+  }
+  .Heading{
+    margin-top: 30px;
+  }
   .ThankYou {
     font-size: var(--fs-16);
   }
-
-  .ConfirmBanner,
-  .DetailCard {
-    padding: 16px 14px;
+ 
+  .ConfirmBanner{
+    padding: 16px;
   }
-
-  /* Stack the grid to single column on small screens */
+  .DetailCard {
+    padding:0px;
+  }
+  .DetailCell{
+    gap:4px;
+  }
+  .ConfirmSub{
+    font-size: var(--fs-14);
+    width: 80%;
+    line-height: 1.5;
+    font-weight: 400;
+  }
   .DetailGrid {
     grid-template-columns: 1fr;
-    row-gap: 16px;
+    row-gap: 24px;
   }
-
+ 
   .FullWidth {
-    margin-top: 16px;
-    padding-top: 16px;
+    border: none;
+    margin-top: 24px;
+    padding-top: 0px;
   }
-
+ 
+  .DetailCard {
+    margin-bottom: 32px;
+    margin-top: 32px;
+  }
+ 
   .ContinueBtn {
     padding: 15px;
     font-size: var(--fs-14);
   }
 }
-
+ 
+/* ─── Very small mobile ─── */
 @media (max-width: 380px) {
+  .SuccessLayout {
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+ 
   .ConfirmBanner,
   .DetailCard {
     padding: 14px 12px;
+  }
+ 
+  .SummaryHeader h3 {
+    font-size: var(--fs-16);
   }
 }

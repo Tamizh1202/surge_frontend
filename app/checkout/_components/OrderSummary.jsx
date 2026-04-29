@@ -64,7 +64,9 @@ export default function OrderSummary({
               </div>
               <div className={styles.ItemInfo}>
                 <div className={styles.ItemMainRow}>
-                  <div className={styles.ItemName}>{item.name} , {item.tagline}</div>
+                  <div className={styles.ItemName}>{item.name} 
+                    {/* , {item.tagline} */}
+                    </div>
                   <div className={styles.ItemName}>{item.weight}</div>
 
                   {isSubscription && (

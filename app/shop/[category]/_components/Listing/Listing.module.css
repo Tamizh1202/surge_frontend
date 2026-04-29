@@ -9,7 +9,7 @@
     min-height: 100svh;
     box-sizing: border-box;
     margin-top: 100px;
-    
+
 }
 
 .sidebar {
@@ -17,7 +17,7 @@
     display: flex;
     flex-shrink: 0;
     flex-direction: column;
-  position: sticky;
+    position: sticky;
     top: 120px;
     align-self: flex-start;
     height: auto;
@@ -293,27 +293,29 @@
 }
 
 .imageWrapper {
-
     position: relative;
+    /* This ensures the wrapper maintains its shape */
+    width: 100%;
+    aspect-ratio: 295 / 339.67;
+
     display: flex;
     align-items: center;
-    padding: 0;
+    justify-content: center;
     overflow: hidden;
-    background-color: transparent;
+    background-color: #f0f0f0;
+    /* Helpful to see the box before image loads */
     transition: border 0.3s ease;
     cursor: pointer;
-
 }
 
-
-
-
-
 .imageWrapper img {
+    /* Use object-fit to ensure the image fills the ratio without distorting */
     width: 100%;
     height: 100%;
-    transition: transform 0.35s ease-in-out;
+    object-fit: cover;
 
+    transition: transform 0.35s ease-in-out;
+    display: block;
 }
 
 .productCard:hover .imageWrapper img {

@@ -2,6 +2,7 @@ import Productone from "@/app/Productdetails/_components/Productone/Productone";
 import Image from "@/app/Productdetails/_components/Image/Image";
 import { redirect } from "next/navigation";
 import Producttwo from "../../../Productdetails/_components/Producttwo/Producttwo";
+import YouMayAlsoLike from "../../../Productdetails/_components/YouMayLike/YouMayAlsoLike";
 
 export async function generateMetadata({ params }) {
   const { category, slug } = await params;
@@ -86,6 +87,7 @@ export default async function ProductDetailPage({ params }) {
       <Productone initialProduct={product} />
       <Producttwo />
       <Image />
+      <YouMayAlsoLike />
     </main>
   );
 }

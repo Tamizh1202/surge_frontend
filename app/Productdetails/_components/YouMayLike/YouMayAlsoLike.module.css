@@ -6,12 +6,12 @@
   font-family: var(--font-montserrat);
   font-size: 22px;
   font-weight: 600;
-  color: #fff;
+  color: var(--primary-color);
   margin: 0 0 40px;
 }
 
 .grid {
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(3, 1fr);
   gap: 30px;
 }
@@ -24,7 +24,7 @@
 .imageWrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 295/340;
   background: #f5f0eb;
   overflow: hidden;
 }
@@ -57,18 +57,19 @@
 
 .title {
   font-family: var(--font-montserrat);
-  font-size: 14px;
-  font-weight: 600;
-  color: #fff;
-  margin: 0 0 4px;
-  line-height: 1.4;
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--primary-color);
+  margin: 0 ;
+  margin-bottom: 8px;
+  /* line-height: 1.4; */
 }
 
 .subtitle {
   font-family: var(--font-raleway);
-  font-size: 13px;
+  font-size: var(--fs-16);
   font-weight: 400;
-  color: #ccc;
+  color: var(--secondary-color);
   margin: 0 0 16px;
 }
 
@@ -80,9 +81,9 @@
 
 .price {
   font-family: var(--font-montserrat);
-  font-size: 14px;
-  font-weight: 600;
-  color: #b45309;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
 .addToCart {
@@ -90,7 +91,7 @@
   font-size: 13px;
   font-weight: 600;
   color: #fff;
-  background: #b45309;
+  background: var(--primary-color);
   border: none;
   padding: 10px 22px;
   cursor: pointer;
@@ -98,7 +99,7 @@
 }
 
 .addToCart:hover {
-  background: #92400e;
+  opacity: 0.9;
 }
 
 /* 1024–1300px */

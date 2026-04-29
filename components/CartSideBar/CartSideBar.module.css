@@ -133,8 +133,7 @@
   background: white;
   padding: 16px 8px;
   display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 8px;
 }
 
 .prodImageWrapper {
@@ -149,7 +148,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap:32px;
 }
 
 .prodHeader {
@@ -197,7 +196,6 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 16px;
 }
 
 .qtyContainer {
@@ -263,8 +261,8 @@
 
 .footer {
   background: #ffffff;
-  padding: 24px 14px;
-  margin: 39px;
+  padding: 24px 14px; 
+  margin: 0 30px 40px;
 }
 
 .subtotalRow {
@@ -299,9 +297,10 @@
   margin-top: 16px;
   margin-bottom: 0;
   font-family: var(--font-raleway);
+  align-items: baseline;
   font-size: 16px;
   color: #818686;
-  text-align: center;
+  text-align: left;
 }
 
 /* --- Responsive Updates --- */

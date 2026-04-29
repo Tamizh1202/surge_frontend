@@ -102,8 +102,8 @@ export default function CouponsPopup({ cartValue = 1550, onApply, onClose }) {
                                     </button>
                                     {expanded === coupon.id && (
                                         <p className={styles.expandedText}>
-                                            Use code <strong>{coupon.code}</strong> at checkout. Valid on all orders.
-                                            Discount of AED {coupon.discount} will be applied automatically.
+                                            <li>Use code <strong>{coupon.code}</strong> at checkout. Valid on all orders.</li>
+                                            <li>Discount of AED {coupon.discount} will be applied automatically.</li>
                                         </p>
                                     )}
                                 </div>

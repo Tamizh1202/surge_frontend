@@ -2,6 +2,7 @@
 import Productone from "../_components/Productone/Productone";
 import Producttwo from "../_components/Producttwo/Producttwo";
 import ImageSection from "../_components/Image/Image";
+import YouMayAlsoLike from "../_components/YouMayLike/YouMayAlsoLike";
 
 export default async function ProductPage({ params }) {
   // We MUST await params in Next.js 15+
@@ -15,6 +16,7 @@ export default async function ProductPage({ params }) {
       <Producttwo />
 
       <ImageSection />
+      <YouMayAlsoLike />
     </main>
   );
 }

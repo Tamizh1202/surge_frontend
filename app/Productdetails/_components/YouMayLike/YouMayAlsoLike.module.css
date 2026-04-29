@@ -1,0 +1,156 @@
+.section {
+  padding: 0 125px 120px;
+}
+
+.heading {
+  font-family: var(--font-montserrat);
+  font-size: 22px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 40px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: #f5f0eb;
+  overflow: hidden;
+}
+
+.productImage {
+  object-fit: contain;
+  padding: 20px;
+}
+
+.wishlistBtn {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.wishlistBtn:hover {
+  opacity: 1;
+}
+
+.info {
+  padding: 16px 0 0;
+}
+
+.title {
+  font-family: var(--font-montserrat);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin: 0 0 4px;
+  line-height: 1.4;
+}
+
+.subtitle {
+  font-family: var(--font-raleway);
+  font-size: 13px;
+  font-weight: 400;
+  color: #ccc;
+  margin: 0 0 16px;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.price {
+  font-family: var(--font-montserrat);
+  font-size: 14px;
+  font-weight: 600;
+  color: #b45309;
+}
+
+.addToCart {
+  font-family: var(--font-montserrat);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  background: #b45309;
+  border: none;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.addToCart:hover {
+  background: #92400e;
+}
+
+/* 1024–1300px */
+@media (min-width: 1024px) and (max-width: 1300px) {
+  .section {
+    padding: 0 40px 80px;
+  }
+
+  .grid {
+    gap: 20px;
+  }
+
+  .heading {
+    margin-bottom: 30px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .section {
+    padding: 0 20px 60px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .heading {
+    font-size: 20px;
+    margin-bottom: 24px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .section {
+    padding: 0 15px 40px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .heading {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .addToCart {
+    padding: 8px 18px;
+    font-size: 12px;
+  }
+}

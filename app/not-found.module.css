@@ -94,9 +94,7 @@
 }
 
 @media (max-width: 640px) {
-    .main {
-        /* background: #fffbf4; */
-    }
+    
 
     .MainConatiner {
         gap: 30px;

@@ -75,7 +75,9 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  /* disable smooth scroll, let GSAP handle it */
+  -webkit-overflow-scrolling: touch;
 }
 
 html,

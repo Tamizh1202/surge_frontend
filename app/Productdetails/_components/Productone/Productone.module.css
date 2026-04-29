@@ -1,14 +1,17 @@
-html,
-body {
-  overflow: auto;
-  height: 100%;
-}
-
 .container {
   display: flex;
   flex-direction: column;
   min-height: 200vh;
   /* tall enough to scroll past the sticky section */
+  background-color: #f8f8f8;
+}
+
+.container {
+  position: relative;
+  /* add this */
+  display: flex;
+  flex-direction: column;
+  min-height: 200vh;
   background-color: #f8f8f8;
 }
 
@@ -25,6 +28,7 @@ body {
   height: 0;
   pointer-events: none;
 }
+
 .imageSection {
   flex: 1;
   display: flex;
@@ -330,9 +334,11 @@ body {
     width: 400px;
 
   }
-  .detailsSection{
-    top:50px;
+
+  .detailsSection {
+    top: 50px;
   }
+
   .card {
 
     max-width: 460px;

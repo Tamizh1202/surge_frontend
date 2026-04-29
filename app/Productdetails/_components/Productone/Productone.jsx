@@ -59,14 +59,13 @@ export default function ProductOne({ initialProduct }) {
         e.preventDefault();
         setIsExpanded(true);
         scrollPhaseRef.current = 2;
-        window.scrollTo({ top: document.body.scrollHeight, behavior: 'instant' });
+        window.scrollTo({ top: 1, behavior: 'instant' });
       }
 
-      else if (phase === 2 && e.deltaY < 0) {
+      else if (phase === 2 && e.deltaY < 0 && window.scrollY === 0) {
         e.preventDefault();
         setIsExpanded(false);
         scrollPhaseRef.current = 0;
-        window.scrollTo({ top: 0, behavior: 'instant' });
       }
     };
 

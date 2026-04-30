@@ -263,7 +263,7 @@ transition: all 0.3s ease-in-out;
 }
 
 .sortArrow {
-    transition: transform 0.3s ease;
+   transition: transform 0.3s ease-in-out;
     color: #c9805d;
 }
 

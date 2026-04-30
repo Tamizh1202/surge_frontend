@@ -118,6 +118,19 @@
   transition: opacity 0.3s ease;
 }
 
+.formBox input[type="date"] {
+  color: #818686; 
+  opacity: 0.8;
+}
+
+
+.formBox input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(20%) sepia(5%) saturate(100%) hue-rotate(135deg) brightness(95%) contrast(85%);
+  opacity: 0.6;
+}
+
+
 
 @media screen and (max-width: 1600px) {
   .main {

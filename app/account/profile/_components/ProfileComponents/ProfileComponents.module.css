@@ -14,7 +14,7 @@
   justify-content: left;
   flex-direction: column;
   width: 100%;
-  gap: clamp(32px, calc(32px + (28 * ((100vw - 320px) / 1120))), 60px);
+  gap: clamp(32px, calc(32px + (28 * ((100vw - 320px) / 1120))), 80px);
   max-width: 501px;
 }
 
@@ -338,7 +338,7 @@
 .VerifyBtn {
   cursor: pointer;
   margin-left: 12px;
-  color: #6c7a5f;
+  color: #C4754E;
   text-decoration: underline;
 }
 

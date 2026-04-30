@@ -124,7 +124,7 @@
     filter: blur(0px);
 }
 
-/* Staggered Delay (Ek-ek karke upar aane ke liye) */
+
 .isOpen .optionLabel:nth-child(1) { transition-delay: 0.1s; }
 .isOpen .optionLabel:nth-child(2) { transition-delay: 0.15s; }
 .isOpen .optionLabel:nth-child(3) { transition-delay: 0.2s; }

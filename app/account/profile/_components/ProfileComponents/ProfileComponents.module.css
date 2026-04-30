@@ -751,7 +751,13 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
-   transition: background-color 0.3s ease, color 0.3s ease;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px); 
+  transition: 
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+    opacity 0.3s ease, 
+    visibility 0.3s;
 }
 
 .optionItem {
@@ -760,6 +766,7 @@
   font-size: 15px;
   color: var(--text-secondary);
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .optionItem:hover {

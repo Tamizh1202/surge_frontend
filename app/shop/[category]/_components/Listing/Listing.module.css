@@ -67,7 +67,12 @@
 .filterContainerBox {
     display: flex;
     flex-direction: column;
-
+     transform: translateY(-6px);
+     
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
 
 }
 
@@ -79,26 +84,81 @@
 }
 
 .optionsList {
-    padding: 10px 25px 20px 15px;
+    padding: 0 25px 10px 0;
     display: flex;
     flex-direction: column;
+    min-height: 0;
     gap: 12px;
     background-color: #F5F5F5;
-    transition: max-height 0.4s ease-in-out, opacity 0.3s ease, padding 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    
 }
 
 .optionLabel {
     display: flex;
     align-items: center;
     gap: 10px;
-    cursor: pointer;
-    font-weight: 400;
+        font-weight: 400;
+
     font-family: var(--font-raleway);
+
     font-size: 16px;
+
     color: #414343;
+
+
+    opacity: 0;
+   
+    transform: translateY(20px); 
+    filter: blur(10px);
+    transition: 
+        opacity 0.4s ease, 
+        transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), 
+        filter 0.4s ease;
 }
 
 
+.isOpen .optionLabel {
+    opacity: 1;
+    transform: translateY(0); 
+    filter: blur(0px);
+}
+
+
+.isOpen .optionLabel:nth-child(1) { transition-delay: 0.1s; }
+.isOpen .optionLabel:nth-child(2) { transition-delay: 0.15s; }
+.isOpen .optionLabel:nth-child(3) { transition-delay: 0.2s; }
+.isOpen .optionLabel:nth-child(4) { transition-delay: 0.25s; }
+.isOpen .optionLabel:nth-child(5) { transition-delay: 0.3s; }
+
+
+.optionsWrapper {
+    display: grid;
+    grid-template-rows: 0fr; /* Band state */
+    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+    
+    overflow: hidden;
+}
+
+
+.isOpen {
+    grid-template-rows: 1fr; 
+    opacity: 1;
+}
+
+
+
+
+.sortArrow {
+    transition: transform 0.3s ease;
+    
+}
+
+.arrowRotate {
+    transform: rotate(180deg);
+   
+}
 .checkboxCustom {
 
     width: 15px;
@@ -207,10 +267,27 @@
     position: absolute;
     left: 0;
     width: 100%;
-    background: white;
-    transition: all 0.3s ease-in-out;
     z-index: 1000;
     background-color: #F5F5F5;
+    top: 100%; 
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(15px); 
+    filter: blur(10px);          
+    
+    transition: 
+        opacity 0.5s ease, 
+        transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
+        filter 0.5s ease, 
+        visibility 0.5s;
+}
+
+.showDropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);   
+    filter: blur(0px);          
 }
 
 .dropdownItem {
@@ -220,12 +297,12 @@
     font-size: 16px;
     color: #414343;
     cursor: pointer;
-    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
+  
+    transition: background-color 0.3s ease, color 0.3s ease, padding-left 0.3s ease;
 }
-
 .dropdownItem:hover {
     background-color: #f8f8f8;
 }

@@ -567,10 +567,10 @@
 }
 
 .fixerOne p {
-  font-size: var(--fs-16);
-  font-weight: 400;
+  font-size: var(--fs-18);
+  font-weight: 500;
   color: #414343;
-  font-family: var(--font-raleway);
+  font-family: var(--font-montserrat);
   margin-bottom: 16px;
   line-height: normal;
 }
@@ -751,6 +751,11 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
+ 
+  transition: 
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+    visibility 0.4s;
 }
 
 .optionItem {
@@ -759,6 +764,7 @@
   font-size: 15px;
   color: var(--text-secondary);
   cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .optionItem:hover {

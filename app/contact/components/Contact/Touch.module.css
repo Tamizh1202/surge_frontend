@@ -201,7 +201,12 @@
   left: 0;
   width: 100%;
   background-color: var(--background);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+ 
+   transition: 
+        opacity 0.3s ease, 
+        transform 0.35s cubic-bezier(0.2, 1, 0.3, 1), 
+        filter 0.3s ease, 
+        visibility 0.3s;
   /* Edit Dropdown BG */
   /* border: 1px solid #ddd; */
   border-top: none;

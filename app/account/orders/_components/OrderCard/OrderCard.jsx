@@ -95,8 +95,7 @@ const OrderCard = ({ order, handleCancelButton }) => {
                 <Image
                   src={formatImageUrl(item.productImage?.url || item.product?.productImage?.url) || "/order.png"}
                   alt={item.product?.name || item.name || "Product"}
-                  width={80}
-                  height={80}
+                  fill
                   className={styles.productImage}
                 />
               </div>

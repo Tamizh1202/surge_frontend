@@ -132,9 +132,11 @@ export default function Listing({ category }) {
         return () => document.documentElement.classList.remove('lock-scroll');
     }, [isMobileFilterOpen]);
 
-    const renderFilters = () => (
-        <div className={styles.filterContainerBox}>
-            {filterData.map((group) => (
+   const renderFilters = () => (
+    <div className={styles.filterContainerBox}>
+        {filterData.map((group) => {
+            const isOpen = openSections.includes(group.id);
+            return (
                 <div key={group.id} className={styles.filterSection}>
                     <button
                         className={styles.filterHeader}
@@ -146,12 +148,14 @@ export default function Listing({ category }) {
                             height="8"
                             viewBox="0 0 12 8"
                             fill="none"
-                            className={`${styles.sortArrow} ${openSections.includes(group.id) ? styles.arrowRotate : ''}`}
+                            className={`${styles.sortArrow} ${isOpen ? styles.arrowRotate : ''}`}
                         >
                             <path d="M1 1.5L6 6.5L11 1.5" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                     </button>
-                    {openSections.includes(group.id) && (
+
+                    {/* Wrapper jo height aur fade handle karega bina gap/padding bigade */}
+                    <div className={`${styles.optionsWrapper} ${isOpen ? styles.isOpen : ''}`}>
                         <div className={styles.optionsList}>
                             {group.level2?.map((option) => (
                                 <label key={option.id} className={styles.optionLabel}>
@@ -165,11 +169,12 @@ export default function Listing({ category }) {
                                 </label>
                             ))}
                         </div>
-                    )}
+                    </div>
                 </div>
-            ))}
-        </div>
-    );
+            );
+        })}
+    </div>
+);
 
     return (
         <div className={styles.mainContainer}>
@@ -190,30 +195,33 @@ export default function Listing({ category }) {
                             Filter
                         </button>
 
-                        <div className={styles.sortWrapper}>
-                            <div
-                                className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
-                                onClick={() => setShowSort(!showSort)}
-                            >
-                                <span className={styles.sortLabel}>Sort By : </span>
-                                <span className={styles.sortValue}>{selectedSort}</span>
-                            </div>
-                            {showSort && (
-                                <div className={styles.dropdownMenu}>
-                                    {SORT_OPTIONS.map((option) => (
-                                        <div
-                                            key={option}
-                                            className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-                                            onClick={() => { setSelectedSort(option); setShowSort(false); }}
-                                        >
-                                            <span className={styles.optionText}>{option}</span>
-                                            <span className={styles.radioCircle}></span>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
+                     <div className={styles.sortWrapper}>
+    <div
+        className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
+        onClick={() => setShowSort(!showSort)}
+    >
+        <span className={styles.sortLabel}>Sort By : </span>
+        <span className={styles.sortValue}>{selectedSort}</span>
+    </div>
+
+    {/* Dropdown hamesha rahega, bas logic se hide/show hoga */}
+    <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
+        {SORT_OPTIONS.map((option) => (
+            <div
+                key={option}
+                className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+                onClick={() => { 
+                    setSelectedSort(option); 
+                    setShowSort(false); 
+                }}
+            >
+                <span className={styles.optionText}>{option}</span>
+                <span className={styles.radioCircle}></span>
+            </div>
+        ))}
+    </div>
+</div>
+</div>
                 </header>
                 {loading && <p className={styles.stateMsg}>Loading...</p>}
                 {error && <p className={styles.stateMsg}>{error}</p>}

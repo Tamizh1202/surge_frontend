@@ -41,14 +41,14 @@
 .metaGroup p {
   font-family: var(--font-raleway);
   font-size: 16px;
-  color: #2F362A;
+  color: #414343;
   font-weight: 400;
   text-align: right;
   margin: 0 0 4px 0;
 }
 
 .metaGroup span {
-  color: #6E736A;
+  color: #818686;
   font-weight: 400;
 }
 
@@ -93,13 +93,17 @@
 }
 
 .imageContainer {
-
-
-  width: 85px;
-  height: 85px;
+ 
+  width: 85px; 
+  aspect-ratio: 1 / 1; 
+  position: relative; 
   display: flex;
+  overflow: hidden;
+ 
+}
 
-
+.productImage {
+  object-fit: cover; 
 }
 
 .productDetails h4 {

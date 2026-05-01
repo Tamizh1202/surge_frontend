@@ -47,8 +47,8 @@ const ProductDetail = ({ order }) => {
                 <Image
                   src={formatImageUrl(itemImg) || "https://placehold.co/100x100"}
                   alt={itemName}
-                  width={80}
-                  height={80}
+                  width={85}
+                  height={85}
                   className={styles.orderItemImg}
                 />
                 <div className={styles.orderItemInfo}>
@@ -77,7 +77,7 @@ const ProductDetail = ({ order }) => {
         <div className={styles.stars}>
           {/* Using Unicode stars for simplicity, replace with Icons if preferred */}
           {[...Array(5)].map((_, i) => (
-            <span key={i}><svg width="19" height="17" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <span key={i}><svg width="18" height="16" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M5.95118 13.3984L9.28162 11.5191L12.6121 13.4231L11.7398 9.86232L14.6738 7.48848L10.8147 7.16702L9.28162 3.80408L7.74856 7.14229L3.88948 7.46375L6.82344 9.86232L5.95118 13.3984ZM3.54586 16.5007L5.06069 10.3987L0 6.29587L6.67701 5.75384L9.28162 0L11.8862 5.75384L18.5632 6.29587L13.5026 10.3987L15.0174 16.5007L9.28162 13.2633L3.54586 16.5007Z" fill="white"/>
 </svg>
 </span>

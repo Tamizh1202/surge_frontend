@@ -39,7 +39,9 @@ const CartSideBar = () => {
     };
   }, [isCartOpen]);
 
-  const isCartEmpty = !items || items.length === 0;
+  // Logic: Sum up all quantities for the total count
+  const totalQuantity = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  const isCartEmpty = totalQuantity === 0;
 
   const handleIncrease = async (product, vId) => {
     const key = `${product}_${vId || ""}`;
@@ -89,7 +91,8 @@ const CartSideBar = () => {
         <div className={styles.header}>
           <div className={styles.headerTitle}>
             <h4>Your Cart</h4>
-            <span>({items?.length || 0} items)</span>
+            {/* Updated item count display */}
+            <span>({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</span>
           </div>
           <button className={styles.closeBtn} onClick={closeCart}>
             <CloseIcon />
@@ -100,12 +103,7 @@ const CartSideBar = () => {
           <div className={styles.itemList}>
             {isCartEmpty ? (
               <div className={styles.EmptyState}>
-                <Image
-                  src={cartZero}
-                  alt="No products"
-                  width={145}
-                  height={160}
-                />
+                <Image src={cartZero} alt="No products" width={145} height={160} />
                 <h4>Your Cart is empty</h4>
                 <p>Explore our curated coffee collections.</p>
                 <button
@@ -137,7 +135,9 @@ const CartSideBar = () => {
                       <div className={styles.prodHeader}>
                         <div className={styles.nameGroup}>
                           <h5>{item.name}</h5>
-                          <p className={styles.tagline}>{item.tagline} {item.variantName ? `, ${item.variantName}` : ""}</p>
+                          <p className={styles.tagline}>
+                            {item.tagline} {item.variantName ? `, ${item.variantName}` : ""}
+                          </p>
                         </div>
                         <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId)}>
                           <TrashIcon />
@@ -196,7 +196,7 @@ const CartSideBar = () => {
   );
 };
 
-// Icons
+// Icons (keeping your existing ones)
 const CloseIcon = () => (
   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.4 14.5954L0 13.1359L5.6 7.29772L0 1.45954L1.4 0L7 5.83818L12.6 0L14 1.45954L8.4 7.29772L14 13.1359L12.6 14.5954L7 8.75727L1.4 14.5954Z" fill="#414343" />

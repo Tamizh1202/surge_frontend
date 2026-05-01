@@ -108,6 +108,37 @@
   display: none;
 }
 
+
+.cartBadge {
+
+  position: absolute;
+  top: -8px;     
+  right: -12px;  
+  background-color: #C4754E; 
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  min-width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white; 
+  padding: 2px;
+  line-height: 1;
+}
+
+/* Mobile responsive alignment */
+@media (max-width: 1300px) {
+  .cartBadge {
+    top: -5px;
+    right: -23px;
+    min-width: 16px;
+    height: 16px;
+    font-size: 9px;
+  }
+}
 /* 2. Mobile (max-width: 1300px) settings */
 @media (max-width: 1299px) {
   

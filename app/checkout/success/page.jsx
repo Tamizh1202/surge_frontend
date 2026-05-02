@@ -1,13 +1,11 @@
-import { Suspense } from 'react';
-import SuccessClient from './SuccessClient';
+import dynamic from 'next/dynamic';
 import styles from './page.module.css';
 
-export const dynamic = 'force-dynamic';
+const SuccessClient = dynamic(() => import('./SuccessClient'), {
+  ssr: false,
+  loading: () => <div className={styles.Wrapper}><p>Loading...</p></div>,
+});
 
 export default function OrderSuccessPage() {
-  return (
-    <Suspense fallback={<div className={styles.Wrapper}><p>Loading...</p></div>}>
-      <SuccessClient />
-    </Suspense>
-  );
+  return <SuccessClient />;
 }

@@ -33,7 +33,7 @@ export default function Footer({ categories }) {
                 Join Surge Rewards earn points on every purchase and redeem for
                 free coffee, exclusives, and perks.
               </p>
-              <Link href="/rewards" className={styles.exploreBtn}>
+              <Link href="/account/surge-beans" className={styles.exploreBtn}>
                 Explore Rewards
               </Link>
             </div>

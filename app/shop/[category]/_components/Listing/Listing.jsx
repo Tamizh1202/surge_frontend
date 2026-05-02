@@ -4,7 +4,7 @@ import styles from './Listing.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import AddToCart from '@/components/AddToCart';
-import axiosClient from '@/lib/axios';
+    import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png'; // fallback image
 import { useWishlist } from '@/app/_context/WishlistContext';

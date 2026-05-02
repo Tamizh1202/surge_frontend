@@ -22,12 +22,13 @@ export default async function RootLayout({
 }) {
   let categories = [];
   try {
-   const res = await fetch(
-  `${process.env.NEXT_PUBLIC_SERVER_URL}/api/web-categories?sort=createdAt...`, // <--- Yahan URL kharab ho raha hai
-  {
-    next: { revalidate: 3600 },
-  },
-);
+    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+    const res = await fetch(
+      `${serverUrl}/api/web-categories?sort=createdAt`,
+      {
+        next: { revalidate: 3600 },
+      },
+    );
     const data = await res.json();
     categories = data.docs || [];
   } catch (error) {

@@ -18,7 +18,8 @@ export default function Touch() {
   const [responseError, setResponseError] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
   const options = ["General", "Support", "Partnership", "Careers"];
-  const ENDPOINT = "/api/website/contact";
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+  const ENDPOINT = `${serverUrl}/api/web-contact-form`;
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const handleSubmit = async (e) => {
@@ -35,10 +36,10 @@ export default function Touch() {
     setLoading(true);
     try {
       const payload = {
-        full_name: fullName.trim(),
+        fullName: fullName.trim(),       // ✅ camelCase
         email: email.trim(),
         phone: phone.trim(),
-        enquiry_type: enquiryType.trim(),
+        inquiryType: selected.trim(),    // ✅ also note: inquiryType not enquiryType
         message: message.trim(),
       };
 
@@ -143,6 +144,7 @@ export default function Touch() {
                           className={styles.optionItem}
                           onClick={() => {
                             setSelected(option);
+                            setEnquiryType(option);
                             setIsOpen(false);
                           }}
                         >

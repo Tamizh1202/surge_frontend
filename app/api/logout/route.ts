@@ -19,7 +19,8 @@ async function handleLogout(_request: NextRequest) {
     cookieStore.get("paylaod-token")?.value;
   if (payloadToken) {
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`, {
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+      await fetch(`${serverUrl}/api/users/logout`, {
         method: "POST",
         headers: {
           Authorization: `JWT ${payloadToken}`,

@@ -73,6 +73,8 @@ export default async function ProductDetailPage({ params }) {
     const json = await response.json();
     product = json.docs?.[0] || null;
 
+    console.log(product)
+
     if (!product) {
       console.warn(`Product not found for slug: ${selectedSlug}`);
       redirect("/shop");
@@ -87,7 +89,7 @@ export default async function ProductDetailPage({ params }) {
       <Productone initialProduct={product} />
       <Producttwo />
       <Image />
-      <YouMayAlsoLike />
+      <YouMayAlsoLike recommendedProducts={product.recommendedProducts} />
     </main>
   );
 }

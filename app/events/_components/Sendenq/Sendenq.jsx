@@ -46,7 +46,8 @@ export default function Sendenq() {
         eventDate: formData.eventDate ? new Date(formData.eventDate).toISOString() : null
       };
 
-      await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/events`, payload);
+      const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+      await axios.post(`${serverUrl}/api/events`, payload);
 
       toast.success("Thank you! Your enquiry has been received.");
 

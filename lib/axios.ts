@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+const API_BASE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
 
 const axiosClient = axios.create({
   baseURL: API_BASE_URL,

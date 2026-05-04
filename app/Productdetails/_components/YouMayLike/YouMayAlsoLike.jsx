@@ -26,6 +26,14 @@ const products = [
         currency: 'AED',
         image: '/images/coffee-bag-3.png',
     },
+       {
+        id: 4,
+        title: 'Indonesia Bamer Mariah Triple Wet Hull',
+        subtitle: 'Citrus, nutty, chocolate',
+        price: 60,
+        currency: 'AED',
+        image: '/images/coffee-bag-3.png',
+    },
 ];
 
 export default function YouMayAlsoLike() {

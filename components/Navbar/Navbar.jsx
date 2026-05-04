@@ -174,19 +174,16 @@ export default function Navbar({ categories = [] }) {
             
             <div className={styles.mobileLine}></div>
             {/* 3. Cart click par setMenuOpen(false) add kiya */}
-            <span
-              onClick={() => {
-                setMenuOpen(false); 
-                isCartOpen ? closeCart() : openCart();
-              }}
-              className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
-              style={{ cursor: "pointer", position: "relative" }}
-            >
-              Cart 
-              {totalItems > 0 && (
-                <span className={styles.cartBadge}>{totalItems}</span>
-              )}
-            </span>
+         <span
+  onClick={() => {
+    setMenuOpen(false); 
+    isCartOpen ? closeCart() : openCart();
+  }}
+  className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
+  style={{ cursor: "pointer", position: "relative" }}
+>
+  Cart {totalItems > 0 && `(${totalItems})`}
+</span>
             
             <div className={styles.mobileLine}></div>
             {!session ? (

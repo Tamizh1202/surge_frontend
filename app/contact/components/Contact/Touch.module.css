@@ -50,7 +50,9 @@
   height: 100%;
   justify-content: space-between;
 }
-
+.LeftConatiner, .RightContainer {
+  transition: all 0.5s ease-in-out;
+}
 
 .formMain {
   display: flex;
@@ -192,6 +194,7 @@
 
 .selectTrigger.open {
   border-color: var(--primary-color);
+   transition: transform 0.25s ease;
   /* Surge Brown */
 }
 
@@ -202,11 +205,7 @@
   width: 100%;
   background-color: var(--background);
  
-   transition: 
-        opacity 0.3s ease, 
-        transform 0.35s cubic-bezier(0.2, 1, 0.3, 1), 
-        filter 0.3s ease, 
-        visibility 0.3s;
+  
   /* Edit Dropdown BG */
   /* border: 1px solid #ddd; */
   border-top: none;
@@ -221,7 +220,7 @@
   cursor: pointer;
   font-size: var(--fs-14);
   color: var(--text-secondary);
-  transition: background 0.2s ease;
+  transition: background 0.2s ;
 }
 
 /* --- EDIT HOVER COLOR HERE --- */

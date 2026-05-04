@@ -17,7 +17,15 @@ export default function Touch() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const options = ["General", "Support", "Partnership", "Careers"];
+  const options = [
+    { value: "order_issue", label: "Order issue" },
+    { value: "payment_refund", label: "Payment or refund" },
+    { value: "rewards_stamps", label: "Rewards & stamps" },
+    { value: "barista_selection", label: "Barista selection" },
+    { value: "pickup_timing", label: "Pickup or timing" },
+    { value: "menu_availability", label: "Menu & availability" },
+    { value: "other", label: "Other" },
+  ];
   const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
   const ENDPOINT = `${serverUrl}/api/web-contact-form`;
   const [isOpen, setIsOpen] = useState(false);
@@ -131,7 +139,7 @@ export default function Touch() {
                     className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    <span>{selected || "Enquiry Type"}</span>
+                    <span>{selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}</span>
                     <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}>▼</span>
                   </div>
 
@@ -140,15 +148,15 @@ export default function Touch() {
                     <ul className={styles.optionsList}>
                       {options.map((option) => (
                         <li
-                          key={option}
+                          key={option.value}
                           className={styles.optionItem}
                           onClick={() => {
-                            setSelected(option);
-                            setEnquiryType(option);
+                            setSelected(option.value);
+                            setEnquiryType(option.value);
                             setIsOpen(false);
                           }}
                         >
-                          {option}
+                          {option.label}
                         </li>
                       ))}
                     </ul>

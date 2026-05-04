@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import Image from "next/image";
+import Link from "next/link";
 import styles from "./Blogs.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
 
@@ -97,7 +98,7 @@ export default function Blogs({ initialBlogs = [] }) {
                     </div>
 
                     <div className={styles.bottom}>
-                      <h2 className={styles.read}>
+                      <Link href={`/blogs/${blog.slug}`} className={styles.read}>
                         Read More
                         <svg width="9" height="9" viewBox="0 0 9 9" fill="none">
                           <path
@@ -105,7 +106,7 @@ export default function Blogs({ initialBlogs = [] }) {
                             stroke="#C4754E"
                           />
                         </svg>
-                      </h2>
+                      </Link>
 
                       <div className={styles.btn}>
                         {/* FIX: Yahan bhi 'BlogData' map karein */}

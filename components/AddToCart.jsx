@@ -40,7 +40,7 @@ const AddToCart = ({ product, quantity: propQuantity, onSuccess }) => {
       disabled={loading}
       style={{
         // width: "100%",
-        backgroundColor: "#C4754E",
+        backgroundColor: "var(--pr",
         color: "#ffffff",
         fontSize: "16px",
         fontWeight: 400,

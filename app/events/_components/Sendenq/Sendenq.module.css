@@ -17,6 +17,10 @@
   display: flex;
 }
 
+.row .dropdown {
+  flex: 1;
+}
+
 .image {
   width: 835px;
   height: 790px;
@@ -119,7 +123,7 @@
 }
 
 .formBox input[type="date"] {
-  color: #818686; 
+  color: #818686;
   opacity: 0.8;
 }
 
@@ -131,6 +135,121 @@
 }
 
 
+/* ── Custom Dropdown ─────────────────────────────────────────────────────── */
+
+.dropdown {
+  position: relative;
+  width: 100%;
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 0;
+  border: none;
+  border-bottom: 1px solid #414343;
+  background: transparent;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  user-select: none;
+}
+
+.dropdownTriggerOpen {
+  border-bottom-color: #c4754e;
+}
+
+/* Both placeholder and value share the same base style */
+.dropdownPlaceholder,
+.dropdownValue {
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(var(--text-secondary), 0.8);
+}
+
+/* Placeholder dims to match input ::placeholder */
+.dropdownPlaceholder {
+  opacity: 0.4;
+}
+
+.dropdownValue {
+  opacity: 1;
+}
+
+.dropdownChevron {
+  width: 18px;
+  height: 18px;
+  color: #414343;
+  opacity: 0.6;
+  flex-shrink: 0;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.chevronUp {
+  transform: rotate(180deg);
+}
+
+/* ── Slide-down panel ───────────────────────────────────────────────────── */
+
+.dropdownPanel {
+  position: absolute;
+  top: calc(100% + 0px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #ffffff;
+  border-radius: 0;
+  /* no border radius */
+  box-shadow: 0 8px 24px rgba(65, 67, 67, 0.12);
+  overflow: hidden;
+
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+    /* slower open */
+    opacity 0.4s ease;
+}
+
+.dropdownPanelOpen {
+  max-height: 320px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dropdownInner {
+  overflow-y: auto;
+  max-height: 320px;
+  padding: 0px 0;
+}
+
+.dropdownOption {
+  padding: 12px 16px;
+  font-family: var(--font-raleway);
+  font-weight: 400;
+  font-size: 16px;
+  color: rgba(var(--text-secondary), 0.8);
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition:
+    background-color 0.15s ease,
+    border-left-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.dropdownOption:hover {
+  background-color: #fdf3ee;
+  color: #c4754e;
+}
+
+.dropdownOptionActive {
+  background-color: #fdf3ee;
+  color: #c4754e;
+  font-weight: 600;
+}
 
 @media screen and (max-width: 1600px) {
   .main {

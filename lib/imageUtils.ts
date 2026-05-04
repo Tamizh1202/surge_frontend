@@ -8,7 +8,7 @@ export const formatImageUrl = (image: any): string => {
 
     // If it's a relative path starting with /api/media, prepend the server URL
     if (url.startsWith("/api/media/")) {
-        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "";
+        const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
         // Remove trailing slash from serverUrl if it exists and ensure single slash between them
         const normalizedServerUrl = serverUrl.endsWith("/") ? serverUrl.slice(0, -1) : serverUrl;
         return `${normalizedServerUrl}${url}`;

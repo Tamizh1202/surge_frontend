@@ -7,7 +7,7 @@ export default async function ProductPage({ params }) {
   const { slug } = await params;
 
   // Fetch product data from Payload CMS
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
   let product = null;
 
   try {

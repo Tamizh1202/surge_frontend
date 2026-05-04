@@ -4,7 +4,7 @@ import Bettercoffee from "./_components/Bettercoffee/Bettercoffee";
 const apiUrl =
   process.env.PAYLOAD_PUBLIC_SERVER_URL ||
   process.env.NEXT_PUBLIC_SERVER_URL ||
-  "https://endpoint.whitemantis.ae";
+  "https://surge-backend-seven.vercel.app";
 
 function formatImageUrl(image) {
   if (!image) return "";

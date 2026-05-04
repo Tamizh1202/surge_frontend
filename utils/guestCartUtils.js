@@ -2,7 +2,7 @@
 
 import axiosClient from "@/lib/axios";
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_SERVER_URL || "";
+const BACKEND_URL = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
 
 async function fetchCartProduct(productId, vid = null) {
   const res = await axiosClient.get(`/api/web-products/${productId}?depth=1`);

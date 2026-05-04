@@ -8,6 +8,7 @@ export async function generateMetadata({ params }) {
   const { category, slug } = await params;
   const selectedCategory = category?.trim().toLowerCase();
   const selectedSlug = slug?.trim().toLowerCase();
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
 
   if (!selectedSlug) {
     return {
@@ -17,7 +18,7 @@ export async function generateMetadata({ params }) {
 
   try {
     const response = await fetch(
-      `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
+      `${serverUrl}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
       {
         method: "GET",
         headers: {
@@ -51,12 +52,13 @@ export default async function ProductDetailPage({ params }) {
   const { category, slug } = await params;
   const selectedCategory = category.trim().toLowerCase();
   const selectedSlug = slug.trim().toLowerCase();
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
 
   let product = null;
 
   try {
     const response = await fetch(
-      `${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
+      `${serverUrl}/api/web-products?where[and][0][slug][equals]=${selectedSlug}&where[and][1][_status][equals]=published&where[and][2][categories.slug][equals]=${selectedCategory}&depth=2`,
       {
         method: "GET",
         headers: {

@@ -23,7 +23,7 @@ export default function HomePage() {
     
       <div className={styles.heroContent}>
 <h1 className={styles.heroTitle}>
-          Not your <span className={styles.spantext} >boring</span> <br />
+          Not your <span className={styles.spantext} >intresting</span> <br />
           <span className={styles.spantext} >coffee</span> brewery 
         </h1>
         

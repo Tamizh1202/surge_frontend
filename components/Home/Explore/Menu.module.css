@@ -23,7 +23,7 @@
 
 .subtext {
   font-size: var(--fs-16);
-  color: var( --text-secondary);
+  color: var(--text-secondary);
   line-height: 1.4;
   font-family: var(--font-raleway);
   max-width: 747px;
@@ -37,8 +37,9 @@
   font-family: var(--font-montserrat);
   font-size: 18px;
   font-weight: 500;
-  color:var(--primary-color);
+  color: var(--primary-color);
   text-decoration: none;
+  transition: color 0.3s ease;
 }
 
 .arrowBox {
@@ -48,6 +49,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.viewMenu:hover {
+  text-decoration: underline;
+  color: var(--primary-color);
+}
+
+.viewMenu:hover .arrowBox {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.viewMenu:hover .arrowBox svg {
+  stroke: var(--cards-bg);
 }
 
 .menuGrid {
@@ -88,14 +104,14 @@
   width: 100%;
   background-color: var(--cards-bg);
   z-index: 5;
-  padding: 18px ; 
-  transform: translateY(68px); 
+  padding: 18px;
+  transform: translateY(68px);
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .cardTitle {
-  margin: 0; 
-  padding-bottom: 0; 
+  margin: 0;
+  padding-bottom: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -114,14 +130,14 @@
 
 .overlayTitle {
   font-size: var(--fs-16);
-  color: var( --text-secondary);
+  color: var(--text-secondary);
   font-family: var(--font-raleway);
-  line-height: 1.2; 
- margin: 0;
+  line-height: 1.2;
+  margin: 0;
 }
 
 .exploreLink {
-  margin-top: 8px; 
+  margin-top: 8px;
   color: var(--primary-color);
   text-decoration: underline;
   font-family: var(--font-raleway);
@@ -140,6 +156,7 @@
 .card:hover .hoverContent {
   opacity: 1;
 }
+
 .card:hover .image {
   transform: scale(1.08);
 }
@@ -153,7 +170,7 @@
 
 
 .mobileArrow {
-  display: none; 
+  display: none;
 }
 
 /* --- RESPONSIVE --- */
@@ -170,7 +187,7 @@
   }
 
   .overlay {
-    height: 90px; 
+    height: 90px;
     padding: 15px 10px;
   }
 
@@ -192,9 +209,11 @@
     height: 100px;
     padding: 15px;
   }
- .overlayTitle {
+
+  .overlayTitle {
     font-size: 14px;
   }
+
   .card:active .imageWrapper {
     transform: scale(1.05);
   }
@@ -216,19 +235,22 @@
   .imageWrapper {
     height: 400px;
   }
-   .overlayTitle {
+
+  .overlayTitle {
     font-size: 16px;
   }
 
 }
+
 @media (max-width: 768px) {
   .menuSection {
     padding-bottom: 60px;
   }
-  
+
   .heading {
     font-size: 20px;
   }
+
   .overlayTitle {
     font-size: 15px;
   }
@@ -258,14 +280,16 @@
   .imageWrapper {
     height: 180px;
   }
+
   .contentStack {
     position: relative;
-    transform: translateY(0) ; 
+    transform: translateY(0);
     background-color: #F5F5F5;
-    padding: 0; 
+    padding: 0;
   }
+
   .hoverContent {
-    display: none ;
+    display: none;
   }
 
   .cardTitle {
@@ -279,20 +303,20 @@
     color: #414343;
     opacity: 1;
     margin: 0;
-    transform: none ;
+    transform: none;
   }
 
   .mobileArrow {
     display: none;
-  
+
   }
 
- 
+
   .card:hover .image {
     transform: none;
   }
 
   .card:hover .contentStack {
-    transform: none ;
+    transform: none;
   }
 }

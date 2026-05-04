@@ -4,7 +4,7 @@ import styles from './Listing.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
 import AddToCart from '@/components/AddToCart';
-    import axiosClient from '@/lib/axios';
+import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png'; // fallback image
 import { useWishlist } from '@/app/_context/WishlistContext';
@@ -13,7 +13,10 @@ const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', '
 
 export default function Listing({ category }) {
     const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
-    const [openSections, setOpenSections] = useState([]);
+
+    // Yahan badlav kiya hai: Array [] ki jagah null rakha hai taaki ek baar mein ek hi khule
+    const [openSections, setOpenSections] = useState(null);
+
     const [showSort, setShowSort] = useState(false);
     const [selectedSort, setSelectedSort] = useState('Recommended');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -53,7 +56,11 @@ export default function Listing({ category }) {
                     return [...acc, ...(doc.level1 || [])];
                 }, []);
                 setFilterData(allGroups);
-                setOpenSections(allGroups.map(g => g.id));
+
+                // By default pehla filter section kholne ke liye:
+                if (allGroups.length > 0) {
+                    setOpenSections(allGroups[0].id);
+                }
             } catch (err) {
                 console.error("Error fetching filters:", err);
             }
@@ -110,8 +117,9 @@ export default function Listing({ category }) {
         );
     });
 
+    // Toggle logic update: Agar wahi id click ho toh band (null), nahi toh nayi id set karein
     const toggleFilter = (id) => {
-        setOpenSections(prev => prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]);
+        setOpenSections(prevId => prevId === id ? null : id);
     };
 
     const handleViewMore = () => {
@@ -132,49 +140,49 @@ export default function Listing({ category }) {
         return () => document.documentElement.classList.remove('lock-scroll');
     }, [isMobileFilterOpen]);
 
-   const renderFilters = () => (
-    <div className={styles.filterContainerBox}>
-        {filterData.map((group) => {
-            const isOpen = openSections.includes(group.id);
-            return (
-                <div key={group.id} className={styles.filterSection}>
-                    <button
-                        className={styles.filterHeader}
-                        onClick={() => toggleFilter(group.id)}
-                    >
-                        <span>{group.name}</span>
-                        <svg
-                            width="12"
-                            height="8"
-                            viewBox="0 0 12 8"
-                            fill="none"
-                            className={`${styles.sortArrow} ${isOpen ? styles.arrowRotate : ''}`}
+    const renderFilters = () => (
+        <div className={styles.filterContainerBox}>
+            {filterData.map((group) => {
+                // Check if current group is open
+                const isOpen = openSections === group.id;
+                return (
+                    <div key={group.id} className={styles.filterSection}>
+                        <button
+                            className={styles.filterHeader}
+                            onClick={() => toggleFilter(group.id)}
                         >
-                            <path d="M1 1.5L6 6.5L11 1.5" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </button>
+                            <span>{group.name}</span>
+                            <svg
+                                width="12"
+                                height="8"
+                                viewBox="0 0 12 8"
+                                fill="none"
+                                className={`${styles.sortArrow} ${isOpen ? styles.arrowRotate : ''}`}
+                            >
+                                <path d="M1 1.5L6 6.5L11 1.5" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </button>
 
-                    {/* Wrapper jo height aur fade handle karega bina gap/padding bigade */}
-                    <div className={`${styles.optionsWrapper} ${isOpen ? styles.isOpen : ''}`}>
-                        <div className={styles.optionsList}>
-                            {group.level2?.map((option) => (
-                                <label key={option.id} className={styles.optionLabel}>
-                                    <input
-                                        type="checkbox"
-                                        className={styles.checkboxCustom}
-                                        checked={selectedFilters.includes(option.id)}
-                                        onChange={() => handleFilterChange(option.id)}
-                                    />
-                                    {option.name}
-                                </label>
-                            ))}
+                        <div className={`${styles.optionsWrapper} ${isOpen ? styles.isOpen : ''}`}>
+                            <div className={styles.optionsList}>
+                                {group.level2?.map((option) => (
+                                    <label key={option.id} className={styles.optionLabel}>
+                                        <input
+                                            type="checkbox"
+                                            className={styles.checkboxCustom}
+                                            checked={selectedFilters.includes(option.id)}
+                                            onChange={() => handleFilterChange(option.id)}
+                                        />
+                                        {option.name}
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                     </div>
-                </div>
-            );
-        })}
-    </div>
-);
+                );
+            })}
+        </div>
+    );
 
     return (
         <div className={styles.mainContainer}>
@@ -195,92 +203,91 @@ export default function Listing({ category }) {
                             Filter
                         </button>
 
-                     <div className={styles.sortWrapper}>
-    <div
-        className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
-        onClick={() => setShowSort(!showSort)}
-    >
-        <span className={styles.sortLabel}>Sort By : </span>
-        <span className={styles.sortValue}>{selectedSort}</span>
-    </div>
+                        <div className={styles.sortWrapper}>
+                            <div
+                                className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
+                                onClick={() => setShowSort(!showSort)}
+                            >
+                                <span className={styles.sortLabel}>Sort By : </span>
+                                <span className={styles.sortValue}>{selectedSort}</span>
+                            </div>
 
-    {/* Dropdown hamesha rahega, bas logic se hide/show hoga */}
-    <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
-        {SORT_OPTIONS.map((option) => (
-            <div
-                key={option}
-                className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-                onClick={() => { 
-                    setSelectedSort(option); 
-                    setShowSort(false); 
-                }}
-            >
-                <span className={styles.optionText}>{option}</span>
-                <span className={styles.radioCircle}></span>
-            </div>
-        ))}
-    </div>
-</div>
-</div>
+                            <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
+                                {SORT_OPTIONS.map((option) => (
+                                    <div
+                                        key={option}
+                                        className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+                                        onClick={() => {
+                                            setSelectedSort(option);
+                                            setShowSort(false);
+                                        }}
+                                    >
+                                        <span className={styles.optionText}>{option}</span>
+                                        <span className={styles.radioCircle}></span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
                 </header>
-                {loading && <p className={styles.stateMsg}>Loading...</p>}
+
+                {loading && products.length === 0 && <p className={styles.stateMsg}>Loading...</p>}
                 {error && <p className={styles.stateMsg}>{error}</p>}
-                {!loading && !error && (
-                    <div className={styles.productGrid}>
-                        {filteredProducts.map((item) => {
-                            const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
-                            const slug = item.slug || item.id;
-                            const name = item.name || '';
-                            const notes = item.tagline || item.description || '';
-                            const price = item.salePrice ? `AED ${item.salePrice}` : item.regularPrice ? `AED ${item.regularPrice}` : '';
 
-                            return (
-                                <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
-                                    <div className={styles.productCard}>
-                                        <div className={styles.imageWrapper}>
-                                            <button
-                                                className={styles.wishlistIcon}
-                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}
-                                            >
+                <div className={styles.productGrid}>
+                    {filteredProducts.map((item) => {
+                        const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
+                        const slug = item.slug || item.id;
+                        const name = item.name || '';
+                        const notes = item.tagline || item.description || '';
+                        const price = item.salePrice ? `AED ${item.salePrice}` : item.regularPrice ? `AED ${item.regularPrice}` : '';
 
-                                                <svg width="20" height="18" viewBox="0 0 24 24"
-                                                    fill={isInWishlist(item.id) ? "#C6825B" : "white"}>
-                                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                                </svg>
-                                            </button>
-                                            <Image
-                                                src={imageUrl}
-                                                alt={name}
-                                                width={295}
-                                                height={339}
-                                                className={styles.productImg}
+                        return (
+                            <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
+                                <div className={styles.productCard}>
+                                    <div className={styles.imageWrapper}>
+                                        <button
+                                            className={styles.wishlistIcon}
+                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}
+                                        >
+                                            <svg width="18" height="18" viewBox="0 0 24 24"
+                                                fill={isInWishlist(item.id) ? "#C6825B" : "white"}>
+                                                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                            </svg>
+                                        </button>
+                                        <Image
+                                            src={imageUrl}
+                                            alt={name}
+                                            width={295}
+                                            height={339}
+                                            className={styles.productImg}
+                                        />
+                                    </div>
+                                    <div className={styles.details}>
+                                        <h3 className={styles.name}>{name}</h3>
+                                        <p className={styles.notes}>{notes}</p>
+                                        <div className={styles.footerRow}>
+                                            <span className={styles.priceTag}>{price}</span>
+                                            <AddToCart
+                                                product={{
+                                                    productId: item.id,
+                                                    name: item.name,
+                                                    description: item.description,
+                                                    image: imageUrl,
+                                                    tagline: item.tagline,
+                                                    quantity: 1,
+                                                    variationId: item.variants?.[0]?.id || null
+                                                }}
                                             />
-                                        </div>
-                                        <div className={styles.details}>
-                                            <h3 className={styles.name}>{name}</h3>
-                                            <p className={styles.notes}>{notes}</p>
-                                            <div className={styles.footerRow}>
-                                                <span className={styles.priceTag}>{price}</span>
-                                                <AddToCart
-                                                    product={{
-                                                        productId: item.id,
-                                                        name: item.name,
-                                                        description: item.description,
-                                                        image: imageUrl,
-                                                        tagline: item.tagline,
-                                                        quantity: 1,
-                                                        variationId: item.variants?.[0]?.id || null
-                                                    }}
-                                                />
-                                                <span className={styles.mobileText}>Shop Now</span>
-                                            </div>
+                                            <span className={styles.mobileText}>Shop Now</span>
                                         </div>
                                     </div>
-                                </Link>
-                            );
-                        })}
-                    </div>
-                )}
+                                </div>
+                            </Link>
+                        );
+                    })}
+                </div>
+
                 {!loading && hasNextPage && (
                     <div className={styles.footer}>
                         <button className={styles.viewMoreBtn} onClick={handleViewMore} disabled={loading}>
@@ -289,6 +296,7 @@ export default function Listing({ category }) {
                     </div>
                 )}
             </main>
+
             {isMobileFilterOpen && (
                 <>
                     <div className={styles.MobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />

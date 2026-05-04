@@ -1,3 +1,5 @@
+
+
 .section {
   padding: 0 125px 120px;
 }
@@ -31,6 +33,7 @@
 }
 
 .productImage {
+
   object-fit: contain;
   /* No padding needed without a bg box */
 }
@@ -157,7 +160,7 @@
 /* 1024–1300px */
 @media (min-width: 1024px) and (max-width: 1300px) {
   .section {
-    padding: 0 40px 80px;
+    padding: 0 40px 100px;
   }
 
   .grid {
@@ -170,7 +173,17 @@
   }
 }
 
-/* Tablet */
+@media (max-width: 1023px) {
+  .section {
+    padding: 0 40px 80px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
 @media (max-width: 768px) {
   .section {
     padding: 0 20px 60px;
@@ -187,7 +200,7 @@
   }
 }
 
-/* Mobile */
+
 @media (max-width: 480px) {
   .section {
     padding: 0 15px 40px;
@@ -201,6 +214,15 @@
   .heading {
     font-size: 18px;
     margin-bottom: 20px;
+ 
+  }
+
+  .imageWrapper {
+    aspect-ratio: 1 / 1; 
+  }
+
+  .priceRow {
+    flex-wrap: wrap; 
   }
 
   .addToCart {

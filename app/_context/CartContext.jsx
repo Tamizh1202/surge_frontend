@@ -61,7 +61,6 @@ export function CartProvider({ children }) {
             message: `Minimum amount of AED ${minAmount} required`,
           };
         }
-
         let discountVal = 0;
         if (coupon.discountType === "percentage") {
           discountVal =
@@ -69,14 +68,12 @@ export function CartProvider({ children }) {
         } else {
           discountVal = Number(coupon.discountAmount);
         }
-
         setAppliedCoupon({
           code: coupon.code,
           discount: discountVal,
           type: coupon.discountType,
           amount: coupon.discountAmount,
         });
-
         setCartTotals((prev) => ({
           ...prev,
           discount: discountVal,
@@ -106,7 +103,6 @@ export function CartProvider({ children }) {
       setAppliedCoupon(null);
     }
   };
-
   // Fetch Loyalty Config & Balance
   const fetchLoyaltyData = async () => {
     if (status !== "authenticated") return;

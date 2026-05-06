@@ -233,7 +233,7 @@ export default function ShippingAddressSection({
       {delivery === "ship" && (
         <>
           <div className={styles.Three}>
-            <h3>SHIP TO</h3>
+            <h3>Ship To</h3>
           </div>
 
           {status === "authenticated" && savedAddresses.length > 0 && (

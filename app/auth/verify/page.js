@@ -164,7 +164,9 @@ function Otp() {
         <div className={styles.UpperTop}>
           <div className={styles.headingBlock}>
             <h3>Verify Email</h3>
-            <p>Enter 4 digit code sent to {userEmail || "your email"}</p>
+           <p className={styles.otpText}>
+  Enter 4 digit code sent to <span className={styles.userEmail}>{userEmail || "your email"}</span>
+</p>
           </div>
 
           {/* ── ADDED: error / info messages ── */}
@@ -175,19 +177,20 @@ function Otp() {
           <div className={styles.inputBlock}>
             <div className={styles.otpWrapper}>
               {otp.map((digit, index) => (
-                <input
-                  key={index}
-                  ref={(el) => (inputsRef.current[index] = el)}
-                  type="text"
-                  inputMode="numeric"
-                  maxLength={1}
-                  value={digit}
-                  onChange={(e) => handleChange(e, index)}
-                  onKeyDown={(e) => handleKeyDown(e, index)}
-                  onPaste={handlePaste}
-                  className={`${styles.otpInput} ${digit ? styles.otpFilled : ""}`}
-                  disabled={loading}
-                />
+               <input
+  key={index}
+  ref={(el) => (inputsRef.current[index] = el)}
+  type="text"
+  inputMode="numeric"
+  maxLength={1}
+  value={digit}
+  onChange={(e) => handleChange(e, index)}
+  onKeyDown={(e) => handleKeyDown(e, index)}
+  onPaste={handlePaste}
+  /* This setup is perfect as is */
+  className={`${styles.otpInput} ${digit ? styles.otpFilled : ""}`}
+  disabled={loading}
+/>
               ))}
             </div>
           </div>
@@ -205,9 +208,9 @@ function Otp() {
             <p className={styles.tnc}>Didn't receive it? Check spam</p>
             <span className={styles.timerRow}>
               {countdown > 0 ? (
-                <p className={styles.timerText}>
-                  Resend in <span>00:{String(countdown).padStart(2, "0")}</span>
-                </p>
+               <p className={styles.timerText}>
+  Resend in <span>(00:{String(countdown).padStart(2, "0")})</span>
+</p>
               ) : (
                 <button
                   className={styles.resendBtn}

@@ -17,7 +17,15 @@ export default function Touch() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const options = ["General", "Support", "Partnership", "Careers"];
+ const options = [
+  "Order issue",
+  "Payment or refund",
+  "Rewards & stamps",
+  "Barista selection",
+  "Pickup or timing",
+  "Menu & availability",
+  "Other"
+];
   const ENDPOINT = "/api/website/contact";
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
@@ -157,6 +165,7 @@ export default function Touch() {
                   placeholder="How we can help you."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  required
                 />
               </div>
 

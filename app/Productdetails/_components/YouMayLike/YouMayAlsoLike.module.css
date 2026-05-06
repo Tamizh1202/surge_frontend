@@ -60,7 +60,7 @@
 }
 
 .title {
-  font-family: var(--font-montserrat);
+  font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
   color: var(--primary-color);
@@ -71,7 +71,7 @@
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
   font-weight: 400;
-  color: var(--secondary-color);
+  color: var(--text-secondary);
   margin: 0 0 16px;
 }
 

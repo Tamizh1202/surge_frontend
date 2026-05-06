@@ -48,23 +48,27 @@ const AddressSection = ({ addresses, onAddNew, onEdit, onDeleteRequest }) => {
   return (
     <div className={styles.AddressSection}>
       {/* Header */}
-      <div className={`${styles.AddressHeader} ${styles.SectionHeader}`}>
+      <div className={`${styles.AddressHeader} ${styles.SectionHeader}`} >
         <h4>Saved Address</h4>
-        <button onClick={onAddNew} className={styles.AddAddressBtn}>
-          <svg
-            width="13"
-            height="13"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M5.33333 12V6.66667H0V5.33333H5.33333V0H6.66667V5.33333H12V6.66667H6.66667V12H5.33333Z"
-              fill="#C4754E"
-            />
-          </svg>
-          <span>Add Address</span>
-        </button>
+     <button  
+  onClick={onAddNew} 
+  className={styles.AddAddressBtn} 
+  
+>
+  <svg
+    width="13"
+    height="13"
+    viewBox="0 0 12 12"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M5.33333 12V6.66667H0V5.33333H5.33333V0H6.66667V5.33333H12V6.66667H6.66667V12H5.33333Z"
+      fill="#C4754E"
+    />
+  </svg>
+  <span>Add Address</span>
+</button>
       </div>
 
       {addressList.length > 0 ? (

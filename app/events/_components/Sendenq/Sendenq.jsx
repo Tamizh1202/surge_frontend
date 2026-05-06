@@ -115,6 +115,7 @@ export default function Sendenq() {
                   <input
                     type="date" name="eventDate" placeholder="Event Date"
                     value={formData.eventDate} onChange={handleChange}
+                    required
                   />
                   <input
                     type="text" name="timeWindow" placeholder="Time Window"

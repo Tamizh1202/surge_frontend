@@ -9,7 +9,7 @@ export default function Choosesurge() {
    return(
     <div className={styles.main}>
         <div className={styles.top}>
-            <h1 className={styles.text}>why choose surge</h1>
+            <h1 className={styles.text}>Why Choose Surge</h1>
         </div>
 
         <div className={styles.bottom}>

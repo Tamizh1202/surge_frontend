@@ -57,10 +57,7 @@
   transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
 
-.card:hover .label {
 
-  background-color: #f4f4f4; 
-}
 
 .categoryName {
   font-family: var(--font-montserrat);
@@ -87,13 +84,13 @@
 
 .mobileDescription {
 
-  font-size: 14px;
-
-  color: #555;
-
+  font-size: 12px;
+font-family: var(--font-raleway);
+  color: #414343;
+width: 80%;
   line-height: 1.4;
 
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 
 }
 
@@ -110,7 +107,7 @@
   border: none;
 
   font-size: 14px;
-
+font-family: var(--font-raleway);
   font-weight: 600;
 
   cursor: pointer;

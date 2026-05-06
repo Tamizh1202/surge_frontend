@@ -61,10 +61,11 @@
 }
 
 .title {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 22px;
+  font-weight: 600;
   letter-spacing: 0.1em;
   margin-bottom: 16px;
+  font-family: var(--font-montserrat);
   color: var(--text-primary)  ;
   text-transform: uppercase;
 }
@@ -97,9 +98,10 @@
 }
 
 .productName {
-  font-size: 15px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-primary);
+  font-family: var(--font-montserrat);
   margin: 0;
   line-height: 1.4;
   word-wrap: break-word;
@@ -107,8 +109,10 @@
 }
 
 .productQty {
-  font-size: 13px;
-  color: var(--text-primary);
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-family: var(--font-raleway);
   margin: 4px 0 0;
 }
 
@@ -120,7 +124,7 @@
   font-size: 14px;
   font-weight: 400;
   border: none;
-  border-radius: 6px;
+
   cursor: pointer;
 
   transition:

@@ -18,7 +18,7 @@
   font-family: var(--font-montserrat);
   font-size: 22px;
   font-weight: 600;
-  text-transform: uppercase;
+ 
   color: #414343;
   margin: 0;
 }
@@ -65,7 +65,7 @@
 .heading {
   font-size: 18px;
   font-weight: 500;
-  color: #c47d5e; 
+  color: var(--primary-color); 
   font-family: var(--font-montserrat);
   margin: 24px 0 8px 0;
 }

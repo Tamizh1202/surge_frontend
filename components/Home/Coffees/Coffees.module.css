@@ -149,14 +149,14 @@
 
   font-family: var(--font-montserrat);
   font-size: var(--fs-18);
-  font-weight: 600;
+  font-weight: 500;
   /* font-weight: 500; */
   color: var(--text-primary);
   margin: 0 0 0 0;
 }
 
 .coffeeNotes {
-  font-size: var(--fs-18);
+  font-size: var(--fs-16);
   font-family: var(--font-raleway);
   font-weight: 400;
   color: var(--text-secondary);
@@ -166,11 +166,11 @@
 
 .price {
   font-size: var(--fs-18);
-  font-weight: 600;
+  font-weight: 500;
 
   margin: 0;
   color: var(--text-primary);
-  font-family: var(--font-raleway);
+  font-family: var(--font-montserrat);
 }
 
 .cardArrow {
@@ -193,15 +193,6 @@
   transition: transform 0.3s ease;
 }
 
-.coffeeCard:hover .cardArrow:hover {
-  background-color: #C4754E;
-  color: #fff;
-  border-color: #fff;
-}
-
-.coffeeCard:hover .cardArrow:hover svg {
-  color: #fff;
-}
 
 
 

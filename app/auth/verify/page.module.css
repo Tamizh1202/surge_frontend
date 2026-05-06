@@ -36,19 +36,25 @@
   font-family: var(--font-montserrat);
   font-size: var(--fs-22);
   font-weight: 600;
-  color: var(--heads-color);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .headingBlock p {
   font-family: var(--font-raleway);
-  font-size: var(--fs-18);
+  font-size: var(--fs-16);
   font-weight: 400;
-  color: #6E736A;
+  color: var(--text-secondary);
   margin: 0;
-  width: 85%;
+  
 }
-
+.userEmail {
+    color: #C4754E;
+    font-weight: 400;
+    font-size: 16px;
+   
+    font-family: var(--font-raleway); 
+}
 .UpperTop {
   display: flex;
   flex-direction: column;
@@ -100,22 +106,24 @@
   flex: 1;
   height: 52px;
   border: none;
-  border-bottom: 1px solid #2F362A4D;
+  border-bottom: 1px solid #414343; 
   background: transparent;
   text-align: center;
   font-family: var(--font-raleway);
-  font-size: var(--fs-22);
-  font-weight: 600;
-  color: var(--heads-color);
+  font-size: var(--fs-16);
+  font-weight: 400;
+  color: var(--text-primary);
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
   width: 30px;
 }
 
 
-.otpFilled {
-  border-color: var(--primary-color);
+.otpInput:focus {
+  border-bottom: 2px solid #C4754E; 
+  
 }
+
 
 /* ── Timer ── */
 .timerRow {
@@ -134,15 +142,15 @@
 
 .timerText span {
   font-weight: 600;
-  color: var(--heads-color);
+  color: var(--text-secondary);
 }
 
 .resendBtn {
   background: none;
   border: none;
   font-family: var(--font-raleway);
-  font-size: var(--fs-14);
-  font-weight: 600;
+  font-size: var(--fs-16);
+  font-weight: 400;
   color: var(--primary-color);
   cursor: pointer;
   padding: 0;
@@ -159,20 +167,20 @@
 /* ── Messages ── */
 .errorMessage {
   font-family: var(--font-raleway);
-  font-size: 13px;
+  font-size: 14px;
   color: var(--red-color);
   padding: 8px 12px;
   background-color: #FFEBEE;
   border-left: 3px solid var(--red-color);
-  border-radius: 2px;
   width: 100%;
   box-sizing: border-box;
 }
 
 .infoMessage {
   font-family: var(--font-raleway);
-  font-size: 13px;
-  color: green;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--green);
   margin: 0;
 }
 
@@ -234,8 +242,14 @@
 
 .LowerText p {
   margin: 0px;
+  
 }
-
+.tnc {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  color: var(--text-primary);
+}
 /* ── Mobile ── */
 .mobilelegal {
   display: none;

@@ -217,7 +217,9 @@ margin-bottom: 16px;
 }
 
 
-
+.rotateArrow {
+  transform: rotate(180deg);
+}
 
 
 
@@ -448,15 +450,15 @@ margin-bottom: 16px;
     font-weight: 400;
     color: #414343;
     margin: 0;
-    min-height: 2.8em;
+  
     line-height: 1.4;
 }
 
 .notes {
     font-family: var(--font-raleway);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 400;
-    color: #6e736a;
+    color: var(--text-secondary);
     margin: 0;
     line-height: 1.2;
 }
@@ -623,8 +625,8 @@ margin-bottom: 16px;
 .priceTag {
     font-family: var(--font-montserrat);
     font-size: 18px;
-    font-weight: 600;
-    color: #2F362A;
+    font-weight: 500;
+    color: var(--text-primary);
     white-space: nowrap;
 }
 

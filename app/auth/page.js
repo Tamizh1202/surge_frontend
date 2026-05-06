@@ -348,7 +348,7 @@ function AuthPageContent() {
 
           <div className={styles.socials}>
             <button
-              // onClick={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               disabled={loading}
               className={styles.googleButton}
               aria-label="Sign in with Google"

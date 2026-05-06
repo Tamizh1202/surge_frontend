@@ -8,7 +8,7 @@
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.2s ease;
-    
+
 }
 
 /* ── Drawer — centered modal box ── */
@@ -26,7 +26,7 @@
     font-family: "DM Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 13px;
     color: #1a1a1a;
-    
+
 }
 
 /* ── Header ── */
@@ -54,7 +54,8 @@
     font-weight: 700;
     margin: 0 0 3px;
 }
-.title h2{
+
+.title h2 {
     font-family: var(--font-montserrat);
     color: var(--text-primary);
     font-size: var(--fs-22);
@@ -66,15 +67,17 @@
     color: #888;
     margin: 0;
 }
-.cartValue p{
+
+.cartValue p {
     font-family: var(--font-raleway);
     font-size: var(--fs-16);
-    
+
 }
-.upperText{
+
+.upperText {
     display: flex;
     flex-direction: column;
-    gap:2px;
+    gap: 2px;
 }
 
 /* ── Input Row ── */
@@ -131,7 +134,7 @@
     color: var(--text-secondary);
     /* padding: 0 20px 10px; */
     flex-shrink: 0;
-    margin:0;
+    margin: 0;
 }
 
 /* ── Coupon List — only this scrolls ── */
@@ -175,11 +178,13 @@
 .couponLeft {
     flex: 1;
 }
-.couponDesc{
+
+.couponDesc {
     display: flex;
     flex-direction: column;
-    gap:4px;
+    gap: 4px;
 }
+
 .couponCodeRow {
     display: flex;
     align-items: center;
@@ -231,8 +236,28 @@
     color: var(--text-secondary);
 }
 
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    gap: 16px;
+}
+
+.noCouponsGif {
+    width: 200px;
+    height: auto;
+}
+
+.emptyText {
+    font-size: 14px;
+    color: #888;
+    text-align: center;
+}
+
 .expandedText {
-    margin:0;
+    margin: 0;
     font-size: 12px;
     color: #555;
     width: 100%;

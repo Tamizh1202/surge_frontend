@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styles from "./WhislistComponents.module.css";
 import Image from "next/image";
-import zeroWish from "./zeroWish.png";
+import zeroWish from "./NoFavorites.gif";
 import { useRouter } from "next/navigation";
 import { useWishlist } from "@/app/_context/WishlistContext";
 import { useCart } from "@/app/_context/CartContext";
@@ -185,7 +185,7 @@ const WishlistComponents = () => {
 
         {wishlistData.length === 0 ? (
           <div className={styles.EmptyState}>
-            <Image src={zeroWish} alt="No products" width={140} height={140} priority />
+            <Image src={zeroWish} alt="No products" width={180} height={180} priority />
             <p className={styles.EmptyText}>Your wish list is empty.</p>
             <p className={styles.EmptySubText}>Explore more and shortlist some items.</p>
             <button className={styles.ShopNow} onClick={() => router.push("/shop")}>Shop now</button>

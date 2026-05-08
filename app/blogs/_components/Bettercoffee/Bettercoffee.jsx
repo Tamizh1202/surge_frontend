@@ -46,47 +46,51 @@ export default function CoffeeGrid({ blogs: initialBlogs = [], apiUrl }) {
 
   return (
     <main className={styles.container}>
-      <h2 className={styles.sectionHeading}>
-        Explore the World of Better Coffee
-      </h2>
 
-      <div className={styles.grid}>
-        {blogs.map((item, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.imageWrapper}>
-              <Image
-                src={formatImageUrl(item.featuredImage.url) || img1}
-                alt={item.title}
-                fill
-                style={{ objectFit: "cover" }}
-              />
-            </div>
-            <div className={styles.cardBody}>
-              <h3 className={styles.cardTitle}>{item.title}</h3>
-              <p className={styles.cardDesc}>
-                {item.shortDescription ||
-                  "Dive deep into the science behind our beans."}
-              </p>
-
-              <Link href={`/blogs/${item.slug}`} className={styles.readMore}>
-                Read More
-                <svg
-                  width="9"
-                  height="9"
-                  viewBox="0 0 9 9"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201"
-                    stroke="#C4754E"
+      {blogs && blogs.length > 0 && (
+        <>
+          <h2 className={styles.sectionHeading}>
+            Explore the World of Better Coffee
+          </h2>
+          <div className={styles.grid}>
+            {blogs.map((item, index) => (
+              <div key={index} className={styles.card}>
+                <div className={styles.imageWrapper}>
+                  <Image
+                    src={formatImageUrl(item.featuredImage.url) || img1}
+                    alt={item.title}
+                    fill
+                    style={{ objectFit: "cover" }}
                   />
-                </svg>
-              </Link>
-            </div>
+                </div>
+                <div className={styles.cardBody}>
+                  <h3 className={styles.cardTitle}>{item.title}</h3>
+                  <p className={styles.cardDesc}>
+                    {item.shortDescription ||
+                      "Dive deep into the science behind our beans."}
+                  </p>
+
+                  <Link href={`/blogs/${item.slug}`} className={styles.readMore}>
+                    Read More
+                    <svg
+                      width="9"
+                      height="9"
+                      viewBox="0 0 9 9"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.350207 7.7921L7.56828 0.499646M7.56828 0.499646V7.06285M7.56828 0.499646H1.07201"
+                        stroke="#C4754E"
+                      />
+                    </svg>
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
 
       {hasMore && (
         <div className={styles.footer}>

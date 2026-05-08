@@ -47,11 +47,15 @@ export const removeProfileImageAPI = async (userId) => {
   }
 };
 
-export const saveAddressAPI = async (userId, addressPayload) => {
+// profileApiUtils.js
+export const saveAddressAPI = async (userId, addressPayload, token) => {
   try {
     const res = await axiosClient.post(
       `/api/users/${userId}/addresses`,
       addressPayload,
+      {
+        headers: token ? { Authorization: `JWT ${token}` } : {},
+      }
     );
     const data = res.data;
     if (

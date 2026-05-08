@@ -17,17 +17,16 @@ export default function Touch() {
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
   const [enquiryOpen, setEnquiryOpen] = useState(false);
-  const options = [
-    { value: "order_issue", label: "Order issue" },
-    { value: "payment_refund", label: "Payment or refund" },
-    { value: "rewards_stamps", label: "Rewards & stamps" },
-    { value: "barista_selection", label: "Barista selection" },
-    { value: "pickup_timing", label: "Pickup or timing" },
-    { value: "menu_availability", label: "Menu & availability" },
-    { value: "other", label: "Other" },
-  ];
-  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
-  const ENDPOINT = `${serverUrl}/api/web-contact-form`;
+ const options = [
+  "Order issue",
+  "Payment or refund",
+  "Rewards & stamps",
+  "Barista selection",
+  "Pickup or timing",
+  "Menu & availability",
+  "Other"
+];
+  const ENDPOINT = "/api/website/contact";
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const handleSubmit = async (e) => {
@@ -167,6 +166,7 @@ export default function Touch() {
                   placeholder="How we can help you."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
+                  required
                 />
               </div>
 

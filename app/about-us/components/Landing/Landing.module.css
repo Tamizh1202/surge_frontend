@@ -73,13 +73,15 @@
   top: 50%;
   left: 50%;
   z-index: 10;
-  transform: translate(-50%, -50%);
+  transform: translate(-40%, -40%);
   pointer-events: none;
   display: flex;
+  
   justify-content: center;
 }
 
 .product {
+
   display: block;
   width: 476px;
   height: auto;

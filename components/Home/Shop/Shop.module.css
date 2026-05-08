@@ -3,15 +3,10 @@
   background-color: #ffffff;
 }
 
-.container {
-  width: 100%;
-}
-
 .title {
   font-family: var(--font-montserrat);
   font-size: 22px;
   font-weight: 600;
-  margin: 0;
   margin-bottom: 30px;
   color: #414343;
 }
@@ -25,42 +20,26 @@
 .card {
   text-decoration: none;
   display: block;
-  width: 100%;
   position: relative;
   overflow: hidden;
-  transform: translateZ(0);
 }
 
 .imageWrapper {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background-color: var(--background);
   overflow: hidden;
 }
 
-.imageWrapper img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
 .bgImage {
-  transition: transform 0.8s ease;
   object-fit: cover;
+  transition: transform 0.8s ease;
+  transform: scale(1); /* No zoom */
 }
 
-/* .card:hover img,
-.card:active img {
-  transform: scale(1.10) translateY(-15px);
-} */
 
-.card:hover .bgImage,
-.card:active .bgImage {
-  transform: scale(1.08);
-  /* cursor: auto; */
-  /* Cinematic zoom on the coffee image */
+.card:hover .bgImage {
+  transform: scale(1);
 }
 
 .label {
@@ -68,130 +47,204 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: var(--cards-bg);
-  /* Use your coffee theme background */
-  padding: 20px;
+  padding: 30px 25px;
   z-index: 5;
-  cursor: auto;
-  /* Pushes the description/button out of view initially */
-  /* Adjust the 80px based on the height of your description/button */
-  transform: translateY(100px);
-  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* Initial State: No background, title is at the bottom */
+  background-color: rgba(244, 244, 244, 0); 
+ transform: translateY(0);
+
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
 }
+
+
 
 .categoryName {
   font-family: var(--font-montserrat);
-  font-size: var(--fs-18);
+  font-size: 18px;
   font-weight: 600;
   margin: 0;
-  color: var(--text-primary);
+  color: #414343;
 }
 
 .hoverContent {
+
+  max-height: 0;
   opacity: 0;
-  /* Starts invisible */
-  padding-top: 15px;
-  transition: opacity 0.4s ease;
+  overflow: hidden;
+   transition: max-height 0.5s ease, opacity 0.4s ease, margin-top 0.4s ease;
 }
 
-/* Hover  */
 .card:hover .hoverContent {
+  margin-top: 10px;
+  max-height: 200px; 
   opacity: 1;
-  /* Fades in the text */
-}
 
-.card:hover .label {
-  transform: translateY(0);
-  /* Slides everything up into view */
 }
 
 .mobileDescription {
-  font-size: var(--fs-14);
-  color: var(--text-secondary);
+
+  font-size: 12px;
+font-family: var(--font-raleway);
+  color: #414343;
+width: 80%;
   line-height: 1.4;
-  margin-bottom: 15px;
+
+  margin-bottom: 10px;
+
 }
+
+
 
 .mobileBtn {
-  align-self: flex-start;
+
   background-color: #ba7249;
+
   color: #ffffff;
+
   padding: 12px 28px;
+
   border: none;
+
   font-size: 14px;
+font-family: var(--font-raleway);
   font-weight: 600;
-  font-family: var(--font-montserrat);
+
   cursor: pointer;
-  transition: background-color 0.3s ease;
+
 }
-
-
-
 
 @media (max-width: 1400px) {
+
   .shopSection {
+
     padding: 100px 60px;
+
   }
+
 }
+
+
+
 
 
 @media (max-width: 1100px) {
+
   .shopSection {
+
     padding: 80px 40px;
+
   }
 
+
+
   .grid {
+
     grid-template-columns: repeat(2, 1fr);
+
     gap: 30px;
+
   }
+
 }
 
 
+
+
+
 @media (max-width: 767px) {
+
   .shopSection {
+
     padding: 60px 20px;
+
   }
+
+
 
   .grid {
+
     grid-template-columns: 1fr;
+
     gap: 15px;
+
   }
+
+
 
   .label {
+
     position: absolute;
+
     bottom: 0;
+
     background-color: transparent;
+
     transform: none;
+
     transition: none;
+
   }
+
+
 
   .hoverContent {
+
     opacity: 1;
+
     transition: none;
+
   }
+
+
 
   .categoryName {
+
     font-size: var(--fs-20);
+
     color: var(--text-primary);
+
     font-weight: 600;
+
   }
 
+
+
   .card:hover .bgImage,
+
   .card:active .bgImage {
+
     transform: none;
+
   }
+
   .hoverContent{
+
     margin:0;
+
     padding:0;
+
   }
+
   .mobileDescription {
+
     font-size: var(--fs-14);
+
     color: var(--text-primary);
+    font-family: var(--font-raleway);
+
     width: 85%;
+
     margin-bottom: 20px;
+
     font-weight: 500;
+
     margin-top: 0;
+
     line-height: 1.3;
+
     padding-top: 8px;
+
   }
+
 }

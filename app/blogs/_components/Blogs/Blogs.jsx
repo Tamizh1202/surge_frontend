@@ -6,7 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import styles from "./Blogs.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
-
+import zeroBlog from "./NoBlogs.gif";
 import oneImg from "./one.png";
 import square from "./square.png";
 import squaretwo from "./square2.png";
@@ -44,7 +44,21 @@ export default function Blogs({ initialBlogs = [] }) {
   }, [initialBlogs]);
 
   return (
-    <div className={styles.main}>
+    <div className={styles.main}>{blogs.length === 0 ? (
+      <div className={styles.latestBlogs}>
+        <h4 className={styles.latestBlogs__heading}>LATEST BLOGS</h4>
+        <div className={styles.latestBlogs__zeroState}>
+          <div>
+            <Image src={zeroBlog} alt="No products" width={180} height={180} priority />
+            <p className={styles.latestBlogs__zeroState__title}>Brewing stories soon</p>
+            <p className={styles.latestBlogs__zeroState__subtitle}>Our latest coffee guides and stories will appear here.</p>
+            <Link href="/shop/coffee-beans" className={styles["latestBlogs__zeroState__button"]}>
+              Shop Coffee
+            </Link>
+          </div>
+        </div>
+      </div>
+    ) : (
       <div className={styles.embla} ref={emblaRef}>
         <div className={styles.embla__container}>
           {blogs.map((blog) => (
@@ -138,6 +152,7 @@ export default function Blogs({ initialBlogs = [] }) {
           ))}
         </div>
       </div>
+    )}
     </div>
   );
 }

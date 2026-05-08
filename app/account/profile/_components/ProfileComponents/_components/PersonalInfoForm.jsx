@@ -63,7 +63,7 @@ const PersonalInfoForm = ({
         <h4>Personal Information</h4>
         {!editMode && (
           <button
-            style={{ textDecoration: "underline" }}
+            style={{ textDecoration: "underline", paddingRight: "10px" }}
             onClick={() => onFieldChange("__editMode__", true)}
           >
             Edit

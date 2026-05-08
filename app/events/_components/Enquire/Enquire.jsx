@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import cupImg from './Enq1.png';
 import cupImg2 from './Enq2.png';
-import cupImg3 from './Enq3.png';
+import cupImg3 from './Enq4.png';
 
 const packages = [
   {

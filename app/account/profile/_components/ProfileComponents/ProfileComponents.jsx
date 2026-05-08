@@ -30,6 +30,7 @@ import DeleteAccountPopup from "./_components/DeleteAccountPopup";
 
 const ProfileComponents = ({ initialData }) => {
   const { update, data: session, status } = useSession();
+  const token = session?.user?.["paylaod-token"];
   const isGuestUser = status === "unauthenticated";
 
   // Determine the core user data from initialData (could be direct or nested in .user)
@@ -110,18 +111,8 @@ const ProfileComponents = ({ initialData }) => {
 
       setProfile((prev) => ({
         ...prev,
-        firstName:
-          sUser?.firstName !== undefined
-            ? sUser.firstName
-            : iData.firstName !== undefined
-              ? iData.firstName
-              : prev.firstName,
-        lastName:
-          sUser?.lastName !== undefined
-            ? sUser.lastName
-            : iData.lastName !== undefined
-              ? iData.lastName
-              : prev.lastName,
+        firstName: sUser?.firstName || iData.firstName || prev.firstName,
+        lastName: sUser?.lastName || iData.lastName || prev.lastName,
         email:
           sUser?.email !== undefined
             ? sUser.email
@@ -431,7 +422,7 @@ const ProfileComponents = ({ initialData }) => {
         isDefaultAddress: addressForm.isDefault || false,
       };
 
-      const result = await saveAddressAPI(session?.user?.id, payload);
+      const result = await saveAddressAPI(session?.user?.id, payload, token);
       if (result?.success) {
         setAddresses(result.updatedAddresses);
         setShowAddressPopup(false);
@@ -588,7 +579,6 @@ const ProfileComponents = ({ initialData }) => {
                 onDeleteRequest={handleDeleteRequest}
               />
             )}
-
             {/* 4. Delete account section */}
             {!isGuestUser && (
               <div className={styles.DeleteAccount}>

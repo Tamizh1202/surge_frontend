@@ -106,8 +106,9 @@
   border-bottom: 1px solid #818686;
   font-size: 16px;
   background: transparent;
+  font-weight: 400;
   outline: none;
-  color: #414343;
+  color: #818686;
   font-family: var(--font-raleway);
 }
 
@@ -187,14 +188,21 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   color: var(--text-secondary);
-  transition: all 0.3s ease;
+  font-family: var(--font-raleway);
+font-weight: 400;
+    transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .selectTrigger.open {
   border-color: var(--primary-color);
    transition: transform 0.25s ease;
+     grid-template-rows: 1fr; 
+    opacity: 1;
   /* Surge Brown */
 }
 
@@ -204,31 +212,48 @@
   left: 0;
   width: 100%;
   background-color: var(--background);
- 
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  /* Edit Dropdown BG */
-  /* border: 1px solid #ddd; */
+  z-index: 100;
   border-top: none;
   list-style: none;
   padding: 0;
   margin: 0;
-  z-index: 100;
+
+  
+  display: grid;
+  grid-template-rows: 0fr; 
+  overflow: hidden;
+  transition: 
+    grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    transform 0.5s ease;
+}
+
+.optionsList.open {
+  grid-template-rows: 1fr; 
+  opacity: 1;
+  transform: translateY(0); 
+  border-bottom: 1px solid #ddd; 
 }
 
 .optionItem {
+ 
   padding: 12px 20px;
   cursor: pointer;
   font-size: var(--fs-14);
   color: var(--text-secondary);
-  transition: background 0.2s ;
+  transition: background 0.2s;
 }
 
-/* --- EDIT HOVER COLOR HERE --- */
+.optionItem:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
+}
+
 .optionItem:hover {
   background-color: var(--primary-color);
   /* Surge Brown */
   color: #ffffff;
-  /* Text color on hover */
+ 
 }
 
 .arrow {

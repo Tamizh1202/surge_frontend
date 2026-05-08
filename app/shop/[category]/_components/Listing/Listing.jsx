@@ -202,34 +202,41 @@ export default function Listing({ category }) {
                         <button className={styles.mobileFilterBtn} onClick={() => setIsMobileFilterOpen(true)}>
                             Filter
                         </button>
+<div className={styles.sortWrapper}>
+  <div
+    className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
+    onClick={() => setShowSort(!showSort)}
+  >
+    <span className={styles.sortLabel}>Sort By : </span>
+    <span className={styles.sortValue}>{selectedSort}</span>
+    
+    {/* SVG Added Here */}
+    <svg 
+      className={`${styles.sortArrow} ${showSort ? styles.rotateArrow : ''}`} 
+      width="16" height="10" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M6.63055 6.75943C6.23768 7.16467 5.58748 7.16467 5.1946 6.75943L0.285735 1.69607C-0.329211 1.06177 0.120255 1.54337e-07 1.00371 8.53452e-08L10.8214 -6.81352e-07C11.7049 -7.50344e-07 12.1544 1.06177 11.5394 1.69607L6.63055 6.75943Z" fill="#C4754E"/>
+    </svg>
+  </div>
 
-                        <div className={styles.sortWrapper}>
-                            <div
-                                className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
-                                onClick={() => setShowSort(!showSort)}
-                            >
-                                <span className={styles.sortLabel}>Sort By : </span>
-                                <span className={styles.sortValue}>{selectedSort}</span>
-                            </div>
-
-                            <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
-                                {SORT_OPTIONS.map((option) => (
-                                    <div
-                                        key={option}
-                                        className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-                                        onClick={() => {
-                                            setSelectedSort(option);
-                                            setShowSort(false);
-                                        }}
-                                    >
-                                        <span className={styles.optionText}>{option}</span>
-                                        <span className={styles.radioCircle}></span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </header>
+  <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
+    {SORT_OPTIONS.map((option) => (
+      <div
+        key={option}
+        className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+        onClick={() => {
+          setSelectedSort(option);
+          setShowSort(false);
+        }}
+      >
+        <span className={styles.optionText}>{option}</span>
+        <span className={styles.radioCircle}></span>
+      </div>
+    ))}
+  </div>
+</div>
+</div>
+</header>
 
                 {loading && products.length === 0 && <p className={styles.stateMsg}>Loading...</p>}
                 {error && <p className={styles.stateMsg}>{error}</p>}
@@ -250,8 +257,8 @@ export default function Listing({ category }) {
                                             className={styles.wishlistIcon}
                                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}
                                         >
-                                            <svg width="22" height="22" viewBox="0 0 24 24"
-                                                fill={isInWishlist(item.id) ? "#C6825B" : "white"}>
+                                            <svg width="18" height="18" viewBox="0 0 24 24"
+                                                fill={isInWishlist(item.id) ? "#EA2424" : "white"}>
                                                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                             </svg>
                                         </button>

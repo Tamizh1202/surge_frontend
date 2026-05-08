@@ -5,7 +5,7 @@ import axiosClient from "@/lib/axios";
 import styles from './page.module.css';
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
-import beansZero from "./beansZero.png"
+import beansZero from "./NoTransaction.gif"
 import coinsbanner from './bg.png'
 const QUESTIONS = [
     {
@@ -178,8 +178,8 @@ const WhiteMantisBeans = () => {
                                 <Image
                                     src={beansZero}
                                     alt="No products"
-                                    width={100}
-                                    height={150}
+                                    width={220}
+                                    height={210}
                                 />
 
 

@@ -89,6 +89,7 @@
 
 .link:hover {
   opacity: 0.8;
+  text-underline-offset: 2px;
   text-decoration: underline;
 }
 

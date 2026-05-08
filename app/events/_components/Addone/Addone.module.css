@@ -44,6 +44,17 @@
   display: block;
   transition: transform 0.5s ease;
 }
+/* --- Hover par Image Zoom pehle se hai --- */
+.card:hover .mainImg {
+  transform: scale(1.1);
+}
+
+/* --- Hover par Points (Text) ka color change --- */
+.card:hover .pointItem {
+  /* Yahan aap 'red' ya apna primary color use kar sakte hain */
+  color: #C4754E; 
+  transition: color 0.3s ease;
+}
 
 
 .card:hover .mainImg {
@@ -98,7 +109,7 @@
 
 .squareIcon {
   flex-shrink: 0;
-  padding-top: 5px;
+  padding-top: 7px;
   display: flex;
 }
 

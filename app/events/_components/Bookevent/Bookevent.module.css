@@ -43,7 +43,7 @@
   gap: 8px;                 
   white-space: nowrap;      
   width: max-content;      
-  animation: scrollLoop 17s linear infinite;  
+  animation: scrollLoop 25s linear infinite;  
   animation-delay: -2s;
 }
 

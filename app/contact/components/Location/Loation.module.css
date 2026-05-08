@@ -13,6 +13,8 @@
   font-weight: 600;
   margin-top: 8px;
   font-family: var(--font-montserrat);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .topSubtext {
@@ -21,8 +23,10 @@
   font-family: var(--font-raleway);
   max-width: 776px;
   margin: 0 auto 40px;
+  line-height: 1.6;
 }
 
+/* Location Grid (List View) */
 .locationGrid {
   display: flex;
   justify-content: space-between;
@@ -56,34 +60,115 @@
 .goldLink {
   color: #C4754E;
   font-size: 16px;
-  text-decoration: underline;
+  text-decoration: none;
   font-weight: 400;
   font-family: var(--font-raleway);
   margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-.mapContainer {
+.goldLink:hover {
+  text-decoration: underline;
+}
+
+/* Map Container & Interactive Markers */
+.mapWrapper {
   display: flex;
   justify-content: center;
   margin-top: 150px;
+  position: relative;
+}
+
+.mapContainer {
+  position: relative;
+  width: 100%;
+  max-width: 1064px;
 }
 
 .mapImg {
   width: 100%;
-  max-width: 1064px;
-  height: 798px;
+  height: auto;
   filter: grayscale(1);
   opacity: 0.9;
 }
 
+.markerWrapper {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+}
+
+.locationPopup {
+  background: #FBF5F1; 
+  padding: 16px;
+  width: 225px;
+  text-align: center;
+  margin-bottom: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.markerWrapper:hover .locationPopup {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.popupName {
+  display: block;
+  font-family: var(--font-montserrat);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.popupArea {
+  display: block;
+  font-family: var(--font-raleway);
+  font-size: 14px;
+  color: #818686;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.popupLink {
+  font-family: var(--font-raleway);
+  font-size: 12px;
+  font-weight: 400;
+  color: #C4754E;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.markerPin {
+  transition: transform 0.3s ease;
+}
+
+.markerWrapper:hover .markerPin {
+  transform: scale(1.1);
+}
+
+/* Careers Section */
 .divider {
   border: 0;
   margin-bottom: 174px;
 }
 
 .careersSection {
-  padding-left: 250px;
-  padding-right: 250px;
+  padding: 0 250px;
   width: 100%;
   box-sizing: border-box;
 }
@@ -137,14 +222,22 @@
 }
 
 .detailLink {
-  color: #C4754E;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #C4754E; 
+  text-decoration: none;
+  font-family: var(--font-raleway);
   font-size: 16px;
   font-weight: 400;
-  font-family: var(--font-raleway);
-  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-
+.detailLink:hover {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  opacity: 0.8;
+}
 
 .emailFooter {
   margin-top: 40px;

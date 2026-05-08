@@ -163,6 +163,7 @@ body {
 .divider {
   border: 0;
   border-top: 1px solid #818686;
+  opacity: 25%;
   margin: 0;
 }
 
@@ -246,14 +247,14 @@ body {
 }
 
 .specsTable td {
-  padding: 16px 0 0;
-  font-size: 16px;
+
+  font-size: 16px ;
   font-family: var(--font-raleway);
   font-weight: 400;
 }
 
 .specsTables td {
-  padding: 16px;
+  padding: 16px ;
   font-size: 16px;
   font-family: var(--font-raleway);
   color: #414343;

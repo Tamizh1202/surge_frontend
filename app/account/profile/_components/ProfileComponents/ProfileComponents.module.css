@@ -171,6 +171,13 @@
   /* border: 1px solid #2f362a4d; */
   cursor: pointer;
   user-select: none;
+    transform: translateY(-6px);
+    transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+
+  
 }
 
 .Arrow {
@@ -253,9 +260,15 @@
   max-height: 200px;
   overflow-y: auto;
  
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                opacity 0.3s ease, 
-                visibility 0.3s;
+  display: grid;
+    grid-template-rows: 0fr; 
+  
+   
+    overflow: hidden;
+    transition: 
+        grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s ease,
+        visibility 0.4s;
 }
 
 .OptionItem {
@@ -263,7 +276,7 @@
   cursor: pointer;
   font-size: 14px;
   color: #6e736a;
-  transition: background 0.2s;
+   transition: background-color 0.3s ease, color 0.3s ease;
   font-size: var(--font-montserrat);
   background: #ffffff;
 }
@@ -421,7 +434,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 0;
+
+  
 }
 
 .AddressHeader h4 {
@@ -438,6 +452,7 @@
   padding: 14px 40px;
   font-family: var(--font-raleway);
   font-size: 16px;
+
   color: #C4754E;
   font-weight: 600;
   background-color: #ffffff;
@@ -566,13 +581,24 @@
   min-width: 0;
 }
 
+
+.fixerOne,
+.fixerTwo {
+  width: 100%;
+  max-width: 501px; 
+  box-sizing: border-box; 
+ 
+}
+
+
 .fixerOne p {
-  font-size: var(--fs-18);
+  font-size: var(--fs-16);
   font-weight: 500;
   color: #414343;
   font-family: var(--font-montserrat);
   margin-bottom: 16px;
   line-height: normal;
+  
 }
 
 .fixerTwo h6 {
@@ -708,6 +734,12 @@
 .emirateWrapper {
   flex: 1;
   position: relative;
+ 
+  transition:
+    max-height 0.35s ease,
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  
 }
 
 .emirateField {
@@ -720,10 +752,24 @@
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
+  
+    grid-template-rows: 0fr; 
+    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+    transition: 
+        grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.4s ease,
+        filter 0.5s ease,
+        transform 0.5s ease;
+  
+    overflow: hidden;
+
+
+  
 }
 
 .emirateValue {
   color: var(--cards-bg);
+     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .emirateSelected {
@@ -751,8 +797,12 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
+<<<<<<< HEAD
 transform: translateY(0px); 
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+=======
+ 
+>>>>>>> 41974fe473acf84fc5454de9e42ce0a221fa1991
 }
 
 .optionItem {
@@ -1408,6 +1458,7 @@ transform: translateY(0px);
     display: flex;
     justify-content: space-between;
     gap:100px;
+    
   }
 
   .Row2 input,

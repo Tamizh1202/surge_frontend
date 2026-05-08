@@ -27,7 +27,13 @@
 .logoCol {
   flex: 0 0 45%;
 }
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: white; 
+  margin: 0;
 
+}
 .promoRightSide {
   display: flex;
   justify-content: space-between;
@@ -303,7 +309,7 @@
   font-size: 16px;
   font-weight: 400;
   color: var(--background);
-  text-transform: uppercase;
+
   margin: 0;
 }
 
@@ -332,6 +338,7 @@
   padding-top: clamp(10px, 1.8vh, 25px);
   font-size: var(--fs-16);
   color: var(--background);
+
   font-family: var(--font-raleway);
   font-weight: 400;
   flex-shrink: 0;
@@ -362,8 +369,29 @@
 .mobilelegal {
   display: none;
 }
+.addressBox {
+  font-style: normal; 
+}
 
+.mapLink {
+  text-decoration: none; /* Removes underline */
+  color: inherit;       
+  display: block;        
+}
 
+.mapLink:hover {
+  color: #C4754E;        
+}
+
+  .divide {
+  width: 100%;
+  opacity: 5%;
+  margin: 0;
+  height: 1px;
+  background-color: white; 
+ 
+
+}
 /* ─── TABLET (1024px and below) ─── */
 @media (max-width: 1024px) {
   .footer {

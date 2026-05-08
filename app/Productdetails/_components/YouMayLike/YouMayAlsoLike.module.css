@@ -66,9 +66,9 @@
 }
 
 .title {
-  font-family: var(--font-montserrat);
-  font-size: 15px;
-  font-weight: 500;
+  font-family: var(--font-raleway);
+  font-size: var(--fs-16);
+  font-weight: 400;
   color: var(--primary-color);
   margin: 0 0 6px;
   white-space: nowrap;
@@ -80,8 +80,8 @@
   font-family: var(--font-raleway);
   font-size: 13px;
   font-weight: 400;
-  color: var(--secondary-color);
-  margin: 0 0 14px;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
 }
 
 .priceRow {

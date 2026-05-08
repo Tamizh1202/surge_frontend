@@ -211,11 +211,18 @@ export default function Footer({ categories }) {
         <div className={styles.infoGrid}>
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
-            <address>
-              Warehouse #2 - 26
-              <br />
-              26th St - Al Qouz Ind.fourth, Al Quoz, Dubai
-            </address>
+           <address className={styles.addressBox}>
+  <a 
+    href="https://www.google.com/maps/search/?api=1&query=Warehouse+2+26th+St+Al+Qouz+Industrial+fourth+Dubai"
+    target="_blank" 
+    rel="noopener noreferrer"
+    className={styles.mapLink}
+  >
+    Warehouse #2 - 26
+    <br />
+    26th St - Al Qouz Ind.fourth, Al Quoz, Dubai
+  </a>
+</address>
           </div>
 
           <div className={styles.contactWrapper}>
@@ -247,7 +254,7 @@ export default function Footer({ categories }) {
             </div>
           </div>
         </div>
-
+<div className={styles.divide}></div>
         <div className={styles.bottomBar}>
           <div className={styles.copyright}>© 2026 Surge</div>
           <div className={styles.legal}>

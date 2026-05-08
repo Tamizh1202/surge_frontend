@@ -797,12 +797,8 @@
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
-<<<<<<< HEAD
-transform: translateY(0px); 
+  transform: translateY(0px);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-=======
- 
->>>>>>> 41974fe473acf84fc5454de9e42ce0a221fa1991
 }
 
 .optionItem {

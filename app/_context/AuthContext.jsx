@@ -6,6 +6,7 @@ import {
   useSession,
 } from "next-auth/react";
 import axiosClient from "@/lib/axios";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext(null);
 
@@ -65,6 +66,12 @@ export function AuthProvider({ children }) {
   }
 
   async function logout() {
+    // Clear the client-side payload token cookie FIRST so no stale token
+    // is sent via Authorization header during the in-flight logout request
+    try {
+      Cookies.remove("payload-token", { path: "/" });
+    } catch (e) { }
+
     try {
       await fetch("/api/logout", { method: "POST" });
     } catch (e) {

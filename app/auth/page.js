@@ -38,6 +38,13 @@ function AuthPageContent() {
 
         setLoading(true);
 
+        // Clear any stale token from a previous login session immediately.
+        // This prevents the old email-user token from leaking into the
+        // Google auth exchange as an Authorization header.
+        try {
+          Cookies.remove("payload-token", { path: "/" });
+        } catch (_) {}
+
         try {
           let res;
           if (isFromGoogle) {

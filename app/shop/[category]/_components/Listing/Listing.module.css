@@ -272,29 +272,30 @@
     background-color: #F5F5F5;
     top: 100%;
 
-   display: grid;
-    grid-template-rows: 0fr; 
-    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+    display: grid;
+    grid-template-rows: 0fr;
     opacity: 0;
-    
-    transition: 
+    pointer-events: none;
+
+    transition:
         grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
         opacity 0.2s ease,
         filter 0.5s ease,
         transform 0.5s ease;
-  
+
     overflow: hidden;
 }
 
 .showDropdown {
     grid-template-rows: 1fr;
     opacity: 1;
-    visibility: visible;
+    pointer-events: auto;
 }
 
 
-.dropdownMenu > div {
+.dropdownInner {
     min-height: 0;
+    overflow: hidden;
 }
 
 .dropdownItem {

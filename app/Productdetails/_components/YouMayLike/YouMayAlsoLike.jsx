@@ -43,10 +43,12 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
 
     return (
         <section className={styles.section}>
-            <h2 className={styles.heading}>You may also like</h2>
+            
             <div className={styles.grid}>
                 {loading
                     ? Array.from({ length: 3 }).map((_, i) => (
+                        <>
+                        <h2 className={styles.heading}>You may also like</h2>
                           <div key={i} className={`${styles.card} ${styles.skeleton}`}>
                               <div className={styles.skeletonImage} />
                               <div className={styles.info}>
@@ -55,6 +57,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                   <div className={styles.skeletonLine} />
                               </div>
                           </div>
+                          </>
                       ))
                     : products.map((product) => (
                           <div key={product.id} className={styles.card}>

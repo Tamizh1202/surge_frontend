@@ -220,19 +220,21 @@ export default function Listing({ category }) {
   </div>
 
   <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
-    {SORT_OPTIONS.map((option) => (
-      <div
-        key={option}
-        className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
-        onClick={() => {
-          setSelectedSort(option);
-          setShowSort(false);
-        }}
-      >
-        <span className={styles.optionText}>{option}</span>
-        <span className={styles.radioCircle}></span>
-      </div>
-    ))}
+    <div className={styles.dropdownInner}>
+      {SORT_OPTIONS.map((option) => (
+        <div
+          key={option}
+          className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+          onClick={() => {
+            setSelectedSort(option);
+            setShowSort(false);
+          }}
+        >
+          <span className={styles.optionText}>{option}</span>
+          <span className={styles.radioCircle}></span>
+        </div>
+      ))}
+    </div>
   </div>
 </div>
 </div>

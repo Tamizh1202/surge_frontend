@@ -124,8 +124,8 @@ export default function CheckoutForm({
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
         products: product.map((p) => ({
-          productId: p.id,
-          variantId: p.vId || "",
+          productId: p.product || p.productId || p.id,
+          variantId: p.vId || p.variantId || "",
           quantity: p.quantity,
         })),
         useWTCoins: !!isBeansApplied,

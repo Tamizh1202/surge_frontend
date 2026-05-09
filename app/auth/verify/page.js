@@ -102,6 +102,9 @@ function Otp() {
 
       if (verifyData.token || verifyData.jwt) {
         const Cookies = (await import("js-cookie")).default;
+        // Remove the stale token first, then immediately set the new one
+        // so there is never a window where an old user's token is active.
+        Cookies.remove("payload-token", { path: "/" });
         Cookies.set("payload-token", verifyData.token || verifyData.jwt, { expires: 7 });
       }
 

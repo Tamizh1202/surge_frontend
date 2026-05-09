@@ -3,80 +3,80 @@ import { useState, useRef } from "react";
 import Image from "next/image";
 import styles from "./Coffees.module.css";
 import coffeeBagImg from "./coffees.png";
-import Link from "next/link"; 
+import Link from "next/link";
 
 const coffeeData = [
-  { 
-    id: 1, 
-    slug: "indonesia-banner-mariah", 
-    name: "Indonesia Banner Mariah Triple Wet Hull", 
-    notes: "Citrus, nutty, chocolate", 
-    price: "AED 60", 
-    image: coffeeBagImg 
+  {
+    id: 1,
+    slug: "indonesia-banner-mariah",
+    name: "Indonesia Banner Mariah Triple Wet Hull",
+    notes: "Citrus, nutty, chocolate",
+    price: "AED 60",
+    image: coffeeBagImg
   },
-  { 
-    id: 2, 
-    slug: "indonesia-mariah-pods", 
-    name: "Indonesia Mariah Nespresso Pods", 
-    notes: "Floral, berry, bright", 
-    price: "AED 65", 
-    image: coffeeBagImg 
+  {
+    id: 2,
+    slug: "indonesia-mariah-pods",
+    name: "Indonesia Mariah Nespresso Pods",
+    notes: "Floral, berry, bright",
+    price: "AED 65",
+    image: coffeeBagImg
   },
-  { 
-    id: 3, 
-    slug: "ethiopia-guji-drip", 
-    name: "Ethiopia Guji Drip Bags", 
-    notes: "Citrus, nutty, chocolate", 
-    price: "AED 75", 
-    image: coffeeBagImg 
+  {
+    id: 3,
+    slug: "ethiopia-guji-drip",
+    name: "Ethiopia Guji Drip Bags",
+    notes: "Citrus, nutty, chocolate",
+    price: "AED 75",
+    image: coffeeBagImg
   },
-  { 
-    id: 4, 
-    slug: "brazil-santos-beans", 
-    name: "Brazil Santos Premium Beans", 
-    notes: "Caramel, toasted almond", 
-    price: "AED 55", 
-    image: coffeeBagImg 
+  {
+    id: 4,
+    slug: "brazil-santos-beans",
+    name: "Brazil Santos Premium Beans",
+    notes: "Caramel, toasted almond",
+    price: "AED 55",
+    image: coffeeBagImg
   },
-  { 
-    id: 5, 
-    slug: "surge-logo-merch-shirt", 
-    name: "Surge Collective Oversized Tee", 
-    notes: "100% Cotton, Heavyweight", 
-    price: "AED 120", 
-    image: coffeeBagImg 
+  {
+    id: 5,
+    slug: "surge-logo-merch-shirt",
+    name: "Surge Collective Oversized Tee",
+    notes: "100% Cotton, Heavyweight",
+    price: "AED 120",
+    image: coffeeBagImg
   },
-  { 
-    id: 6, 
-    slug: "colombia-huila-beans", 
-    name: "Colombia Huila Dark Roast", 
-    notes: "Dark chocolate, molasses", 
-    price: "AED 58", 
-    image: coffeeBagImg 
+  {
+    id: 6,
+    slug: "colombia-huila-beans",
+    name: "Colombia Huila Dark Roast",
+    notes: "Dark chocolate, molasses",
+    price: "AED 58",
+    image: coffeeBagImg
   },
-  { 
-    id: 7, 
-    slug: "guatemala-antigua-beans", 
-    name: "Guatemala Antigua Classic", 
-    notes: "Spice, cocoa, smokey", 
-    price: "AED 70", 
-    image: coffeeBagImg 
+  {
+    id: 7,
+    slug: "guatemala-antigua-beans",
+    name: "Guatemala Antigua Classic",
+    notes: "Spice, cocoa, smokey",
+    price: "AED 70",
+    image: coffeeBagImg
   },
-  { 
-    id: 8, 
-    slug: "kenya-aa-specialty", 
-    name: "Kenya AA Kirinyaga", 
-    notes: "Blackcurrant, bright acidity", 
-    price: "AED 80", 
-    image: coffeeBagImg 
+  {
+    id: 8,
+    slug: "kenya-aa-specialty",
+    name: "Kenya AA Kirinyaga",
+    notes: "Blackcurrant, bright acidity",
+    price: "AED 80",
+    image: coffeeBagImg
   },
-  { 
-    id: 9, 
-    slug: "surge-travel-mug", 
-    name: "Surge Travel Tumbler", 
-    notes: "Matte Black, 12oz", 
-    price: "AED 95", 
-    image: coffeeBagImg 
+  {
+    id: 9,
+    slug: "surge-travel-mug",
+    name: "Surge Travel Tumbler",
+    notes: "Matte Black, 12oz",
+    price: "AED 95",
+    image: coffeeBagImg
   },
 ];
 
@@ -167,14 +167,14 @@ export default function Coffees() {
                   <p className={styles.coffeeNotes}>{coffee.notes}</p>
                   <p className={styles.price}>{coffee.price}</p>
                 </div>
-               <Link 
-  href={`/Productdetails/${coffee.slug}`} 
-  className={styles.cardArrow}
->
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-    <path d="M7 17L17 7M17 7H7M17 7V17" />
-  </svg>
-</Link>
+                <Link
+                  href={`/Productdetails/${coffee.slug}`}
+                  className={styles.cardArrow}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M7 17L17 7M17 7H7M17 7V17" />
+                  </svg>
+                </Link>
 
               </div>
             </div>

@@ -34,6 +34,18 @@ async function handleLogout(_request: NextRequest) {
 
   const response = NextResponse.json({ success: true });
 
+  // Explicitly kill the non-httpOnly js-cookie version of payload-token.
+  // The server cannot read non-httpOnly cookies sent in request headers the
+  // same way, so we target it by setting it to empty with maxAge:0 and
+  // httpOnly:false to match the attributes js-cookie used when it was set.
+  response.cookies.set("payload-token", "", {
+    maxAge: 0,
+    path: "/",
+    httpOnly: false,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+  });
+
   // Clear every cookie the server can see
   const allCookies = cookieStore.getAll();
   allCookies.forEach(({ name }) => {

@@ -5,7 +5,7 @@ import styles from "./Stories.module.css";
 import story1 from "../Stories/story1.jpg";
 import story2 from "./story2.png";
 import story3 from "../Stories/story3.jpg";
-
+import Link from "next/link";
 const IMAGES = [story1, story2, story3];
 const TOTAL = IMAGES.length;
 const DUR = 1100;
@@ -124,7 +124,9 @@ export default function AboutSection() {
             experiences inspired by global standards and elevated by local
             values—bringing culture and creativity into every cup.
           </p>
-          <button className={styles.button}>Explore About Us</button>
+          <button className={styles.button}>
+            <Link href="/about-us">Explore About Us</Link>
+          </button>
         </div>
 
         <div className={styles.imageFlexContainer}>

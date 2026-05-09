@@ -26,9 +26,9 @@ export default function Exploreabout() {
               <p>
                 Go beyond the cup. Discover brewing tips, café moments, and behind-the-scenes stories from our roasters and baristas. From practical how-tos to seasonal highlights, each article brings you closer to the craft of great coffee.
               </p>
-             <Link href="/shop/merchandise" style={{ textDecoration: 'none' }}>
-  <button className={styles.btn}>Buy Now</button>
-</Link>
+              <Link href="/shop/merchandise" style={{ textDecoration: 'none' }}>
+                <button className={styles.btn}>Buy Now</button>
+              </Link>
             </div>
           </div>
         </div>
@@ -48,8 +48,8 @@ export default function Exploreabout() {
               <p>
                 At Surge, our events are crafted around exceptional catering experiences. From intimate gatherings to large celebrations, we deliver thoughtfully prepared food and beverages that elevate every occasion.
               </p>
-              <Link href="/events" style={{ textDecoration: 'none'}}>
-              <button className={styles.btn}>Plan an Event</button></Link>
+              <Link href="/events" style={{ textDecoration: 'none' }}>
+                <button className={styles.btn}>Plan an Event</button></Link>
             </div>
           </div>
         </div>

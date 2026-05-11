@@ -47,7 +47,7 @@ export function CartProvider({ children }) {
 
   const applyCoupon = async (code) => {
     try {
-      const res = await axiosClient.get(`/api/coupon/coupons/${code}`);
+      const res = await axiosClient.get(`/api/surge-coupon/coupons/${code}`);
       const data = res.data;
 
       const coupon = data.coupon || data.docs?.[0];

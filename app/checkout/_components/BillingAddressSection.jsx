@@ -8,17 +8,6 @@ const validateRequired = (val, label) =>
 const validateUAEPhone = (val) =>
     !val ? "Phone is required" : !/^\d{9}$/.test(val) ? "Enter a valid UAE phone" : "";
 
-// TODO: replace with Surge's actual UAE_STATES constant
-const UAE_STATES = [
-    { value: "dubai", label: "Dubai" },
-    { value: "abu-dhabi", label: "Abu Dhabi" },
-    { value: "sharjah", label: "Sharjah" },
-    { value: "ajman", label: "Ajman" },
-    { value: "fujairah", label: "Fujairah" },
-    { value: "ras-al-khaimah", label: "Ras Al Khaimah" },
-    { value: "umm-al-quwain", label: "Umm Al Quwain" },
-];
-
 export default function BillingAddressSection({
     delivery,
     useShippingAsBilling,
@@ -28,6 +17,7 @@ export default function BillingAddressSection({
     validationErrors,
     clearError,
     setValidationErrors,
+    emirateOptions = [],
 }) {
     const [isEmirateOpen, setIsEmirateOpen] = useState(false);
     const emirateRef = useRef(null);
@@ -132,13 +122,13 @@ export default function BillingAddressSection({
                         <div className={styles.SelectContainer} ref={emirateRef} style={{ flex: 1 }}>
                             <div className={styles.CustomSelectTrigger} onClick={() => setIsEmirateOpen(!isEmirateOpen)}>
                                 <span style={{ textTransform: "capitalize" }}>
-                                    {UAE_STATES.find((s) => s.value === (billingForm.emirates || "dubai"))?.label || "Select Emirate"}
+                                    {emirateOptions.find((s) => s.value === (billingForm.emirates || "dubai"))?.label || "Select Emirate"}
                                 </span>
                                 <span className={`${styles.Arrow} ${isEmirateOpen ? styles.Rotate : ""}`}>▼</span>
                             </div>
                             {isEmirateOpen && (
                                 <div className={styles.CustomOptionsList}>
-                                    {UAE_STATES.map((opt) => (
+                                    {emirateOptions.map((opt) => (
                                         <div
                                             key={opt.value}
                                             className={styles.OptionItem}

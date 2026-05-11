@@ -53,6 +53,7 @@ export default function CheckoutForm({
   setOrderComplete,
   orderData,
   setOrderData,
+  emirateOptions,
 }) {
   const stripe = useStripe();
   const elements = useElements();
@@ -232,6 +233,7 @@ export default function CheckoutForm({
                 clearError={clearError}
                 setValidationErrors={setValidationErrors}
                 session={session}
+                emirateOptions={emirateOptions}
               />
 
               <PaymentCardSection validationErrors={validationErrors} />
@@ -245,6 +247,7 @@ export default function CheckoutForm({
                 validationErrors={validationErrors}
                 clearError={clearError}
                 setValidationErrors={setValidationErrors}
+                emirateOptions={emirateOptions}
               />
 
               <PaymentButtonSection

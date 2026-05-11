@@ -29,6 +29,7 @@ export default function ShippingAddressSection({
   clearError,
   setValidationErrors,
   session,
+  emirateOptions = UAE_STATES,
 }) {
   const [openMenuId, setOpenMenuId] = useState(null);
   const [addressDeletePopup, setAddressDeletePopup] = useState(false);
@@ -507,7 +508,7 @@ export default function ShippingAddressSection({
                     onClick={() => setIsEmirateOpen(!isEmirateOpen)}
                   >
                     <span style={{ textTransform: "capitalize" }}>
-                      {UAE_STATES.find(
+                      {emirateOptions.find(
                         (s) => s.value === (shippingForm.emirates || "dubai"),
                       )?.label || "Select Emirate"}
                     </span>
@@ -520,7 +521,7 @@ export default function ShippingAddressSection({
 
                   {isEmirateOpen && (
                     <div className={styles.CustomOptionsList}>
-                      {UAE_STATES.map((opt) => (
+                      {emirateOptions.map((opt) => (
                         <div
                           key={opt.value}
                           className={styles.OptionItem}

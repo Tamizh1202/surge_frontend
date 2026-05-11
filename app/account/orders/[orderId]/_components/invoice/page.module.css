@@ -36,5 +36,7 @@
 
     .main h1 {
         font-size: 20px;
+        
+        margin-bottom:16px;
     }
 }

@@ -64,6 +64,11 @@ const ProductDetail = ({ order }) => {
         </div>
       </div>
 
+       <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
+        <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
+        <p>Order ID: <span>#{order.id}</span></p>
+      </div>
+
       {/* ITEMS SECTION */}
       <div className={`${styles.orderMiddle} ${config.noBottom ? styles.orderMiddleNoBottom : ""}`}>
         <div className={styles.orderItems}>
@@ -144,10 +149,7 @@ const ProductDetail = ({ order }) => {
       )}
 
       {/* MOBILE METADATA */}
-      <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
-        <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
-        <p>Order ID: <span>#{order.id}</span></p>
-      </div>
+     
     </div>
   );
 };

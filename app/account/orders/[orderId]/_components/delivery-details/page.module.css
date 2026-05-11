@@ -8,7 +8,7 @@
   font-weight: 600;
   color: #414343;
   margin-bottom: 16px;
-
+margin-top:0;
 }
 
 .container {
@@ -84,3 +84,12 @@
   color: #818686;
   margin: 0;
 }
+
+
+@media (max-width: 640px) {
+  
+
+    .title{
+        font-size: 20px;
+      
+    }}

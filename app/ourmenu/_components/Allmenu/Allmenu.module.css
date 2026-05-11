@@ -95,25 +95,28 @@
 
 .zeroStateContent h3 {
   font-size: 24px;
-  margin: 8px 0 0;
+  margin: 0 0 8px;
   color: var(--text--primary);
 }
 
 .zeroStateContent p {
   color: var(--text-secondary);
   margin-bottom: 32px;
+  margin-top: 0;
 }
 
 .zeroIcon {
   font-size: 50px;
 }
 
+
 .clearBtn {
   background: #C4754E;
   color: white;
   border: none;
   padding: 10px 25px;
-  border-radius: 5px;
+
+  font-family:var(--font-raleway);
   cursor: pointer;
   font-weight: 600;
 }

@@ -4,11 +4,8 @@
   align-items: start;
   
   height: 100%;
-  padding-left: 100px;
-  padding-bottom: clamp(100px,
-      calc(100px + (199 * ((100vw - 320px) / 1120))),
-      100px);
-
+padding-left: 6.9%;
+  padding-bottom: 6.9%;
   background-color: #ffffff;
 }
 

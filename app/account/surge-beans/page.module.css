@@ -2,17 +2,9 @@
   box-sizing: border-box;
   width: 100%;
   overflow: hidden;
-
-  /* 1. Bottom padding scales from 40px to 100px */
-  padding-bottom: clamp(40px, 8vw, 100px);
-
-  /* 2. Left padding scales from 16px to 100px */
-  padding-left: clamp(16px, 8vw, 100px);
-
-  /* 3. The Right padding fix: 
-     Scales from 16px (mobile) to 450px (desktop) 
-     The '25vw' ensures it grows as the screen widens */
-  padding-right: clamp(16px, 25vw, 450px);
+padding-bottom: 8%; 
+  padding-left: 7%;
+  padding-right: 31%;
 }
 
 .border {

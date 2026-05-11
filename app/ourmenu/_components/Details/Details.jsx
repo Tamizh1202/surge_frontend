@@ -177,7 +177,7 @@ export default function Details() {
     if (sections.length === 0) {
         return (
             <div className={styles.noItems}>
-                {!shopId ? "Please select a shop to view the menu." : "No items found for this selection."}
+                {!shopId ? "Please select a shop to view the menu." : "."}
             </div>
         );
     }

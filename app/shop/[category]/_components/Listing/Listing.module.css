@@ -3,15 +3,14 @@
     flex-direction: row;
     max-width: 1670px;
     width: 100%;
-    padding: 100px 0 100px 125px;
-    gap: 112px;
+   
+   padding: 6% 0 6% 7%;
+    gap: 112px; 
     background-color: #ffffff;
     min-height: 100svh;
     box-sizing: border-box;
     margin-top: 100px;
-
 }
-
 .sidebar {
     width: 300px;
     display: flex;
@@ -689,6 +688,54 @@
     display: block;
 }
 
+.noProducts {
+    grid-column: 1 / -1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px;
+    min-height: 400px;
+}
+
+.noProductsIcon {
+    margin-bottom: 20px;
+}
+
+.noProducts h3 {
+    font-size: 24px;
+    font-family:var(--font-montserrat);
+    color: #414343;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.noProducts p {
+    font-size: 16px;
+    font-family:var(--font-raleway);
+    color:var(--text-secondary);
+    margin-bottom: 32px;
+    max-width: 400px;
+    margin-top: 0;
+}
+
+
+.resetBtn {
+    background-color: #C4754E; 
+    color: white;
+    padding: 12px 30px;
+font-size: 14px;
+  font-family:var(--font-raleway);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+    display: inline-block;
+}
+
+.resetBtn:hover {
+    background-color: #a65d3a;
+}
 @media (max-width: 950px) {
     .mainContainer {
         padding: 20px;

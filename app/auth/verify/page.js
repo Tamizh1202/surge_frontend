@@ -118,7 +118,8 @@ function Otp() {
         router.push(redirectParam);
       }
 
-      router.refresh();
+      // Note: router.refresh() removed — it triggers re-fetches before the
+      // new page is ready. The push itself causes a full re-render.
     } catch (e) {
       console.error("OTP verification error:", e);
       const resData = e?.response?.data;

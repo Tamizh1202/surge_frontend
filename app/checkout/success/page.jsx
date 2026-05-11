@@ -3,6 +3,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import axiosClient from "@/lib/axios";
+import { formatImageUrl } from "@/lib/imageUtils";
 
 function OrderSuccessContent() {
   const router = useRouter();
@@ -124,55 +125,78 @@ function OrderSuccessContent() {
             </div>
 
             <div className={styles.SummaryItems}>
-              {order.items?.map((item, idx) => (
-                <div className={styles.SummaryItem} key={idx}>
-                  <img
-                    src={item.image || '/1.png'}
-                    alt={item.name}
-                    width={72}
-                    height={72}
-                  />
-                  <div className={styles.SummaryItemInfo}>
-                    <p className={styles.SummaryItemName}>{item.name}Name {item.variantName && <span>,{item.variantName}g</span>}</p>
-
-                    <span>×{item.quantity}</span>
+              {order.items?.map((item, idx) => {
+                // Backend nests product info under item.product
+                const productName = item.product?.name || item.name || "Coffee Product";
+                const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
+                const imgUrl = formatImageUrl(
+                  item.productImage?.url || item.product?.productImage?.url || item.image
+                ) || '/1.png';
+                // Price can come from item.price (number) or item.unitPrice
+                const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
+                return (
+                  <div className={styles.SummaryItem} key={idx}>
+                    <img
+                      src={imgUrl}
+                      alt={productName}
+                      width={72}
+                      height={72}
+                    />
+                    <div className={styles.SummaryItemInfo}>
+                      <p className={styles.SummaryItemName}>
+                        {productName}
+                        {variantName && <span>, {variantName}</span>}
+                      </p>
+                      <span>×{item.quantity}</span>
+                    </div>
+                    <p className={styles.SummaryItemPrice}>
+                      AED {itemPrice.toFixed(0)}
+                    </p>
                   </div>
-                  <p className={styles.SummaryItemPrice}>
-                    AED {Number(item.price).toFixed(0)}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className={styles.SummaryTotals}>
-              <div className={styles.TotalRow}>
-                <p>Subtotal</p>
-                <p>AED {Number(order.subtotal || 0).toFixed(2)}</p>
-              </div>
-              {order.discount > 0 && (
-                <div className={styles.TotalRow}>
-                  <p>Discount</p>
-                  <p style={{ color: 'green' }}>- AED {Number(order.discount).toFixed(2)}</p>
-                </div>
-              )}
-              {order.couponDiscount > 0 && (
-                <div className={styles.TotalRow}>
-                  <p>Coupon</p>
-                  <p style={{ color: 'green' }}>- AED {Number(order.couponDiscount).toFixed(2)}</p>
-                </div>
-              )}
-              <div className={styles.TotalRow}>
-                <p>Shipping</p>
-                <p>{order.shipping === 0 ? 'Free' : `AED ${Number(order.shipping).toFixed(2)}`}</p>
-              </div>
-              <div className={styles.TotalRow}>
-                <p>Tax</p>
-                <p>AED {Number(order.tax || 0).toFixed(2)}</p>
-              </div>
-              <div className={`${styles.TotalRow} ${styles.GrandTotal}`}>
-                <p>Total</p>
-                <p>AED {Number(order.total || 0).toFixed(2)}</p>
-              </div>
+              {/* Backend stores financial fields nested under order.financials */}
+              {(() => {
+                const f = order.financials || {};
+                const subtotal = Number(f.subtotal || 0);
+                const couponDiscount = Number(f.couponDiscount || 0);
+                const beansDiscount = Number(f.wtCoinsDiscount || 0);
+                const totalDiscount = couponDiscount + beansDiscount;
+                const shipping = Number(f.shippingCharge ?? 0);
+                const tax = Number(f.taxAmount || 0);
+                const total = Number(f.total || 0);
+                return (
+                  <>
+                    <div className={styles.TotalRow}>
+                      <p>Subtotal</p>
+                      <p>AED {subtotal.toFixed(2)}</p>
+                    </div>
+                    {totalDiscount > 0 && (
+                      <div className={styles.TotalRow}>
+                        <p>Discount</p>
+                        <p style={{ color: 'green' }}>- AED {totalDiscount.toFixed(2)}</p>
+                      </div>
+                    )}
+                    <div className={styles.TotalRow}>
+                      <p>Shipping</p>
+                      <p>{shipping === 0 ? 'Free' : `AED ${shipping.toFixed(2)}`}</p>
+                    </div>
+                    {tax > 0 && (
+                      <div className={styles.TotalRow}>
+                        <p>Tax</p>
+                        <p>AED {tax.toFixed(2)}</p>
+                      </div>
+                    )}
+                    <div className={`${styles.TotalRow} ${styles.GrandTotal}`}>
+                      <p>Total</p>
+                      <p>AED {total.toFixed(2)}</p>
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           </div>
         </div>

@@ -20,6 +20,20 @@ export function AuthProvider({ children }) {
     if (status === "loading") return;
 
     if (session?.user) {
+      // Re-hydrate the payload-token cookie from the NextAuth session.
+      // This is critical: on page refresh or new tab, NextAuth restores its
+      // own httpOnly session cookie automatically, but the js-cookie
+      // "payload-token" is a separate client-side cookie that can be lost
+      // (browser clear, expiry, incognito, new device). If the session has
+      // the token but the cookie is gone, every API call gets 401/403.
+      const sessionToken = session.user["paylaod-token"];
+      if (sessionToken) {
+        const existing = Cookies.get("payload-token");
+        if (!existing) {
+          Cookies.set("payload-token", sessionToken, { expires: 7, path: "/" });
+        }
+      }
+
       // normalize to same shape
       const name =
         session.user.name ||

@@ -163,21 +163,29 @@ function OrderSuccessContent() {
                 const f = order.financials || {};
                 const subtotal = Number(f.subtotal || 0);
                 const couponDiscount = Number(f.couponDiscount || 0);
-                const beansDiscount = Number(f.wtCoinsDiscount || 0);
-                const totalDiscount = couponDiscount + beansDiscount;
                 const shipping = Number(f.shippingCharge ?? 0);
                 const tax = Number(f.taxAmount || 0);
                 const total = Number(f.total || 0);
+
+                // Try all known field names, then derive from the other figures as fallback
+                const beansDiscount = Number(f.surgeCoinsDiscount || 0);
+
                 return (
                   <>
                     <div className={styles.TotalRow}>
                       <p>Subtotal</p>
                       <p>AED {subtotal.toFixed(2)}</p>
                     </div>
-                    {totalDiscount > 0 && (
+                    {couponDiscount > 0 && (
                       <div className={styles.TotalRow}>
-                        <p>Discount</p>
-                        <p style={{ color: 'green' }}>- AED {totalDiscount.toFixed(2)}</p>
+                        <p>Coupon Discount</p>
+                        <p style={{ color: 'green' }}>- AED {couponDiscount.toFixed(2)}</p>
+                      </div>
+                    )}
+                    {beansDiscount > 0 && (
+                      <div className={styles.TotalRow}>
+                        <p>Beans Discount</p>
+                        <p style={{ color: 'green' }}>- AED {beansDiscount.toFixed(2)}</p>
                       </div>
                     )}
                     <div className={styles.TotalRow}>

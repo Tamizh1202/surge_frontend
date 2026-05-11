@@ -149,21 +149,21 @@ export default function OrderSuccessContent() {
                 <p>Subtotal</p>
                 <p>AED {Number(order.subtotal || 0).toFixed(2)}</p>
               </div>
-              {order.discount > 0 && (
-                <div className={styles.TotalRow}>
-                  <p>Discount</p>
-                  <p style={{ color: 'green' }}>- AED {Number(order.discount).toFixed(2)}</p>
-                </div>
-              )}
               {order.couponDiscount > 0 && (
                 <div className={styles.TotalRow}>
-                  <p>Coupon</p>
+                  <p>Coupon Discount</p>
                   <p style={{ color: 'green' }}>- AED {Number(order.couponDiscount).toFixed(2)}</p>
+                </div>
+              )}
+              {Number(order.financials?.surgeCoinsDiscount || 0) > 0 && (
+                <div className={styles.TotalRow}>
+                  <p>Beans Discount</p>
+                  <p style={{ color: 'green' }}>- AED {Number(order.financials.surgeCoinsDiscount).toFixed(2)}</p>
                 </div>
               )}
               <div className={styles.TotalRow}>
                 <p>Shipping</p>
-                <p>{order.shipping === 0 ? 'Free' : `AED ${Number(order.shipping).toFixed(2)}`}</p>
+                <p>{order.shipping === 0 ? 'Free' : `AED ${Number(order.shipping || 0).toFixed(2)}`}</p>
               </div>
               <div className={styles.TotalRow}>
                 <p>Tax</p>

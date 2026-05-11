@@ -232,7 +232,7 @@ export default function Navbar({ categories = [] }) {
                       </li>
                       <li>
                         <Link
-                          href="/account/whitemantis-beans"
+                          href="/account/surge-beans"
                           className={isActive("/account/manage-subscription") ? styles.activeRed : ""}
                           onClick={() => { setIsAccountOpen(false); setMenuOpen(false); }}
                         >

@@ -147,10 +147,24 @@ export default function OrderSummary({
         </div>
         {cartTotals.discount > 0 && (
           <div className={styles.Subtotal}>
-            <p>Discount</p>
+            <p>Coupon Discount</p>
             <h5 style={{ color: "green" }}>- AED {Number(cartTotals.discount || 0).toFixed(2)}</h5>
           </div>
         )}
+        {isBeansApplied && cartTotals.beansDiscount > 0 && (
+          <div className={styles.Subtotal}>
+            <p>Beans Discount</p>
+            <h5 style={{ color: "green" }}>- AED {Number(cartTotals.beansDiscount || 0).toFixed(2)}</h5>
+          </div>
+        )}
+        <div className={styles.Subtotal}>
+          <p>Shipping</p>
+          <h5>{cartTotals.shipping === 0 ? "Free" : `AED ${Number(cartTotals.shipping || 0).toFixed(2)}`}</h5>
+        </div>
+        <div className={styles.Subtotal}>
+          <p>Tax ({cartTotals.taxPercent || 5}%)</p>
+          <h5>AED {Number(cartTotals.tax || 0).toFixed(2)}</h5>
+        </div>
         <div className={styles.Total}>
           <p>Total</p>
           <h5>AED {Number(cartTotals.total || 0).toFixed(2)}</h5>

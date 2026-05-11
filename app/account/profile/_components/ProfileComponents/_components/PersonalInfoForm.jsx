@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../ProfileComponents.module.css";
-
 const PersonalInfoForm = ({
   profile,
   editMode,

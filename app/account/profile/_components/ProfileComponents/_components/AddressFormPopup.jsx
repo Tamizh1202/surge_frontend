@@ -108,22 +108,21 @@ const AddressFormPopup = ({
                 ▼
               </span>
             </div>
-            {isEmirateOpen && (
-              <div className={styles.customOptionsList}>
-                {UAE_STATES.map((opt) => (
-                  <div
-                    key={opt.value}
-                    className={styles.optionItem}
-                    onClick={() => {
-                      onFormChange("state", opt.value);
-                      setIsEmirateOpen(false);
-                    }}
-                  >
-                    {opt.label}
-                  </div>
-                ))}
-              </div>
-            )}
+
+            <div className={`${styles.customOptionsList} ${isEmirateOpen ? styles.open : ""}`}>
+              {UAE_STATES.map((opt) => (
+                <div
+                  key={opt.value}
+                  className={styles.optionItem}
+                  onClick={() => {
+                    onFormChange("state", opt.value);
+                    setIsEmirateOpen(false);
+                  }}
+                >
+                  {opt.label}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 

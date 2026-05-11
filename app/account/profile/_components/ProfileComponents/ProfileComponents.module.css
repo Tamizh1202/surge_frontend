@@ -4,7 +4,7 @@
   align-items: center;
   height: auto;
 
-padding-left: 8%;
+  padding-left: 8%;
   padding-bottom: 8%;
   background-color: #ffffff;
 }
@@ -159,7 +159,7 @@ padding-left: 8%;
 }
 
 .Field input:enabled {
-  color:var(--text-primary);
+  color: var(--text-primary);
 }
 
 /* --- Custom Gender Dropdown --- */
@@ -171,13 +171,13 @@ padding-left: 8%;
   /* border: 1px solid #2f362a4d; */
   cursor: pointer;
   user-select: none;
-    transform: translateY(-6px);
-    transition:
+  transform: translateY(-6px);
+  transition:
     max-height 0.35s ease,
     opacity 0.25s ease,
     transform 0.25s ease;
 
-  
+
 }
 
 .Arrow {
@@ -193,7 +193,7 @@ padding-left: 8%;
 .OptionItem {
   padding: 12px 16px;
   cursor: pointer;
- 
+
   font-size: 16px;
   color: var(--text-secondary);
   transition: background 0.2s;
@@ -209,7 +209,7 @@ padding-left: 8%;
   display: grid;
 
 
-  grid-template-columns: 1fr 1fr  !important;
+  grid-template-columns: 1fr 1fr !important;
 }
 
 .Popup .Row2 {
@@ -237,38 +237,35 @@ padding-left: 8%;
 
 .Field,
 .SelectContainer {
-  /* Whichever div wraps both the Trigger and the List */
-
   position: relative;
 }
 
 .CustomOptionsList {
   position: absolute;
-  top: calc(100% + 3px);
-  /* Moves it exactly below the Field padding */
-  /* left: -12px;
-  right: -10px; 
-  /* Counteracts the Field padding to align with border */
-  width: calc(99% );
-      left: -0px;
-       
-  /* Makes it flush with the outer Field border */
+  top: calc(100% + 1px);
+  width: 100%;
+  left: 0;
   background: #ffffff;
   border: 1px solid #e2e4df;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
   z-index: 10;
   max-height: 200px;
   overflow-y: auto;
- 
-  display: grid;
-    grid-template-rows: 0fr; 
-  
-   
-    overflow: hidden;
-    transition: 
-        grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.4s ease,
-        visibility 0.4s;
+
+  /* Shutter — clipped from top, reveals downward */
+  clip-path: inset(0 0 100% 0);
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    clip-path 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.2s ease,
+    transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.CustomOptionsList.open {
+  clip-path: inset(0 0 0% 0);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .OptionItem {
@@ -276,9 +273,9 @@ padding-left: 8%;
   cursor: pointer;
   font-size: 14px;
   color: #6e736a;
-   transition: background-color 0.3s ease, color 0.3s ease;
-  font-size: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   background: #ffffff;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .OptionItem:hover {
@@ -435,7 +432,7 @@ padding-left: 8%;
   justify-content: space-between;
   align-items: center;
 
-  
+
 }
 
 .AddressHeader h4 {
@@ -585,9 +582,9 @@ padding-left: 8%;
 .fixerOne,
 .fixerTwo {
   width: 100%;
-  max-width: 501px; 
-  box-sizing: border-box; 
- 
+  max-width: 501px;
+  box-sizing: border-box;
+
 }
 
 
@@ -598,7 +595,7 @@ padding-left: 8%;
   font-family: var(--font-montserrat);
   margin-bottom: 16px;
   line-height: normal;
-  
+
 }
 
 .fixerTwo h6 {
@@ -734,12 +731,12 @@ padding-left: 8%;
 .emirateWrapper {
   flex: 1;
   position: relative;
- 
+
   transition:
     max-height 0.35s ease,
     opacity 0.25s ease,
     transform 0.25s ease;
-  
+
 }
 
 .emirateField {
@@ -752,24 +749,24 @@ padding-left: 8%;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  
-    grid-template-rows: 0fr; 
-    transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
-    transition: 
-        grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-        opacity 0.4s ease,
-        filter 0.5s ease,
-        transform 0.5s ease;
-  
-    overflow: hidden;
+
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease, opacity 0.3s ease;
+  transition:
+    grid-template-rows 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s ease,
+    filter 0.5s ease,
+    transform 0.5s ease;
+
+  overflow: hidden;
 
 
-  
+
 }
 
 .emirateValue {
   color: var(--cards-bg);
-     transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .emirateSelected {
@@ -793,12 +790,25 @@ padding-left: 8%;
   top: 100%;
   width: 100%;
   background: #fff;
-
   z-index: 10;
+  overflow: hidden;
+  pointer-events: none;
+
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.25s ease,
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.customOptionsList.open {
   max-height: 200px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
   overflow-y: auto;
-  transform: translateY(0px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .optionItem {
@@ -807,7 +817,7 @@ padding-left: 8%;
   font-size: 15px;
   color: var(--text-secondary);
   cursor: pointer;
-   transition: background 0.2s;
+  transition: background 0.2s;
 }
 
 .optionItem:hover {
@@ -1233,6 +1243,7 @@ padding-left: 8%;
 .div1 h2 {
   font-family: var(--font-montserrat);
   color: var(--text-primary);
+  margin: 0px;
   font-weight: 500;
   font-size: var(--fs-22);
 }
@@ -1240,6 +1251,7 @@ padding-left: 8%;
 .div1 p {
   font-family: var(--font-raleway);
   font-weight: 400;
+  margin: 0px;
   font-size: var(--fs-16);
   color: var(--text-secondary);
 }
@@ -1391,17 +1403,22 @@ padding-left: 8%;
   /* Thoda chota aur clean look ke liye */
   height: auto;
 }
-.SaveBtn, .pfbtn, .AddAddressBtn, .buttons {
-    transition: background-color 0.3s ease, transform 0.1s active, opacity 0.3s ease;
+
+.SaveBtn,
+.pfbtn,
+.AddAddressBtn,
+.buttons {
+  transition: background-color 0.3s ease, transform 0.1s active, opacity 0.3s ease;
 }
 
 
 
 .SaveBtn:active {
-    transform: scale(0.98); 
+  transform: scale(0.98);
 }
+
 /* ── Responsive ───────────────────────────────────────────────── */
-@media (max-width: 640px)  {
+@media (max-width: 640px) {
   .main {
     /* padding-left: 24px;
     padding-right: 24px;
@@ -1436,7 +1453,7 @@ padding-left: 8%;
   }
 
   .Row {
-    display: grid   !important;
+    display: grid !important;
     grid-template-columns: 1fr 1fr !important;
     gap: 12px;
     width: 100%;
@@ -1444,7 +1461,7 @@ padding-left: 8%;
 
   .Row2 {
     display: flex;
-    grid-template-columns: 1fr 1fr  !important;
+    grid-template-columns: 1fr 1fr !important;
 
     width: 100%;
   }
@@ -1453,8 +1470,8 @@ padding-left: 8%;
     padding: 19px 0px;
     display: flex;
     justify-content: space-between;
-    gap:100px;
-    
+    gap: 100px;
+
   }
 
   .Row2 input,
@@ -1476,9 +1493,11 @@ padding-left: 8%;
     width: 100%;
     box-sizing: border-box;
   }
-  .Name{
-    gap:12px;
+
+  .Name {
+    gap: 12px;
   }
+
   .Name1 {
     grid-template-columns: 1fr;
   }
@@ -1509,7 +1528,7 @@ padding-left: 8%;
 
   .DeletePopupActions button {
     padding: 13px 48px;
-    
+
   }
 
   .DeletePopup {
@@ -1528,7 +1547,7 @@ padding-left: 8%;
 
   .DeleteAccount {
     gap: 16px;
-    
+
   }
 
   .DeleteAccount h4 {
@@ -1537,7 +1556,7 @@ padding-left: 8%;
 
   .DeleteAccount button {
     font-size: 14px;
-    
+
   }
 
   .main1 {
@@ -1548,7 +1567,8 @@ padding-left: 8%;
   .buttons {
     padding: 13px 40px;
   }
-  .width{
+
+  .width {
     width: 100px;
   }
 
@@ -1606,8 +1626,9 @@ padding-left: 8%;
     gap: 12px;
     width: 100%;
   }
-  .CustomSelectTrigger{
-    gap:140px;
+
+  .CustomSelectTrigger {
+    gap: 140px;
   }
 }
 
@@ -1625,7 +1646,7 @@ padding-left: 8%;
 
 @media (max-width: 320px) {
   .main {
-    padding: 20px 0; 
+    padding: 20px 0;
   }
 
   .MainContainer {
@@ -1633,16 +1654,19 @@ padding-left: 8%;
     gap: 20px;
   }
 
-  .Name, .Name1, .Row, .divide {
+  .Name,
+  .Name1,
+  .Row,
+  .divide {
     display: grid !important;
-    grid-template-columns: 1fr 1fr !important; 
-    gap: 10px; 
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px;
     width: 100%;
   }
 
   .Field {
     padding: 20px 5px 10px;
-    font-size: 14px; 
+    font-size: 14px;
   }
 
   .underlineSelect {
@@ -1650,35 +1674,41 @@ padding-left: 8%;
   }
 
   .underlineSelect svg {
-    margin-left: 0 !important; 
+    margin-left: 0 !important;
   }
 
- 
+
   .TopLeft img {
     max-width: 120px;
     max-height: 120px;
   }
 
-  .pfbtn, .pfrembtn {
+  .pfbtn,
+  .pfrembtn {
     width: 100%;
     max-width: 100%;
   }
 
- 
-  .popup, .Popup, .DeletePopup, .main1 {
+
+  .popup,
+  .Popup,
+  .DeletePopup,
+  .main1 {
     width: 92%;
     padding: 20px 15px;
     box-sizing: border-box;
   }
 
-  
-  .PopupActions, .DeletePopupActions, .footerActions {
+
+  .PopupActions,
+  .DeletePopupActions,
+  .footerActions {
     flex-direction: column;
     gap: 10px;
   }
 
-  .PopupActions button, 
-  .DeletePopupActions button, 
+  .PopupActions button,
+  .DeletePopupActions button,
   .footerActions button {
     width: 100% !important;
     padding: 12px 5px;
@@ -1690,9 +1720,10 @@ padding-left: 8%;
     justify-content: space-between;
   }
 
- .AddressHeader h4 {
-  font-size: 18px;
- }
+  .AddressHeader h4 {
+    font-size: 18px;
+  }
+
   .div2 .input {
     width: 40px;
     height: 40px;

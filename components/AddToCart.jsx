@@ -5,6 +5,7 @@ import { useCart } from "@/app/_context/CartContext";
 const AddToCart = ({ product, quantity: propQuantity, onSuccess, className }) => {
   const { addToCart } = useCart();
   const [loading, setLoading] = useState(false);
+  const [hovered, setHovered] = useState(false);
 
   const handleAddToCart = async (e) => {
     e?.preventDefault();
@@ -39,11 +40,13 @@ const AddToCart = ({ product, quantity: propQuantity, onSuccess, className }) =>
       onClick={handleAddToCart}
       disabled={loading}
       className={className}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={className ? {
         cursor: loading ? "wait" : "pointer",
         opacity: loading ? 0.6 : 1,
       } : {
-        backgroundColor: "#C4754E",
+        backgroundColor: hovered && !loading ? "#a65d3a" : "#C4754E",
         color: "#ffffff",
         fontSize: "16px",
         fontWeight: 400,

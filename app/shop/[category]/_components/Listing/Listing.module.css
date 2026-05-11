@@ -86,15 +86,17 @@
 }
 
 .optionsList {
-    padding: 10px 10px 0 10px;
+    padding: 0 10px;
     display: flex;
     flex-direction: column;
     min-height: 0;
-
-
+    overflow: hidden;
     background-color: #F5F5F5;
     transition: background-color 0.3s ease, color 0.3s ease;
+}
 
+.isOpen .optionsList {
+    padding-top: 10px;
 }
 
 .optionLabel {
@@ -540,6 +542,11 @@
     outline:none;
     padding:12px 14px;
     font-family: var(--font-raleway);
+    cursor: pointer;
+
+}
+.clearBtn:hover{
+    background-color: #a65d3a;
 }
 .mobileFilterBtn {
     display: none;
@@ -725,12 +732,14 @@
     background-color: #C4754E; 
     color: white;
     padding: 12px 30px;
+    border:none;
 font-size: 14px;
   font-family:var(--font-raleway);
     text-decoration: none;
     font-weight: 500;
     transition: background 0.3s ease;
     display: inline-block;
+    cursor: pointer;
 }
 
 .resetBtn:hover {

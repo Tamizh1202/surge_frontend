@@ -12,15 +12,22 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
 
     useEffect(() => {
         if (recommendedProducts && recommendedProducts.length > 0) {
-            const mapped = recommendedProducts.map((p) => ({
-                id: p.id,
-                title: p.name,
-                subtitle: p.tagline,
-                image: formatImageUrl(p.productImage),
-                price: p.salePrice || p.regularPrice,
-                currency: 'AED',
-                slug: p.slug,
-            }));
+            const mapped = recommendedProducts.map((p) => {
+                const price =
+                    p.salePrice ||
+                    p.regularPrice ||
+                    p.variants?.[0]?.variantSalePrice ||
+                    p.variants?.[0]?.variantRegularPrice ||
+                    null;
+                return {
+                    id: p.id,
+                    title: p.name,
+                    subtitle: p.tagline,
+                    image: formatImageUrl(p.productImage),
+                    price: price ? `AED ${price}` : '',
+                    slug: p.slug,
+                };
+            });
             setProducts(mapped);
             setLoading(false);
         } else if (recommendedProducts) {
@@ -43,12 +50,10 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
 
     return (
         <section className={styles.section}>
-            
+            <h2 className={styles.heading}>You may also like</h2>
             <div className={styles.grid}>
                 {loading
                     ? Array.from({ length: 3 }).map((_, i) => (
-                        <>
-                        <h2 className={styles.heading}>You may also like</h2>
                           <div key={i} className={`${styles.card} ${styles.skeleton}`}>
                               <div className={styles.skeletonImage} />
                               <div className={styles.info}>
@@ -57,7 +62,6 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                   <div className={styles.skeletonLine} />
                               </div>
                           </div>
-                          </>
                       ))
                     : products.map((product) => (
                           <div key={product.id} className={styles.card}>
@@ -95,7 +99,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                   <p className={styles.subtitle}>{product.subtitle}</p>
                                   <div className={styles.priceRow}>
                                       <span className={styles.price}>
-                                          {product.currency} {product.price}
+                                          {product.price}
                                       </span>
                                       <button className={styles.addToCart}>Add to Cart</button>
                                   </div>

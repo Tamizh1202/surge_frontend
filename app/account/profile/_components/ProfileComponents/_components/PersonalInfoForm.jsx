@@ -158,7 +158,7 @@ const PersonalInfoForm = ({
         <div className={styles.Field} ref={genderRef}>
           {editMode ? (
             /* Editable Mode */
-            <div className={`${styles.SelectContainer}${styles.width}`} 
+            <div className={`${styles.SelectContainer}${styles.width}`}
             // style={{ position: "relative" }}
             >
               <div
@@ -183,28 +183,26 @@ const PersonalInfoForm = ({
                 </svg>
               </div>
 
-              {isGenderOpen && (
-                <div className={styles.CustomOptionsList}>
-                  {genderOptions.map((opt) => (
-                    <div
-                      key={opt.value}
-                      className={styles.OptionItem}
-                      onClick={() => {
-                        onFieldChange("gender", opt.value);
-                        setIsGenderOpen(false);
-                      }}
-                    >
-                      {opt.label}
-                    </div>
-                  ))}
-                </div>
-              )}
+              <div className={`${styles.CustomOptionsList} ${isGenderOpen ? styles.open : ""}`}>
+                {genderOptions.map((opt) => (
+                  <div
+                    key={opt.value}
+                    className={styles.OptionItem}
+                    onClick={() => {
+                      onFieldChange("gender", opt.value);
+                      setIsGenderOpen(false);
+                    }}
+                  >
+                    {opt.label}
+                  </div>
+                ))}
+              </div>
             </div>
           ) : (
             /* Read-only Mode (Ab icon ke saath) */
             <div
               className={styles.underlineSelect}
-              // style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
+            // style={{ display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "default" }}
             >
               <span style={{ textTransform: "capitalize" }}>
                 {profile.gender || "Gender"}

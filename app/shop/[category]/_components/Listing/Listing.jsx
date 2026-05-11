@@ -14,20 +14,17 @@ const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', '
 
 export default function Listing({ category }) {
     const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
-
     const [openSections, setOpenSections] = useState(null);
     const [showSort, setShowSort] = useState(false);
     const [selectedSort, setSelectedSort] = useState('Recommended');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
     const [popupProduct, setPopupProduct] = useState(null);
-
     const isInWishlist = (id) => {
         return wishlistItems.some(it => {
             const itemProductId = it.product?.value?.id || it.product?.id || it.product;
             return String(itemProductId) === String(id);
         });
     };
-
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -368,7 +365,6 @@ export default function Listing({ category }) {
                     </div>
                 </>
             )}
-
             {isMobileFilterOpen && (
                 <>
                     <div className={styles.MobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />

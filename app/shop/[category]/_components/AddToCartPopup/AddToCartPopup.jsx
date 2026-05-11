@@ -30,19 +30,19 @@ function CustomSelect({ label, placeholder, options, value, onChange }) {
                         <path d="M6 9l6 6 6-6" />
                     </svg>
                 </button>
-                {open && (
-                    <div className={styles.selectMenu}>
-                        {options.map((option) => (
-                            <div
-                                key={option}
-                                className={`${styles.selectOption} ${value === option ? styles.selected : ""}`}
-                                onClick={() => { onChange(option); setOpen(false); }}
-                            >
-                                {option}
-                            </div>
-                        ))}
-                    </div>
-                )}
+
+                {/* Remove {open && ...} — always render, toggle class */}
+                <div className={`${styles.selectMenu} ${open ? styles.open : ""}`}>
+                    {options.map((option) => (
+                        <div
+                            key={option}
+                            className={`${styles.selectOption} ${value === option ? styles.selected : ""}`}
+                            onClick={() => { onChange(option); setOpen(false); }}
+                        >
+                            {option}
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

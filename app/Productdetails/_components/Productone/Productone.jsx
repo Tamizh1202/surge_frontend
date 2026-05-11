@@ -7,30 +7,16 @@ import AddToCart from '@/components/AddToCart';
 import { gsap } from 'gsap';
 import { Observer } from 'gsap/dist/Observer';
 
-import beanImg from './packet.png';
-import capImg from './cap.png';
-import dripImg from './d.png';
-import merchImg from './m.png';
-
 import { formatImageUrl } from '@/lib/imageUtils';
-
-const TYPE_CONFIG = {
-  beans: { defaultImg: beanImg, label: "Size", options: ['250 gm', '500 gm', '1 kg'], specLabel: "Variety" },
-  capsule: { defaultImg: capImg, label: "Pack Count", options: ['10 Pods', '30 Pods', '50 Pods'], specLabel: "Compatibility" },
-  drip: { defaultImg: dripImg, label: "Quantity", options: ['5 Bags', '10 Bags', '20 Bags'], specLabel: "Roast" },
-  merch: { defaultImg: merchImg, label: "Select Size", options: ['S', 'M', 'L', 'XL'], specLabel: "Material" }
-};
 
 export default function ProductOne({ initialProduct }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedVariant, setSelectedVariant] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
   const isExpandedRef = useRef(false);
-  // Tracks whether the page is at the very top.
-  // Updated by a native scroll listener — always accurate, never stale.
   const isAtTopRef = useRef(true);
 
   useEffect(() => {
@@ -38,9 +24,6 @@ export default function ProductOne({ initialProduct }) {
   }, [isExpanded]);
 
   useEffect(() => {
-    // Native scroll listener keeps isAtTopRef accurate at all times.
-    // We do NOT read scrollY inside the GSAP callback because GSAP fires
-    // before the browser commits the scroll position — always reads stale.
     const onScroll = () => {
       isAtTopRef.current = window.scrollY <= 5;
     };
@@ -56,14 +39,10 @@ export default function ProductOne({ initialProduct }) {
         const expanded = isExpandedRef.current;
         const isAtTop = isAtTopRef.current;
 
-        // A → B: scrolling DOWN while at the top of the page
         if (!expanded && self.deltaY > 0 && isAtTop) {
           setIsExpanded(true);
         }
 
-        // B → A: scrolling UP only if we are already back at the very top
-        // If the user is mid-page scrolling up, this is skipped entirely —
-        // the browser just scrolls normally until they reach the top.
         if (expanded && self.deltaY < 0 && isAtTop) {
           setIsExpanded(false);
         }
@@ -77,28 +56,20 @@ export default function ProductOne({ initialProduct }) {
     };
   }, []);
 
-  // Data mapping
   useEffect(() => {
     if (initialProduct) {
-      const categorySlug = initialProduct.categories?.slug || "";
-      let productType = 'beans';
-      if (categorySlug.includes('capsule')) productType = 'capsule';
-      else if (categorySlug.includes('drip')) productType = 'drip';
-      else if (categorySlug.includes('merch')) productType = 'merch';
-
       const mappedData = {
         name: initialProduct.name,
         price: initialProduct.salePrice || initialProduct.regularPrice,
-        type: productType,
         notes: initialProduct.tastingNotes || "",
         specs: {
           origin: initialProduct.farm || "",
-          val: productType === 'beans' ? (initialProduct.variety || "") : (initialProduct.material || ""),
           process: initialProduct.process || ""
         },
         desc: initialProduct.description || "",
         image: formatImageUrl(initialProduct.productImage),
         variants: initialProduct.variants || [],
+        highlights: initialProduct.productHighlights || [],
         techSpecs: {
           body: initialProduct.body || "N/A",
           aroma: initialProduct.aroma || "N/A",
@@ -109,27 +80,20 @@ export default function ProductOne({ initialProduct }) {
       };
 
       setProduct(mappedData);
-
-      if (initialProduct.variants?.length > 0) {
-        setSelectedSize(initialProduct.variants[0].variantName);
-      } else {
-        setSelectedSize(TYPE_CONFIG[productType].options[0]);
-      }
-
+      setSelectedVariant(initialProduct.variants?.[0] || null);
       setLoading(false);
     }
   }, [initialProduct]);
 
   if (loading || !product) return <div className={styles.loading}>Loading...</div>;
 
-  const config = TYPE_CONFIG[product.type] || TYPE_CONFIG.beans;
-  const currentVariant = product.variants.find(v => v.variantName === selectedSize);
-  const displayPrice = currentVariant
-    ? (currentVariant.variantSalePrice || currentVariant.variantRegularPrice)
+  const displayPrice = selectedVariant
+    ? (selectedVariant.variantSalePrice || selectedVariant.variantRegularPrice)
     : product.price;
-  const productImage = currentVariant?.variantImage
-    ? formatImageUrl(currentVariant.variantImage)
-    : (product.image || config.defaultImg);
+
+  const productImage = selectedVariant?.variantImage
+    ? formatImageUrl(selectedVariant.variantImage)
+    : product.image;
 
   return (
     <div className={styles.container}>
@@ -163,42 +127,32 @@ export default function ProductOne({ initialProduct }) {
               <div className={styles.selectionGroup}>
                 <div className={styles.priceRow}>
                   <span className={styles.buyLabel}>Buy at</span>
-                  <span className={styles.price}>AED {Math.round(displayPrice * quantity)}</span>
+                  <span className={styles.price}>AED {Math.round(displayPrice)}</span>
                 </div>
 
-                <div className={styles.sizeSection}>
-                  <label className={styles.label}>{config.label}</label>
-                  <div className={styles.buttonGroup}>
-                    {product.variants.length > 0 ? (
-                      product.variants.map((v) => (
+                {product.variants.length > 0 && (
+                  <div className={styles.sizeSection}>
+                    <label className={styles.label}>Weight</label>
+                    <div className={styles.buttonGroup}>
+                      {product.variants.map((v) => (
                         <button
                           key={v.id || v.variantName}
-                          className={`${styles.sizeButton} ${selectedSize === v.variantName ? styles.activeSize : ''}`}
-                          onClick={() => setSelectedSize(v.variantName)}
+                          className={`${styles.sizeButton} ${selectedVariant?.variantName === v.variantName ? styles.activeSize : ''}`}
+                          onClick={() => setSelectedVariant(v)}
                         >
-                          {v.variantName}
+                          {v.variantName}g
                         </button>
-                      ))
-                    ) : (
-                      config.options.map((s) => (
-                        <button
-                          key={s}
-                          className={`${styles.sizeButton} ${selectedSize === s ? styles.activeSize : ''}`}
-                          onClick={() => setSelectedSize(s)}
-                        >
-                          {s}
-                        </button>
-                      ))
-                    )}
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               <div className={styles.actionRow}>
                 <div className={styles.quantityPicker}>
-                  <button >−</button>
-                  <span>{quantity.toString().padStart(2, '0')}</span>
-                  <button >+</button>
+                  <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+                  <span style={{margin:"0px 10px", fontFamily:"var(--font-raleway)"}}>{quantity.toString().padStart(2, '0')}</span>
+                  <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
                 </div>
                 <AddToCart
                   product={{
@@ -207,7 +161,7 @@ export default function ProductOne({ initialProduct }) {
                     description: product.desc,
                     image: productImage,
                     tagline: product.notes,
-                    variationId: currentVariant?.id || initialProduct.variants?.[0]?.id || null,
+                    variationId: selectedVariant?.id || null,
                   }}
                   quantity={quantity}
                 />
@@ -218,7 +172,12 @@ export default function ProductOne({ initialProduct }) {
               <table className={styles.specsTable}>
                 <tbody>
                   <tr><td>Origin</td><td className={styles.specValue}>{product.specs.origin}</td></tr>
-                  <tr><td>{config.specLabel}</td><td className={styles.specValue}>{product.specs.val}</td></tr>
+                  {product.highlights.map((h) => (
+                    <tr key={h.id || h.sectionTitle}>
+                      <td>{h.sectionTitle}</td>
+                      <td className={styles.specValue}>{h.items?.[0]?.point || ""}</td>
+                    </tr>
+                  ))}
                   <tr><td>Process</td><td className={styles.specValue}>{product.specs.process}</td></tr>
                 </tbody>
               </table>

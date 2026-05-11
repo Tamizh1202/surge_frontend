@@ -193,6 +193,10 @@ body {
   display: flex;
   gap: 16px;
 }
+.buttonGroup .sizeButton:hover{
+  color:white;
+  background-color: var(--primary-color);
+}
 
 .sizeButton {
   padding: 12px 16px;
@@ -220,9 +224,16 @@ body {
 .quantityPicker button {
   background: none;
   border: none;
-  padding: 13px 22px;
+  /* margin:0px 3px; */
+  padding: 13px 15px;
   cursor: pointer;
   color: #C4754E;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.quantityPicker button:hover {
+  background-color: var(--primary-color);
+  color: #ffffff;
 }
 
 .addToCart {
@@ -512,10 +523,12 @@ body {
 
   .imageSection {
     width: 100%;
-    padding: 100px 0;
+    padding: 170px 0 80px 0;
     background-color: #ffffff;
   }
-
+  .container{
+    min-height: 0px;
+  }
   .productWrapper {
 
     width: 70%;

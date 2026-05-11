@@ -42,14 +42,14 @@ const OtpVerificationPopup = ({
                 style={{
                   borderColor:
                     focusedIndex === index
-                      ? "#6C7A5F"
+                      ? "var(--primary-color)"
                       : digit
-                        ? "#6C7A5F"
+                        ? "var(--primary-color)"
                         : "#2F362A4D",
-                  color: digit ? "#6C7A5F" : "#2F362A",
+                  color: digit ? "var(--primary-color)" : "#2F362A",
                   boxShadow:
                     focusedIndex === index
-                      ? "0 0 0 3px rgba(108, 122, 95, 0.25)"
+                      ? "0 0 1px rgba(108, 122, 95, 0.25)"
                       : "none",
                   outline: "none",
                   transition: "border-color 0.2s, box-shadow 0.2s",

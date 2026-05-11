@@ -146,10 +146,25 @@
     border: 1px solid rgba(0, 0, 0, 0.12);
     border-radius: 0;
     z-index: 10;
-    max-height: 200px;
-    overflow-y: auto;
+    overflow: hidden;
+    pointer-events: none;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    animation: menuFade 0.15s ease-out;
+
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-6px);
+    transition:
+        max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.25s ease,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.selectMenu.open {
+    max-height: 200px;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    overflow-y: auto;
 }
 
 @keyframes menuFade {

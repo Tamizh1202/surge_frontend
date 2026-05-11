@@ -251,17 +251,20 @@ export default function Listing({ category }) {
                 )}
 
                 {/* PRODUCT GRID XERO  STATE */}
-                <div className={styles.productGrid}>
-                    {!loading && filteredProducts.length === 0 ? (
-                        <div className={styles.noProducts}>
-                            <div className={styles.noProductsIcon}>
-                              
-                                <Image src={prodZero} alt="No products" width={140} height={150} />
-                            </div>
-                            <h3>Nothing Brewing here</h3>
-                            <p>Refine or clear filters to explore available selections.</p>
-                            <button onClick={handleClearFilters} className={styles.resetBtn}>Clear All Filters</button>
-                        </div>
+               <div className={styles.productGrid}>
+ {!loading && filteredProducts.length === 0 ? (
+    <div className={styles.noProducts}>
+      <div className={styles.noProductsIcon}>
+        <Image src={prodZero} alt="No products" width={140} height={150} priority />
+      </div>
+      <h3>Nothing Brewing here</h3>
+      <p>Refine or clear filters to explore available selections.</p>
+      
+      {/* Button with Link */}
+      <Link href="/shop" className={styles.resetBtn}>
+        Explore All Products
+      </Link>
+    </div>
                     ) : (
                         filteredProducts.map((item) => {
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;

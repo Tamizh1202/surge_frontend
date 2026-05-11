@@ -20,7 +20,9 @@ export default function Menu() {
   const [categories, setCategories] = useState([]);
   const [availableCategoryIds, setAvailableCategoryIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
-
+const handleExploreClick = () => {
+    router.push('/');
+  };
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -105,9 +107,9 @@ export default function Menu() {
               <h3>No Categories Found</h3>
               <p>We couldn't find any menu categories for this selection.</p>
               {shopId && (
-                <button onClick={clearFilters} className={styles.clearBtn}>
-                  Show All Categories
-                </button>
+             <button onClick={handleExploreClick} className={styles.clearBtn}>
+                Show All Categories
+              </button>
               )}
             </div>
           </div>

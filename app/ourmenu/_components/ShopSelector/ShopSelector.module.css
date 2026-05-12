@@ -112,6 +112,9 @@
 
 .itemActive {
   color: var(--primary-color);
+   font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 600;
 }
 
 
@@ -139,14 +142,11 @@
 
 
 @media (max-width: 767px) {
-  .shopSelectorContainer { padding: 15px 16px; }
-  .triggerRow, .menuItem {
-    padding: 11px 26px;
-    gap: 16px;
-  }
-  .selectedDisplay { gap: 16px; }
-}
 
+  .shopSelectorContainer {
+    display: none !important;
+  }
+}
 @media (min-width: 1600px) {
   .shopSelectorContainer { 
     padding: 40px 250px 0; 
@@ -167,6 +167,5 @@
     padding: 12px 20px; 
   }
 }
-
 
 

@@ -32,7 +32,7 @@
 .RightContainer {
   background-color: #F5F5F5;
   display: flex;
-  padding: 60px 125px;
+padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   flex: 1;
   /* THIS IS KEY: It forces the right side to grow and fill the rest of the 1670px */
   min-width: 0;

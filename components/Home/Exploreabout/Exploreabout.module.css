@@ -1,6 +1,6 @@
 .exploreSection {
   width: 100%;
-  padding: 0 125px; 
+padding: 0 clamp(20px, 10vw, 125px);
   background-color: white;
   box-sizing: border-box;
 }

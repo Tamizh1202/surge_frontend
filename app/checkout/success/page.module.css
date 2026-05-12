@@ -14,8 +14,11 @@
   gap: 100px;
   align-items: flex-start;
   /* max-width: 1200px; */
-margin-left: 20%; 
-  margin-top: 12%;
+/* Margin-left (20%): Mobile par min 30px, badi screen par max 300px */
+margin-left: clamp(30px, 20vw, 300px);
+
+/* Margin-top (12%): Mobile par min 20px, badi screen par max 150px */
+margin-top: clamp(20px, 12vw, 150px);
   /* padding: 120px 40px 100px 40px; */
 }
 

@@ -3,9 +3,9 @@
 
   align-items: center;
   height: auto;
-
-  padding-left: 8%;
-  padding-bottom: 8%;
+padding-left: clamp(20px, 8vw, 120px);
+padding-bottom: clamp(15px, 8vw, 100px);
+padding-right: clamp(30px, 31vw, 400px);
   background-color: #ffffff;
 }
 

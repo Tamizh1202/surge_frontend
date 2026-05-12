@@ -10,7 +10,7 @@ import styles from "./Allmenu.module.css";
 import axiosClient from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { formatImageUrl } from "@/lib/imageUtils";
-import noMenuImg from './orderZero.png';
+import noMenuImg from './menu.gif';
 export default function Menu() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -100,8 +100,8 @@ const handleExploreClick = () => {
               <div className={styles.zeroIcon}><Image 
     src={noMenuImg} 
     alt="No items found" 
-    width={120} 
-    height={120} 
+    width={200} 
+    height={200} 
     priority 
   /></div>
               <h3>No Categories Found</h3>

@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   max-width: none;
-  padding: 150px 0;
+ padding: clamp(50px, 12vw, 150px) 0;
 }
 
 .topSection {

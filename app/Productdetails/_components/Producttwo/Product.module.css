@@ -2,7 +2,11 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between; 
-  padding: 120px 195px 107px 125px;
+
+padding-top: clamp(40px, 10vw, 120px);
+padding-right: clamp(30px, 15vw, 195px);
+padding-bottom: clamp(40px, 9vw, 107px);
+padding-left: clamp(30px, 12vw, 125px);
   gap: 256px; 
   background-color: #ffffff;
   align-items: flex-start;

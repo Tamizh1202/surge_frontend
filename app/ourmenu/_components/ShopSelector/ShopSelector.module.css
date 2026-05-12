@@ -1,114 +1,172 @@
 .shopSelectorContainer {
-  padding: 30px 20px;
+  padding: 20px 0;
   background-color: var(--background);
   display: flex;
-  flex-direction: column;
-  gap: 25px;
+  align-items: center;
 }
 
-.headerRow {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.selectorTitle {
-  font-size: var(--fs-22);
-  font-weight: 600;
-  color: var(--text-primary);
-  font-family: var(--font-montserrat);
-  margin: 0;
-}
-
-.selectorSubtitle {
-  font-size: var(--fs-14);
-  color: var(--text-secondary);
+.labelPrefix {
   font-family: var(--font-raleway);
-  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-right: 12px;
 }
 
-.shopList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-}
-
-.shopButton {
+.dropdownWrapper {
+  position: relative;
+  min-width: 270px; 
+  height: 45px; 
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 15px 25px;
-  border-radius: 12px;
-  border: 1px solid #eee;
-  background: #fdfdfd;
-  color: var(--text-primary);
+}
+
+.mainBox {
+  width: 100%;
+  transition: background-color 0.2s ease;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.boxOpen {
+  background-color: #f5f5f5; 
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  position: absolute;
+  top: 0; 
+  left: 0;
+  width: 100%;
+}
+
+
+.triggerRow, .menuItem {
+  padding: 12px 27px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: left;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; 
+  gap: 24px;
 }
 
-.shopButton:hover {
-  border-color: var(--primary-color);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.selectedDisplay {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 24px; 
+ 
 }
 
-.activeShop {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  color: white !important;
-  box-shadow: 0 8px 20px rgba(196, 117, 78, 0.2);
+.mainBox:not(.boxOpen) .selectedDisplay {
+  border-bottom: 1px solid #818686;
+  padding-bottom: 4px;
 }
 
-.shopIcon {
+.boxOpen .selectedDisplay {
+  border-bottom: 1px solid #d1d1d1;
+  padding-bottom: 8px;
+  margin-bottom: 4px;
+}
+
+.selectedName {
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--primary-color);
+  white-space: nowrap;
+}
+
+.chevron {
+  color: var(--primary-color);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.menuPanel {
+  background: transparent;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-bottom: 8px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menuItem:hover {
+  background-color: #ededed;
+}
+
+.itemText {
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 600;
+  color: #818686;
+  white-space: nowrap;
+}
+
+.itemActive {
+  color: var(--primary-color);
+}
+
+
+.radioCircle {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #818686;
+  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(196, 117, 78, 0.1);
-  padding: 10px;
-  border-radius: 10px;
-  color: var(--primary-color);
-  transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-.activeShop .shopIcon {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+.radioActive {
+  border-color: var(--primary-color);
 }
 
-.shopInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+.radioInner {
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
 }
 
-.shopName {
-  font-family: var(--font-montserrat);
-  font-size: 16px;
-  font-weight: 600;
-}
 
-.shopAddress {
-  font-family: var(--font-raleway);
-  font-size: 13px;
-  opacity: 0.8;
-}
-
-@media (min-width: 768px) {
-  .shopSelectorContainer {
-    padding: 40px 50px;
+@media (max-width: 767px) {
+  .shopSelectorContainer { padding: 15px 16px; }
+  .triggerRow, .menuItem {
+    padding: 11px 26px;
+    gap: 16px;
   }
-}
-
-@media (min-width: 1200px) {
-  .shopSelectorContainer {
-    padding: 50px 80px;
-  }
+  .selectedDisplay { gap: 16px; }
 }
 
 @media (min-width: 1600px) {
-  .shopSelectorContainer {
-    padding: 50px 250px;
+  .shopSelectorContainer { 
+    padding: 40px 250px 0; 
   }
 }
+
+
+@media (max-width: 1599px) and (min-width: 1101px) {
+  .shopSelectorContainer { 
+    padding: 20px 80px; 
+  }
+}
+@media (max-width: 1100px) and (min-width: 768px) {
+  .shopSelectorContainer { 
+    padding: 20px 40px;
+  }
+  .triggerRow, .menuItem {
+    padding: 12px 20px; 
+  }
+}
+
+
+

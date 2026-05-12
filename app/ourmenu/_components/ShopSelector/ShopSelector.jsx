@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axiosClient from "@/lib/axios";
 import styles from "./ShopSelector.module.css";
@@ -10,21 +10,18 @@ export default function ShopSelector() {
   const searchParams = useSearchParams();
   const [shops, setShops] = useState([]);
   const [loading, setLoading] = useState(true);
-  const selectedShop = searchParams.get("shop");
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const selectedShopId = searchParams.get("shop");
+  const currentShop = shops.find((s) => String(s.id) === selectedShopId) || shops[0];
 
   useEffect(() => {
     const fetchShops = async () => {
       try {
         const response = await axiosClient.get("/api/shop");
-
-        if (response.status !== 200) {
-          throw new Error("Failed to fetch shops");
-        }
-
-        const data = response.data;
-
-        if (data && data.docs) {
-          setShops(data.docs);
+        if (response.data && response.data.docs) {
+          setShops(response.data.docs);
         }
       } catch (error) {
         console.error("Error fetching shops:", error);
@@ -32,76 +29,72 @@ export default function ShopSelector() {
         setLoading(false);
       }
     };
-
     fetchShops();
   }, []);
 
   useEffect(() => {
-    if (!loading && shops.length > 0 && !selectedShop) {
-      handleShopClick(shops[0].id);
-    }
-  }, [loading, shops, selectedShop]);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-
-  const handleShopClick = (shopId) => {
+  const handleShopSelect = (shopId) => {
     const params = new URLSearchParams(searchParams.toString());
     params.set("shop", shopId);
     params.delete("category");
     router.push(`?${params.toString()}`, { scroll: false });
+    setIsOpen(false);
   };
 
-
-  if (loading) {
-    return (
-      <div className={styles.shopSelectorContainer}>
-        <p className={styles.selectorTitle}>Loading shops...</p>
-      </div>
-    );
-  }
-
-  if (shops.length === 0) {
-    return null;
-  }
+  if (loading || shops.length === 0) return null;
 
   return (
     <div className={styles.shopSelectorContainer}>
-      <div className={styles.headerRow}>
-        <h3 className={styles.selectorTitle}>Select a Shop</h3>
-        <p className={styles.selectorSubtitle}>
-          Choose your preferred location to see the menu
-        </p>
-      </div>
-      <div className={styles.shopList}>
-        {shops.map((shop) => (
-          <button
-            key={shop.id}
-            className={`${styles.shopButton} ${selectedShop === String(shop.id) ? styles.activeShop : ""
-              }`}
-            onClick={() => handleShopClick(shop.id)}
-          >
-            <div className={styles.shopIcon}>
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
+      <span className={styles.labelPrefix}>Menu for -</span>
+
+      <div className={styles.dropdownWrapper} ref={dropdownRef}>
+        <div className={`${styles.mainBox} ${isOpen ? styles.boxOpen : ""}`}>
+          
+          <div className={styles.triggerRow} onClick={() => setIsOpen(!isOpen)}>
+            <div className={styles.selectedDisplay}>
+              <span className={styles.selectedName}>
+                {currentShop?.address.street}, {currentShop?.address.city}
+              </span>
+              <svg 
+                className={`${styles.chevron} ${isOpen ? styles.chevronOpen : ""}`}
+                width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
               >
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
+                <path d="M6 9l6 6 6-6" />
               </svg>
             </div>
-            <div className={styles.shopInfo}>
-              <span className={styles.shopName}>{shop.address.street}</span>
-              <span className={styles.shopAddress}>
-                {shop.address.city}, {shop.address.apartment}
-              </span>
+          </div>
+
+          {isOpen && (
+            <div className={styles.menuPanel}>
+              {shops.map((shop) => {
+                const isSelected = String(shop.id) === selectedShopId;
+                return (
+                  <div 
+                    key={shop.id} 
+                    className={styles.menuItem}
+                    onClick={() => handleShopSelect(shop.id)}
+                  >
+                    <span className={`${styles.itemText} ${isSelected ? styles.itemActive : ""}`}>
+                      {shop.address.street}, {shop.address.city}
+                    </span>
+                    <div className={`${styles.radioCircle} ${isSelected ? styles.radioActive : ""}`}>
+                      {isSelected && <div className={styles.radioInner} />}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          </button>
-        ))}
+          )}
+        </div>
       </div>
     </div>
   );

@@ -33,8 +33,8 @@
   width: 100%;
   height: 100%;
   gap: clamp(16px, calc(16px + (34 * ((100vw - 320px) / 1120))), 50px);
-padding-top: 10%;
-  padding-bottom: 17%;
+padding-top: clamp(30px, 10vw, 196px);
+padding-bottom: clamp(50px, 17vw, 250px);
   flex-direction: row;
   
 }

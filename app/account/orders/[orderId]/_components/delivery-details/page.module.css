@@ -30,7 +30,9 @@ margin-top:0;
 
 .section:last-of-type {
   align-items: center;
-  padding: 15px 25px 20px 25px;
+padding-top: clamp(10px, 2vw, 25px);
+padding-right: clamp(20px, 4vw, 45px);
+padding-bottom: clamp(15px, 3vw, 35px);
 }
 
 .iconCircle {

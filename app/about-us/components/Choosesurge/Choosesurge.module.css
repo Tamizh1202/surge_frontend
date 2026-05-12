@@ -5,7 +5,11 @@
   width: 100%;
   background-color: #ffffff;
   box-sizing: border-box;
-  padding: 0 126px 120px; 
+/* Top: 0 */
+padding-top: 0;
+padding-left: clamp(30px, 12vw, 126px);
+padding-right: clamp(30px, 12vw, 126px);
+padding-bottom: clamp(40px, 11vw, 120px);
 }
 
 .top {

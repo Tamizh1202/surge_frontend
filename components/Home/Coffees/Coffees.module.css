@@ -1,8 +1,11 @@
 .selectedSection {
   width: 100%;
-  padding-left: 125px;
-  padding-right: 126px;
-  padding-top: 120px;
+padding-top: clamp(40px, 10vw, 120px);
+padding-left: clamp(25px, 12vw, 125px);
+padding-right: clamp(25px, 12vw, 126px);
+
+/* Bottom: Agar 0 hai toh */
+padding-bottom: 0;
   background-color: #ffffff;
   display: block;
   box-sizing: border-box;
@@ -245,10 +248,10 @@
 
 @media screen and (max-width: 650px) {
   .selectedSection {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
    
-    padding-top: 20px;
+    padding-top: 80px;
   }
 
   .shopNowMob {
@@ -307,7 +310,7 @@
 
   .selectedHeading {
     font-size: 20px;
-    padding-top: 50px;
+    
   }
 
   .selectedSubtext {

@@ -29,7 +29,7 @@
   grid-template-columns: repeat(4, 1fr);
   gap: 94px;
   /* Keep your specific padding as requested */
-  padding: 111px 153px 84px 325px;
+padding: clamp(40px, 9vw, 111px) clamp(25px, 12vw, 153px) clamp(30px, 7vw, 84px) clamp(25px, 20vw, 325px);
   width: 100%;
   box-sizing: border-box;
 }

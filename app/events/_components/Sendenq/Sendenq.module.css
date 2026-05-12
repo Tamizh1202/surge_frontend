@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   background-color: #fff;
-  padding: 60px 125px 120px;
+ padding: clamp(30px, 5vw, 60px) clamp(25px, 10vw, 125px) clamp(50px, 10vw, 120px);
 }
 
 .MainContainer {

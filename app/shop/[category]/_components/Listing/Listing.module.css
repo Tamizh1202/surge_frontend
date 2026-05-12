@@ -4,7 +4,10 @@
     max-width: 1670px;
     width: 100%;
    
-   padding: 6% 0 6% 7%;
+padding-top: clamp(20px, 6vw, 80px);
+padding-right: 0;
+padding-bottom: clamp(20px, 6vw, 80px);
+padding-left: clamp(20px, 7vw, 100px);
     gap: 112px; 
     background-color: #ffffff;
     min-height: 100svh;
@@ -702,9 +705,7 @@
     min-height: 400px;
 }
 
-.noProductsIcon {
-    margin-bottom: 20px;
-}
+
 
 .noProducts h3 {
     font-size: 24px;

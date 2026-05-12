@@ -1,7 +1,10 @@
 .Main {
   width: 100%;
   min-height: 100vh;
-padding: 0 8% 4% 7%;
+padding-top: 0;
+padding-right: clamp(20px, 8%, 120px);
+padding-bottom: clamp(15px, 4%, 60px);
+padding-left: clamp(15px, 7%, 100px);
   background-color: #ffffff;
   box-sizing: border-box;
   /* overflow: hidden ← THIS was eating your right padding, removed */

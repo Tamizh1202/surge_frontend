@@ -1,5 +1,8 @@
 .container {
-  padding: 66px 125px 83px;
+padding-top: clamp(30px, 6vw, 66px);
+padding-left: clamp(30px, 12vw, 125px);
+padding-right: clamp(30px, 12vw, 125px);
+padding-bottom: clamp(40px, 8vw, 83px);
   background-color: #F5F5F5;
   display: flex;
   flex-direction: column;

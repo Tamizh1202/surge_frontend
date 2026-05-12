@@ -4,9 +4,10 @@
   align-items: start;
   
   height: 100%;
-padding-left: 6.9%;
-  padding-bottom: 6.9%;
+padding-left: clamp(20px, 7vw, 100px);
+padding-bottom: clamp(40px, 7vw, 100px);
   background-color: #ffffff;
+  
 }
 
 .container {

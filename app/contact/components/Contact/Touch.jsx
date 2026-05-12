@@ -11,24 +11,28 @@ export default function Touch() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [enquiryType, setEnquiryType] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
-  const [enquiryOpen, setEnquiryOpen] = useState(false);
- const options = [
-  "Order issue",
-  "Payment or refund",
-  "Rewards & stamps",
-  "Barista selection",
-  "Pickup or timing",
-  "Menu & availability",
-  "Other"
-];
-  const ENDPOINT = "/api/website/contact";
+  
+  // Custom Select States
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState(""); // Isme value store hogi
+
+  // Updated Options Array (Object format zaroori hai label/value ke liye)
+  const options = [
+    { label: "Order issue", value: "Order issue" },
+    { label: "Payment or refund", value: "Payment or refund" },
+    { label: "Rewards & stamps", value: "Rewards & stamps" },
+    { label: "Barista selection", value: "Barista selection" },
+    { label: "Pickup or timing", value: "Pickup or timing" },
+    { label: "Menu & availability", value: "Menu & availability" },
+    { label: "Other", value: "Other" }
+  ];
+
+  const ENDPOINT = "/api/website/contact";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setResponseMessage("");
@@ -43,10 +47,10 @@ export default function Touch() {
     setLoading(true);
     try {
       const payload = {
-        fullName: fullName.trim(),       // ✅ camelCase
+        fullName: fullName.trim(),
         email: email.trim(),
         phone: phone.trim(),
-        inquiryType: selected.trim(),    // ✅ also note: inquiryType not enquiryType
+        inquiryType: selected, // Selected value yahan se jayegi
         message: message.trim(),
       };
 
@@ -63,21 +67,25 @@ export default function Touch() {
       } else {
         setResponseError(false);
         setResponseMessage("Thank you! Your message has been submitted.");
-        setFullName(""); setEmail(""); setPhone(""); setEnquiryType(""); setMessage("");
+        // Reset Form
+        setFullName(""); 
+        setEmail(""); 
+        setPhone(""); 
+        setSelected(""); 
+        setMessage("");
       }
-    } catch {
+    } catch (err) {
       setResponseError(true);
       setResponseMessage("Network error. Please try again.");
     } finally {
       setLoading(false);
-      setTimeout(() => setResponseMessage(""), 3000);
+      setTimeout(() => setResponseMessage(""), 5000);
     }
   };
 
   return (
     <div className={styles.main}>
       <div className={styles.MainContainer}>
-
 
         <div className={styles.LeftConatiner}>
           <Image
@@ -86,16 +94,12 @@ export default function Touch() {
             className={styles.image}
             priority
           />
-
         </div>
-
 
         <div className={styles.RightContainer}>
           <div className={styles.RightContent}>
 
-
             <form onSubmit={handleSubmit} className={styles.formMain}>
-
               <div className={styles.Top}>
                 <div className={styles.TitleArea}>
                   <h3>Let’s Get In Touch</h3>
@@ -105,9 +109,7 @@ export default function Touch() {
                 <Link href="https://wa.me/+9710589535337">
                   <Image src={whatsappIcon} alt="Whatsapp" width={28} height={28} />
                 </Link>
-
               </div>
-
 
               <div className={styles.formBox}>
                 <input
@@ -115,6 +117,7 @@ export default function Touch() {
                   placeholder="Full Name"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
+                  required
                 />
 
                 <div className={styles.row}>
@@ -123,6 +126,7 @@ export default function Touch() {
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    required
                   />
                   <input
                     type="text"
@@ -132,17 +136,19 @@ export default function Touch() {
                   />
                 </div>
 
+                {/* Custom Select Box */}
                 <div className={styles.container}>
-                  {/* The Trigger (What the user sees) */}
                   <div
                     className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    <span>{selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}</span>
+                    {/* Display selected label or default text */}
+                    <span>
+                        {selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}
+                    </span>
                     <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}>▼</span>
                   </div>
 
-                  {/* The Actual Dropdown Menu */}
                   {isOpen && (
                     <ul className={styles.optionsList}>
                       {options.map((option) => (
@@ -151,7 +157,6 @@ export default function Touch() {
                           className={styles.optionItem}
                           onClick={() => {
                             setSelected(option.value);
-                            setEnquiryType(option.value);
                             setIsOpen(false);
                           }}
                         >
@@ -183,7 +188,6 @@ export default function Touch() {
               )}
             </form>
 
-
             <div className={styles.contactFooter}>
               <div className={styles.footerItem}>
                 <span>Call</span>
@@ -195,9 +199,10 @@ export default function Touch() {
               </div>
               <div className={styles.footerItem}>
                 <span>Follow Us</span>
-                <p>Instagram <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E" />
-                </svg>
+                <p>Instagram 
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '5px' }}>
+                    <path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E" />
+                  </svg>
                 </p>
               </div>
             </div>

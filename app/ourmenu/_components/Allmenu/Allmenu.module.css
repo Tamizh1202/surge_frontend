@@ -1,5 +1,5 @@
 .menuSection {
-  padding: 40px 20px;
+padding: clamp(20px, 5vw, 50px) clamp(15px, 2vw, 30px);
   background-color: var(--background);
 }
 

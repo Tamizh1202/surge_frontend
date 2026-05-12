@@ -8,8 +8,12 @@ import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png';
 import { useWishlist } from '@/app/_context/WishlistContext';
+<<<<<<< HEAD
 import prodZero from './prodZero.png';
 import ProductPopup from '../AddToCartPopup/AddToCartPopup';
+=======
+import prodZero from './Noproducts.gif';
+>>>>>>> c99f19a118ebdf698974c405abbd6026853477a2
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
 
 export default function Listing({ category }) {
@@ -253,17 +257,23 @@ export default function Listing({ category }) {
                 )}
 
                 {/* PRODUCT GRID XERO  STATE */}
-                <div className={styles.productGrid}>
-                    {!loading && filteredProducts.length === 0 ? (
-                        <div className={styles.noProducts}>
-                            <div className={styles.noProductsIcon}>
+               <div className={styles.productGrid}>
 
-                                <Image src={prodZero} alt="No products" width={140} height={150} />
-                            </div>
-                            <h3>Nothing Brewing here</h3>
-                            <p>Refine or clear filters to explore available selections.</p>
-                            <button onClick={handleClearFilters} className={styles.resetBtn}>Clear All Filters</button>
-                        </div>
+ {(!loading && (filteredProducts.length === 0 || true)) ?(
+
+
+    <div className={styles.noProducts}>
+      <div className={styles.noProductsIcon}>
+        <Image src={prodZero} alt="No products" width={200} height={200} priority />
+      </div>
+      <h3>Nothing Brewing here</h3>
+      <p>Refine or clear filters to explore available selections.</p>
+      
+      {/* Button with Link */}
+      <Link href="/shop" className={styles.resetBtn}>
+        Explore All Products
+      </Link>
+    </div>
                     ) : (
                         filteredProducts.map((item) => {
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;

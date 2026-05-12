@@ -10,7 +10,7 @@
 
 .card {
   background: #fff;
-  padding: 74px 65px;
+ padding: clamp(30px, 6vw, 74px) clamp(20px, 5vw, 65px);
   width: 100%;
   max-width: 480px;
   display: flex;

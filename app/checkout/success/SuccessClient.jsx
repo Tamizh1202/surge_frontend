@@ -126,12 +126,14 @@ export default function OrderSuccessContent() {
             <div className={styles.SummaryItems}>
               {order.items?.map((item, idx) => (
                 <div className={styles.SummaryItem} key={idx}>
-                  <img
-                    src={item.image || '/1.png'}
-                    alt={item.name}
-                    width={72}
-                    height={72}
-                  />
+                  <div className={styles.SummaryItemImg}>
+                    <img
+                      src={item.image || '/1.png'}
+                      alt={item.name}
+                      width={72}
+                      height={72}
+                    />
+                  </div>
                   <div className={styles.SummaryItemInfo}>
                     <p className={styles.SummaryItemName}>{item.name}Name {item.variantName && <span>,{item.variantName}g</span>}</p>
 

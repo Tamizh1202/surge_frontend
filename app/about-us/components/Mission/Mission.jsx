@@ -2,7 +2,7 @@
 import { useLayoutEffect, useRef } from "react";
 import styles from "./Mission.module.css";
 import Image from "next/image";
-import storyImg from "./story.png";
+import storyImg from "./story.webp";
 
 //import//
 import gsap from "gsap";

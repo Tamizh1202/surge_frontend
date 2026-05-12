@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import styles from "./Exploreabout.module.css";
-import merchImg from "./merch.png";
-import eventsImg from "./events.png";
+import merchImg from "./merch.webp";
+import eventsImg from "./events.webp";
 import Link from "next/link";
 export default function Exploreabout() {
   return (

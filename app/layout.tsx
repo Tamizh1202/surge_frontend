@@ -54,6 +54,11 @@ export default async function RootLayout({
               right: 24,
               zIndex: 9999,
             }}
+            toastOptions={{
+              style: {
+                fontFamily: 'var(--font-raleway)',
+              },
+            }}
           />
           <Suspense fallback={null}>
             <AuthToast />

@@ -2,7 +2,7 @@
 
 import styles from './Sendenq.module.css';
 import Image from "next/image";
-import oneImg from './people.png';
+import oneImg from './people.webp';
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";

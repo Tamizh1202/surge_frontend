@@ -138,10 +138,22 @@
 
 .prodImageWrapper {
   flex-shrink: 0;
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
 .prodImage {
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  display: block;
 }
 
 .prodInfo {

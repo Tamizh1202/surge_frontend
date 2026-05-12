@@ -56,23 +56,29 @@ padding: 0 8% 4% 7%;
 }
 
 .ImgContainer {
+  position: relative;
   width: 100%;
   aspect-ratio: 295 / 339;
-  background-color: #f8f8f8;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  background-color: #f0f0f0;
+  padding: 40px;
+  box-sizing: border-box;
   margin-bottom: 12px;
 }
 
 .Img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover;
-  transition: transform 0.35s ease;
+  object-fit: contain;
+  transition: transform 0.35s ease-in-out;
+  display: block;
 }
 
-.Img:hover {
-  transform: scale(1.05);
+.Card:hover .Img {
+  transform: scale(1.06);
 }
 
 .RemoveIcon {

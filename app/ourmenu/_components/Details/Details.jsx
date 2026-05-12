@@ -10,7 +10,7 @@ import axiosClient from "@/lib/axios";
 import { formatImageUrl } from "@/lib/imageUtils";
 
 // Fallback image
-import beveragesImg from './beverages.png';
+// import beveragesImg from './beverages.png';
 
 gsap.registerPlugin(ScrollTrigger);
 

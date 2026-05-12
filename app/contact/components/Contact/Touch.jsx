@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import styles from "./Touch.module.css";
-import one from './get.png';
+import one from './get.webp';
 import whatsappIcon from './whatsapp.png';
 
 export default function Touch() {

@@ -209,6 +209,26 @@ margin-left: 20%;
   gap: 20px;
 }
 
+.SummaryItemImg {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.SummaryItemImg img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
 .SummaryItemInfo {
   flex: 1;
   display: flex;

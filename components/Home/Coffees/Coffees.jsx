@@ -118,7 +118,7 @@ export default function Coffees() {
                       </p>
                     </div>
                     <Link
-                      href={`/Productdetails/${coffee.slug}`}
+                      href={`/shop/${coffee.category}/${coffee.slug}`}
                       className={styles.cardArrow}
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

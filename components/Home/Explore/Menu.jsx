@@ -1,10 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./Menu.module.css";
-import breakfast from "./Menu1.png";
-import breads from "./Menu2.png";
-import beverages from "./Menu3.png";
-import desserts from "./Menu4.png";
+import breakfast from "./Menu1.webp";
+import breads from "./Menu2.webp";
+import beverages from "./Menu3.webp";
+import desserts from "./Menu4.webp";
 
 const MobileArrow = () => (
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">

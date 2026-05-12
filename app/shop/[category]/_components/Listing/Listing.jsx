@@ -270,7 +270,11 @@ export default function Listing({ category }) {
                             const slug = item.slug || item.id;
                             const name = item.name || '';
                             const notes = item.tagline || item.description || '';
-                            const price = item.salePrice ? `AED ${item.salePrice}` : item.regularPrice ? `AED ${item.regularPrice}` : '';
+                            const firstVariant = item.variants?.[0];
+                            const rawPrice = firstVariant
+                                ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
+                                : (item.salePrice || item.regularPrice);
+                            const price = rawPrice ? `AED ${rawPrice}` : '';
 
                             return (
                                 <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
@@ -297,7 +301,7 @@ export default function Listing({ category }) {
                                             <h3 className={styles.name}>{name}</h3>
                                             {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
-                                                <span className={styles.priceTag}>{price}</span>
+                                                <span className={styles.priceTag}>{price}.00</span>
                                                 {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
                                                     <button
                                                         className={styles.buyBtn}

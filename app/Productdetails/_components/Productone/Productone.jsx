@@ -24,6 +24,9 @@ export default function ProductOne({ initialProduct }) {
   }, [isExpanded]);
 
   useEffect(() => {
+    // Don't attach scroll/gesture observer on mobile
+    if (window.innerWidth <= 900) return;
+
     const onScroll = () => {
       isAtTopRef.current = window.scrollY <= 5;
     };
@@ -38,14 +41,8 @@ export default function ProductOne({ initialProduct }) {
       onChange: (self) => {
         const expanded = isExpandedRef.current;
         const isAtTop = isAtTopRef.current;
-
-        if (!expanded && self.deltaY > 0 && isAtTop) {
-          setIsExpanded(true);
-        }
-
-        if (expanded && self.deltaY < 0 && isAtTop) {
-          setIsExpanded(false);
-        }
+        if (!expanded && self.deltaY > 0 && isAtTop) setIsExpanded(true);
+        if (expanded && self.deltaY < 0 && isAtTop) setIsExpanded(false);
       },
       preventDefault: false
     });
@@ -100,15 +97,14 @@ export default function ProductOne({ initialProduct }) {
 
       <div className={styles.stickyWrapper} id="sticky-section">
         <div className={styles.imageSection}>
-          <div className={styles.productWrapper}>
-            <Image
-              src={productImage}
-              alt={product.name}
-              width={541}
-              height={541}
-              className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`}
-              priority
-            />
+          <div className={styles.productWrapper}>            <Image
+            src={productImage}
+            alt={product.name}
+            width={541}
+            height={541}
+            className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`}
+            priority
+          />
           </div>
         </div>
 
@@ -151,7 +147,7 @@ export default function ProductOne({ initialProduct }) {
               <div className={styles.actionRow}>
                 <div className={styles.quantityPicker}>
                   <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
-                  <span style={{margin:"0px 10px", fontFamily:"var(--font-raleway)"}}>{quantity.toString().padStart(2, '0')}</span>
+                  <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
                   <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
                 </div>
                 <AddToCart

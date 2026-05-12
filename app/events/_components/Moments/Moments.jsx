@@ -1,10 +1,10 @@
 import styles from './Moments.module.css';
 import Image from "next/image";
-import img1 from './1.png';
-import img2 from './2.png';
-import img3 from './3.png';
-import img4 from './4.png';
-import img5 from './5.png';
+import img1 from './1.webp';
+import img2 from './2.webp';
+import img3 from './3.webp';
+import img4 from './4.webp';
+import img5 from './5.webp';
 
 export default function Moments() {
     return (

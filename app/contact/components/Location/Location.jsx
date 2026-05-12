@@ -1,6 +1,6 @@
 import Image from "next/image";
 import styles from './Loation.module.css';
-import mapImage from './location.png';
+import mapImage from './location.webp';
 import markerIcon from './map.png'; 
 
 export default function Location() {

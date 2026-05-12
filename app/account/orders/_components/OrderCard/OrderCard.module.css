@@ -93,17 +93,24 @@
 }
 
 .imageContainer {
- 
-  width: 85px; 
-  aspect-ratio: 1 / 1; 
-  position: relative; 
+  width: 85px;
+  aspect-ratio: 1 / 1;
+  position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
- 
+  background-color: #f0f0f0;
+  padding: 10px;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .productImage {
-  object-fit: cover; 
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: contain;
+  display: block;
 }
 
 .productDetails h4 {

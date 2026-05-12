@@ -1,6 +1,6 @@
 import styles from './Landing.module.css';
 import Image from "next/image";
-import surgeImg from "./surge.png";
+import surgeImg from "./surge.webp";
 
 export default function Landing() {
   return (

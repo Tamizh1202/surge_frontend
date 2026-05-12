@@ -1,9 +1,9 @@
 import styles from './Choosesurge.module.css'
 import Image from "next/image";
-import surgeImg from "./juice.png";
-import surge2Img from "./juice2.png";
-import surge3Img from "./juice3.png";
-import surge4Img from "./juice4.png";
+import surgeImg from "./juice.webp";
+import surge2Img from "./juice2.webp";
+import surge3Img from "./juice3.webp";
+import surge4Img from "./juice4.webp";
 
 export default function Choosesurge() {
    return(

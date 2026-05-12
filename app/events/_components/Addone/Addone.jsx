@@ -2,9 +2,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Addone.module.css';
 
-import img1 from './m1.png';
-import img2 from './m2.png';
-import img3 from './m3.png';
+import img1 from './m1.webp';
+import img2 from './m2.webp';
+import img3 from './m3.webp';
 
 export const coffeeData = [
   {

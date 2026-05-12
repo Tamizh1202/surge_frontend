@@ -3,10 +3,10 @@
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import styles from "./Allmenu.module.css";
-import breakfast from "./breakfast.png";
-import breads from "./bread.png";
-import beverages from "./cake.png";
-import desserts from "./pastry.png";
+// import breakfast from "./breakfast.png";
+// import breads from "./bread.png";
+// import beverages from "./cake.png";
+// import desserts from "./pastry.png";
 import axiosClient from "@/lib/axios";
 import { useState, useEffect } from "react";
 import { formatImageUrl } from "@/lib/imageUtils";
@@ -115,16 +115,16 @@ const handleExploreClick = () => {
           </div>
         ) : (
           displayedCategories.map((category) => {
-            let categoryImage = desserts;
-            const slug = category.slug.toLowerCase();
+            // let categoryImage = desserts;
+            // const slug = category.slug.toLowerCase();
 
-            if (slug.includes("bakery") || slug.includes("bread")) {
-              categoryImage = breads;
-            } else if (slug.includes("beverage")) {
-              categoryImage = beverages;
-            } else if (slug.includes("breakfast")) {
-              categoryImage = breakfast;
-            }
+            // if (slug.includes("bakery") || slug.includes("bread")) {
+            //   categoryImage = breads;
+            // } else if (slug.includes("beverage")) {
+            //   categoryImage = beverages;
+            // } else if (slug.includes("breakfast")) {
+            //   categoryImage = breakfast;
+            // }
             
             return (
               <div

@@ -2,9 +2,9 @@
 import { useEffect, useRef } from "react";
 import styles from "./Stories.module.css";
 
-import story1 from "../Stories/story1.jpg";
-import story2 from "./story2.png";
-import story3 from "../Stories/story3.jpg";
+import story1 from "../Stories/story1.webp";
+import story2 from "./story2.webp";
+import story3 from "../Stories/story3.webp";
 import Link from "next/link";
 const IMAGES = [story1, story2, story3];
 const TOTAL = IMAGES.length;

@@ -2,12 +2,12 @@
 import styles from "./Bookevent.module.css";
 import Image from "next/image";
 
-import Eimg1 from './Eimg1.png';
-import Eimg2 from './Eimg2.png';
-import Eimg4 from './Eimg4.png';
-import Eimg3 from './Eimg3.png';
-import Eimg5 from './Eimg5.png';
-import Eimg6 from './Eimg6.png';
+import Eimg1 from './Eimg1.webp';
+import Eimg2 from './Eimg2.webp';
+import Eimg4 from './Eimg4.webp';
+import Eimg3 from './Eimg3.webp';
+import Eimg5 from './Eimg5.webp';
+import Eimg6 from './Eimg6.webp';
 
 const partnershipsData = [
   { id: 1, src: Eimg1 },

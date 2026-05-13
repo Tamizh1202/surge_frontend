@@ -206,7 +206,7 @@ padding-bottom: clamp(50px, 17vw, 250px);
   display: flex;
   justify-content: left;
   flex-direction: column;
-  gap: 8px;
+  gap: 16px;
   max-height: 250px;
   overflow-y: auto;
   padding-right: 12px;

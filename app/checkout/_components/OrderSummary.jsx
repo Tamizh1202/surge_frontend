@@ -63,7 +63,6 @@ export default function OrderSummary({
         {product.map((item, idx) => {
           const isSubscription = checkoutMode === "subscription";
           
-          // Dynamic logic to match CartSideBar (Tamara, good, ok)
           const selections = item.customSelections || {};
           const displaySelections = Object.entries(selections)
             .filter(([, value]) => String(value).trim() !== "");
@@ -77,22 +76,25 @@ export default function OrderSummary({
               <div className={styles.ItemImage}>
                 <Image src={formatImageUrl(item.image) || placeholderImage} alt={item.name} width={92} height={92} />
               </div>
-              <div className={styles.ItemInfo}>
-                <div className={styles.ItemMainRow}>
-                  <div className={styles.ItemName}>{item.name}</div>
-                  <div className={styles.ItemName}>{item.weight}</div>
+              <div className={styles.ItemInfo} style={{ display: 'flex', flexDirection: 'column',  }}>
+                {/* Line 1: Name and Weight (Brazil Santa Ines, 250g) */}
+                <div className={styles.ItemMainRow} style={{ display: 'flex', alignItems: 'center',  }}>
+                  <div className={styles.ItemName} style={{ fontSize: '16px', fontWeight: '400', color: '#414343' }}>
+                    {item.name}{item.weight ? `, ${item.weight}g` : item.variantName ? `, ${item.variantName}g` : ''}
+                  </div>
                 </div>
                 
-                <div className={styles.ItemQty}>×{item.quantity}</div>
-                
-                {item?.vId && <span>{item?.variantName}g</span>}
-
-                {/* UPDATED DYNAMIC METADATA: Matches image_3c0f76.png */}
+                {/* Line 2: Metadata (Expresso Roast, Whole bean, Whole) */}
                 {metaText && (
-                  <div style={{ marginTop: "4px", fontSize: "12px", color: "#666" }}>
+                  <div style={{ fontSize: "12px", color: "#8E9191", lineHeight: '1.2' }}>
                     {metaText}
                   </div>
                 )}
+
+                {/* Line 3: Quantity (2X) */}
+                <div style={{ fontSize: '16px', color: '#414343', marginTop: '8px' }}>
+                  {item.quantity}<span style={{ fontSize: '16px', color: '#414343' }}>x</span>
+                </div>
               </div>
               
               {!isSubscription && (
@@ -105,6 +107,7 @@ export default function OrderSummary({
         })}
       </div>
 
+      {/* Rest of the component remains the same */}
       <div className={styles.CouponSection}>
         <div className={styles.CouponHeader}>
           <h3>Coupons and Offers</h3>

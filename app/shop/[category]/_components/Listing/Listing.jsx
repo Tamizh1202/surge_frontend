@@ -8,12 +8,7 @@ import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png';
 import { useWishlist } from '@/app/_context/WishlistContext';
-<<<<<<< HEAD
-import prodZero from './prodZero.png';
-import ProductPopup from '../AddToCartPopup/AddToCartPopup';
-=======
 import prodZero from './Noproducts.gif';
->>>>>>> c99f19a118ebdf698974c405abbd6026853477a2
 const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
 
 export default function Listing({ category }) {
@@ -42,7 +37,7 @@ export default function Listing({ category }) {
     const mobileFiltersRef = useRef(null);
     const categoryName = category?.title || category?.slug?.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 
-    // Clear Filters Logic
+
     const handleClearFilters = () => {
         setSelectedFilters([]);
         setIsMobileFilterOpen(false);
@@ -259,7 +254,7 @@ export default function Listing({ category }) {
                 {/* PRODUCT GRID XERO  STATE */}
                <div className={styles.productGrid}>
 
- {(!loading && (filteredProducts.length === 0 || true)) ?(
+ {(!loading && filteredProducts.length === 0) ?(
 
 
     <div className={styles.noProducts}>

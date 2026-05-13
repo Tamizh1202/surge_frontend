@@ -199,10 +199,10 @@ const WhiteMantisBeans = () => {
                                 <div className={styles.gridss}>
 
                                     <div className={styles.tableHeading}>
-                                        <div style={{ display: "flex", justifyContent: "center" }}>Details</div>
-                                        <div style={{ display: "flex", justifyContent: "center" }}> Type</div>
-                                        <div style={{ display: "flex", justifyContent: "center" }}>Date</div>
-                                        <div style={{ display: "flex", justifyContent: "center" }}>Expiry Date</div>
+                                        <div style={{ display: "flex", justifyContent: "left" }}>Details</div>
+                                        <div style={{ display: "flex", justifyContent: "left" }}> Type</div>
+                                        <div style={{ display: "flex", justifyContent: "left" }}>Date</div>
+                                        <div style={{ display: "flex", justifyContent: "left" }}>Expiry Date</div>
                                         <div style={{ display: "flex", justifyContent: "center" }}>Beans</div>
                                     </div>
                                     {displayData.map((item, index) => {

@@ -3,12 +3,16 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import styles from './YouMayAlsoLike.module.css';
 import { formatImageUrl } from '@/lib/imageUtils';
+import { useCart } from '@/app/_context/CartContext';
+import ProductPopup from '@/app/shop/[category]/_components/AddToCartPopup/AddToCartPopup';
 
 export default function YouMayAlsoLike({ recommendedProducts }) {
+    const { addToCart } = useCart();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [wishlisted, setWishlisted] = useState({});
+    const [popupProduct, setPopupProduct] = useState(null);
+    const [addingId, setAddingId] = useState(null);
 
     useEffect(() => {
         if (recommendedProducts && recommendedProducts.length > 0) {
@@ -26,6 +30,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                     image: formatImageUrl(p.productImage),
                     price: price ? `AED ${price}` : '',
                     slug: p.slug,
+                    raw: p,
                 };
             });
             setProducts(mapped);
@@ -36,8 +41,29 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
         }
     }, [recommendedProducts]);
 
-    const toggleWishlist = (id) =>
-        setWishlisted((prev) => ({ ...prev, [id]: !prev[id] }));
+    const needsPopup = (raw) =>
+        raw.variants?.length > 0 &&
+        (raw.productHighlights?.length > 0 || raw.subCategories?.length > 0);
+
+    const handleAddToCart = async (product) => {
+        const raw = product.raw;
+        if (needsPopup(raw)) {
+            setPopupProduct(raw);
+            return;
+        }
+        if (addingId) return;
+        setAddingId(product.id);
+        try {
+            await addToCart(raw.id, 1, raw.variants?.[0]?.id || null, {
+                name: raw.name,
+                image: product.image,
+            });
+        } catch (err) {
+            console.error('Add to cart error', err);
+        } finally {
+            setAddingId(null);
+        }
+    };
 
     if (error) {
         return (
@@ -49,64 +75,58 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
     }
 
     return (
-        <section className={styles.section}>
-            <h2 className={styles.heading}>You may also like</h2>
-            <div className={styles.grid}>
-                {loading
-                    ? Array.from({ length: 3 }).map((_, i) => (
-                          <div key={i} className={`${styles.card} ${styles.skeleton}`}>
-                              <div className={styles.skeletonImage} />
-                              <div className={styles.info}>
-                                  <div className={styles.skeletonLine} />
-                                  <div className={`${styles.skeletonLine} ${styles.skeletonShort}`} />
-                                  <div className={styles.skeletonLine} />
-                              </div>
-                          </div>
-                      ))
-                    : products.map((product) => (
-                          <div key={product.id} className={styles.card}>
-                              <div className={styles.imageWrapper}>
-                                  <Image
-                                      src={product.image}
-                                      alt={product.title}
-                                      fill
-                                      sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
-                                      className={styles.productImage}
-                                  />
-                                  {/* <button
-                                      className={`${styles.wishlistBtn} ${wishlisted[product.id] ? styles.wishlisted : ''}`}
-                                      aria-label="Add to wishlist"
-                                      onClick={() => toggleWishlist(product.id)}
-                                  >
-                                      <svg
-                                          width="20"
-                                          height="18"
-                                          viewBox="0 0 20 18"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                      >
-                                          <path
-                                              d="M10 17.77L8.55 16.45C3.4 11.73 0 8.64 0 4.89C0 1.8 2.42 -0.01 5.5 -0.01C7.24 -0.01 8.91 0.81 10 2.09C11.09 0.81 12.76 -0.01 14.5 -0.01C17.58 -0.01 20 1.8 20 4.89C20 8.64 16.6 11.73 11.45 16.45L10 17.77Z"
-                                              fill="none"
-                                              stroke={wishlisted[product.id] ? 'var(--primary-color)' : '#555'}
-                                              strokeWidth="1.2"
-                                          />
-                                      </svg>
-                                  </button> */}
-                              </div>
-                              <div className={styles.info}>
-                                  <h3 className={styles.title}>{product.title}</h3>
-                                  <p className={styles.subtitle}>{product.subtitle}</p>
-                                  <div className={styles.priceRow}>
-                                      <span className={styles.price}>
-                                          {product.price}
-                                      </span>
-                                      <button className={styles.addToCart}>Add to Cart</button>
+        <>
+            <section className={styles.section}>
+                <h2 className={styles.heading}>You may also like</h2>
+                <div className={styles.grid}>
+                    {loading
+                        ? Array.from({ length: 3 }).map((_, i) => (
+                              <div key={i} className={`${styles.card} ${styles.skeleton}`}>
+                                  <div className={styles.skeletonImage} />
+                                  <div className={styles.info}>
+                                      <div className={styles.skeletonLine} />
+                                      <div className={`${styles.skeletonLine} ${styles.skeletonShort}`} />
+                                      <div className={styles.skeletonLine} />
                                   </div>
                               </div>
-                          </div>
-                      ))}
-            </div>
-        </section>
+                          ))
+                        : products.map((product) => {
+                              const isAdding = addingId === product.id;
+                              return (
+                                  <div key={product.id} className={styles.card}>
+                                      <div className={styles.imageWrapper}>
+                                          <Image
+                                              src={product.image}
+                                              alt={product.title}
+                                              fill
+                                              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
+                                              className={styles.productImage}
+                                          />
+                                      </div>
+                                      <div className={styles.info}>
+                                          <h3 className={styles.title}>{product.title}</h3>
+                                          <p className={styles.subtitle}>{product.subtitle}</p>
+                                          <div className={styles.priceRow}>
+                                              <span className={styles.price}>{product.price}</span>
+                                              <button
+                                                  className={styles.addToCart}
+                                                  onClick={() => handleAddToCart(product)}
+                                                  disabled={isAdding}
+                                                  style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
+                                              >
+                                                  {isAdding ? 'Adding...' : 'Add to Cart'}
+                                              </button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              );
+                          })}
+                </div>
+            </section>
+
+            {popupProduct && (
+                <ProductPopup product={popupProduct} onClose={() => setPopupProduct(null)} />
+            )}
+        </>
     );
 }

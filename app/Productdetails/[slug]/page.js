@@ -31,7 +31,7 @@ export default async function ProductPage({ params }) {
   return (
     <main style={{ backgroundColor: "#000", minHeight: "100vh", color: "white" }}>
       <ProductOne initialProduct={product} />
-      <Producttwo />
+      <Producttwo brewingGuide={product.brewingGuide} />
       <ImageSection />
       <YouMayAlsoLike recommendedProducts={product.recommendedProducts} />
     </main>

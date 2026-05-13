@@ -129,6 +129,14 @@
                   </div>
 
                   <!-- Order Summary -->
+                             <div style="padding-bottom: 25px;">
+  <h2 style="font-size: 22px; font-weight:400 ; color: #2F362A; margin: 0; display: inline-block; vertical-align: middle;">
+    Order Summary
+  </h2>
+  <span style="font-size: 16px; font-weight:400 ; color: #2F362A; vertical-align: middle;">
+    (${order.items.length} items)
+  </span>
+</div>
                  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 25px; border-collapse: collapse;">
   ${order.items.map(item => `
     <tr>
@@ -172,7 +180,7 @@
                     <tr><td style="padding: 16px 0; border-bottom: 1px solid #818686; padding-bottom:15px;">VAT</td><td align="right" style="padding: 8px 0; border-bottom: 1px solid #818686; padding-bottom:15px; color:${TEXT_DARK}">AED ${order.financials.taxAmount}</td></tr>
                     <tr style="font-weight: 700; color: ${TEXT_DARK};">
                       <td style="padding: 16px 0;">Total</td>
-                      <td align="right" style="padding: 20px 0;">AED ${order.financials.total.toFixed(2)}</td>
+                      <td align="right" style="padding: 20px 0 ;">AED ${order.financials.total.toFixed(2)}</td>
                     </tr>
                   </table>
 

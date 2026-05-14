@@ -238,6 +238,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    font-family: var(--font-raleway);
 }
 
 /* Highlights */

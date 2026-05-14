@@ -7,6 +7,20 @@ import Link from "next/link";
 import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 
+const toSlug = (value) =>
+  String(value || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+const getCategorySlug = (coffee) =>
+  coffee.categories?.[0]?.slug ||
+  coffee.categories?.slug ||
+  coffee.category?.slug ||
+  coffee.category ||
+  'coffee-beans';
+
 export default function Coffees() {
   const [coffeeData, setCoffeeData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -97,37 +111,42 @@ export default function Coffees() {
             ? Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className={`${styles.coffeeCard} ${styles.skeleton}`} />
               ))
-            : coffeeData.map((coffee, i) => (
-                <div key={coffee.id ?? i} className={styles.coffeeCard}>
-                  <div className={styles.productImageWrapper}>
-                    <Image
-                      src={formatImageUrl(coffee.productImage) || coffeeBagImg}
-                      alt={coffee.name}
-                      width={300}
-                      height={400}
-                      className={styles.productImg}
-                      priority
-                    />
-                  </div>
-                  <div className={styles.cardTop}>
-                    <div className={styles.cardInfo}>
-                      <h3 className={styles.coffeeName}>{coffee.name}</h3>
-                      <p className={styles.coffeeNotes}>{coffee.tagline || coffee.description}</p>
-                      <p className={styles.price}>
-                        {coffee.salePrice ? `AED ${coffee.salePrice}` : coffee.regularPrice ? `AED ${coffee.regularPrice}` : ''}
-                      </p>
+            : coffeeData.map((coffee, i) => {
+                const categorySlug = getCategorySlug(coffee);
+                const productSlug = coffee.slug || toSlug(coffee.name);
+
+                return (
+                  <div key={coffee.id ?? i} className={styles.coffeeCard}>
+                    <div className={styles.productImageWrapper}>
+                      <Image
+                        src={formatImageUrl(coffee.productImage) || coffeeBagImg}
+                        alt={coffee.name}
+                        width={300}
+                        height={400}
+                        className={styles.productImg}
+                        priority
+                      />
                     </div>
-                    <Link
-                      href={`/shop/${coffee.category}/${coffee.slug}`}
-                      className={styles.cardArrow}
-                    >
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M7 17L17 7M17 7H7M17 7V17" />
-                      </svg>
-                    </Link>
+                    <div className={styles.cardTop}>
+                      <div className={styles.cardInfo}>
+                        <h3 className={styles.coffeeName}>{coffee.name}</h3>
+                        <p className={styles.coffeeNotes}>{coffee.tagline || coffee.description}</p>
+                        <p className={styles.price}>
+                          {coffee.salePrice ? `AED ${coffee.salePrice}` : coffee.regularPrice ? `AED ${coffee.regularPrice}` : ''}
+                        </p>
+                      </div>
+                      <Link
+                        href={`/shop/${categorySlug}/${productSlug}`}
+                        className={styles.cardArrow}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M7 17L17 7M17 7H7M17 7V17" />
+                        </svg>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
         </div>
       </div>
     </section>

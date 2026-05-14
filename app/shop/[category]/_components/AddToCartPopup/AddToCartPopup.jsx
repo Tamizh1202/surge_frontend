@@ -137,7 +137,7 @@ export default function ProductPopup({ product, onClose }) {
                         <div className={styles.qtyControl}>
                             <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label="Decrease">−</button>
                             <div className={styles.qtyValue}>{String(quantity).padStart(2, "0")}</div>
-                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(99, q + 1))} aria-label="Increase">+</button>
+                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(5, q + 1))} aria-label="Increase">+</button>
                         </div>
                     </div>
                 </div>

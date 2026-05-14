@@ -80,14 +80,16 @@
   width: 64px;
   height: 64px;
   flex-shrink: 0;
-  background: #f9f9f9;
-  /* overflow: hidden; */
+  background: #f0f0f0;
+  overflow: hidden;
   position: relative;
-  border: 1px solid #eee;
+  box-sizing: border-box;
 }
 
 .productImage {
-  object-fit: cover;
+  object-fit: contain;
+  padding: 10px !important;
+  box-sizing: border-box;
 }
 
 .productInfo {

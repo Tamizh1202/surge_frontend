@@ -72,7 +72,7 @@ export default function OrderSuccessContent() {
                 <path d="M5.5 10.5L8.5 13.5L14.5 7" stroke="#fff" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <h2 className={styles.ThankYou}>Thankyou for your purchase!</h2>
+            <h2 className={styles.ThankYou}>Thank you for your purchase!</h2>
           </div>
 
           <div className={styles.ConfirmBanner}>

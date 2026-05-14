@@ -86,16 +86,18 @@ const OrderCard = ({ order, handleCancelButton }) => {
   const orderStorageId = order.id || order.invoiceId;
   const [storedSelections, setStoredSelections] = useState([]);
 
+  const [currentStatus, setCurrentStatus] = useState(order.deliveryStatus || order.status);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   React.useEffect(() => {
     setStoredSelections(getStoredOrderSelections(orderStorageId));
   }, [orderStorageId]);
-
 
   useEffect(() => {
     if (order) {
       setCurrentStatus(order.deliveryStatus || order.status);
     }
-  }, [order.deliveryStatus, order.status]); 
+  }, [order.deliveryStatus, order.status]);
 
   const handleCancelConfirm = async (reason) => {
     try {
@@ -105,13 +107,12 @@ const OrderCard = ({ order, handleCancelButton }) => {
 
       if (response.data.success) {
         toast.success("Order cancelled successfully");
-        
-       
-        setCurrentStatus('cancelled'); 
+
+        setCurrentStatus('cancelled');
         setIsPopupOpen(false);
-        
+
         // Server data refresh
-        router.refresh(); 
+        router.refresh();
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Failed to cancel order");
@@ -132,9 +133,9 @@ const OrderCard = ({ order, handleCancelButton }) => {
           <div className={styles.statusTexts}>
             <h3 style={{ color: config.color }}>{config.label}</h3>
             <p className={styles.statusDate}>
-               {currentStatus === 'cancelled' 
-                 ? (order.cancelledOn ? `On ${formatDate(order.cancelledOn)}` : `On ${formatDate(new Date())}`)
-                 : config.date}
+              {currentStatus === 'cancelled'
+                ? (order.cancelledOn ? `On ${formatDate(order.cancelledOn)}` : `On ${formatDate(new Date())}`)
+                : config.date}
             </p>
             {currentStatus === 'cancelled' && (
               <p className={styles.refundText}>
@@ -198,7 +199,6 @@ const OrderCard = ({ order, handleCancelButton }) => {
       </div>
 
       <div className={styles.cardFooter}>
-     
         {currentStatus !== 'cancelled' && config.showCancel && (
           <button className={styles.cancelButton} onClick={() => setIsPopupOpen(true)}>
             Cancel Order
@@ -207,10 +207,10 @@ const OrderCard = ({ order, handleCancelButton }) => {
       </div>
 
       {isPopupOpen && (
-        <CancelOrderPopup 
-          orderId={order.id} 
-          onClose={() => setIsPopupOpen(false)} 
-          onConfirm={handleCancelConfirm} 
+        <CancelOrderPopup
+          orderId={order.id}
+          onClose={() => setIsPopupOpen(false)}
+          onConfirm={handleCancelConfirm}
         />
       )}
     </div>

@@ -466,8 +466,7 @@ padding-left: clamp(20px, 7vw, 100px);
     font-weight: 400;
     color: #414343;
     margin: 0;
-  min-height: 2.8em;
-    line-height: 1.4;
+
 }
 
 .notes {
@@ -476,8 +475,6 @@ padding-left: clamp(20px, 7vw, 100px);
     font-weight: 400;
     color: var(--text-secondary);
     margin: 0;
-    min-height: 2.8em;
-    line-height: 1.2;
 }
 
 

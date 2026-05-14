@@ -3,10 +3,10 @@
 import Image from "next/image";
 import styles from "./ProductDetails.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
-import React, { useState } from "react"; // useState add kiya
+import React, { useState } from "react";
 import { getStatusConfig, formatDate } from "@/app/account/orders/_components/GetStatus";
-import axiosClient from "@/lib/axios"; // axios import kiya
-import toast from "react-hot-toast"; // toast import kiya
+import axiosClient from "@/lib/axios";
+import toast from "react-hot-toast";
 
 const ProductDetail = ({ order }) => {
   if (!order) return null;
@@ -14,10 +14,11 @@ const ProductDetail = ({ order }) => {
   const [rating, setRating] = useState(order.orderRating || 0);
   const [hover, setHover] = useState(0);
 
-  const config = getStatusConfig(order.deliveryStatus || order.status, order);
+  const currentStatus = order.deliveryStatus || order.status;
+  // getStatusConfig ab aapke updated case ko use karega
+  const config = getStatusConfig(currentStatus, order);
   const items = order.items || order.line_items || [];
 
-  // Rating handle karne ka logic
   const handleRating = async (score) => {
     const newRating = rating === score ? 0 : score;
     setRating(newRating);
@@ -31,7 +32,6 @@ const ProductDetail = ({ order }) => {
         toast.success("Rating cleared.");
       }
     } catch (error) {
-      console.error("Error updating order rating:", error);
       setRating(order.orderRating || 0);
       toast.error("Failed to update rating.");
     }
@@ -49,12 +49,45 @@ const ProductDetail = ({ order }) => {
             </p>
             <p className={styles.orderDateSub}>{config.date}</p>
             
-            {/* Reason text add kiya (Cancellations ke liye) */}
-            {config.reason && (
-              <p className={styles.reasonText} style={{ fontSize: '12px', marginTop: '4px' }}>
-                {config.reason}
-              </p>
-            )}
+      
+           {currentStatus === 'cancelled' && (
+  <div className={styles.cancelDetailsContainer} style={{ margin: '-2px' }}>
+    {/* 1. Cancellation Reason */}
+    <p 
+      className={styles.reasonText} 
+      style={{ 
+        fontSize: '14px', 
+        color: '#818686', 
+        fontWeight: '400', 
+        fontFamily: 'Raleway, sans-serif',
+        margin: '0', 
+        padding: '0', 
+        display: 'block', 
+        lineHeight: '1', 
+      }}
+    >
+     <span style={{ fontWeight: '400' }}>{config.reason}</span>
+    </p>
+    
+    {/* 2. Refund Message */}
+    <p 
+      className={styles.refundText} 
+      style={{ 
+        fontSize: '14px', 
+        color: '#818686', 
+        fontWeight: '400', 
+        fontFamily: 'Raleway, sans-serif',
+        margin: '4px 0 0 0', 
+        padding: '0',
+        display: 'block',
+        lineHeight: '1',
+      }}
+    >
+      {config.refundedAmount}
+    </p>
+  </div>
+)}
+          
           </div>
         </div>
         
@@ -64,7 +97,7 @@ const ProductDetail = ({ order }) => {
         </div>
       </div>
 
-       <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
+      <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
         <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
         <p>Order ID: <span>#{order.id}</span></p>
       </div>
@@ -76,7 +109,7 @@ const ProductDetail = ({ order }) => {
             const itemImg = item.productImage?.url || item.product?.productImage?.url;
             const itemName = item.product?.name || item.name || "Coffee Product";
             
-            const weight = item.product?.variants?.find(v => v.id === item.variantID)?.variantName 
+            const weight = item.product?.variants?.find(v => v.id === item.variantID || v.id === item.variantId)?.variantName 
                            || item.product?.weight;
 
             return (
@@ -108,7 +141,7 @@ const ProductDetail = ({ order }) => {
         </div>
       </div>
 
-      {/* FOOTER SECTION: Rate This Order (Same as OrderCard logic) */}
+      {/* RATING FOOTER */}
       {config.rating && (
         <div className={styles.rateOrderFooter}>
           <span className={styles.rateOrderText}>Rate This Order</span>
@@ -125,20 +158,13 @@ const ProductDetail = ({ order }) => {
                   type="button"
                   style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0 2px' }}
                 >
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="-1 -1 20 20"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
+                  <svg width="20" height="20" viewBox="-1 -1 20 20" fill="none">
                     <polygon
                       points="9,0.5 11.5,6.5 18,7.2 13.2,11.5 14.7,17.5 9,14.2 3.3,17.5 4.8,11.5 0,7.2 6.5,6.5"
                       fill={isActive ? "white" : "transparent"}
                       stroke="white"
                       strokeWidth="1.2"
                       strokeLinejoin="round"
-                      style={{ transition: "fill 0.2s ease" }}
                     />
                   </svg>
                 </button>
@@ -147,9 +173,6 @@ const ProductDetail = ({ order }) => {
           </div>
         </div>
       )}
-
-      {/* MOBILE METADATA */}
-     
     </div>
   );
 };

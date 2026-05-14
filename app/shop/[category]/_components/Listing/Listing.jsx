@@ -326,18 +326,49 @@ export default function Listing({ category }) {
                                             {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}.00</span>
-                                                <AddToCart
-                                                    className={styles.buyBtn}
-                                                    product={{
-                                                        productId: item.id,
-                                                        name: item.name,
-                                                        description: item.description,
-                                                        image: imageUrl,
-                                                        tagline: item.tagline,
-                                                        quantity: 1,
-                                                        variationId: item.variants?.[0]?.id || null
-                                                    }}
-                                                />
+                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
+                                                    <>
+                                                        <button
+                                                            className={styles.buyBtn}
+                                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
+                                                        >
+                                                            Add to Cart
+                                                        </button>
+                                                        <button
+                                                            className={styles.mobileText}
+                                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setPopupProduct(item); }}
+                                                        >
+                                                            Add to Cart
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <AddToCart
+                                                            className={styles.buyBtn}
+                                                            product={{
+                                                                productId: item.id,
+                                                                name: item.name,
+                                                                description: item.description,
+                                                                image: imageUrl,
+                                                                tagline: item.tagline,
+                                                                quantity: 1,
+                                                                variationId: item.variants?.[0]?.id || null
+                                                            }}
+                                                        />
+                                                        <AddToCart
+                                                            className={styles.mobileText}
+                                                            product={{
+                                                                productId: item.id,
+                                                                name: item.name,
+                                                                description: item.description,
+                                                                image: imageUrl,
+                                                                tagline: item.tagline,
+                                                                quantity: 1,
+                                                                variationId: item.variants?.[0]?.id || null
+                                                            }}
+                                                        />
+                                                    </>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

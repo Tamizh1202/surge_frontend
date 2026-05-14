@@ -75,32 +75,15 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
         }
     };
 
-    if (error) {
-        return (
-            <section className={styles.section}>
-                <h2 className={styles.heading}>You may also like</h2>
-                <p className={styles.error}>Could not load products. Please try again later.</p>
-            </section>
-        );
-    }
+    if (loading) return null;
+    if (error || products.length === 0) return null;
 
     return (
         <>
             <section className={styles.section}>
                 <h2 className={styles.heading}>You may also like</h2>
                 <div className={styles.grid}>
-                    {loading
-                        ? Array.from({ length: 3 }).map((_, i) => (
-                              <div key={i} className={`${styles.card} ${styles.skeleton}`}>
-                                  <div className={styles.skeletonImage} />
-                                  <div className={styles.info}>
-                                      <div className={styles.skeletonLine} />
-                                      <div className={`${styles.skeletonLine} ${styles.skeletonShort}`} />
-                                      <div className={styles.skeletonLine} />
-                                  </div>
-                              </div>
-                          ))
-                        : products.map((product) => {
+                    {products.map((product) => {
                               const isAdding = addingId === product.id;
                               const productHref = `/shop/${product.categorySlug}/${product.slug}`;
                               return (

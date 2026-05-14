@@ -9,6 +9,7 @@ import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
 import CancelOrderPopup from "@/app/account/orders/_components/CancelOrderPopup/CancelOrderPopup";
 
+
 const getDisplaySelections = (item) => {
   const values = [];
   const addValue = (value) => {
@@ -39,7 +40,6 @@ const getDisplaySelections = (item) => {
       }
     });
   }
-
   return [...new Set(values)];
 };
 
@@ -53,7 +53,6 @@ const getVariantId = (item) => item.variantID || item.variantId || item.vId || "
 
 const getStoredOrderSelections = (orderId) => {
   if (!orderId || typeof window === "undefined") return [];
-
   try {
     const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
     return stored[orderId] || [];
@@ -66,60 +65,91 @@ const getStoredOrderSelections = (orderId) => {
 const getStoredItemSelections = (storedSelections, item) => {
   const productId = String(getProductId(item));
   const variantId = String(getVariantId(item));
-
   const match = storedSelections.find((selection) => {
     const selectionProductId = String(selection.productId || "");
     const selectionVariantId = String(selection.variantId || "");
     return selectionProductId === productId && selectionVariantId === variantId;
   });
-
   if (!match) return [];
   return Object.entries(match.customSelections || {}).filter(([, value]) => String(value).trim() !== "");
 };
 
-const OrderCard = ({ order, handleCancelButton }) => {
+// --- Main Component ---
+const OrderCard = ({ order }) => {
   if (!order) return null;
   const router = useRouter();
 
-  const [rating, setRating] = useState(order.orderRating || 0);
-  const [hover, setHover] = useState(0);
-  const orderStorageId = order.id || order.invoiceId;
-  const [storedSelections, setStoredSelections] = useState([]);
 
-  React.useEffect(() => {
+ 
+  const getIsLocallyCancelled = () => {
+    if (typeof window === "undefined") return false;
+    const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
+    return cancelledList.includes(order.id);
+  };
+
+  // State initialization with local storage check
+  const [currentStatus, setCurrentStatus] = useState(
+    getIsLocallyCancelled() ? 'cancelled' : (order.deliveryStatus || order.status)
+  );
+ 
+
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [storedSelections, setStoredSelections] = useState([]);
+  const orderStorageId = order.id || order.invoiceId;
+
+  useEffect(() => {
     setStoredSelections(getStoredOrderSelections(orderStorageId));
   }, [orderStorageId]);
 
-
+ 
   useEffect(() => {
-    if (order) {
-      setCurrentStatus(order.deliveryStatus || order.status);
+    if (order && !isUpdating) {
+      if (getIsLocallyCancelled()) {
+        setCurrentStatus('cancelled');
+      } else {
+        setCurrentStatus(order.deliveryStatus || order.status);
+      }
     }
-  }, [order.deliveryStatus, order.status]); 
+  }, [order.deliveryStatus, order.status, isUpdating]);
 
   const handleCancelConfirm = async (reason) => {
     try {
+      setIsUpdating(true); 
+      setCurrentStatus('cancelled'); // UI update immediately
+      setIsPopupOpen(false);
+
+      const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
+      if (!cancelledList.includes(order.id)) {
+        localStorage.setItem("cancelled_orders_cache", JSON.stringify([...cancelledList, order.id]));
+      }
+
       const response = await axiosClient.get(
-        `/api/web-orders/${order.id}/cancel?reason=${encodeURIComponent(reason)}`
+        `/api/web-orders/${order.id}/cancel?reason=${encodeURIComponent(reason)}&t=${Date.now()}`
       );
 
       if (response.data.success) {
         toast.success("Order cancelled successfully");
         
-       
-        setCurrentStatus('cancelled'); 
-        setIsPopupOpen(false);
-        
-        // Server data refresh
+        // Next.js refresh
         router.refresh(); 
+     
+        setTimeout(() => {
+          setIsUpdating(false);
+        }, 3000);
       }
     } catch (error) {
+      // Revert local cache on error
+      const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
+      localStorage.setItem("cancelled_orders_cache", JSON.stringify(cancelledList.filter(id => id !== order.id)));
+      
+      setIsUpdating(false);
+      setCurrentStatus(order.deliveryStatus || order.status);
       toast.error(error.response?.data?.message || "Failed to cancel order");
     }
   };
 
   const config = getStatusConfig(currentStatus, order);
-
   const items = order.docs || order.items || [];
   const visibleItems = items.slice(0, 2);
   const remainingCount = Math.max(0, items.length - 2);
@@ -198,10 +228,17 @@ const OrderCard = ({ order, handleCancelButton }) => {
       </div>
 
       <div className={styles.cardFooter}>
-     
-        {currentStatus !== 'cancelled' && config.showCancel && (
-          <button className={styles.cancelButton} onClick={() => setIsPopupOpen(true)}>
-            Cancel Order
+        {/* Double check: UI currentStatus and actual Server order.status shouldn't be cancelled */}
+        {currentStatus !== 'cancelled' && 
+         !getIsLocallyCancelled() && 
+         (order.deliveryStatus || order.status) !== 'cancelled' && 
+         config.showCancel && (
+          <button 
+            className={styles.cancelButton} 
+            onClick={() => setIsPopupOpen(true)}
+            disabled={isUpdating}
+          >
+            {isUpdating ? "Cancelling..." : "Cancel Order"}
           </button>
         )}
       </div>

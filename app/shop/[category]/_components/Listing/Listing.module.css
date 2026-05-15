@@ -227,11 +227,16 @@ padding-left: clamp(20px, 7vw, 100px);
 }
 
 .clearBtn{
-    background-color: var(--primary-color);
-    color:white;
-    border:none;
-    outline:none;
-    padding:12px 14px;
+    background: none;
+    border: none;
+    outline: none;
+    padding: 0;
+    color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+    font-family: var(--font-raleway);
+    font-size: var(--fs-14);
 }
 .sidebarHeader{
     display: flex;
@@ -531,19 +536,6 @@ padding-left: clamp(20px, 7vw, 100px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-.clearBtn{
-    background-color: var(--primary-color);
-    color:white;
-    border:none;
-    outline:none;
-    padding:12px 14px;
-    font-family: var(--font-raleway);
-    cursor: pointer;
-
-}
-.clearBtn:hover{
-    background-color: #a65d3a;
 }
 .mobileFilterBtn {
     display: none;

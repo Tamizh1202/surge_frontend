@@ -154,31 +154,38 @@ const CartSideBar = () => {
                         </button>
                       </div>
 
-                      <div className={styles.prodFooter}>
-                        <div className={styles.qtyContainer}>
-                          <div className={styles.qtyControls}>
-                            <button
-                              onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
-                              disabled={item.quantity <= 1}
-                            >
-                              <MinusIcon />
-                            </button>
-                            <span>{String(item.quantity).padStart(2, "0")}</span>
-                            <button
-                              onClick={() => handleIncrease(item.product, item.vId)}
-                              disabled={!!itemErrors[key]}
-                            >
-                              <PlusIcon />
-                            </button>
-                          </div>
-                          {itemErrors[key] && (
-                            <p className={styles.errorText}>{itemErrors[key]}</p>
-                          )}
-                        </div>
-                        <span className={styles.price}>
-                          AED {Number(item.price * item.quantity).toFixed(2)}
-                        </span>
-                      </div>
+                 <div className={styles.prodFooter}>
+  <div className={styles.qtyContainer}>
+    <div className={styles.qtyControls}>
+      {/* Plus Icon Pehle (As per Image) */}
+      <button
+        onClick={() => handleIncrease(item.product, item.vId)}
+        disabled={!!itemErrors[key]}
+      >
+        <PlusIcon />
+      </button>
+
+      <span>{item.quantity}</span>
+
+      {/* Minus Icon Baad mein */}
+      <button
+        onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
+        disabled={item.quantity <= 1}
+      >
+        <MinusIcon />
+      </button>
+    </div>
+    
+    {itemErrors[key] && (
+      <p className={styles.errorText}>{itemErrors[key]}</p>
+    )}
+  </div>
+
+
+  <span className={styles.price}>
+    AED {Number(item.price * item.quantity).toFixed(2)}
+  </span>
+</div>
                     </div>
                   </div>
                 );
@@ -220,13 +227,13 @@ const TrashIcon = () => (
 );
 
 const PlusIcon = () => (
-  <svg width="5" height="6" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="7" height="19" viewBox="0 0 5 6" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4.97988 2.16106V3.05706H2.99588V5.21706H1.98788V3.05706H0.00387502V2.16106H1.98788V0.00106239H2.99588V2.16106H4.97988Z" fill="#C4754E" />
   </svg>
 );
 
 const MinusIcon = () => (
-  <svg width="5" height="1" viewBox="0 0 5 1" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="7" height="19" viewBox="0 0 5 1" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0.000937581 1.01119V0.00318718H4.67294V1.01119H0.000937581Z" fill="#C4754E" />
   </svg>
 );

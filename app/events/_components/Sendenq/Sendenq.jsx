@@ -171,8 +171,8 @@ export default function Sendenq() {
           <div className={styles.RightContent}>
             <form onSubmit={handleSubmit} className={styles.formMain}>
               <div className={styles.Top}>
-                <h3>Book Surge for Your Event</h3>
-                <p>Fill out the form below and we'll get back to you within 24 hours.</p>
+                <h3>Book Surge for Your Event.</h3>
+                <p>Fill in the details below and our team will get back to you within 24 hours.</p>
               </div>
 
               <div className={styles.formBox}>

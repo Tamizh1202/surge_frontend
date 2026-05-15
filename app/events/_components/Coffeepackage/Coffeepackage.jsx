@@ -10,7 +10,7 @@ const packages = [
   {
     id: 1,
     title: "30 Cups Package",
-    description: "Perfect for small meetings, intimate celebrations, or quick pop-ups.",
+    description: "Ideal for medium-sized events, workshops, and office gatherings.",
     image: cupImg 
   },
   {
@@ -22,13 +22,13 @@ const packages = [
   {
     id: 3,
     title: "100 Cups Package",
-    description: "Designed for large events, corporate functions, and high-footfall activations.",
+    description: "Designed for large-scale events, corporate functions, and high-footfall brand activations.",
     image: cupImg3
   },
   {
     id: 4,
     title: "Additional Cups (Top-Up)",
-    description: "Designed for large events, corporate functions, and high-footfall activations.",
+    description: "Need more than your package? Top up seamlessly — we'll keep the coffee flowing without missing a beat.",
     image: cupImg4
   }
 ];
@@ -39,8 +39,7 @@ export default function CoffeePackages() {
       <header className={styles.header}>
         <h2 className={styles.mainTitle}>Choose Your Coffee Package</h2>
         <p className={styles.subtitle}>
-          From intimate gatherings to large-scale events, pick a package based on your guest 
-          count and serving needs. Simple, flexible, and crafted to keep every cup consistent.
+     From intimate gatherings to large-scale productions, choose a package built around your guest count and event style. Flexible, streamlined, and engineered for quality in every cup.
         </p>
       </header>
 

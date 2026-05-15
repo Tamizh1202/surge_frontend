@@ -22,7 +22,7 @@ export default function Mission() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-       end: window.innerWidth < 900 ? "+=150%" : `+=${cards.length * 60}%`,
+       end: window.innerWidth < 900 ? "+=150%" : `+=${cards.length * 30}%`,
           pin: true,
           scrub: 1,
           anticipatePin: 1,
@@ -52,7 +52,7 @@ export default function Mission() {
           index - 1
         );
       });
-      tl.to({}, { duration: 1 });
+    
     }, containerRef);
 
     return () => ctx.revert();
@@ -74,10 +74,7 @@ export default function Mission() {
           <div className={styles.textcontent}>
             <h1 className={styles.storytitle}>Our Story</h1>
             <p className={styles.story}>
-              Surge is an Emirati-owned specialty coffee brand driven by passion
-              for quality, authenticity, and community. Our spaces are designed to
-              feel welcoming, familiar, and distinctly local where every visit
-              feels like your place.
+            Surge is an Emirati-owned specialty coffee brand driven by an unwavering passion for quality, authenticity, and community. Our spaces are designed to feel welcoming, familiar, and distinctly local — a place that always feels like yours.
             </p>
           </div>
         </div>
@@ -91,7 +88,7 @@ export default function Mission() {
             >
               <h1 className={styles.text}>Our Mission</h1>
               <p className={styles.content}>
-                To deliver consistently exceptional coffee experiences while staying true  to our local heritage, elevating every cup with purpose, pride, and  precision.
+              To deliver consistently exceptional coffee experiences while honouring our local heritage — elevating every cup with purpose, pride, and precision.
               </p>
               <div className={styles.number}>01</div>
             </div>
@@ -103,7 +100,7 @@ export default function Mission() {
             >
               <h1 className={styles.text}>Our Vision </h1>
               <p className={styles.content}>
-                To become the leading Emirati specialty coffee brand recognized for  excellence, authenticity, and innovation both locally and beyond
+               To become the leading Emirati specialty coffee brand — recognised for excellence, authenticity, and innovation, both locally and across the region.
               </p>
               <div className={styles.number}>02</div>
             </div>
@@ -113,9 +110,9 @@ export default function Mission() {
               ref={(el) => (cardsRef.current[2] = el)}
               className={`${styles.card} ${styles.grayCard}`}
             >
-              <h1 className={styles.text}>Sugre Approach</h1>
+              <h1 className={styles.text}>Surge Approach</h1>
               <p className={styles.content}>
-                At Surge, we blend global specialty coffee standards with Dubai’s local spirit. Every cup is crafted with premium beans, served with consistency, and designed to bring people together because coffee is more than a drink, it’s a daily experience.
+             At Surge, we marry global specialty coffee standards with the vibrant spirit of Dubai. Every cup is crafted with premium beans, served with precision, and designed to bring people together — because great coffee isn't just a drink, it's a daily ritual.
               </p>
               <div className={styles.number}>03</div>
             </div>

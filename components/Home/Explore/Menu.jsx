@@ -26,8 +26,7 @@ export default function Menu() {
         <div>
           <h2 className={styles.heading}>Explore our Menu</h2>
           <p className={styles.subtext}>
-            From espresso classics to signature drinks and bites. Surge is more
-            than beans. Discover what’s served daily at our Dubai cafés.
+          From espresso classics to signature bites — Surge is far more than beans. Explore what's crafted fresh daily across our Dubai cafés.
           </p>
         </div>
 

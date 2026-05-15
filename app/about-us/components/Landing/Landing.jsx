@@ -9,10 +9,7 @@ export default function Landing() {
         <div className={styles.textContent}>
           <h2 className={styles.title}>Crafted for coffee <br /> that matters</h2>
           <p className={styles.description}>
-            At Surge, specialty coffee is more than a drink, it's a crafted
-            experience rooted in quality, precision, and community.
-            Since 2016, we've blended global expertise with local
-            values to elevate every cup.
+         At Surge, specialty coffee is more than a drink — it's a precision-crafted experience rooted in quality and community. Since 2016, we've merged global expertise with the spirit of Dubai to raise the bar on every single cup.
           </p>
           <a href="#our-mission" className={styles.exploreBtn}>Explore About Us</a>
         </div>

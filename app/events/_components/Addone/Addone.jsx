@@ -9,13 +9,13 @@ import img3 from './m3.webp';
 export const coffeeData = [
   {
     title: "Water Options",
-    desc: "Premium bottled water for meetings and small gatherings.",
+    desc: "Premium bottled water options — the perfect refined touch for any setting.",
     points: ["Aqua Panna glass water", "San Pellegrino sparkling water"],
     img: img1
   },
   {
     title: "Sweet Bites",
-    desc: "Perfect little treats to pair with every cup.",
+    desc: "House-made sweet bites — crafted to complement every cup perfectly.",
     points: [
       "Truffles (Oreo, Lotus)",
       "Mini cookies (Choco chip, Macadamia, Strawberry cream cheese, red velvet)",
@@ -26,7 +26,7 @@ export const coffeeData = [
   },
   {
     title: "Canapés",
-    desc: "Savory selections for elevated catering.",
+    desc: "Savoury selections crafted for elevated, memorable catering moments.",
     points: ["Breakfast burger", "Bruschetta bites", "Tuna crostini", "Turkey cheese bagel"],
     img: img3
   },

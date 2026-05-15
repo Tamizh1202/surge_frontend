@@ -4,53 +4,51 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100%;
-padding-bottom: clamp(80px, 10vw, 120px);
+  padding-bottom: clamp(80px, 10vw, 120px);
   background-color: #ffffff;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
-.MainConatiner {
+.MainContainer {
   display: flex;
-  justify-content: left;
   flex-direction: column;
   width: 100%;
   align-items: center;
- 
-}
-
-.Top {
-  display: flex;
-  justify-content: left;
-  flex-direction: column;
 }
 
 .Bottom {
   display: flex;
-  justify-content: left;
-  flex-direction: row;
-  gap: clamp(40px, calc(40px + (50 * ((100vw - 320px) / 1120))), 90px);
-  opacity: 0.6;
   width: 100%;
+
 }
 
 .Marquee {
   width: 100%;
   overflow: hidden;
   position: relative;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 .Track {
   display: flex;
-  gap: clamp(40px, calc(40px + (50 * ((100vw - 320px) / 1120))), 119px);
-  animation: scroll 3s linear infinite;
+  width: max-content;
+  animation: scroll 25s linear infinite;
   white-space: nowrap;
 }
 
-.Track img {
-   height: 100%;
+.LogoWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(20px, 4vw, 50px);
+}
+
+.PartnerLogo {
+  height: auto;
   max-height: 108px;
   width: auto;
+  display: block;
 }
 
 @keyframes scroll {
@@ -61,21 +59,14 @@ padding-bottom: clamp(80px, 10vw, 120px);
     transform: translateX(-50%);
   }
 }
+
 @media (max-width: 640px) {
-  .Track img {
-  
-       width: 100%;
-    height: 100%;
-    max-width: 66px;
-    max-height: 75px;
-  }
-  
-  .Bottom {
-    gap: 40px;
+  .PartnerLogo {
+    max-width: 80px;
+    max-height: 50px;
   }
   
   .Track {
-    gap: 40px;
-    animation: scroll 3s linear infinite; 
+    animation: scroll 15s linear infinite; 
   }
 }

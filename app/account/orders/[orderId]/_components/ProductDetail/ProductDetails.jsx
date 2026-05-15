@@ -3,19 +3,32 @@
 import Image from "next/image";
 import styles from "./ProductDetails.module.css";
 import { formatImageUrl } from "@/lib/imageUtils";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getStatusConfig, formatDate } from "@/app/account/orders/_components/GetStatus";
 import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
 
 const ProductDetail = ({ order }) => {
+  const [rating, setRating] = useState(order?.orderRating || 0);
+  const [hover, setHover] = useState(0);
+  // Status ko state mein rakha hai taaki UI instantly update ho sake
+  const [currentStatus, setCurrentStatus] = useState(order?.deliveryStatus || order?.status);
+
+  useEffect(() => {
+    if (!order) return;
+
+    // Check if the order was just cancelled (using the cache key from OrderCard)
+    const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
+    if (cancelledList.includes(order.id)) {
+      setCurrentStatus('cancelled');
+    } else {
+      setCurrentStatus(order.deliveryStatus || order.status);
+    }
+  }, [order]);
+
   if (!order) return null;
 
-  const [rating, setRating] = useState(order.orderRating || 0);
-  const [hover, setHover] = useState(0);
-
-  const currentStatus = order.deliveryStatus || order.status;
-  // getStatusConfig ab aapke updated case ko use karega
+  // getStatusConfig ab updated status ke basis par config layega
   const config = getStatusConfig(currentStatus, order);
   const items = order.items || order.line_items || [];
 
@@ -39,64 +52,67 @@ const ProductDetail = ({ order }) => {
 
   return (
     <div className={styles.orderCard}>
-      {/* HEADER SECTION */}
+      {/* HEADER SECTION - Image ke according change hoga */}
       <div className={styles.orderTop}>
         <div className={styles.orderTopLeft}>
+          {/* Status Icon */}
           <span className={styles.statusIcon}>{config.icon}</span>
+          
           <div>
-            <p className={styles.orderStatusTitle} style={{ color: config.color }}>
+          
+            <p className={styles.orderStatusTitle} style={{ color: config.color, fontWeight: '600', margin: 0 }}>
               {config.label}
             </p>
-            <p className={styles.orderDateSub}>{config.date}</p>
-            
-      
-           {currentStatus === 'cancelled' && (
-  <div className={styles.cancelDetailsContainer} style={{ margin: '-2px' }}>
-    {/* 1. Cancellation Reason */}
-    <p 
-      className={styles.reasonText} 
-      style={{ 
-        fontSize: '14px', 
-        color: '#818686', 
-        fontWeight: '400', 
-        fontFamily: 'Raleway, sans-serif',
-        margin: '0', 
-        padding: '0', 
-        display: 'block', 
-        lineHeight: '1', 
-      }}
-    >
-     <span style={{ fontWeight: '400' }}>{config.reason}</span>
-    </p>
-    
-    {/* 2. Refund Message */}
-    <p 
-      className={styles.refundText} 
-      style={{ 
-        fontSize: '14px', 
-        color: '#818686', 
-        fontWeight: '400', 
-        fontFamily: 'Raleway, sans-serif',
-        margin: '4px 0 0 0', 
-        padding: '0',
-        display: 'block',
-        lineHeight: '1',
-      }}
-    >
-      {config.refundedAmount}
-    </p>
-  </div>
-)}
+
           
+            <p className={styles.orderDateSub} style={{ margin: '4px 0' }}>
+              {config.date}
+            </p>
+            
+            {/* Cancellation Details: Reason and Refund Info */}
+            {currentStatus === 'cancelled' && (
+              <div className={styles.cancelDetailsContainer} style={{ marginTop: '4px' }}>
+                <p 
+                  className={styles.reasonText} 
+                  style={{ 
+                    fontSize: '12px', 
+                    color: '#818686', 
+                    fontWeight: '400', 
+                    fontFamily: 'Raleway, sans-serif',
+                    margin: '0', 
+                    lineHeight: '1.4', 
+                  }}
+                >
+                  <span style={{ fontWeight: '600', color: '#4b5563' }}></span> 
+                  {config.reason}
+                </p>
+                
+                <p 
+                  className={styles.refundText} 
+                  style={{ 
+                    fontSize: '12px', 
+                    color: '#818686', 
+                    fontWeight: '400', 
+                    fontFamily: 'Raleway, sans-serif',
+                    margin: '0', 
+                    lineHeight: '1.2',
+                  }}
+                >
+                  {config.refundedAmount}
+                </p>
+              </div>
+            )}
           </div>
         </div>
         
+        {/* Top Right: Desktop Meta Info */}
         <div className={styles.orderTopRight}>
           <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
           <p>Order ID: <span>#{order.id}</span></p>
         </div>
       </div>
 
+      {/* Mobile Meta Info */}
       <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
         <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
         <p>Order ID: <span>#{order.id}</span></p>

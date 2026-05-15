@@ -124,7 +124,7 @@ padding-bottom: clamp(40px, 11vw, 120px);
     box-sizing: border-box;
   }
   .main {
-    padding-bottom: 60px;
+    padding-bottom: 80px;
   }
 }
 

@@ -7,17 +7,22 @@ import { ADDRESS_LABELS, UAE_STATES } from "../profileConstants";
 const AddressFormPopup = ({
   mode,
   addressForm,
-  addressErrors,
-  addressGeneralError,
-  activeLabelBtn,
   onFormChange,
   onLabelSelect,
   onSave,
   onCancel,
   isSubmitting,
+  activeLabelBtn,
 }) => {
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
+  const [focusedField, setFocusedField] = useState(null); // Track which input is clicked
   const emirateRef = useRef(null);
+
+  const limits = {
+    firstName: 15,
+    lastName: 15,
+    city: 15,
+  };
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -49,20 +54,41 @@ const AddressFormPopup = ({
         {/* Name Row */}
         <div className={styles.row}>
           <div className={styles.flex1}>
-            <input
-              className={styles.lineInput}
-              placeholder="First Name"
-              value={addressForm.addressFirstName || ""}
-              onChange={(e) => onFormChange("addressFirstName", e.target.value)}
-            />
+            <div className={styles.inputWrapperWithLimit}>
+              <input
+                className={styles.lineInput}
+                placeholder="First Name"
+                value={addressForm.addressFirstName || ""}
+                maxLength={limits.firstName}
+                onFocus={() => setFocusedField("firstName")}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => onFormChange("addressFirstName", e.target.value)}
+              />
+              {/* Show only if focused OR if there is already text inside */}
+              {(focusedField === "firstName" || addressForm.addressFirstName) && (
+                <span className={styles.charCounter}>
+                  {(addressForm.addressFirstName || "").length}/{limits.firstName}
+                </span>
+              )}
+            </div>
           </div>
           <div className={styles.flex1}>
-            <input
-              className={styles.lineInput}
-              placeholder="Last Name"
-              value={addressForm.addressLastName || ""}
-              onChange={(e) => onFormChange("addressLastName", e.target.value)}
-            />
+            <div className={styles.inputWrapperWithLimit}>
+              <input
+                className={styles.lineInput}
+                placeholder="Last Name"
+                value={addressForm.addressLastName || ""}
+                maxLength={limits.lastName}
+                onFocus={() => setFocusedField("lastName")}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => onFormChange("addressLastName", e.target.value)}
+              />
+              {(focusedField === "lastName" || addressForm.addressLastName) && (
+                <span className={styles.charCounter}>
+                  {(addressForm.addressLastName || "").length}/{limits.lastName}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
@@ -75,7 +101,6 @@ const AddressFormPopup = ({
           />
         </div>
 
-        {/* Apartment */}
         <div className={styles.fieldWrapperRelative}>
           <input
             className={styles.lineInput}
@@ -89,12 +114,22 @@ const AddressFormPopup = ({
         {/* City + Emirate */}
         <div className={styles.row}>
           <div className={styles.flex1}>
-            <input
-              className={styles.lineInput}
-              placeholder="City"
-              value={addressForm.city || ""}
-              onChange={(e) => onFormChange("city", e.target.value)}
-            />
+            <div className={styles.inputWrapperWithLimit}>
+              <input
+                className={styles.lineInput}
+                placeholder="City"
+                value={addressForm.city || ""}
+                maxLength={limits.city}
+                onFocus={() => setFocusedField("city")}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => onFormChange("city", e.target.value)}
+              />
+              {(focusedField === "city" || addressForm.city) && (
+                <span className={styles.charCounter}>
+                  {(addressForm.city || "").length}/{limits.city}
+                </span>
+              )}
+            </div>
           </div>
           <div className={styles.emirateWrapper} ref={emirateRef}>
             <div
@@ -136,7 +171,7 @@ const AddressFormPopup = ({
           />
         </div>
 
-        {/* Save As Labels */}
+        {/* Save As */}
         <div className={styles.saveAsWrapper}>
           <p className={styles.saveAsTitle}>Save As</p>
           <div className={styles.labelGroup}>
@@ -152,7 +187,6 @@ const AddressFormPopup = ({
           </div>
         </div>
 
-        {/* Footer Actions */}
         <div className={styles.footerActions}>
           <button className={styles.cancelBtn} onClick={onCancel}>
             Cancel

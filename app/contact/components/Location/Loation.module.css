@@ -447,13 +447,13 @@
 
 @media (max-width: 480px) and (min-width:320px){
   .container {
-    padding: 80px 0;
+    padding: 80px 0 0;
   }
   .container .careersSection,
   .container .topSection {
-    padding-left: 20px;
-    padding-right: 20px;
-    padding-bottom: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 80px;
   }
 
   .container .jobItem {

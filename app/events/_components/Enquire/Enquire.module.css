@@ -185,7 +185,7 @@ padding: clamp(40px, 10vw, 120px) clamp(30px, 12vw, 125px);
 
 @media (max-width: 768px) {
   .container {
-    padding: 60px 20px;
+    padding: 0 24px;
     gap: 40px;
   }
 

@@ -236,7 +236,7 @@ padding: clamp(20px, 5vw, 50px) clamp(15px, 2vw, 30px);
 
 @media screen and (min-width: 325px) and (max-width: 768px) {
   .menuSection {
-    padding: 30px 15px;
+    padding: 32px 24px;
   }
 
   .sectionHeader {

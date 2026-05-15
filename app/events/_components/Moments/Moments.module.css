@@ -74,7 +74,7 @@ padding: 0 clamp(20px, 10vw, 125px) clamp(30px, 5vw, 60px);
 @media (max-width: 768px) {
   .momentsContainer {
     flex-direction: column; 
-    padding: 80px 20px;
+    padding: 80px 24px;
     height: auto; 
     gap: 8px;
   }

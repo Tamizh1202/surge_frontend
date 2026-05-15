@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 const MOCK_ORDER_DETAIL = {
   id: "2864297643",
   invoiceId: "#2864297643",
-  deliveryStatus: "placed", // Change this to "placed" to test different UI states
+  deliveryStatus: "cancelled", // Change this to "placed" to test different UI states
   createdAt: "Dec 10, 2025",
   deliveredAt: "Dec 14, 2025",
   deliveringBy: "Dec 27, 2025",

@@ -176,7 +176,7 @@ padding-bottom: clamp(40px, 8vw, 83px);
 
 @media (max-width: 800px) and (min-width: 320px) {
   .container {
-    padding: 0 20px 80px;
+    padding: 0 24px 80px;
     display: flex;
     flex-direction: column;
 

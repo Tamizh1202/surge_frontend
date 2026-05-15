@@ -84,6 +84,31 @@ padding-right: clamp(30px, 31vw, 400px);
   gap: 80px;
 }
 
+
+.inputWrapperWithLimit {
+  position: relative;
+  width: 100%;
+}
+
+
+.charCounter {
+  position: absolute;
+  right: 0;
+  
+  font-size: 12px;
+  color: #a0a0a0; 
+  pointer-events: none; 
+
+}
+
+.lineInput {
+  padding-right: 35px !important;
+  width: 100%;
+}
+
+.lineInput:focus + .charCounter {
+  color: #414343;
+}
 /* .Field {
   display: flex;
   align-items: center;

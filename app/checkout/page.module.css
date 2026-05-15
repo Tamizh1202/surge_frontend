@@ -258,6 +258,7 @@ padding-bottom: clamp(50px, 17vw, 250px);
   display: block;
 }
 
+
 .ItemInfo {
   flex: 3;
   font-family: var(--lato);

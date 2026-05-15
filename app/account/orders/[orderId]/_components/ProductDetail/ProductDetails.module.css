@@ -1,415 +1,828 @@
 .orderCard {
 
-    width: 710px;
+
+width: 100%;
+    max-width: 710px;
+
 
  
 
+
+
     border-radius: 1px;
+
+
 
     margin-bottom: 20px;
 
+
+
     background-color: #fff;
+
+
 
     overflow: hidden; /* Ensures the footer corners don't bleed */
 
+
+
 }
+
+
+
+
 
 
 
 /* Header Section: Status and Metadata */
 
+
+
 .orderTop {
+
+
 
     display: flex;
 
+
+
     justify-content: space-between;
+
 padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
+
+
 
     background-color: #F5F5F5;
 
+
+
 }
+
+
+
+
 
 
 
 .orderTopLeft {
 
+
+
     display: flex;
+
+
 
     gap: 15px;
 
+
+
     align-items: center;
+
+
 
 }
 
+
+
 .statusIcon {
+
+
 
   margin-bottom: 10px; /* Precision adjustment for icon top alignment */
 
+
+
   flex-shrink: 0;
 
+
+
 }
+
+
 
 .statusIcon {
 
+
+
     display: flex;
+
+
 
  
 
+
+
     align-items: center;
+
+
 
     justify-content: center;
 
+
+
 }
+
+
+
+
 
 
 
 .orderStatusTitle {
 
+
+
     font-family: var(--font-raleway);
+
+
 
     font-weight: 600;
 
+
+
     font-size: 16px;
+
+
 
     line-height: 100%;
 
+
+
     color: #C4754E;
+
+
 
     margin: 0;
 
+
+
 }
+
+
+
+
 
 
 
 .orderDateSub {
 
+
+
       font-family: var(--font-raleway);
+
+
 
     font-size: 16px;
 
+
+
     font-weight: 400;
+
+
 
     color: #414343;
 
+
+
     margin-top: 6px;
+
+
 
     line-height: 100%;
 
+
+
 }
+
+
+
+
 
 
 
 .orderTopRight {
 
+
+
     text-align: right;
 
+
+
 }
+
+
+
+
 
 
 
 .orderTopRight p {
 
+
+
       font-family: var(--font-raleway);
+
+
 
     font-size: 16px;
 
+
+
     margin-bottom: 6px;
+
+
 
     font-weight: 400;
 
+
+
     color: #414343;
+
+
 
     line-height: 100%;
 
+
+
     margin: 0;
+
+
 
     margin-bottom: 4px;
 
+
+
 }
+
+
+
+
 
 
 
 .orderTopRight span {
 
+
+
     color: #818686;
 
+
+
 }
+
+
+
+
 
 
 
 /* Items Section */
 
+
+
 .orderMiddle {
+
+
 
     display: flex;
 
+
+
     flex-direction: column;
+
+
 
     padding: 24px 28px;
 
+
+
     border-top: 1px solid rgba(47, 54, 42, 0.3);
 
+
+
 }
+
+
+
+
 
 
 
 .orderMiddleNoBottom {
 
+
+
     border-bottom: none;
 
+
+
 }
+
+
+
+
 
 
 
 .orderItems {
 
+
+
     display: flex;
+
+
 
     flex-direction: column;
 
+
+
     gap: 20px;
 
+
+
 }
+
+
+
+
 
 
 
 .orderItem {
 
+
+
     display: flex;
+
+
 
     gap: 20px;
 
+
+
     align-items: center;
 
+
+
 }
+
+
+
+
 
 
 
 .orderItemImg {
 
+
+
     width: 80px;
+
+
 
     height: 80px;
 
+
+
     object-fit: contain;
+
+
 
     background-color: #f9f9f9;
 
+
+
 }
+
+
+
+
 
 
 
 .orderItemInfo {
 
+
+
     display: flex;
+
+
 
     flex-direction: column;
 
+
+
     gap: 16px;
 
+
+
 }
+
+
+
+
 
 
 
 .itemName {
 
+
+
     font-family: var(--font-raleway);
+
+
 
     font-size: 16px;
 
+
+
     color: #414343;
+
+
 
     margin: 0;
 
+
+
     font-weight: 400;
 
+
+
 }
+
+
+
+
 
 
 
 .itemMeta {
 
+
+
     display: flex;
+
+
 
     align-items: center;
 
+
+
     gap: 12px;
+
+
 
     font-weight: 400;
 
+
+
       font-family: var(--font-raleway);
+
+
 
     font-size: 16px;
 
+
+
     color: #818686;
+
+
 
     margin: 0;
 
+
+
 }
+
+
+
+
 
 
 
 .Separator {
 
+
+
     color: rgba(47, 54, 42, 0.3);
+
+
 
     font-weight: 300;
 
+
+
 }
+
+
+
+
 
 
 
 /* Footer Section: Rate This Order */
 
+
+
 .rateOrderFooter {
+
+
 
     background-color: #B87856; /* The terracotta/burnt orange color */
 
+
+
     padding: 16px 28px;
+
+
 
     display: flex;
 
+
+
     justify-content: space-between;
+
+
 
     align-items: center;
 
+
+
  
 
+
+
 }
+
+
+
+
 
 
 
 .rateOrderText {
 
+
+
     color: #FFFFFF;
+
+
 
     font-family: var(--font-raleway);
 
+
+
     font-size: 16px;
+
+
 
     font-weight: 700;
 
+
+
      
 
+
+
 }
+
+
+
+
 
 
 
 .stars {
 
+
+
     display: flex;
+
+
 
     gap: 6px;
 
+
+
 }
+
+
+
+
 
 
 
 .starIcon {
 
+
+
     color: #FFFFFF;
+
+
 
     font-size: 22px;
 
+
+
     line-height: 1;
+
+
 
     cursor: pointer;
 
+
+
 }
+
+
+
+
 
 
 
 /* Mobile Responsiveness */
 
+
+
 .orderMobileMeta {
+
+
 
     display: none;
 
+
+
 }
+
+
 
 @media (max-width: 640px) {
+
     .orderCard {
+
         width: 100%; 
+
         max-width: 100%;
+
         margin-left: auto;
+
         margin-right: auto;
+
         
+
     }
+
+
 
     .orderTopRight {
+
         display: none;
+
     }
+
+
 
     .orderTop {
+
         padding: 16px 20px;
+
     }
+
+
 
     .orderMiddle {
+
         padding: 20px;
+
        border-top:none;
+
       
+
     }
+
+
 
     .orderMobileMeta {
+
         display: flex;
+
         flex-direction: column;
+
         gap: 6px;
+
         padding: 16px 20px;
+
         border-top:1px solid #818686;
+
     }
+
+
 
     .orderMobileMeta p {
+
         font-family: var(--font-raleway);
+
         font-size: 14px;
+
         color:#414343;
+
         font-weight:400;
+
         margin: 0;
+
     }
+
+
 
     .orderMobileMeta span {
+
         color: #818686;
+
         font-weight:400;
+
         font-size:14px;
+
         font-family:var(--font-raleway)
+
         
+
     }
 
+
+
     .rateOrderFooter {
+
         padding: 14px 20px;
+
     }
+
 }
+
+
+
 
 
 @media (max-width: 380px) {
+
     .orderItem {
+
         gap: 12px; 
+
     }
+
+
 
     .orderItemImg {
+
         width: 60px;
+
         height: 60px;
+
     }
+
+
 
     .itemName {
+
         font-size: 14px; 
+
     }
+
+
 
     .itemMeta {
+
         font-size: 14px;
+
         gap: 8px;
-    }
- 
-    .rateOrderFooter {
-        flex-direction: column; 
-        gap: 10px;
-        align-items: flex-start;
+
     }
 
+ 
+
+    .rateOrderFooter {
+
+        flex-direction: column; 
+
+        gap: 10px;
+
+        align-items: flex-start;
+
+    }
+
+
+
     .orderStatusTitle {
+
         font-size: 14px;
+
     }
+
     
+
     .orderDateSub {
+
         font-size: 14px;
+
     }
+
 }

@@ -20,12 +20,12 @@ const EASE   = "power2.inOut";
  *
  * An inner div (260px wide, transform-origin center) at scale S overflows
  * its own left edge by:  (260/2) × (S − 1)
- * Parking at x = SLIDE + (SLIDE/2) × (S − 1) means the inner's left edge
- * lands exactly on the frame's right boundary → zero bleed before animation.
+ * Parking at x = SLIDE + (SLIDE/2) × (S − 1) lands the inner's left edge
+ * exactly on the frame's right boundary → zero bleed before animation.
  *
- * winL's incoming element now starts at scale 1.5 (see rotate()), so it must
- * park at safeX(1.5) = 260 + 130 × 0.5 = 325. Kept as a function so the
- * offset always tracks whatever start-scale the left window uses.
+ * winL's incoming element starts at scale 1.5 (it shares the center's
+ * featured scale — see rotate()), so it parks at safeX(1.5) = 325.
+ * Kept as a function so the offset always tracks the start-scale used.
  */
 function safeX(fromScale) { return SLIDE + (SLIDE / 2) * (fromScale - 1); }
 
@@ -106,10 +106,11 @@ export default function AboutSection() {
     if (busy.current) return;
     busy.current = true;
 
-    // winL incoming now mirrors the center's featured zoom-out exactly:
-    // fromTo(1.5 → 1.2) — same curve as winC's outgoing element. It settles
-    // 1.2 → 1.0 on its *next* rotation (as it slides out), before resting.
-    animateFrame(winL.current, 1.0, 1.2, 1.5); // incoming: fromTo(1.5 → 1.2) — matches center
+    // winL incoming shares the center's zoom-out curve — same 1.5 start, same
+    // power2.inOut easing, same duration — but runs the full way to 1.0, the
+    // left window's resting scale. So it settles cleanly: no rest-at-1.2 pop,
+    // no later exit shrink. winL outgoing simply holds 1.0 → 1.0.
+    animateFrame(winL.current, 1.0, 1.0, 1.5); // outgoing: 1.0→1.0 | incoming: fromTo(1.5 → 1.0)
     animateFrame(winC.current, 1.2, 1.5);       // outgoing: 1.5→1.2 | incoming: 1.0→1.5
     animateFrame(winR.current, 1.5, 1.0);       // outgoing: 1.0→1.5 | incoming: 1.0→1.0
 

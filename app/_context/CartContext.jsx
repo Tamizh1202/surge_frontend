@@ -256,7 +256,8 @@ export function CartProvider({ children }) {
   // ─── Add ─────────────────────────────────────────────────────────────────────
 
   const addToCart = async (product, quantity = 1, vId, details = null) => {
-    const customSelections = getCustomSelections(details);
+    const { productHighlights, ...restDetails } = details || {};
+    const customSelections = getCustomSelections(restDetails);
 
     if (session?.user) {
       try {
@@ -268,12 +269,12 @@ export function CartProvider({ children }) {
 
         const data = res.data;
         applyCartResponse(data);
-        if (customSelections) {
+        if (customSelections || productHighlights) {
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&
                 (item.vId || null) === (vId || null)
-                ? { ...item, customSelections }
+                ? { ...item, customSelections, ...(productHighlights ? { productHighlights } : {}) }
                 : item,
             ),
           );
@@ -296,9 +297,19 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        await addItemToCart(product, quantity, vId, details);
+        await addItemToCart(product, quantity, vId, restDetails);
         const cart = getCart();
         applyGuestCart();
+        if (productHighlights) {
+          setItems((currentItems) =>
+            currentItems.map((item) =>
+              String(item.product) === String(product) &&
+                (item.vId || null) === (vId || null)
+                ? { ...item, productHighlights }
+                : item,
+            ),
+          );
+        }
         // Show toast with the item from the refreshed guest cart
         const added = (cart.items || []).find(
           (i) =>

@@ -139,10 +139,10 @@ export default function CheckoutForm({
       // 3. Build backend payload
       const shipAddr = delivery === "ship"
         ? formatCheckoutAddress(
-            status === "authenticated" && selectedAddressId
-              ? savedAddresses.find((a) => a.id === selectedAddressId)
-              : shippingForm
-          )
+          status === "authenticated" && selectedAddressId
+            ? savedAddresses.find((a) => a.id === selectedAddressId)
+            : shippingForm
+        )
         : null;
 
       const billAddr = (useShippingAsBilling && delivery === "ship")
@@ -157,6 +157,9 @@ export default function CheckoutForm({
         email: email,
         products: product.map((p) => {
           const customization = Object.values(p.customSelections || {}).filter(Boolean).join(", ");
+          const productHighlights = Object.entries(p.customSelections || {})
+            .filter(([, value]) => value)
+            .map(([sectionTitle, point]) => ({ sectionTitle, items: [{ point }] }));
 
           return {
             productId: p.product || p.productId || p.id,
@@ -165,11 +168,15 @@ export default function CheckoutForm({
             customization,
             customizations: customization,
             customSelections: p.customSelections || {},
+            productHighlights,  // ← built from customSelections, not p.productHighlights
           };
         }),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
       });
+
+      console.log("Payload to be posted:", JSON.stringify(payload, null, 2));
+      localStorage.setItem("lastCheckoutPayload", JSON.stringify(payload, null, 2));
 
       // 4. Call backend to create order and get client secret
       const res = await axiosClient.post("/api/checkout/one-time", payload);
@@ -289,7 +296,6 @@ export default function CheckoutForm({
                 setValidationErrors={setValidationErrors}
                 emirateOptions={emirateOptions}
               />
-
               <PaymentButtonSection
                 isProcessing={isProcessing}
                 handlePayment={handlePayment}

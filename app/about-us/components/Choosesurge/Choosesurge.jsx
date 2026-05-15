@@ -27,7 +27,7 @@ export default function Choosesurge() {
                         />
                     </div>
                     <h2 className={styles.heading}>Specialty Coffee, Done Right</h2>
-                    <p className={styles.description}>Premium beans, crafted to meet global specialty standards.</p>
+                    <p className={styles.description}>Selected and roasted to meet the highest global specialty standards — the difference is in every sip.</p>
                 </div>
 
                 {/* Card 2 */}
@@ -43,7 +43,7 @@ export default function Choosesurge() {
                         />
                     </div>
                     <h2 className={styles.heading}>Proudly Emirati-Owned</h2>
-                    <p className={styles.description}>A Dubai-rooted brand built on authenticity and local values.</p>
+                    <p className={styles.description}>A Dubai-born brand, proudly Emirati-owned, built on authenticity and deep local values.</p>
                 </div>
 
                 {/* Card 3 */}
@@ -59,7 +59,7 @@ export default function Choosesurge() {
                         />
                     </div>
                     <h2 className={styles.heading}>Quality You Can Taste</h2>
-                    <p className={styles.description}>Premium beans, crafted to meet global specialty standards.</p>
+                    <p className={styles.description}>From the very first sip, the difference is unmistakable. Quality you can taste, consistency you can count on.</p>
                 </div>
 
                 {/* Card 4 */}
@@ -75,7 +75,7 @@ export default function Choosesurge() {
                         />
                     </div>
                     <h2 className={styles.heading}>Spaces Built for Community</h2>
-                    <p className={styles.description}>Welcoming cafés that feel familiar—made for coffee and connection</p>
+                    <p className={styles.description}>Welcoming cafés designed to feel like home — spaces made for great coffee and genuine connection.</p>
                 </div>
             </div>
         </div>

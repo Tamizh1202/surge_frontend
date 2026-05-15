@@ -9,19 +9,19 @@ const packages = [
   {
     id: 1,
     title: "Tell Us About Your Event",
-    description: "Share your event date, time, location, and guest count. Well recommend the perfect coffee setup for your occasion.",
+    description: "Share your event date, time, location, and guest count. We'll recommend the ideal Surge setup for your occasion.",
     image: cupImg
   },
   {
     id: 2,
     title: "Choose Your Package",
-    description: "Choose a cups package and tailor it with add-ons to suit your event. Flexible setups designed to match your guest count and style.",
+    description: "Choose a package and tailor it with add-ons to match your guest count and event aesthetic. Every detail, your way.",
     image: cupImg2
   },
   {
     id: 3,
     title: "We Handle the Rest",
-    description: "Our team arrives on time, sets up a clean and professional coffee station, and serves freshly brewed beverages throughout your event.",
+    description: "Our team arrives on time, sets up a sleek and professional Surge coffee station, and serves freshly brewed beverages from start to finish.",
     image: cupImg3
   },
 ];
@@ -56,7 +56,7 @@ export default function CoffeePackages() {
 
 
         <div className={styles.cardBox}>
-          <p className={styles.cardText}>Ready to elevate your  event?</p>
+          <p className={styles.cardText}>Ready to make every cup — and every moment — count?</p>
           <a href="#enquiry-form" className={styles.enquireLink}>
             Enquire Now
             <span className={styles.arrowIcon}>

@@ -68,8 +68,7 @@ export default function Footer({ categories }) {
               <h3 className={styles.promoHeading}>Every cup earns more.</h3>
               <p className={styles.promoLabel}>Surge Rewards</p>
               <p className={styles.promoDesc}>
-                Join Surge Rewards earn points on every purchase and redeem for
-                free coffee, exclusives, and perks.
+            Join Surge Rewards. Earn points on every purchase and redeem for free coffee, exclusive drops, and premium perks.
               </p>
               <Link href="/account/surge-beans" className={styles.exploreBtn}>
                 Explore Rewards
@@ -78,12 +77,11 @@ export default function Footer({ categories }) {
 
             <div className={styles.promoCol}>
               <h3 className={styles.promoHeading}>
-                Your coffee ritual, in your pocket.
+             Your coffee ritual, always in your pocket.
               </h3>
               <p className={styles.promoLabel}>Surge App</p>
               <p className={styles.promoDesc}>
-                Order ahead, track brews, unlock member-only drops, and manage
-                everything in one place.
+              Order ahead, track your brews, unlock member-only drops, and manage it all in one place.
               </p>
               <div className={styles.appLinks}>
                 <Link href="#" className={styles.appBtn}>
@@ -137,14 +135,9 @@ export default function Footer({ categories }) {
         <div className={styles.topSection}>
           <div className={styles.newsletterArea}>
             <div className={styles.newsletterContent}>
-              <h2 className={styles.heading}>Join Our Community</h2>
+              <h2 className={styles.heading}>Be Part of the Surge Community</h2>
               <p className={styles.description}>
-                Join our email list and take your coffee ritual further. Get
-                early access to new releases, exclusive offers and thoughtful
-                perks, plus expert brewing tips to help you make better coffee
-                at home. Go behind the scenes to discover the stories, sourcing
-                and craft behind every cup, and become part of a growing
-                community united by a shared love for quality coffee.
+           Join the Surge community and take your coffee ritual further. Get first access to new releases, curated offers, and expert brewing insights. Go behind the scenes — explore the stories, sourcing, and craft behind every cup.
               </p>
               <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
                 <input
@@ -156,9 +149,13 @@ export default function Footer({ categories }) {
                   required
                   suppressHydrationWarning
                 />
-                <button type="submit" className={styles.subscribeBtn} disabled={isLoading}>
-                  {isLoading ? "Subscribing..." : "Subscribe"}
-                </button>
+               <button 
+  type="submit" 
+  className={styles.subscribeBtn} 
+  disabled={isLoading}
+>
+  {isLoading ? "Joining..." : "Join Now"}
+</button>
               </form>
               {message && (
                 <p className={isError ? styles.errorMsg : styles.successMsg}>
@@ -249,14 +246,14 @@ export default function Footer({ categories }) {
                 href="mailto:hello@whitemantis.ae"
                 className={styles.accentLink}
               >
-                hello@whitemantis.ae
+             hello@surgecoffee.ae
               </Link>
             </div>
           </div>
         </div>
 <div className={styles.divide}></div>
         <div className={styles.bottomBar}>
-          <div className={styles.copyright}>© 2026 Surge</div>
+          <div className={styles.copyright}>© 2026 Surge. All Rights Reserved.</div>
           <div className={styles.legal}>
             <Link href="/terms-and-conditions">Terms and Conditions</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>

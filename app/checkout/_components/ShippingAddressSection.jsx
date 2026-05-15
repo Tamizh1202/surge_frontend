@@ -34,12 +34,15 @@ export default function ShippingAddressSection({
   const [openMenuId, setOpenMenuId] = useState(null);
   const [addressDeletePopup, setAddressDeletePopup] = useState(false);
   const [addressFormPopup, setAddressFormPopup] = useState(false);
-  const [addressPopupMode, setAddressPopupMode] = useState("add"); // "add" | "edit"
+  const [addressPopupMode, setAddressPopupMode] = useState("add"); 
   const [addressToDelete, setAddressToDelete] = useState(null);
   const [addressToEdit, setAddressToEdit] = useState(null);
   const menuRef = useRef(null);
   const emirateRef = useRef(null);
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
+
+  // --- NEW STATE FOR COUNTER VISIBILITY ---
+  const [activeField, setActiveField] = useState(null);
 
   const emptyAddressForm = {
     addressFirstName: "",
@@ -57,17 +60,15 @@ export default function ShippingAddressSection({
   const [addressGeneralError, setAddressGeneralError] = useState("");
   const [activeLabelBtn, setActiveLabelBtn] = useState(ADDRESS_LABELS[0]);
 
-  // Auto-select default address (or first address as fallback) on load
   useEffect(() => {
     if (!savedAddresses || savedAddresses.length === 0) return;
-    if (selectedAddressId) return; // don't override a user's manual choice
+    if (selectedAddressId) return; 
     const defaultAddr = savedAddresses.find(
       (a) => a.isDefault || a.isDefaultAddress,
     );
     setSelectedAddressId(defaultAddr ? defaultAddr.id : savedAddresses[0].id);
   }, [savedAddresses]);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     function handleClickOutside(e) {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -347,7 +348,6 @@ export default function ShippingAddressSection({
             </>
           )}
 
-          {/* Inline Form (unauthenticated OR authenticated with NO addresses) */}
           {showInlineForm && (
             <div data-lenis-prevent>
               <div className={styles.FieldWrap}>
@@ -360,66 +360,57 @@ export default function ShippingAddressSection({
               </div>
 
               <div className={styles.Row}>
+                {/* FIRST NAME WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingFirstName ? styles.InputError : ""}`}
                     placeholder=" "
+                    maxLength={15}
                     value={shippingForm.firstName}
-                    onChange={(e) => {
-                      setShippingForm({
-                        ...shippingForm,
-                        firstName: e.target.value,
-                      });
-                      clearError("shippingFirstName");
-                    }}
+                    onFocus={() => setActiveField("firstName")}
                     onBlur={() => {
-                      const e = validateRequired(
-                        shippingForm.firstName,
-                        "First name",
-                      );
-                      if (e)
-                        setValidationErrors((p) => ({
-                          ...p,
-                          shippingFirstName: e,
-                        }));
+                      setActiveField(null);
+                      const e = validateRequired(shippingForm.firstName, "First name");
+                      if (e) setValidationErrors((p) => ({ ...p, shippingFirstName: e }));
+                    }}
+                    onChange={(e) => {
+                      setShippingForm({ ...shippingForm, firstName: e.target.value });
+                      clearError("shippingFirstName");
                     }}
                   />
                   <label className={styles.FloatLabel}>First Name</label>
+                  {activeField === "firstName" && (
+                    <span className={styles.CharCounter}>{shippingForm.firstName.length}/15</span>
+                  )}
                   {validationErrors.shippingFirstName && (
-                    <span className={styles.ErrorMessage}>
-                      {validationErrors.shippingFirstName}
-                    </span>
+                    <span className={styles.ErrorMessage}>{validationErrors.shippingFirstName}</span>
                   )}
                 </div>
+
+                {/* LAST NAME WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingLastName ? styles.InputError : ""}`}
                     placeholder=" "
+                    maxLength={15}
                     value={shippingForm.lastName}
-                    onChange={(e) => {
-                      setShippingForm({
-                        ...shippingForm,
-                        lastName: e.target.value,
-                      });
-                      clearError("shippingLastName");
-                    }}
+                    onFocus={() => setActiveField("lastName")}
                     onBlur={() => {
-                      const e = validateRequired(
-                        shippingForm.lastName,
-                        "Last name",
-                      );
-                      if (e)
-                        setValidationErrors((p) => ({
-                          ...p,
-                          shippingLastName: e,
-                        }));
+                      setActiveField(null);
+                      const e = validateRequired(shippingForm.lastName, "Last name");
+                      if (e) setValidationErrors((p) => ({ ...p, shippingLastName: e }));
+                    }}
+                    onChange={(e) => {
+                      setShippingForm({ ...shippingForm, lastName: e.target.value });
+                      clearError("shippingLastName");
                     }}
                   />
                   <label className={styles.FloatLabel}>Last Name</label>
+                  {activeField === "lastName" && (
+                    <span className={styles.CharCounter}>{shippingForm.lastName.length}/15</span>
+                  )}
                   {validationErrors.shippingLastName && (
-                    <span className={styles.ErrorMessage}>
-                      {validationErrors.shippingLastName}
-                    </span>
+                    <span className={styles.ErrorMessage}>{validationErrors.shippingLastName}</span>
                   )}
                 </div>
               </div>
@@ -430,28 +421,17 @@ export default function ShippingAddressSection({
                   placeholder=" "
                   value={shippingForm.address}
                   onChange={(e) => {
-                    setShippingForm({
-                      ...shippingForm,
-                      address: e.target.value,
-                    });
+                    setShippingForm({ ...shippingForm, address: e.target.value });
                     clearError("shippingAddress");
                   }}
                   onBlur={() => {
                     const e = validateRequired(shippingForm.address, "Address");
-                    if (e)
-                      setValidationErrors((p) => ({
-                        ...p,
-                        shippingAddress: e,
-                      }));
+                    if (e) setValidationErrors((p) => ({ ...p, shippingAddress: e }));
                   }}
                 />
-                <label className={styles.FloatLabel}>
-                  House number, Street name
-                </label>
+                <label className={styles.FloatLabel}>House number, Street name</label>
                 {validationErrors.shippingAddress && (
-                  <span className={styles.ErrorMessage}>
-                    {validationErrors.shippingAddress}
-                  </span>
+                  <span className={styles.ErrorMessage}>{validationErrors.shippingAddress}</span>
                 )}
               </div>
 
@@ -460,80 +440,54 @@ export default function ShippingAddressSection({
                   className={styles.Input}
                   placeholder=" "
                   value={shippingForm.apartment}
-                  onChange={(e) =>
-                    setShippingForm({
-                      ...shippingForm,
-                      apartment: e.target.value,
-                    })
-                  }
+                  onChange={(e) => setShippingForm({ ...shippingForm, apartment: e.target.value })}
                 />
-                <label className={styles.FloatLabel}>
-                  Apartment, suite, etc. (optional)
-                </label>
+                <label className={styles.FloatLabel}>Apartment, suite, etc. (optional)</label>
               </div>
 
               <div className={styles.Row}>
+                {/* CITY WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingCity ? styles.InputError : ""}`}
                     placeholder=" "
+                    maxLength={15}
                     value={shippingForm.city}
-                    onChange={(e) => {
-                      setShippingForm({
-                        ...shippingForm,
-                        city: e.target.value,
-                      });
-                      clearError("shippingCity");
-                    }}
+                    onFocus={() => setActiveField("city")}
                     onBlur={() => {
+                      setActiveField(null);
                       const e = validateRequired(shippingForm.city, "City");
-                      if (e)
-                        setValidationErrors((p) => ({ ...p, shippingCity: e }));
+                      if (e) setValidationErrors((p) => ({ ...p, shippingCity: e }));
+                    }}
+                    onChange={(e) => {
+                      setShippingForm({ ...shippingForm, city: e.target.value });
+                      clearError("shippingCity");
                     }}
                   />
                   <label className={styles.FloatLabel}>City</label>
+                  {activeField === "city" && (
+                    <span className={styles.CharCounter}>{shippingForm.city.length}/15</span>
+                  )}
                   {validationErrors.shippingCity && (
-                    <span className={styles.ErrorMessage}>
-                      {validationErrors.shippingCity}
-                    </span>
+                    <span className={styles.ErrorMessage}>{validationErrors.shippingCity}</span>
                   )}
                 </div>
-                <div
-                  className={styles.SelectContainer}
-                  ref={emirateRef}
-                  style={{ flex: 1 }}
-                >
-                  <div
-                    className={styles.CustomSelectTrigger}
-                    onClick={() => setIsEmirateOpen(!isEmirateOpen)}
-                  >
-                    <span style={{ textTransform: "capitalize" }}>
-                      {emirateOptions.find(
-                        (s) => s.value === (shippingForm.emirates || "dubai"),
-                      )?.label || "Select Emirate"}
-                    </span>
-                    <span
-                      className={`${styles.Arrow} ${isEmirateOpen ? styles.Rotate : ""}`}
-                    >
-                      ▼
-                    </span>
-                  </div>
 
+                <div className={styles.SelectContainer} ref={emirateRef} style={{ flex: 1 }}>
+                  <div className={styles.CustomSelectTrigger} onClick={() => setIsEmirateOpen(!isEmirateOpen)}>
+                    <span style={{ textTransform: "capitalize" }}>
+                      {emirateOptions.find((s) => s.value === (shippingForm.emirates || "dubai"))?.label || "Select Emirate"}
+                    </span>
+                    <span className={`${styles.Arrow} ${isEmirateOpen ? styles.Rotate : ""}`}>▼</span>
+                  </div>
                   {isEmirateOpen && (
                     <div className={styles.CustomOptionsList}>
                       {emirateOptions.map((opt) => (
-                        <div
-                          key={opt.value}
-                          className={styles.OptionItem}
-                          onClick={() => {
-                            setShippingForm({
-                              ...shippingForm,
-                              emirates: opt.value,
-                            });
-                            setIsEmirateOpen(false);
-                            clearError("shippingEmirates"); // If there was an error
-                          }}
-                        >
+                        <div key={opt.value} className={styles.OptionItem} onClick={() => {
+                          setShippingForm({ ...shippingForm, emirates: opt.value });
+                          setIsEmirateOpen(false);
+                          clearError("shippingEmirates");
+                        }}>
                           {opt.label}
                         </div>
                       ))}
@@ -543,9 +497,7 @@ export default function ShippingAddressSection({
               </div>
 
               <div className={styles.FieldWrap}>
-                <div
-                  className={`${styles.PhoneWrapper} ${validationErrors.shippingPhone ? styles.InputError : ""}`}
-                >
+                <div className={`${styles.PhoneWrapper} ${validationErrors.shippingPhone ? styles.InputError : ""}`}>
                   <span className={styles.PhonePrefix}>+971</span>
                   <input
                     className={styles.PhoneInput}
@@ -559,18 +511,12 @@ export default function ShippingAddressSection({
                     }}
                     onBlur={() => {
                       const e = validateUAEPhone(shippingForm.phone);
-                      if (e)
-                        setValidationErrors((p) => ({
-                          ...p,
-                          shippingPhone: e,
-                        }));
+                      if (e) setValidationErrors((p) => ({ ...p, shippingPhone: e }));
                     }}
                   />
                 </div>
                 {validationErrors.shippingPhone && (
-                  <span className={styles.ErrorMessage}>
-                    {validationErrors.shippingPhone}
-                  </span>
+                  <span className={styles.ErrorMessage}>{validationErrors.shippingPhone}</span>
                 )}
               </div>
 
@@ -579,12 +525,7 @@ export default function ShippingAddressSection({
                   <input
                     type="checkbox"
                     checked={shippingForm.saveAddress}
-                    onChange={(e) =>
-                      setShippingForm({
-                        ...shippingForm,
-                        saveAddress: e.target.checked,
-                      })
-                    }
+                    onChange={(e) => setShippingForm({ ...shippingForm, saveAddress: e.target.checked })}
                   />
                   <p>Save this for next time.</p>
                 </label>
@@ -594,17 +535,11 @@ export default function ShippingAddressSection({
         </>
       )}
 
-      {/* ── Pickup Location ── */}
       {delivery === "pickup" && (
         <div className={styles.PickupList}>
           <p>Pickup Locations Near You</p>
           <div className={styles.PickupCard}>
-            <input
-              type="radio"
-              style={{ accentColor: "var(--primary-color)" }}
-              checked
-              readOnly
-            />
+            <input type="radio" style={{ accentColor: "var(--primary-color)" }} checked readOnly />
             <div>
               <h5>Surge Store - Main Branch</h5>
               <p>Your pickup address line, City</p>

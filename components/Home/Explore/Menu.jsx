@@ -13,10 +13,10 @@ const MobileArrow = () => (
 );
 
 const menuItems = [
-  { title: "Breakfast", img: breakfast, desc: "Fresh plate to ease you into the day.", link: "/breakfast" },
-  { title: "Breads", img: breads, desc: "Baked daily, crafted with care.", link: "/breads" },
-  { title: "Beverages", img: beverages, desc: "Exceptional coffee, every single cup.", link: "/beverages" },
-  { title: "Desserts", img: desserts, desc: "Small-batch sweet worth lingering over.", link: "/desserts" },
+  { title: "Breakfast", img: breakfast, desc: "Elevated coffee and crafted refreshment, served daily.", link: "/breakfast" },
+  { title: "Breads", img: breads, desc: "Slow mornings begin with fresh bakes and warm plates.", link: "/breads" },
+  { title: "Beverages", img: beverages, desc: "Clean, fresh choices crafted for modern living.", link: "/beverages" },
+  { title: "Desserts", img: desserts, desc: "Signature selections designed to elevate your routine.", link: "/desserts" },
 ];
 
 export default function Menu() {
@@ -26,8 +26,7 @@ export default function Menu() {
         <div>
           <h2 className={styles.heading}>Explore our Menu</h2>
           <p className={styles.subtext}>
-            From espresso classics to signature drinks and bites. Surge is more
-            than beans. Discover what’s served daily at our Dubai cafés.
+          From espresso classics to signature bites — Surge is far more than beans. Explore what's crafted fresh daily across our Dubai cafés.
           </p>
         </div>
 

@@ -78,8 +78,7 @@ export default function Coffees() {
         <div className={styles.headerText}>
           <h2 className={styles.selectedHeading}>Selected Coffees</h2>
           <p className={styles.selectedSubtext}>
-            The White Mantis coffee experience, delivered seamlessly to your
-            door. Subscribe for a never-ending supply of excellence.
+          The Surge coffee experience, delivered seamlessly to your door. Exceptional quality, on your terms.
           </p>
         </div>
 

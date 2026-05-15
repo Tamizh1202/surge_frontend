@@ -15,16 +15,14 @@ export default function HomePage() {
       <div className={styles.monotoneNoiseEffect}></div>
 
       <p className={styles.heroText}>
-        Every cup is crafted with premium beans, served with consistency,
-        and designed to bring people together because coffee is more
-        than a drink.
+      Precision-crafted. Intentionally served. Designed to bring people together — because at Surge, great coffee is never just a drink.
       </p>
 
 
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-          Not your <span className={styles.spantext} >boring</span> <br />
-          <span className={styles.spantext} >coffee</span> brewery
+           Where Dubai's <span className={styles.spantext} >Coffee</span> <br />
+          <span className={styles.spantext} >Standard Get's</span> Raised
         </h1>
 
         <button className={styles.shopButton}>

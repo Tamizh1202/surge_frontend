@@ -45,10 +45,9 @@ const Partnerships = () => {
 
 
         <div className={styles.Content}>
-          <h1 className={styles.Title}>Bold coffee, made the surge way</h1>
+          <h1 className={styles.Title}>Bold Coffee. Every Event. The Surge Way.</h1>
           <p className={styles.Subtitle}>
-            Premium coffee bar setup for offices, launches, weddings, pop-ups,
-            and private parties in Dubai.
+          A premium Surge coffee bar experience — purpose-built for offices, product launches, weddings, pop-ups, and private events across Dubai.
           </p>
           <a href='#enquiry-form' className={styles.eventButton}>Book an Event</a>
         </div>

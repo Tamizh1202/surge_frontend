@@ -23,15 +23,15 @@ export async function generateMetadata() {
       if (data.meta) {
         const imageUrl = data.meta.image ? formatImageUrl(data.meta.image) : "";
         return {
-          title: data.meta.title || "The Mantis Journal | WhiteMantis",
+          title: data.meta.title || "The Surge Journal | Surge",
           description:
             data.meta.description ||
-            "Stay updated with the latest in specialty coffee stories, coffee guides, and brew tips from WhiteMantis.",
+            "Stay ahead of the curve with specialty coffee stories, expert brew guides, and insider tips — straight from Surge.",
           openGraph: {
-            title: data.meta.title || "The Mantis Journal | WhiteMantis",
+            title: data.meta.title || "The Surge Journal | Surge",
             description:
               data.meta.description ||
-              "Stay updated with the latest in specialty coffee stories, coffee guides, and brew tips from WhiteMantis.",
+              "Stay ahead of the curve with specialty coffee stories, expert brew guides, and insider tips — straight from Surge",
             images: imageUrl ? [{ url: imageUrl }] : [],
           },
         };
@@ -42,9 +42,9 @@ export async function generateMetadata() {
   }
 
   return {
-    title: "The Mantis Journal | WhiteMantis",
+    title: "The Surge Journal | Surge",
     description:
-      "Stay updated with the latest in specialty coffee stories, coffee guides, and brew tips from WhiteMantis.",
+      "Stay ahead of the curve with specialty coffee stories, expert brew guides, and insider tips — straight from Surge.",
   };
 }
 

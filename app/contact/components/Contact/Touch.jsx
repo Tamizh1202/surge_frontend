@@ -121,8 +121,8 @@ export default function Touch() {
             <form onSubmit={handleSubmit} className={styles.formMain}>
               <div className={styles.Top}>
                 <div className={styles.TitleArea}>
-                  <h3>Let’s Get In Touch</h3>
-                  <p>Drop us a message and let’s start brewing something great.</p>
+                  <h3>Let's Get In Touch.</h3>
+                  <p>Drop us a message and let's start brewing something great together.</p>
                 </div>
 
                 <Link href="https://wa.me/+9710589535337">

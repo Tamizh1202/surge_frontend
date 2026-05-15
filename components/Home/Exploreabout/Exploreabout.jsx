@@ -24,7 +24,7 @@ export default function Exploreabout() {
             <div className={styles.textBox}>
               <h2>Surge Merchandise</h2>
               <p>
-                Go beyond the cup. Discover brewing tips, café moments, and behind-the-scenes stories from our roasters and baristas. From practical how-tos to seasonal highlights, each article brings you closer to the craft of great coffee.
+              Go beyond the cup. Wear the ritual. Surge merchandise is designed for those who live and breathe exceptional coffee culture — carry the craft wherever you go.
               </p>
               <Link href="/shop/merchandise" style={{ textDecoration: 'none' }}>
                 <button className={styles.btn}>Buy Now</button>
@@ -46,7 +46,7 @@ export default function Exploreabout() {
             <div className={styles.textBox}>
               <h2>Surge Events</h2>
               <p>
-                At Surge, our events are crafted around exceptional catering experiences. From intimate gatherings to large celebrations, we deliver thoughtfully prepared food and beverages that elevate every occasion.
+At Surge, every event is an experience in its own right. From intimate gatherings to grand celebrations across Dubai, we deliver flawlessly curated coffee and food that elevate every moment.
               </p>
               <Link href="/events" style={{ textDecoration: 'none' }}>
                 <button className={styles.btn}>Plan an Event</button></Link>

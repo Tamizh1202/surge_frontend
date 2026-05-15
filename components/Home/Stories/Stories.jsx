@@ -119,10 +119,7 @@ export default function AboutSection() {
         <div className={styles.textStack}>
           <h2 className={styles.title}>Built in Dubai, Brewed with Purpose</h2>
           <p className={styles.description}>
-            Surge is an Emirati-owned specialty coffee brand driven by quality,
-            authenticity, and community. Since 2016, we've been crafting coffee
-            experiences inspired by global standards and elevated by local
-            values—bringing culture and creativity into every cup.
+           Surge is an Emirati-owned specialty coffee brand built on quality, authenticity, and community. Since 2016, we've been crafting coffee experiences to global standards — elevated by local pride, and poured into every cup.
           </p>
           <button className={styles.button}>
             <Link href="/about-us">Explore About Us</Link>

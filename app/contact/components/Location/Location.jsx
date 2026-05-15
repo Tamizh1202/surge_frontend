@@ -20,10 +20,9 @@ export default function Location() {
   return (
     <div className={styles.container}>
       <section className={styles.topSection}>
-        <h1 className={styles.mainHeading}>Find Surge in Dubai</h1>
+        <h1 className={styles.mainHeading}>Find Your Nearest Surge.</h1>
         <p className={styles.topSubtext}>
-          Find Surge across Dubai and enjoy speciality coffee crafted with care. <br />
-          From quick pick-ups to slow sit-downs, each location delivers the same quality, warmth, and consistency.
+       Discover Surge across Dubai. Whether you're grabbing a quick pick-up or settling in for a slow morning, every location delivers the same signature quality, warmth, and consistency.
         </p>
 
         <div className={styles.locationGrid}>
@@ -89,7 +88,7 @@ export default function Location() {
       <section className={styles.careersSection}>
         <h2 className={styles.heading}>Join the Surge Team</h2>
         <p className={styles.description}>
-          We’re always open to meeting talented people who share our vision. Send us an email and tell us why you’d like to join the team.
+       We're always looking for talented, passionate people who live the craft. If you share our vision for exceptional coffee, reach out — tell us why you belong on the Surge team.
         </p>
 
         <div className={styles.jobGrid}>
@@ -110,7 +109,7 @@ export default function Location() {
         </div>
 
         <div className={styles.emailFooter}>
-          Didn’t see the right role? Send Email at <br /> 
+         Don't see the right role? Reach out anyway at hello@surge.ae — great people always get our attention.<br /> 
           <a href="mailto:hello@surge.ae" className={styles.emailLink}>
             hello@surge.ae
           </a>

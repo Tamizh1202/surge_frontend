@@ -9,21 +9,21 @@ const categories = [
   {
     id: 1,
     name: "Coffee Beans",
-    description: "Freshly roasted specialty beans crafted for balance and clarity. Designed for consistent performance across espresso and filter brewing",
+    description: "Freshly roasted specialty beans crafted for balance and clarity — engineered for consistent performance across every espresso and filter brew.",
     img: one,
     link: "/shop/coffee-beans"
   },
   {
     id: 2,
     name: "Coffee Drip Bags",
-    description: "Single-serve drip bags crafted for convenience without compromising flavour. Perfectly pre-measured for a smooth, balanced cup.",
+    description: "Single-serve drip bags built for convenience without compromise. Perfectly pre-measured for a smooth, balanced cup — every time.",
     img: two,
     link: "/shop/coffee-dripbags"
   },
   {
     id: 3,
     name: "Coffee Capsules",
-    description: "Precision-packed capsules designed for rich aroma and consistent extraction. Made for effortless brewing with bold flavour in every cup.",
+    description: "Precision-packed capsules engineered for rich aroma and consistent extraction. Effortless brewing. Bold flavour. Zero guesswork.",
     img: three,
     link: "/shop/coffee-capsules"
   },

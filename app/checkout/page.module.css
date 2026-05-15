@@ -1144,7 +1144,17 @@ padding-bottom: clamp(50px, 17vw, 250px);
 .viewCouponsLink:hover {
   text-decoration: underline;
 }
-
+.CharCounter {
+  position: absolute;
+  right: 12px;
+  top: 18px; 
+  font-size: 12px;
+  color: #818686;
+  pointer-events: none;
+  background: white;
+  padding-left: 4px;
+  z-index: 2;
+}
 /* ═══════════════════════════════════════════════════════════════
    CHECKOUT — RESPONSIVE MEDIA QUERIES
    • No base styles touched — only breakpoint overrides here.

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './Listing.module.css';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,6 +27,13 @@ export default function Listing({ category }) {
     const sortRef = useRef(null);
     const mobileFiltersRef = useRef(null);
 
+    const isInWishlist = (id) => {
+        return wishlistItems.some(it => {
+            const itemProductId = it.product?.value?.id || it.product?.id || it.product;
+            return String(itemProductId) === String(id);
+        });
+    };
+
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -39,22 +46,20 @@ export default function Listing({ category }) {
 
     const categoryName = category?.title || category?.slug?.replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 
-    const isInWishlist = (id) => {
-        return wishlistItems.some(it => {
-            const itemProductId = it.product?.value?.id || it.product?.id || it.product;
-            return String(itemProductId) === String(id);
-        });
-    };
-
-    // Close sort dropdown on outside click
+    // Effect to handle clicking outside the Sort Dropdown
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (sortRef.current && !sortRef.current.contains(event.target)) {
                 setShowSort(false);
             }
         };
-        if (showSort) document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
+
+        if (showSort) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
     }, [showSort]);
 
     const handleClearFilters = () => {
@@ -62,18 +67,25 @@ export default function Listing({ category }) {
         setIsMobileFilterOpen(false);
     };
 
-    // Fetch filters
     useEffect(() => {
         const fetchFilters = async () => {
             if (!category?.id) return;
             try {
                 const res = await axiosClient.get(`/api/web-sub-categories`, {
-                    params: { 'where[parentCategory][equals]': category.id, depth: 1 }
+                    params: {
+                        'where[parentCategory][equals]': category.id,
+                        depth: 1
+                    }
                 });
                 const docs = res.data.docs || [];
-                const allGroups = docs.reduce((acc, doc) => [...acc, ...(doc.level1 || [])], []);
+                const allGroups = docs.reduce((acc, doc) => {
+                    return [...acc, ...(doc.level1 || [])];
+                }, []);
                 setFilterData(allGroups);
-                if (allGroups.length > 0) setOpenSections(allGroups[0].id);
+
+                if (allGroups.length > 0) {
+                    setOpenSections(allGroups[0].id);
+                }
             } catch (err) {
                 console.error("Error fetching filters:", err);
             }
@@ -86,33 +98,36 @@ export default function Listing({ category }) {
         setProducts([]);
     }, [category?.id, selectedSort]);
 
-    // Fetch products
     useEffect(() => {
         async function fetchData() {
             if (!category?.id) return;
             setLoading(true);
             try {
-                // Backend sorting (Primary)
-                const sortParam = selectedSort === 'Price:High to Low' ? '-salePrice' :
-                                 selectedSort === 'Price:Low to High' ? 'salePrice' : '-createdAt';
+                const sortParam = selectedSort === 'Price:High to Low' ? '-salePrice,-regularPrice' :
+                    selectedSort === 'Price:Low to High' ? 'salePrice,regularPrice' :
+                        '-createdAt';
 
-                const res = await axiosClient.get(`/api/web-products`, {
-                    params: {
-                        'where[categories][equals]': category.id,
-                        'where[_status][equals]': 'published',
-                        limit: 9,
-                        page: page,
-                        sort: sortParam,
-                        depth: 1
+                const res = await axiosClient.get(
+                    `/api/web-products`,
+                    {
+                        params: {
+                            'where[categories][equals]': category.id,
+                            'where[_status][equals]': 'published',
+                            limit: 9,
+                            page: page,
+                            sort: sortParam,
+                            depth: 1
+                        }
                     }
-                });
+                );
                 const allProducts = res.data.docs || [];
                 setProducts(prev => page === 1 ? allProducts : [...prev, ...allProducts]);
                 setTotalProducts(res.data.totalDocs || 0);
                 setHasNextPage(res.data.hasNextPage);
                 setError(null);
             } catch (err) {
-                setError("Failed to load products.");
+                console.error("Error fetching products:", err);
+                setError("Failed to load products. Please try again later.");
             } finally {
                 setLoading(false);
             }
@@ -120,36 +135,34 @@ export default function Listing({ category }) {
         fetchData();
     }, [category?.id, page, selectedSort]);
 
-    // --- LOGIC: FRONTEND FILTERING AND ACCURATE SORTING ---
-    const displayedProducts = useMemo(() => {
-        // 1. Filter
-        let result = products.filter((product) => {
-            if (selectedFilters.length === 0) return true;
-            return product.subCategories?.some((sub) => selectedFilters.includes(sub.level2Id));
-        });
+    const filteredProducts = products.filter((product) => {
+        if (selectedFilters.length === 0) return true;
+        return product.subCategories?.some((sub) =>
+            selectedFilters.includes(sub.level2Id)
+        );
+    });
 
-        // 2. Accurate Sort (Handled here to ensure variant prices are compared correctly)
-        if (selectedSort === 'Price:Low to High' || selectedSort === 'Price:High to Low') {
-            result = [...result].sort((a, b) => {
-                const getEffectivePrice = (item) => {
-                    const firstVariant = item.variants?.[0];
-                    return firstVariant 
-                        ? (Number(firstVariant.variantSalePrice) || Number(firstVariant.variantRegularPrice))
-                        : (Number(item.salePrice) || Number(item.regularPrice) || 0);
-                };
-                const priceA = getEffectivePrice(a);
-                const priceB = getEffectivePrice(b);
-                return selectedSort === 'Price:Low to High' ? priceA - priceB : priceB - priceA;
-            });
-        }
-        return result;
-    }, [products, selectedFilters, selectedSort]);
-
-    const toggleFilter = (id) => setOpenSections(prevId => prevId === id ? null : id);
-    const handleViewMore = () => setPage(prev => prev + 1);
-    const handleFilterChange = (level2Id) => {
-        setSelectedFilters(prev => prev.includes(level2Id) ? prev.filter(id => id !== level2Id) : [...prev, level2Id]);
+    const toggleFilter = (id) => {
+        setOpenSections(prevId => prevId === id ? null : id);
     };
+
+    const handleViewMore = () => {
+        setPage(prev => prev + 1);
+    };
+
+    const handleFilterChange = (level2Id) => {
+        setSelectedFilters(prev => {
+            return prev.includes(level2Id)
+                ? prev.filter(id => id !== level2Id)
+                : [...prev, level2Id];
+        });
+    };
+
+    useEffect(() => {
+        const method = isMobileFilterOpen ? 'add' : 'remove';
+        document.documentElement.classList[method]('lock-scroll');
+        return () => document.documentElement.classList.remove('lock-scroll');
+    }, [isMobileFilterOpen]);
 
     const renderFilters = () => (
         <div className={styles.filterContainerBox}>
@@ -157,7 +170,10 @@ export default function Listing({ category }) {
                 const isOpen = openSections === group.id;
                 return (
                     <div key={group.id} className={styles.filterSection}>
-                        <button className={styles.filterHeader} onClick={() => toggleFilter(group.id)}>
+                        <button
+                            className={styles.filterHeader}
+                            onClick={() => toggleFilter(group.id)}
+                        >
                             <span>{group.name}</span>
                             <svg
                                 width="12"
@@ -169,11 +185,17 @@ export default function Listing({ category }) {
                                 <path d="M1 1.5L6 6.5L11 1.5" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                         </button>
+
                         <div className={`${styles.optionsWrapper} ${isOpen ? styles.isOpen : ''}`}>
                             <div className={styles.optionsList}>
                                 {group.level2?.map((option) => (
                                     <label key={option.id} className={styles.optionLabel}>
-                                        <input type="checkbox" className={styles.checkboxCustom} checked={selectedFilters.includes(option.id)} onChange={() => handleFilterChange(option.id)} />
+                                        <input
+                                            type="checkbox"
+                                            className={styles.checkboxCustom}
+                                            checked={selectedFilters.includes(option.id)}
+                                            onChange={() => handleFilterChange(option.id)}
+                                        />
                                         {option.name}
                                     </label>
                                 ))}
@@ -190,7 +212,9 @@ export default function Listing({ category }) {
             <aside className={styles.sidebar}>
                 <div className={styles.sidebarHeader}>
                     <h2 className={styles.filterTitle}>Filter</h2>
-                    {selectedFilters.length > 0 && <button className={styles.clearBtn} onClick={handleClearFilters}>Clear All</button>}
+                    {selectedFilters.length > 0 && (
+                        <button className={styles.clearBtn} onClick={handleClearFilters}>Clear All</button>
+                    )}
                 </div>
                 {renderFilters()}
             </aside>
@@ -199,25 +223,41 @@ export default function Listing({ category }) {
                 <header className={styles.gridHeader}>
                     <div className={styles.titleGroup}>
                         <h1 className={styles.mainTitle}>{categoryName}</h1>
-                        <p className={styles.itemCount}>({displayedProducts.length} items)</p>
+                        <p className={styles.itemCount}>({filteredProducts.length} items)</p>
                     </div>
 
                     <div className={styles.headerActions}>
                         <button className={styles.mobileFilterBtn} onClick={() => setIsMobileFilterOpen(true)}>
                             Filter {selectedFilters.length > 0 && `(${selectedFilters.length})`}
                         </button>
+                        
+                        {/* Added ref={sortRef} to the wrapper */}
                         <div className={styles.sortWrapper} ref={sortRef}>
-                            <div className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`} onClick={() => setShowSort(!showSort)}>
+                            <div
+                                className={`${styles.sortBox} ${showSort ? styles.activeSortBox : ''}`}
+                                onClick={() => setShowSort(!showSort)}
+                            >
                                 <span className={styles.sortLabel}>Sort By : </span>
                                 <span className={styles.sortValue}>{selectedSort}</span>
-                                <svg className={`${styles.sortArrow} ${showSort ? styles.rotateArrow : ''}`} width="16" height="10" viewBox="0 0 12 8" fill="none">
+                                <svg
+                                    className={`${styles.sortArrow} ${showSort ? styles.rotateArrow : ''}`}
+                                    width="16" height="10" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                >
                                     <path d="M6.63055 6.75943C6.23768 7.16467 5.58748 7.16467 5.1946 6.75943L0.285735 1.69607C-0.329211 1.06177 0.120255 1.54337e-07 1.00371 8.53452e-08L10.8214 -6.81352e-07C11.7049 -7.50344e-07 12.1544 1.06177 11.5394 1.69607L6.63055 6.75943Z" fill="#C4754E" />
                                 </svg>
                             </div>
+
                             <div className={`${styles.dropdownMenu} ${showSort ? styles.showDropdown : ''}`}>
                                 <div className={styles.dropdownInner}>
                                     {SORT_OPTIONS.map((option) => (
-                                        <div key={option} className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`} onClick={() => { setSelectedSort(option); setShowSort(false); }}>
+                                        <div
+                                            key={option}
+                                            className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
+                                            onClick={() => {
+                                                setSelectedSort(option);
+                                                setShowSort(false);
+                                            }}
+                                        >
                                             <span className={styles.optionText}>{option}</span>
                                             <span className={styles.radioCircle}></span>
                                         </div>
@@ -228,37 +268,62 @@ export default function Listing({ category }) {
                     </div>
                 </header>
 
-                {loading && products.length === 0 && <div className={styles.stateMsgContainer}><p className={styles.stateMsg}>Loading products...</p></div>}
-                {error && <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>}
+                {loading && products.length === 0 && (
+                    <div className={styles.stateMsgContainer}><p className={styles.stateMsg}>Loading products...</p></div>
+                )}
+
+                {error && (
+                    <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>
+                )}
 
                 <div className={styles.productGrid}>
-                    {!loading && displayedProducts.length === 0 ? (
+                    {!loading && filteredProducts.length === 0 ? (
                         <div className={styles.noProducts}>
-                            <Image src={prod} alt="No products" width={200} height={200} priority />
+                            <div className={styles.noProductsIcon}>
+                                <Image src={prod} alt="No products" width={200} height={200} priority />
+                            </div>
                             <h3>Nothing Brewing here</h3>
-                            <Link href="/shop" className={styles.resetBtn}>Explore All Products</Link>
+                            <p>Refine or clear filters to explore available selections.</p>
+                            <Link href="/shop" className={styles.resetBtn}>
+                                Explore All Products
+                            </Link>
                         </div>
                     ) : (
-                        displayedProducts.map((item) => {
+                        filteredProducts.map((item) => {
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
                             const slug = item.slug || item.id;
+                            const name = item.name || '';
+                            const notes = item.tagline || item.description || '';
                             const firstVariant = item.variants?.[0];
-                            const rawPrice = firstVariant ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice) : (item.salePrice || item.regularPrice);
-                            
+                            const rawPrice = firstVariant
+                                ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
+                                : (item.salePrice || item.regularPrice);
+                            const price = rawPrice ? `AED ${rawPrice}` : '';
+
                             return (
                                 <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
                                     <div className={styles.productCard}>
                                         <div className={styles.imageWrapper}>
-                                            <button className={styles.wishlistIcon} onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}>
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill={isInWishlist(item.id) ? "#EA2424" : "white"}>
+                                            <button
+                                                className={styles.wishlistIcon}
+                                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}
+                                            >
+                                                <svg width="18" height="18" viewBox="0 0 24 24"
+                                                    fill={isInWishlist(item.id) ? "#EA2424" : "white"}>
                                                     <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                                                 </svg>
                                             </button>
-                                            <Image src={imageUrl} alt={item.name} width={295} height={339} className={styles.productImg} />
+                                            <Image
+                                                src={imageUrl}
+                                                alt={name}
+                                                width={295}
+                                                height={339}
+                                                className={styles.productImg}
+                                            />
                                         </div>
-                                        <div className={`${styles.details} ${!item.tagline ? styles.detailsSpaced : ''}`}>
-                                            <h3 className={styles.name}>{item.name}</h3>
-                                            {item.tagline && <p className={styles.notes}>{item.tagline}</p>}
+                                        <div className={`${styles.details} ${!notes ? styles.detailsSpaced : ''}`}>
+                                            <h3 className={styles.name}>{name}</h3>
+                                            {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}.00</span>
                                                 {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
@@ -313,22 +378,36 @@ export default function Listing({ category }) {
                     )}
                 </div>
 
-                {!loading && hasNextPage && displayedProducts.length > 0 && (
+                {!loading && hasNextPage && filteredProducts.length > 0 && (
                     <div className={styles.footer}>
-                        <button className={styles.viewMoreBtn} onClick={handleViewMore}>View More</button>
+                        <button className={styles.viewMoreBtn} onClick={handleViewMore} disabled={loading}>
+                            {loading ? "Loading..." : "View More"}
+                        </button>
                     </div>
                 )}
             </main>
 
+            {/* Popups and Mobile Overlays handle click-to-close via the onClick on the overlay div */}
+            {popupProduct && (
+                <>
+                    <div className={styles.popupOverlay} onClick={() => setPopupProduct(null)} />
+                    <div className={styles.popupWrapper}>
+                        <ProductPopup product={popupProduct} onClose={() => setPopupProduct(null)} />
+                    </div>
+                </>
+            )}
+
             {isMobileFilterOpen && (
                 <>
                     <div className={styles.MobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />
-                    <div className={styles.MobileFilters}>
+                    <div className={styles.MobileFilters} ref={mobileFiltersRef}>
                         <div className={styles.MobileFilterHeader}>
                             <p>Filters</p>
                             <span onClick={() => setIsMobileFilterOpen(false)}>✕</span>
                         </div>
-                        <div className={styles.LeftBottom}>{renderFilters()}</div>
+                        <div className={styles.LeftBottom}>
+                            {renderFilters()}
+                        </div>
                         <div className={styles.MobileFilterFooter}>
                             <button onClick={handleClearFilters} className={styles.mobileResetBtn}>Reset</button>
                             <button onClick={() => setIsMobileFilterOpen(false)} className={styles.mobileApplyBtn}>Apply</button>

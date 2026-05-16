@@ -156,8 +156,9 @@ export default function CheckoutForm({
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
         products: product.map((p) => {
-          const customization = Object.values(p.customSelections || {}).filter(Boolean).join(", ");
-          const productHighlights = Object.entries(p.customSelections || {})
+          const customSelections = p.customSelections || {};
+          const customization = Object.values(customSelections).filter(Boolean).join(", ");
+          const productHighlights = Object.entries(customSelections)
             .filter(([, value]) => value)
             .map(([sectionTitle, point]) => ({ sectionTitle, items: [{ point }] }));
 
@@ -165,10 +166,10 @@ export default function CheckoutForm({
             productId: p.product || p.productId || p.id,
             variantId: p.vId || p.variantId || "",
             quantity: p.quantity,
-            customization,
-            customizations: customization,
-            customSelections: p.customSelections || {},
-            productHighlights,  // ← built from customSelections, not p.productHighlights
+            // customization,
+            // customizations: customization,
+            // customSelections,
+            productHighlights,
           };
         }),
         useWTCoins: !!isBeansApplied,

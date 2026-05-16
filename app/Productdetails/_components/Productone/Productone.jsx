@@ -260,6 +260,7 @@ export default function ProductOne({ initialProduct }) {
                       image: productImage,
                       tagline: product.notes,
                       variationId: selectedVariant?.id || null,
+                      productHighlights: product.highlights,
                       ...selectedHighlights,
                     }}
                     quantity={quantity}

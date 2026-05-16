@@ -155,23 +155,12 @@ export default function CheckoutForm({
         billingAddress: billAddr,
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
-        products: product.map((p) => {
-          const customSelections = p.customSelections || {};
-          const customization = Object.values(customSelections).filter(Boolean).join(", ");
-          const productHighlights = Object.entries(customSelections)
-            .filter(([, value]) => value)
-            .map(([sectionTitle, point]) => ({ sectionTitle, items: [{ point }] }));
-
-          return {
-            productId: p.product || p.productId || p.id,
-            variantId: p.vId || p.variantId || "",
-            quantity: p.quantity,
-            // customization,
-            // customizations: customization,
-            // customSelections,
-            productHighlights,
-          };
-        }),
+        products: product.map((p) => ({
+          productId: p.product || p.productId || p.id,
+          variantId: p.vId || p.variantId || "",
+          quantity: p.quantity,
+          productHighlights: p.productHighlights || [],
+        })),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
       });

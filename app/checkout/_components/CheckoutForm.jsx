@@ -139,10 +139,10 @@ export default function CheckoutForm({
       // 3. Build backend payload
       const shipAddr = delivery === "ship"
         ? formatCheckoutAddress(
-            status === "authenticated" && selectedAddressId
-              ? savedAddresses.find((a) => a.id === selectedAddressId)
-              : shippingForm
-          )
+          status === "authenticated" && selectedAddressId
+            ? savedAddresses.find((a) => a.id === selectedAddressId)
+            : shippingForm
+        )
         : null;
 
       const billAddr = (useShippingAsBilling && delivery === "ship")

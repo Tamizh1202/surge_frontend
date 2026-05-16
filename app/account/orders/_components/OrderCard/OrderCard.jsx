@@ -79,8 +79,6 @@ const OrderCard = ({ order }) => {
   if (!order) return null;
   const router = useRouter();
 
-
- 
   const getIsLocallyCancelled = () => {
     if (typeof window === "undefined") return false;
     const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
@@ -91,7 +89,6 @@ const OrderCard = ({ order }) => {
   const [currentStatus, setCurrentStatus] = useState(
     getIsLocallyCancelled() ? 'cancelled' : (order.deliveryStatus || order.status)
   );
- 
 
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -102,7 +99,6 @@ const OrderCard = ({ order }) => {
     setStoredSelections(getStoredOrderSelections(orderStorageId));
   }, [orderStorageId]);
 
- 
   useEffect(() => {
     if (order && !isUpdating) {
       if (getIsLocallyCancelled()) {
@@ -115,7 +111,7 @@ const OrderCard = ({ order }) => {
 
   const handleCancelConfirm = async (reason) => {
     try {
-      setIsUpdating(true); 
+      setIsUpdating(true);
       setCurrentStatus('cancelled'); // UI update immediately
       setIsPopupOpen(false);
 
@@ -130,10 +126,10 @@ const OrderCard = ({ order }) => {
 
       if (response.data.success) {
         toast.success("Order cancelled successfully");
-        
+
         // Next.js refresh
-        router.refresh(); 
-     
+        router.refresh();
+
         setTimeout(() => {
           setIsUpdating(false);
         }, 3000);
@@ -142,7 +138,7 @@ const OrderCard = ({ order }) => {
       // Revert local cache on error
       const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
       localStorage.setItem("cancelled_orders_cache", JSON.stringify(cancelledList.filter(id => id !== order.id)));
-      
+
       setIsUpdating(false);
       setCurrentStatus(order.deliveryStatus || order.status);
       toast.error(error.response?.data?.message || "Failed to cancel order");
@@ -162,9 +158,9 @@ const OrderCard = ({ order }) => {
           <div className={styles.statusTexts}>
             <h3 style={{ color: config.color }}>{config.label}</h3>
             <p className={styles.statusDate}>
-               {currentStatus === 'cancelled' 
-                 ? (order.cancelledOn ? `On ${formatDate(order.cancelledOn)}` : `On ${formatDate(new Date())}`)
-                 : config.date}
+              {currentStatus === 'cancelled'
+                ? (order.cancelledOn ? `On ${formatDate(order.cancelledOn)}` : `On ${formatDate(new Date())}`)
+                : config.date}
             </p>
             {currentStatus === 'cancelled' && (
               <p className={styles.refundText}>
@@ -229,12 +225,12 @@ const OrderCard = ({ order }) => {
 
       <div className={styles.cardFooter}>
         {/* Double check: UI currentStatus and actual Server order.status shouldn't be cancelled */}
-        {currentStatus !== 'cancelled' && 
-         !getIsLocallyCancelled() && 
-         (order.deliveryStatus || order.status) !== 'cancelled' && 
+        {currentStatus !== 'cancelled' &&
+         !getIsLocallyCancelled() &&
+         (order.deliveryStatus || order.status) !== 'cancelled' &&
          config.showCancel && (
-          <button 
-            className={styles.cancelButton} 
+          <button
+            className={styles.cancelButton}
             onClick={() => setIsPopupOpen(true)}
             disabled={isUpdating}
           >
@@ -244,10 +240,10 @@ const OrderCard = ({ order }) => {
       </div>
 
       {isPopupOpen && (
-        <CancelOrderPopup 
-          orderId={order.id} 
-          onClose={() => setIsPopupOpen(false)} 
-          onConfirm={handleCancelConfirm} 
+        <CancelOrderPopup
+          orderId={order.id}
+          onClose={() => setIsPopupOpen(false)}
+          onConfirm={handleCancelConfirm}
         />
       )}
     </div>

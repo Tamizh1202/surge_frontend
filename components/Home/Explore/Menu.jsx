@@ -13,10 +13,10 @@ const MobileArrow = () => (
 );
 
 const menuItems = [
-  { title: "Breakfast", img: breakfast, desc: "Elevated coffee and crafted refreshment, served daily.", link: "/breakfast" },
-  { title: "Breads", img: breads, desc: "Slow mornings begin with fresh bakes and warm plates.", link: "/breads" },
-  { title: "Beverages", img: beverages, desc: "Clean, fresh choices crafted for modern living.", link: "/beverages" },
-  { title: "Desserts", img: desserts, desc: "Signature selections designed to elevate your routine.", link: "/desserts" },
+  { title: "Coffee & Beverages", img: breakfast, desc: "Fresh plate to ease you into the day.", link: "/breakfast" },
+  { title: "Bakery & Breakfast", img: breads, desc: "Baked daily, crafted with care.", link: "/breads" },
+  { title: "Healthy & Fresh", img: beverages, desc: "Exceptional coffee, every single cup.", link: "/beverages" },
+  { title: "Lifestyle & Specials", img: desserts, desc: "Small-batch sweet worth lingering over.", link: "/desserts" },
 ];
 
 export default function Menu() {

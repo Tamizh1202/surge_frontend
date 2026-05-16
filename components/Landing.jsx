@@ -15,14 +15,15 @@ export default function HomePage() {
       <div className={styles.monotoneNoiseEffect}></div>
 
       <p className={styles.heroText}>
-      Precision-crafted. Intentionally served. Designed to bring people together — because at Surge, great coffee is never just a drink.
+        Precision-crafted. Intentionally served. Designed to bring people together because at Surge, great coffee is never just a drink.
       </p>
 
 
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-           Where Dubai's <span className={styles.spantext} >Coffee</span> <br />
-          <span className={styles.spantext} >Standard Get's</span> Raised
+          Elevate You <span className={styles.spantext} ><br />Coffee Ritual</span> <br />
+          {/* <span className={styles.spantext} >coffee</span>  */}
+          
         </h1>
 
         <button className={styles.shopButton}>

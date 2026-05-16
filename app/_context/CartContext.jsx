@@ -27,6 +27,26 @@ const RESERVED_DETAIL_KEYS = new Set([
   "variantId",
 ]);
 
+const SELECTIONS_CACHE_KEY = "cartSelectionsCache";
+
+const saveSelectionsCache = (key, customSelections) => {
+  if (typeof window === "undefined" || !customSelections) return;
+  try {
+    const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
+    cache[key] = customSelections;
+    localStorage.setItem(SELECTIONS_CACHE_KEY, JSON.stringify(cache));
+  } catch { }
+};
+
+const loadSelectionsCache = (key) => {
+  if (typeof window === "undefined") return null;
+  try {
+    const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
+    const val = cache[key];
+    return val && Object.keys(val).length > 0 ? val : null;
+  } catch { return null; }
+};
+
 const getCustomSelections = (details) => {
   if (!details) return null;
 
@@ -229,37 +249,44 @@ export function CartProvider({ children }) {
 
     setItems((previousItems) =>
       (data.items || []).map((item) => {
-        const key = `${item.product}_${item.vId || ""}`;
+        const key = `${item.product}:${item.vId || ""}`;
         const previousItem = previousItems.find(
-          (previous) =>
-            String(previous.product) === String(item.product) &&
-            (previous.vId || null) === (item.vId || null),
+          (prev) =>
+            String(prev.product) === String(item.product) &&
+            (prev.vId || null) === (item.vId || null),
         );
 
-        // Preference order: Active fast memory state -> Saved physical LocalStorage backup -> API Item directly
-        const backupMeta = localMetaBackup[key];
-        
-        let customSelections = item.customSelections || previousItem?.customSelections || backupMeta?.customSelections || null;
-        let tagline = item.tagline || previousItem?.tagline || backupMeta?.tagline || null;
+        const customSelections =
+          (previousItem?.customSelections && Object.keys(previousItem.customSelections).length
+            ? previousItem.customSelections
+            : null) ||
+          loadSelectionsCache(key);
 
         return {
           ...item,
           ...(customSelections ? { customSelections } : {}),
-          ...(tagline ? { tagline } : {}),
         };
       }),
     );
-    setCartTotals((prev) => ({
-      ...prev,
-      subtotal: Number(data.subtotal || 0),
-      totalItems: Number(data.totalItems || 0),
-    }));
   };
 
   /** Apply the local guest cart to state */
   const applyGuestCart = () => {
     const cart = getCart();
-    setItems(cart.items || []);
+    setItems(
+      (cart.items || []).map((item) => {
+        const key = `${item.product}:${item.vId || ""}`;
+        const customSelections =
+          (item.customSelections && Object.keys(item.customSelections).length
+            ? item.customSelections
+            : null) ||
+          loadSelectionsCache(key);
+        return {
+          ...item,
+          ...(customSelections ? { customSelections } : {}),
+        };
+      }),
+    );
     setCartTotals((prev) => ({
       ...prev,
       subtotal: Number(cart.subtotal || 0),
@@ -289,9 +316,11 @@ export function CartProvider({ children }) {
   // ─── Add ─────────────────────────────────────────────────────────────────────
 
   const addToCart = async (product, quantity = 1, vId, details = null) => {
-    const customSelections = getCustomSelections(details);
-    const tagline = details?.tagline || null;
-
+    const { productHighlights: _ph, ...restDetails } = details || {};
+    const customSelections = getCustomSelections(restDetails);
+    if (customSelections) {
+      saveSelectionsCache(`${product}:${vId || ""}`, customSelections);
+    }
     if (session?.user) {
       try {
         const res = await axiosClient.post("/api/website/cart", {
@@ -302,22 +331,22 @@ export function CartProvider({ children }) {
 
         const data = res.data;
         applyCartResponse(data);
-        
+
         if (customSelections || tagline) {
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&
-              (item.vId || null) === (vId || null)
-                ? { 
-                    ...item, 
-                    ...(customSelections ? { customSelections } : {}), 
-                    ...(tagline ? { tagline } : {}) 
-                  }
+                (item.vId || null) === (vId || null)
+                ? {
+                  ...item,
+                  ...(customSelections ? { customSelections } : {}),
+                  ...(tagline ? { tagline } : {})
+                }
                 : item,
             ),
           );
         }
-        
+
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
@@ -335,9 +364,20 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        await addItemToCart(product, quantity, vId, details);
+        await addItemToCart(product, quantity, vId, restDetails);
         const cart = getCart();
         applyGuestCart();
+        if (customSelections) {
+          setItems((currentItems) =>
+            currentItems.map((item) =>
+              String(item.product) === String(product) &&
+                (item.vId || null) === (vId || null)
+                ? { ...item, customSelections }
+                : item,
+            ),
+          );
+        }
+        // Show toast with the item from the refreshed guest cart
         const added = (cart.items || []).find(
           (i) =>
             String(i.product) === String(product) &&

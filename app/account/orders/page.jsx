@@ -260,11 +260,14 @@ export default function OrdersPage() {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-            <div className={styles.Filter} onClick={() => setIsFilterPopupOpen(true)}>
+            <div
+              className={`${styles.Filter} ${(filters.status !== "All" || filters.time) ? styles.activeFilter : ""}`}
+              onClick={() => setIsFilterPopupOpen(true)}
+            >
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                 <path
                   d="M6.65149 15C6.40016 15 6.18991 14.9153 6.02074 14.746C5.85141 14.5768 5.76674 14.3666 5.76674 14.1152V8.327L0.168743 1.2155C-0.0235907 0.959 -0.0515075 0.692333 0.0849925 0.4155C0.221659 0.1385 0.452159 0 0.776493 0H13.757C14.0813 0 14.3118 0.1385 14.4485 0.4155C14.585 0.692333 14.5571 0.959 14.3647 1.2155L8.76674 8.327V14.1152C8.76674 14.3666 8.68208 14.5768 8.51274 14.746C8.34358 14.9153 8.13333 15 7.88199 15H6.65149ZM7.26674 7.8L12.2167 1.5H2.31674L7.26674 7.8Z"
-                  fill={filters.status !== "All" ? "#2F362A" : "#6E736A"}
+                  fill="currentColor"
                 />
               </svg>
             </div>

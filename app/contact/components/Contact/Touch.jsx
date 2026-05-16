@@ -42,12 +42,11 @@ export default function Touch() {
   // ----------------------------------
 
   const options = [
-    { label: "Order issue", value: "Order issue" },
-    { label: "Payment or refund", value: "Payment or refund" },
-    { label: "Rewards & stamps", value: "Rewards & stamps" },
-    { label: "Barista selection", value: "Barista selection" },
-    { label: "Pickup or timing", value: "Pickup or timing" },
-    { label: "Menu & availability", value: "Menu & availability" },
+    { label: "Payments & Refunds", value: "Payments & Refunds" },
+    { label: "Rewards & Loyalty", value: "Rewards & Loyalty" },
+    { label: "Orders & Support", value: "Orders & Support" },
+    { label: "Pickup & Delivery", value: "Pickup & Delivery" },
+    { label: "General Enquiry", value: "General Enquiry" },
     { label: "Other", value: "Other" }
   ];
 

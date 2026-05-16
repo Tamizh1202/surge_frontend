@@ -78,7 +78,7 @@ export default function Coffees() {
         <div className={styles.headerText}>
           <h2 className={styles.selectedHeading}>Selected Coffees</h2>
           <p className={styles.selectedSubtext}>
-          The Surge coffee experience, delivered seamlessly to your door. Exceptional quality, on your terms.
+            The Surge coffee experience, delivered seamlessly to your door. Exceptional quality, on your terms.
           </p>
         </div>
 
@@ -108,44 +108,41 @@ export default function Coffees() {
         <div className={styles.coffeeGrid} ref={gridRef}>
           {loading
             ? Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className={`${styles.coffeeCard} ${styles.skeleton}`} />
-              ))
+              <div key={i} className={`${styles.coffeeCard} ${styles.skeleton}`} />
+            ))
             : coffeeData.map((coffee, i) => {
-                const categorySlug = getCategorySlug(coffee);
-                const productSlug = coffee.slug || toSlug(coffee.name);
+              const categorySlug = getCategorySlug(coffee);
+              const productSlug = coffee.slug || toSlug(coffee.name);
 
-                return (
-                  <div key={coffee.id ?? i} className={styles.coffeeCard}>
-                    <div className={styles.productImageWrapper}>
-                      <Image
-                        src={formatImageUrl(coffee.productImage) || coffeeBagImg}
-                        alt={coffee.name}
-                        width={300}
-                        height={400}
-                        className={styles.productImg}
-                        priority
-                      />
-                    </div>
-                    <div className={styles.cardTop}>
-                      <div className={styles.cardInfo}>
-                        <h3 className={styles.coffeeName}>{coffee.name}</h3>
-                        <p className={styles.coffeeNotes}>{coffee.tagline || coffee.description}</p>
-                        <p className={styles.price}>
-                          {coffee.salePrice ? `AED ${coffee.salePrice}` : coffee.regularPrice ? `AED ${coffee.regularPrice}` : ''}
-                        </p>
-                      </div>
-                      <Link
-                        href={`/shop/${categorySlug}/${productSlug}`}
-                        className={styles.cardArrow}
-                      >
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M7 17L17 7M17 7H7M17 7V17" />
-                        </svg>
-                      </Link>
-                    </div>
+              return (
+                <Link key={coffee.id ?? i} href={`/shop/${categorySlug}/${productSlug}`} className={styles.coffeeCard}>
+                  <div className={styles.productImageWrapper}>
+                    <Image
+                      src={formatImageUrl(coffee.productImage) || coffeeBagImg}
+                      alt={coffee.name}
+                      width={300}
+                      height={400}
+                      className={styles.productImg}
+                      priority
+                    />
                   </div>
-                );
-              })}
+                  <div className={styles.cardTop}>
+                    <div className={styles.cardInfo}>
+                      <h3 className={styles.coffeeName}>{coffee.name}</h3>
+                      <p className={styles.coffeeNotes}>{coffee.tagline || coffee.description}</p>
+                      <p className={styles.price}>
+                        {coffee.salePrice ? `AED ${coffee.salePrice}` : coffee.regularPrice ? `AED ${coffee.regularPrice}` : ''}
+                      </p>
+                    </div>
+                    <span className={styles.cardArrow}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" />
+                      </svg>
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
         </div>
       </div>
     </section>

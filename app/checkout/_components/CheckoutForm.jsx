@@ -156,20 +156,28 @@ export default function CheckoutForm({
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
         products: product.map((p) => {
-          const customization = Object.values(p.customSelections || {}).filter(Boolean).join(", ");
+          const customSelections = p.customSelections || {};
+          const customization = Object.values(customSelections).filter(Boolean).join(", ");
+          const productHighlights = Object.entries(customSelections)
+            .filter(([, value]) => value)
+            .map(([sectionTitle, point]) => ({ sectionTitle, items: [{ point }] }));
 
           return {
             productId: p.product || p.productId || p.id,
             variantId: p.vId || p.variantId || "",
             quantity: p.quantity,
-            customization,
-            customizations: customization,
-            customSelections: p.customSelections || {},
+            // customization,
+            // customizations: customization,
+            // customSelections,
+            productHighlights,
           };
         }),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
       });
+
+      console.log("Payload to be posted:", JSON.stringify(payload, null, 2));
+      localStorage.setItem("lastCheckoutPayload", JSON.stringify(payload, null, 2));
 
       // 4. Call backend to create order and get client secret
       const res = await axiosClient.post("/api/checkout/one-time", payload);
@@ -289,7 +297,6 @@ export default function CheckoutForm({
                 setValidationErrors={setValidationErrors}
                 emirateOptions={emirateOptions}
               />
-
               <PaymentButtonSection
                 isProcessing={isProcessing}
                 handlePayment={handlePayment}

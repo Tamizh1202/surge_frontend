@@ -30,7 +30,7 @@ export default function Footer({ categories }) {
 
       if (res.status === 201) {
         setIsError(false);
-        setMessage("You're subscribed! Thanks for joining.");
+        setMessage("Welcome to the Surge community. Better coffee starts here.");
         setEmail("");
       } else if (res.status === 400) {
         setIsError(true);
@@ -208,18 +208,29 @@ export default function Footer({ categories }) {
         <div className={styles.infoGrid}>
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
-           <address className={styles.addressBox}>
-  <a 
-    href="https://www.google.com/maps/search/?api=1&query=Warehouse+2+26th+St+Al+Qouz+Industrial+fourth+Dubai"
-    target="_blank" 
-    rel="noopener noreferrer"
-    className={styles.mapLink}
-  >
-    Warehouse #2 - 26
-    <br />
-    26th St - Al Qouz Ind.fourth, Al Quoz, Dubai
-  </a>
-</address>
+            <address className={styles.addressBox}>
+              <a
+                href="https://maps.app.goo.gl/RwrVRs8ER9H4WJCE6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.mapLink}
+              >
+                SURGE- Bin Sougat Centre
+                <br />
+                Al Rashidiya, Dubai- UAE
+              </a>
+              
+              <a
+                href="https://maps.app.goo.gl/1txtMUDiuU1cXZn17"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.mapLink}
+              >
+                SURGE- Emarat Petrol Station
+                <br />
+                Al Khawaneej, Dubai- UAE
+              </a>
+            </address>
           </div>
 
           <div className={styles.contactWrapper}>
@@ -237,21 +248,21 @@ export default function Footer({ categories }) {
             <div className={styles.infoBlock}>
               <p className={styles.label}>Phone</p>
               <Link href="tel:+9710589535337" className={styles.accentLink}>
-                05 8953 5337
+                xxxxxxxxx
               </Link>
             </div>
             <div className={styles.infoBlock}>
               <p className={styles.label}>Email</p>
               <Link
-                href="mailto:hello@whitemantis.ae"
+                href="mailto:hello@surgecoffee.ae"
                 className={styles.accentLink}
               >
-             hello@surgecoffee.ae
+                hello@surgecoffee.ae
               </Link>
             </div>
           </div>
         </div>
-<div className={styles.divide}></div>
+        <div className={styles.divide}></div>
         <div className={styles.bottomBar}>
           <div className={styles.copyright}>© 2026 Surge. All Rights Reserved.</div>
           <div className={styles.legal}>

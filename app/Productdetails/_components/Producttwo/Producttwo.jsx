@@ -6,6 +6,8 @@ export default function Producttwo({ brewingGuide, serverUrl = '' }) {
   const tabs = brewingGuide?.tabs ?? [];
   const [activeTabId, setActiveTabId] = useState(tabs[0]?.id ?? '');
 
+  if (!brewingGuide || tabs.length === 0) return null;
+
   const currentTab = tabs.find((tab) => tab.id === activeTabId) ?? tabs[0];
 
   const resolveUrl = (url) => {

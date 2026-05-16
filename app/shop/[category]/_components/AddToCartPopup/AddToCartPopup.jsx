@@ -87,6 +87,7 @@ export default function ProductPopup({ product, onClose }) {
                 tagline: product.tagline,
                 quantity,
                 variationId: selectedVariant?.id || "",
+                productHighlights: highlights,
                 ...selectedHighlights,
             });
             onClose();

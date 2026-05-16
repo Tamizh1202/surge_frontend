@@ -158,6 +158,14 @@ const CartSideBar = () => {
   <div className={styles.qtyContainer}>
     <div className={styles.qtyControls}>
       {/* Plus Icon Pehle (As per Image) */}
+
+      <button
+        onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
+        disabled={item.quantity <= 1}
+      >
+        <MinusIcon />
+      </button>
+      <span>{item.quantity}</span>
       <button
         onClick={() => handleIncrease(item.product, item.vId)}
         disabled={!!itemErrors[key]}
@@ -165,15 +173,7 @@ const CartSideBar = () => {
         <PlusIcon />
       </button>
 
-      <span>{item.quantity}</span>
-
       {/* Minus Icon Baad mein */}
-      <button
-        onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
-        disabled={item.quantity <= 1}
-      >
-        <MinusIcon />
-      </button>
     </div>
     
     {itemErrors[key] && (

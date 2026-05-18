@@ -99,6 +99,15 @@ export default function Sendenq() {
     message: "",
   });
   const [loading, setLoading] = useState(false);
+  const [focusedField, setFocusedField] = useState("");
+
+  const LIMITS = {
+    firstName: 15,
+    lastName: 15,
+    phoneNumber: 9,
+    city: 15,
+    message: 200
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -128,32 +137,17 @@ export default function Sendenq() {
       if (formData.message.trim()) payload.message = formData.message.trim();
 
       const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
-      
       await axios.post(`${serverUrl}/api/events`, payload);
-
       toast.success("Thank you! Your enquiry has been received.");
       
-      // RESET LOGIC: Set to empty strings so placeholders reappear
       setFormData({
-        firstName: "", 
-        lastName: "", 
-        email: "", 
-        phoneNumber: "",
-        eventDate: "", 
-        timeWindow: "", 
-        expectedGuests: "",
-        eventType: "", // Empty so placeholder "Event Type" shows
-        package: "",   // Empty so placeholder "Package" shows
-        addons: "", 
-        city: "", 
-        emirate: "",   // Empty so placeholder "Emirate" shows
-        message: "",
+        firstName: "", lastName: "", email: "", phoneNumber: "",
+        eventDate: "", timeWindow: "", expectedGuests: "",
+        eventType: "", package: "", addons: "", city: "", emirate: "", message: "",
       });
 
     } catch (error) {
-      console.error("API Error Details:", error.response?.data);
-      const errorMsg = error.response?.data?.message || "Please check all fields and try again.";
-      toast.error(errorMsg);
+      toast.error(error.response?.data?.message || "Please check all fields and try again.");
     } finally {
       setLoading(false);
     }
@@ -176,13 +170,22 @@ export default function Sendenq() {
 
               <div className={styles.formBox}>
                 <div className={styles.row}>
-                  <input type="text" name="firstName" placeholder="First Name *" value={formData.firstName} onChange={handleChange} required />
-                  <input type="text" name="lastName" placeholder="Last Name *" value={formData.lastName} onChange={handleChange} required />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" name="firstName" placeholder="First Name *" value={formData.firstName} onChange={handleChange} onFocus={() => setFocusedField("firstName")} onBlur={() => setFocusedField("")} maxLength={LIMITS.firstName} required />
+                    {focusedField === "firstName" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.firstName.length}/{LIMITS.firstName}</span>}
+                  </div>
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" name="lastName" placeholder="Last Name *" value={formData.lastName} onChange={handleChange} onFocus={() => setFocusedField("lastName")} onBlur={() => setFocusedField("")} maxLength={LIMITS.lastName} required />
+                    {focusedField === "lastName" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.lastName.length}/{LIMITS.lastName}</span>}
+                  </div>
                 </div>
 
                 <div className={styles.row}>
                   <input type="email" name="email" placeholder="Email *" value={formData.email} onChange={handleChange} required />
-                  <input type="tel" name="phoneNumber" placeholder="Phone (e.g. +971...) *" value={formData.phoneNumber} onChange={handleChange} required />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="tel" name="phoneNumber" placeholder="Phone (e.g. +971...) *" value={formData.phoneNumber} onChange={handleChange} onFocus={() => setFocusedField("phoneNumber")} onBlur={() => setFocusedField("")} maxLength={LIMITS.phoneNumber} required />
+                    {focusedField === "phoneNumber" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.phoneNumber.length}/{LIMITS.phoneNumber}</span>}
+                  </div>
                 </div>
 
                 <div className={styles.row}>
@@ -201,17 +204,26 @@ export default function Sendenq() {
                 </div>
 
                 <div className={styles.row}>
-                  <input type="text" name="city" placeholder="City/Area *" value={formData.city} onChange={handleChange} required />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" name="city" placeholder="City/Area *" value={formData.city} onChange={handleChange} onFocus={() => setFocusedField("city")} onBlur={() => setFocusedField("")} maxLength={LIMITS.city} required />
+                    {focusedField === "city" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.city.length}/{LIMITS.city}</span>}
+                  </div>
                   <input type="text" name="addons" placeholder="Add-ons (e.g. water)" value={formData.addons} onChange={handleChange} />
                 </div>
 
-                <textarea
-                  name="message"
-                  placeholder="Tell us about your event"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={1}
-                />
+                <div style={{ position: 'relative' }}>
+                  <textarea
+                    name="message"
+                    placeholder="Tell us about your event"
+                    value={formData.message}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField("message")}
+                    onBlur={() => setFocusedField("")}
+                    maxLength={LIMITS.message}
+                    rows={1}
+                  />
+                  {focusedField === "message" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.message.length}/{LIMITS.message}</span>}
+                </div>
               </div>
 
               <div className={styles.Bottom}>

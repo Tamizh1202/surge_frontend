@@ -71,16 +71,18 @@ export default function ProductOne({ initialProduct }) {
   const rightPanelRef = useRef(null); // add this ref
   const isExpandedRef = useRef(false);
   const isAtTopRef = useRef(true);
-
+  const card2Ref = useRef(null);
   useEffect(() => {
     isExpandedRef.current = isExpanded;
   }, [isExpanded]);
-
+  //  const collapseAccRef = useRef(0);
+  const scrollDepthRef = useRef(0);
+  const collapseAccRef = useRef(0);
   useEffect(() => {
     if (window.innerWidth <= 900) return;
-
     gsap.registerPlugin(Observer);
 
+    // inside your useEffect, replace the entire Observer:
     const obs = Observer.create({
       target: window,
       type: "wheel,touch",
@@ -88,12 +90,35 @@ export default function ProductOne({ initialProduct }) {
       onChange: (self) => {
         const expanded = isExpandedRef.current;
 
-        // Check the right panel's own scroll, not the window
-        const panelScrollTop = rightPanelRef.current?.scrollTop ?? 0;
-        const atAbsoluteTop = panelScrollTop === 0;
+        if (!expanded && self.deltaY > 0) {
+          setIsExpanded(true);
+          scrollDepthRef.current = 0;
+          collapseAccRef.current = 0;
+          return;
+        }
 
-        if (!expanded && self.deltaY > 0) setIsExpanded(true);
-        if (expanded && self.deltaY < 0 && atAbsoluteTop) setIsExpanded(false); // only at true top
+        if (expanded) {
+          if (self.deltaY > 0) {
+            // scrolling down inside page B — accumulate depth, reset collapse
+            scrollDepthRef.current += self.deltaY;
+            collapseAccRef.current = 0;
+          } else {
+            // scrolling up — drain depth first
+            scrollDepthRef.current = Math.max(0, scrollDepthRef.current + self.deltaY);
+
+            if (scrollDepthRef.current <= 0) {
+              // only NOW at the top — start accumulating overscroll
+              collapseAccRef.current += Math.abs(self.deltaY);
+              if (collapseAccRef.current >= 80) {
+                setIsExpanded(false);
+                scrollDepthRef.current = 0;
+                collapseAccRef.current = 0;
+              }
+            } else {
+              collapseAccRef.current = 0; // still mid-page, do nothing
+            }
+          }
+        }
       },
       preventDefault: false
     });
@@ -186,7 +211,7 @@ export default function ProductOne({ initialProduct }) {
         </div>
 
         <div className={styles.detailsSection}>
-          <div className={styles.cardWrapper}>
+          <div className={styles.cardWrapper} ref={rightPanelRef}>
 
             {/* Card 1: Main Product Info */}
             <div className={`${styles.card} ${isExpanded ? styles.card1Hide : styles.card1Show}`}>
@@ -282,7 +307,10 @@ export default function ProductOne({ initialProduct }) {
 
             {/* Card 2: Technical Specs / Description */}
             {(product.desc || product.techSpecs) && (
-              <div className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}>
+              <div
+                className={`${styles.card} ${isExpanded ? styles.card2Show : styles.card2Hide}`}
+                ref={card2Ref}   // ← here
+              >
                 {product.desc && <p className={styles.description}>{product.desc}</p>}
                 {product.techSpecs && (
                   <>

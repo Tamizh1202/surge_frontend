@@ -62,6 +62,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  top:20px;
 }
 
 .cardWrapper {
@@ -107,6 +108,8 @@ body {
   opacity: 1;
   visibility: visible;
   z-index: 2;
+  /* position: relative;
+  top:40px;    */
 }
 
 .card2Hide {
@@ -421,6 +424,9 @@ body {
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+  overflow-y: auto;
+  /* must be auto, not hidden */
+  height: 100%;
 }
 
 .card2Hide {

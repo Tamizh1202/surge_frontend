@@ -221,6 +221,11 @@ export default function Sendenq() {
                     onBlur={() => setFocusedField("")}
                     maxLength={LIMITS.message}
                     rows={1}
+                    style={{ 
+   
+      resize: 'none', 
+   
+    }}
                   />
                   {focusedField === "message" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.message.length}/{LIMITS.message}</span>}
                 </div>

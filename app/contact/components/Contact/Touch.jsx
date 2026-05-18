@@ -21,11 +21,13 @@ export default function Touch() {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
   const [isTextareaActive, setIsTextareaActive] = useState(false);
+  const [activeField, setActiveField] = useState(""); 
 
   const dropdownRef = useRef(null);
   const characterLimit = 150;
+  const nameLimit = 15; 
+  const phoneLimit = 10;
 
-  // Options for Inquiry Type
   const options = [
     { label: "Order issue", value: "Order issue" },
     { label: "Payment or refund", value: "Payment or refund" },
@@ -36,7 +38,6 @@ export default function Touch() {
     { label: "Other", value: "Other" }
   ];
 
-  // Click Outside logic for Dropdown
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -52,7 +53,6 @@ export default function Touch() {
     setResponseMessage("");
     setResponseError(false);
 
-    // Basic Validation
     if (!fullName.trim() || !email.trim() || !message.trim()) {
       setResponseError(true);
       setResponseMessage("Please fill in all required fields.");
@@ -83,20 +83,13 @@ export default function Touch() {
       } else {
         setResponseError(false);
         setResponseMessage("Thank you! Your message has been submitted.");
-        
-        // --- CLEAR ALL FIELDS ON SUCCESS ---
-        setFullName(""); 
-        setEmail(""); 
-        setPhone(""); 
-        setSelected(""); 
-        setMessage("");
+        setFullName(""); setEmail(""); setPhone(""); setSelected(""); setMessage("");
       }
     } catch (err) {
       setResponseError(true);
       setResponseMessage("Network error. Please try again.");
     } finally {
       setLoading(false);
-      // Status message disappears after 5 seconds
       setTimeout(() => setResponseMessage(""), 5000);
     }
   };
@@ -106,12 +99,7 @@ export default function Touch() {
       <div className={styles.MainContainer}>
 
         <div className={styles.LeftConatiner}>
-          <Image
-            src={one}
-            alt="Contact Form Image"
-            className={styles.image}
-            priority
-          />
+          <Image src={one} alt="Contact Form Image" className={styles.image} priority />
         </div>
 
         <div className={styles.RightContainer}>
@@ -129,17 +117,28 @@ export default function Touch() {
               </div>
 
               <div className={styles.formBox}>
+                
                 {/* Full Name */}
-                <input
-                  type="text"
-                  placeholder="Full Name *"
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  required
-                />
+                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+                  <input
+                    type="text"
+                    placeholder="Full Name *"
+                    value={fullName}
+                    maxLength={nameLimit}
+                    onFocus={() => setActiveField("fullName")}
+                    onBlur={() => setActiveField("")}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    style={{ width: '100%' }}
+                  />
+                  {(activeField === "fullName" || fullName.length > 0) && (
+                    <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
+                      {fullName.length}/{nameLimit}
+                    </span>
+                  )}
+                </div>
 
                 <div className={styles.row}>
-                  {/* Email */}
                   <input
                     type="email"
                     placeholder="Email *"
@@ -147,21 +146,29 @@ export default function Touch() {
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
+
                   {/* Phone */}
-                  <input
-                    type="text"
-                    placeholder="Phone Number"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  />
+                  <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                    <input
+                      type="text"
+                      placeholder="Phone Number"
+                      value={phone}
+                      maxLength={phoneLimit}
+                      onFocus={() => setActiveField("phone")}
+                      onBlur={() => setActiveField("")}
+                      onChange={(e) => setPhone(e.target.value)}
+                      style={{ width: '100%' }}
+                    />
+                    {(activeField === "phone" || phone.length > 0) && (
+                      <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
+                        {phone.length}/{phoneLimit}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                {/* Inquiry Type Dropdown */}
                 <div className={styles.container} ref={dropdownRef}>
-                  <div
-                    className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
-                    onClick={() => setIsOpen(!isOpen)}
-                  >
+                  <div className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`} onClick={() => setIsOpen(!isOpen)}>
                     <span className={!selected ? styles.placeholderText : ""}>
                       {selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}
                     </span>
@@ -171,18 +178,10 @@ export default function Touch() {
                       </svg>
                     </span>
                   </div>
-
                   {isOpen && (
                     <ul className={styles.optionsList}>
                       {options.map((option) => (
-                        <li
-                          key={option.value}
-                          className={styles.optionItem}
-                          onClick={() => {
-                            setSelected(option.value);
-                            setIsOpen(false);
-                          }}
-                        >
+                        <li key={option.value} className={styles.optionItem} onClick={() => { setSelected(option.value); setIsOpen(false); }}>
                           {option.label}
                         </li>
                       ))}
@@ -190,8 +189,8 @@ export default function Touch() {
                   )}
                 </div>
 
-                {/* Message Textarea with 0/150 counter */}
-                <div className={styles.textareaWrapper} style={{ position: 'relative' }}>
+                {/* Message Section */}
+                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
                   <textarea
                     placeholder="How we can help you. *"
                     value={message}
@@ -200,9 +199,10 @@ export default function Touch() {
                     onBlur={() => setIsTextareaActive(false)}
                     onChange={(e) => setMessage(e.target.value)}
                     required
+                    style={{ width: '100%' }}
                   />
                   {(isTextareaActive || message.length > 0) && (
-                    <span className={styles.charLimit}>
+                    <span style={{ position: 'absolute', right: '10px', bottom: '15px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
                       {message.length}/{characterLimit}
                     </span>
                   )}
@@ -240,7 +240,6 @@ export default function Touch() {
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </div>

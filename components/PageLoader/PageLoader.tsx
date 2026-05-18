@@ -4,7 +4,7 @@ import styles from "./PageLoader.module.css";
 export default function PageLoader() {
   return (
     <div className={styles.overlay}>
-      <Image src="/loader.gif" alt="Loading..." width={120} height={120} unoptimized />
+      <Image src="/loader.gif" alt="Loading..." width={150} height={150} unoptimized />
     </div>
   );
 }

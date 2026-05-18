@@ -1323,9 +1323,7 @@ padding-bottom: clamp(50px, 17vw, 250px);
     padding-top: 80px;
   }
 
-  .CouponSection {
-    padding-top: 50px;
-  }
+
 
   .Five h3 {
     margin-top: 80px;
@@ -1604,17 +1602,17 @@ padding-bottom: clamp(50px, 17vw, 250px);
 /* ─── Very small mobile ─── */
 @media (max-width: 380px) {
   .Main {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 24px;
+    padding-right: 24px;
   }
 
   .Two,
   .Three,
   .Four,
-  .Five,
-  .billingAddress,
-  .CouponSection {
+
+  .billingAddress{
     padding-top: 28px;
+   
   }
 
   .Pay {
@@ -1629,5 +1627,6 @@ padding-bottom: clamp(50px, 17vw, 250px);
 
   .RightOne h3 {
     font-size: 15px;
+    margin: 0;
   }
 }

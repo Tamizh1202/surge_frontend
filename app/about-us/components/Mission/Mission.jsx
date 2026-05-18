@@ -24,7 +24,7 @@ export default function Mission() {
           start: "top top",
           end: window.innerWidth < 900 ? "+=80%" : `+=${cards.length * 30}%`,
           pin: true,
-          scrub: 1,
+          scrub: 0.5,
           anticipatePin: 1,
 
           fastScrollEnd: true,

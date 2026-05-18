@@ -41,7 +41,11 @@ export default function ShippingAddressSection({
   const emirateRef = useRef(null);
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
 
-  // --- NEW STATE FOR COUNTER VISIBILITY ---
+  // Character limit constants
+  const ADDRESS_MAX_LENGTH = 100;
+  const PHONE_MAX_LENGTH = 9; //
+const APARTMENT_MAX_LENGTH =100;
+  // State for counter visibility
   const [activeField, setActiveField] = useState(null);
 
   const emptyAddressForm = {
@@ -215,9 +219,16 @@ export default function ShippingAddressSection({
           addressGeneralError={addressGeneralError}
           activeLabelBtn={activeLabelBtn}
           UAE_STATES={UAE_STATES}
-          onFormChange={(field, value) =>
-            setAddressForm((prev) => ({ ...prev, [field]: value }))
-          }
+          onFormChange={(field, value) => {
+            // 👈 Protects popup entry from exceeding 9 digits
+            if (field === "phone") {
+              const numeric = value.replace(/\D/g, "");
+              if (numeric.length > PHONE_MAX_LENGTH) return;
+              setAddressForm((prev) => ({ ...prev, [field]: numeric }));
+            } else {
+              setAddressForm((prev) => ({ ...prev, [field]: value }));
+            }
+          }}
           onLabelSelect={(label) => {
             setActiveLabelBtn(label);
             setAddressForm((prev) => ({ ...prev, label }));
@@ -290,17 +301,8 @@ export default function ShippingAddressSection({
                           setOpenMenuId(openMenuId === addr.id ? null : addr.id)
                         }
                       >
-                        <svg
-                          width="3"
-                          height="15"
-                          viewBox="0 0 3 15"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M1.5 14.5385C1.0875 14.5385 0.734417 14.3916 0.44075 14.0978C0.146917 13.8041 0 13.451 0 13.0385C0 12.626 0.146917 12.2728 0.44075 11.979C0.734417 11.6853 1.0875 11.5385 1.5 11.5385C1.9125 11.5385 2.26558 11.6853 2.55925 11.979C2.85308 12.2728 3 12.626 3 13.0385C3 13.451 2.85308 13.8041 2.55925 14.0978C2.26558 14.3916 1.9125 14.5385 1.5 14.5385ZM1.5 8.76925C1.0875 8.76925 0.734417 8.62233 0.44075 8.3285C0.146917 8.03483 0 7.68175 0 7.26925C0 6.85675 0.146917 6.50367 0.44075 6.21C0.734417 5.91617 1.0875 5.76925 1.5 5.76925C1.9125 5.76925 2.26558 5.91617 2.55925 6.21C2.85308 6.50367 3 6.85675 3 7.26925C3 7.68175 2.85308 8.03483 2.55925 8.3285C2.26558 8.62233 1.9125 8.76925 1.5 8.76925ZM1.5 3C1.0875 3 0.734417 2.85317 0.44075 2.5595C0.146917 2.26567 0 1.9125 0 1.5C0 1.0875 0.146917 0.734417 0.44075 0.44075C0.734417 0.146917 1.0875 0 1.5 0C1.9125 0 2.26558 0.146917 2.55925 0.44075C2.85308 0.734417 3 1.0875 3 1.5C3 1.9125 2.85308 2.26567 2.55925 2.5595C2.26558 2.85317 1.9125 3 1.5 3Z"
-                            fill="#6E736A"
-                          />
+                        <svg width="3" height="15" viewBox="0 0 3 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M1.5 14.5385C1.0875 14.5385 0.734417 14.3916 0.44075 14.0978C0.146917 13.8041 0 13.451 0 13.0385C0 12.626 0.146917 12.2728 0.44075 11.979C0.734417 11.6853 1.0875 11.5385 1.5 11.5385C1.9125 11.5385 2.26558 11.6853 2.55925 11.979C2.85308 12.2728 3 12.626 3 13.0385C3 13.451 2.85308 13.8041 2.55925 14.0978C2.26558 14.3916 1.9125 14.5385 1.5 14.5385ZM1.5 8.76925C1.0875 8.76925 0.734417 8.62233 0.44075 8.3285C0.146917 8.03483 0 7.68175 0 7.26925C0 6.85675 0.146917 6.50367 0.44075 6.21C0.734417 5.91617 1.0875 5.76925 1.5 5.76925C1.9125 5.76925 2.26558 5.91617 2.55925 6.21C2.85308 6.50367 3 6.85675 3 7.26925C3 7.68175 2.85308 8.03483 2.55925 8.3285C2.26558 8.62233 1.9125 8.76925 1.5 8.76925ZM1.5 3C1.0875 3 0.734417 2.85317 0.44075 2.5595C0.146917 2.26567 0 1.9125 0 1.5C0 1.0875 0.146917 0.734417 0.44075 0.44075C0.734417 0.146917 1.0875 0 1.5 0C1.9125 0 2.26558 0.146917 2.55925 0.44075C2.85308 0.734417 3 1.0875 3 1.5C3 1.9125 2.85308 2.26567 2.55925 2.5595C2.26558 2.85317 1.9125 3 1.5 3Z" fill="#6E736A" />
                         </svg>
                       </span>
                       {openMenuId === addr.id && (
@@ -334,13 +336,7 @@ export default function ShippingAddressSection({
                 className={styles.AddNewAddress}
                 onClick={handleAddAddress}
               >
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M6 0V12M0 6H12" stroke="#6E736A" strokeWidth="1.5" />
                 </svg>
                 <p>Use a different address</p>
@@ -360,7 +356,6 @@ export default function ShippingAddressSection({
               </div>
 
               <div className={styles.Row}>
-                {/* FIRST NAME WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingFirstName ? styles.InputError : ""}`}
@@ -387,7 +382,6 @@ export default function ShippingAddressSection({
                   )}
                 </div>
 
-                {/* LAST NAME WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingLastName ? styles.InputError : ""}`}
@@ -415,38 +409,52 @@ export default function ShippingAddressSection({
                 </div>
               </div>
 
+              {/* ADDRESS FIELD WITH 100 CHAR LIMIT */}
               <div className={styles.FieldWrap}>
                 <input
                   className={`${styles.Input} ${validationErrors.shippingAddress ? styles.InputError : ""}`}
                   placeholder=" "
+                  maxLength={ADDRESS_MAX_LENGTH}
                   value={shippingForm.address}
+                  onFocus={() => setActiveField("address")}
                   onChange={(e) => {
                     setShippingForm({ ...shippingForm, address: e.target.value });
                     clearError("shippingAddress");
                   }}
                   onBlur={() => {
+                    setActiveField(null);
                     const e = validateRequired(shippingForm.address, "Address");
                     if (e) setValidationErrors((p) => ({ ...p, shippingAddress: e }));
                   }}
                 />
                 <label className={styles.FloatLabel}>House number, Street name</label>
+                {activeField === "address" && (
+                  <span className={styles.CharCounter}>{shippingForm.address.length}/{ADDRESS_MAX_LENGTH}</span>
+                )}
                 {validationErrors.shippingAddress && (
                   <span className={styles.ErrorMessage}>{validationErrors.shippingAddress}</span>
                 )}
               </div>
 
-              <div className={styles.FieldWrap}>
-                <input
-                  className={styles.Input}
-                  placeholder=" "
-                  value={shippingForm.apartment}
-                  onChange={(e) => setShippingForm({ ...shippingForm, apartment: e.target.value })}
-                />
-                <label className={styles.FloatLabel}>Apartment, suite, etc. (optional)</label>
-              </div>
+             <div className={styles.FieldWrap}>
+    <input
+        className={styles.Input}
+        placeholder=" "
+        maxLength={APARTMENT_MAX_LENGTH} 
+        value={shippingForm.apartment || ""}
+        onFocus={() => setActiveField("shippingApartment")}
+        onChange={(e) => setShippingForm({ ...shippingForm, apartment: e.target.value })}
+        onBlur={() => setActiveField(null)}
+    />
+    <label className={styles.FloatLabel}>Apartment, suite, etc. (optional)</label>
+    {activeField === "shippingApartment" && (
+        <span className={styles.CharCounter}>
+            {(shippingForm.apartment || "").length}/{APARTMENT_MAX_LENGTH}
+        </span>
+    )}
+</div>
 
               <div className={styles.Row}>
-                {/* CITY WITH COUNTER */}
                 <div className={styles.FieldWrap} style={{ flex: 1 }}>
                   <input
                     className={`${styles.Input} ${validationErrors.shippingCity ? styles.InputError : ""}`}
@@ -496,6 +504,7 @@ export default function ShippingAddressSection({
                 </div>
               </div>
 
+           
               <div className={styles.FieldWrap}>
                 <div className={`${styles.PhoneWrapper} ${validationErrors.shippingPhone ? styles.InputError : ""}`}>
                   <span className={styles.PhonePrefix}>+971</span>
@@ -504,16 +513,26 @@ export default function ShippingAddressSection({
                     placeholder="Phone"
                     value={shippingForm.phone}
                     inputMode="numeric"
+                    maxLength={PHONE_MAX_LENGTH} // Hard stop limit
+                    onFocus={() => setActiveField("phone")}
                     onChange={(e) => {
                       const numeric = e.target.value.replace(/\D/g, "");
-                      setShippingForm({ ...shippingForm, phone: numeric });
-                      clearError("shippingPhone");
+                      
+                      // Strict dynamic length rule checker
+                      if (numeric.length <= PHONE_MAX_LENGTH) {
+                        setShippingForm({ ...shippingForm, phone: numeric });
+                        clearError("shippingPhone");
+                      }
                     }}
                     onBlur={() => {
+                      setActiveField(null);
                       const e = validateUAEPhone(shippingForm.phone);
                       if (e) setValidationErrors((p) => ({ ...p, shippingPhone: e }));
                     }}
                   />
+                  {activeField === "phone" && (
+                    <span className={styles.CharCounter}>{shippingForm.phone.length}/{PHONE_MAX_LENGTH}</span>
+                  )}
                 </div>
                 {validationErrors.shippingPhone && (
                   <span className={styles.ErrorMessage}>{validationErrors.shippingPhone}</span>

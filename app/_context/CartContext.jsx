@@ -395,11 +395,7 @@ export function CartProvider({ children }) {
         await addItemToCart(product, quantity, vId, restDetails);
         const cart = getCart();
         applyGuestCart();
-<<<<<<< HEAD
-        if (customSelections) {
-=======
         if (customSelections || productHighlights) {
->>>>>>> b7f1a48fdbaac861e54b593617ca07bd254796a9
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&

@@ -68,7 +68,7 @@ export default function ProductOne({ initialProduct }) {
   const [selectedHighlights, setSelectedHighlights] = useState({});
   const [isExpanded, setIsExpanded] = useState(false);
   const [quantity, setQuantity] = useState(1);
-
+  const rightPanelRef = useRef(null); // add this ref
   const isExpandedRef = useRef(false);
   const isAtTopRef = useRef(true);
 
@@ -77,13 +77,7 @@ export default function ProductOne({ initialProduct }) {
   }, [isExpanded]);
 
   useEffect(() => {
-    // Don't attach scroll/gesture observer on mobile
     if (window.innerWidth <= 900) return;
-
-    const onScroll = () => {
-      isAtTopRef.current = window.scrollY <= 5;
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
 
     gsap.registerPlugin(Observer);
 
@@ -93,17 +87,18 @@ export default function ProductOne({ initialProduct }) {
       tolerance: 20,
       onChange: (self) => {
         const expanded = isExpandedRef.current;
-        const isAtTop = isAtTopRef.current;
-        if (!expanded && self.deltaY > 0 && isAtTop) setIsExpanded(true);
-        if (expanded && self.deltaY < 0 && isAtTop) setIsExpanded(false);
+
+        // Check the right panel's own scroll, not the window
+        const panelScrollTop = rightPanelRef.current?.scrollTop ?? 0;
+        const atAbsoluteTop = panelScrollTop === 0;
+
+        if (!expanded && self.deltaY > 0) setIsExpanded(true);
+        if (expanded && self.deltaY < 0 && atAbsoluteTop) setIsExpanded(false); // only at true top
       },
       preventDefault: false
     });
 
-    return () => {
-      obs.kill();
-      window.removeEventListener('scroll', onScroll);
-    };
+    return () => obs.kill();
   }, []);
 
   useEffect(() => {

@@ -20,7 +20,6 @@ const CartSideBar = () => {
     items,
     removeItem,
     updateQuantity,
-    cartTotals,
   } = useCart();
 
   const router = useRouter();
@@ -42,8 +41,8 @@ const CartSideBar = () => {
     };
   }, [isCartOpen]);
 
-  // Logic: Sum up all quantities for the total count
   const totalQuantity = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  const subtotal = items?.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 0)), 0) || 0;
   const isCartEmpty = totalQuantity === 0;
   const handleIncrease = async (product, vId) => {
     const key = `${product}_${vId || ""}`;
@@ -197,7 +196,7 @@ const CartSideBar = () => {
           <div className={styles.footer}>
             <div className={styles.subtotalRow}>
               <span>Subtotal</span>
-              <span>AED {Number(cartTotals?.subtotal || 0).toFixed(2)}</span>
+              <span>AED {subtotal.toFixed(2)}</span>
             </div>
             <button className={styles.checkoutBtn} onClick={handleCheckout}>
               Checkout

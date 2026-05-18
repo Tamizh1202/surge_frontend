@@ -126,30 +126,65 @@ function OrderSuccessContent() {
 
             <div className={styles.SummaryItems}>
               {order.items?.map((item, idx) => {
-                // Backend nests product info under item.product
                 const productName = item.product?.name || item.name || "Coffee Product";
                 const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
+                
                 const imgUrl = formatImageUrl(
                   item.productImage?.url || item.product?.productImage?.url || item.image
                 ) || '/1.png';
-                // Price can come from item.price (number) or item.unitPrice
+                
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
+
+            
+                const selections = item.customSelections || item.product?.customSelections || {};
+                const displaySelections = Object.entries(selections)
+                  .filter(([, value]) => value && String(value).trim() !== "");
+                
+                // Fallback storage cross-check logic
+                let backupMeta = null;
+                try {
+                  const stored = localStorage.getItem("surge_cart_meta");
+                  if (stored) {
+                    const parsed = JSON.parse(stored);
+                    const lookupKey = `${item.product?.id || item.product || ""}_${item.variantID || item.vId || ""}`;
+                    backupMeta = parsed[lookupKey];
+                  }
+                } catch(e) { console.error(e); }
+
+                const finalTagline = item.tagline || item.product?.tagline || backupMeta?.tagline || "";
+                const selectionArray = displaySelections.length > 0 
+                  ? displaySelections.map(([, value]) => value) 
+                  : (backupMeta?.customSelections ? Object.values(backupMeta.customSelections) : []);
+
+                const metaText = [finalTagline, ...selectionArray]
+                  .filter(Boolean)
+                  .join(", ");
+            
+
                 return (
-                  <div className={styles.SummaryItem} key={idx}>
-                   <div className={styles.SummaryItemImg}>
-    <img
-      src={imgUrl}
-      alt={productName}
-      width={92}
-      height={92}
-    />
-  </div>
-                    <div className={styles.SummaryItemInfo}>
-                      <p className={styles.SummaryItemName}>
+                  <div className={styles.SummaryItem} key={idx} style={{ alignItems: 'flex-start' }}>
+                    <div className={styles.SummaryItemImg}>
+                      <img
+                        src={imgUrl}
+                        alt={productName}
+                        width={92}
+                        height={92}
+                      />
+                    </div>
+                    <div className={styles.SummaryItemInfo} style={{ display: 'flex', flexDirection: 'column', }}>
+                      <p className={styles.SummaryItemName} style={{ margin: 0, fontSize: '16px', color: '#414343' }}>
                         {productName}
-                        {variantName && <span>, {variantName}</span>}
+                        {variantName && <span>, {variantName}g</span>}
                       </p>
-                      <span>×{item.quantity}</span>
+                      
+                      {/* Line 2: Added Metadata configuration rendering matching OrderSummary */}
+                      {metaText && (
+                        <div style={{ fontSize: "12px", fontWeight: '500', color: "#818686", margin: '4px 0 0 0', lineHeight: '1.2',fontFamily: 'Raleway' }}>
+                          {metaText}
+                        </div>
+                      )}
+
+                      <span style={{ marginTop: '16px',fontSize: "16px", fontWeight: '400', color: "#414343"}}>{item.quantity}x</span>
                     </div>
                     <p className={styles.SummaryItemPrice}>
                       AED {itemPrice.toFixed(0)}
@@ -160,7 +195,6 @@ function OrderSuccessContent() {
             </div>
 
             <div className={styles.SummaryTotals}>
-              {/* Backend stores financial fields nested under order.financials */}
               {(() => {
                 const f = order.financials || {};
                 const subtotal = Number(f.subtotal || 0);
@@ -168,8 +202,6 @@ function OrderSuccessContent() {
                 const shipping = Number(f.shippingCharge ?? 0);
                 const tax = Number(f.taxAmount || 0);
                 const total = Number(f.total || 0);
-
-                // Try all known field names, then derive from the other figures as fallback
                 const beansDiscount = Number(f.surgeCoinsDiscount || 0);
 
                 return (

@@ -55,7 +55,7 @@ export const getStatusConfig = (status, order) => {  // Handle Pickup Ready sta
         ),
         // Combined logic for Cancelled Date and Reason
         date: order?.cancelledOn ? `On ${formatDate(order?.cancelledOn)}` : (order?.updatedAt ? `on ${formatDate(order?.updatedAt)}` : ""),
-        reason: order?.cancelReason || "Due to other reasons",
+        reason: order?.cancelReason || order?.refundReason || "",
         refundedAmount: "Your refund will be credited within 7–8 working days",
         showCancel: false,
         bottomText: order?.origin ? "This order is part of your active subscription." : "",

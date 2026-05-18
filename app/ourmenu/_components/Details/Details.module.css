@@ -82,7 +82,6 @@
 .imageWrapper {
   width: 100%;
   overflow: hidden;
-  /* ← add this */
 }
 
 @keyframes imageFadeIn {
@@ -108,7 +107,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* remove animation from here */
+  
 }
 
 .menuImage {
@@ -274,25 +273,19 @@
 
 
   .selectedSection {
-
-    height: 100vh;
     width: 100%;
     display: flex;
     padding: 40px 20px 0;
     flex-direction: column;
     overflow: hidden;
-
     background: #fff;
     position: relative;
+    clip-path: inset(0 0 0 0);
   }
-
-  
 
   .menuContainer {
     display: flex;
-    /* gap:30px; */
     flex-direction: column;
-    flex: 1;
     position: relative;
     overflow: hidden;
   }
@@ -327,7 +320,7 @@
     position: relative;
     z-index: 5;
     padding-top: 10px;
-    /* pointer-events: none; */
+   
   }
 
   .menuItem {

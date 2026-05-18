@@ -88,7 +88,7 @@ export default function Details() {
             const index = sections.findIndex(s => String(s.id) === String(selectedCategory));
             if (index !== -1 && sectionsRef.current[index]) {
                 const element = sectionsRef.current[index];
-                const offset = 80; // Adjust for sticky header if any
+                const offset = 80;
                 const elementPosition = element.getBoundingClientRect().top;
                 const offsetPosition = elementPosition + window.pageYOffset - offset;
 
@@ -107,58 +107,26 @@ export default function Details() {
         let mm = gsap.matchMedia();
 
         mm.add("(max-width: 768px)", () => {
-            sectionsRef.current.forEach((section, index) => {
+            sectionsRef.current.forEach((section) => {
                 if (!section) return;
                 const itemList = section.querySelector(`.${styles.itemList}`);
+                if (!itemList) return;
 
-                if (itemList) {
-                    const listHeight = itemList.scrollHeight;
-                    const isLast = index === sectionsRef.current.length - 1;
+                const listHeight = itemList.scrollHeight;
 
-                    gsap.to(itemList, {
-                        y: -listHeight,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top top",
-                            end: () => `+=${listHeight}`,
-                            pin: true,
-                            pinSpacing: false,
-                            scrub: 0.05,
-                            ...(isLast && {
-                                onUpdate: (self) => {
-                                    const remaining = listHeight * (1 - self.progress);
-                                    itemList.style.height = `${remaining}px`;
-                                    itemList.style.overflow = 'hidden';
+                const tl = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: section,
+                        start: "top top",
+                        end: () => `+=${listHeight}`,
+                        pin: true,
+                        pinSpacing: false,
+                        scrub: 0.05,
+                    }
+                });
 
-                                    const spacer = section.parentElement;
-                                    if (spacer?.classList.contains('pin-spacer')) {
-                                        const imageH = section.querySelector(`.${styles.imageWrapper}`)?.offsetHeight || 0;
-                                        spacer.style.height = `${imageH + remaining + 80}px`;
-                                        spacer.style.minHeight = '0px';
-                                    }
-                                },
-                                onLeave: () => {
-                                    itemList.style.height = '0px';
-                                    const spacer = section.parentElement;
-                                    if (spacer?.classList.contains('pin-spacer')) {
-                                        spacer.style.height = '0px';
-                                        spacer.style.minHeight = '0px';
-                                    }
-                                },
-                                onEnterBack: () => {
-                                    itemList.style.height = '';
-                                    itemList.style.overflow = '';
-                                    const spacer = section.parentElement;
-                                    if (spacer?.classList.contains('pin-spacer')) {
-                                        spacer.style.height = '';
-                                        spacer.style.minHeight = '';
-                                    }
-                                }
-                            })
-                        }
-                    });
-                }
+                tl.to(itemList, { y: -listHeight, ease: "none" }, 0);
+                tl.to(section, { clipPath: `inset(0px 0px ${listHeight}px 0px)`, ease: "none" }, 0);
             });
         });
 

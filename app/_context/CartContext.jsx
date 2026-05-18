@@ -86,7 +86,6 @@ export function CartProvider({ children }) {
 
   const { data: session, status } = useSession();
 
-
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
 
@@ -103,7 +102,6 @@ export function CartProvider({ children }) {
       const coupon = data.coupon || data.docs?.[0];
 
       if (coupon && (data.success || !data.message)) {
-        // Validation: Minimum Amount
         const minAmount = Number(coupon.minimumAmount || 0);
         if (minAmount > 0 && cartTotals.subtotal < minAmount) {
           return {
@@ -153,7 +151,7 @@ export function CartProvider({ children }) {
       setAppliedCoupon(null);
     }
   };
-  // Fetch Loyalty Config & Balance
+
   const fetchLoyaltyData = async () => {
     if (status !== "authenticated") return;
     try {
@@ -185,9 +183,7 @@ export function CartProvider({ children }) {
   useEffect(() => {
     let coinsDiscount = 0;
     if (isBeansApplied && beansBalance > 0) {
-      // Redemption Logic: discountAED = pointsUsed / pointsToAed
-      // For now, assuming user uses all available or max allowed
-      const maxPossibleDiscount = cartTotals.subtotal * 0.2; // Example 20% cap
+      const maxPossibleDiscount = cartTotals.subtotal * 0.2;
       const balanceInAed = beansBalance / coinConfig.pointsToAed;
       coinsDiscount = Math.min(maxPossibleDiscount, balanceInAed);
     }
@@ -219,10 +215,38 @@ export function CartProvider({ children }) {
     fetchCart();
   }, [session, status]);
 
+  // Sync structural metadata details to localStorage whenever items update dynamically
+  useEffect(() => {
+    if (items && items.length > 0) {
+      const metaStorage = {};
+      items.forEach((item) => {
+        const key = `${item.product}_${item.vId || ""}`;
+        if (item.customSelections || item.tagline) {
+          metaStorage[key] = {
+            customSelections: item.customSelections || null,
+            tagline: item.tagline || null,
+          };
+        }
+      });
+      if (Object.keys(metaStorage).length > 0) {
+        localStorage.setItem("surge_cart_meta", JSON.stringify(metaStorage));
+      }
+    }
+  }, [items]);
+
   // ─── Helpers ────────────────────────────────────────────────────────────────
 
   /** Apply a cart API response (items, subtotal, totalItems) to state */
   const applyCartResponse = (data) => {
+    // Refresh safe backup restoration from local storage
+    let localMetaBackup = {};
+    try {
+      const stored = localStorage.getItem("surge_cart_meta");
+      if (stored) localMetaBackup = JSON.parse(stored);
+    } catch (err) {
+      console.error("Failed to parse cart metadata backup", err);
+    }
+
     setItems((previousItems) =>
       (data.items || []).map((item) => {
         const key = `${item.product}:${item.vId || ""}`;
@@ -307,17 +331,22 @@ export function CartProvider({ children }) {
 
         const data = res.data;
         applyCartResponse(data);
-        if (customSelections) {
+        
+        if (customSelections || tagline) {
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&
-                (item.vId || null) === (vId || null)
-                ? { ...item, customSelections }
+              (item.vId || null) === (vId || null)
+                ? { 
+                    ...item, 
+                    ...(customSelections ? { customSelections } : {}), 
+                    ...(tagline ? { tagline } : {}) 
+                  }
                 : item,
             ),
           );
         }
-        // Show toast with the item that was just added/updated
+        
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
@@ -364,10 +393,21 @@ export function CartProvider({ children }) {
     }
   };
 
-
   // ─── Remove ──────────────────────────────────────────────────────────────────
 
   const removeItem = async (product, vId) => {
+    const key = `${product}_${vId || ""}`;
+    try {
+      const stored = localStorage.getItem("surge_cart_meta");
+      if (stored) {
+        const metaStorage = JSON.parse(stored);
+        delete metaStorage[key];
+        localStorage.setItem("surge_cart_meta", JSON.stringify(metaStorage));
+      }
+    } catch (err) {
+      console.error(err);
+    }
+
     if (session?.user) {
       try {
         const res = await axiosClient.delete("/api/website/cart", {
@@ -385,7 +425,6 @@ export function CartProvider({ children }) {
   };
 
   // ─── Update Quantity ─────────────────────────────────────────────────────────
-  // action: 'increment' | 'decrement' | null (pass quantity directly)
 
   const updateQuantity = async (product, vId, quantity, action) => {
     if (session?.user) {
@@ -394,7 +433,6 @@ export function CartProvider({ children }) {
           product,
           vId: vId || null,
           quantity,
-
           action,
         });
         applyCartResponse(res.data);
@@ -408,7 +446,6 @@ export function CartProvider({ children }) {
         return { ok: false, message };
       }
     } else {
-      // For guest: resolve new quantity from action or direct value
       try {
         const cart = getCart();
         const existing = cart.items?.find(
@@ -465,6 +502,7 @@ export function CartProvider({ children }) {
     </CartContext.Provider>
   );
 }
+
 export function useCart() {
   return useContext(CartContext);
 }

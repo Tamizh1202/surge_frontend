@@ -45,7 +45,6 @@ const CartSideBar = () => {
   // Logic: Sum up all quantities for the total count
   const totalQuantity = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
   const isCartEmpty = totalQuantity === 0;
-
   const handleIncrease = async (product, vId) => {
     const key = `${product}_${vId || ""}`;
     const result = await updateQuantity(product, vId, null, "increment");

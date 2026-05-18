@@ -44,9 +44,9 @@ const CartSideBar = () => {
   const totalQuantity = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
   const subtotal = items?.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 0)), 0) || 0;
   const isCartEmpty = totalQuantity === 0;
-  const handleIncrease = async (product, vId) => {
-    const key = `${product}_${vId || ""}`;
-    const result = await updateQuantity(product, vId, null, "increment");
+  const handleIncrease = async (product, vId, cartKey) => {
+    const key = cartKey || `${product}_${vId || ""}`;
+    const result = await updateQuantity(product, vId, null, "increment", cartKey);
     if (result && !result.ok) {
       setItemErrors((prev) => ({ ...prev, [key]: result.message }));
     } else {
@@ -58,20 +58,20 @@ const CartSideBar = () => {
     }
   };
 
-  const handleDecrease = async (product, vId, currentQty) => {
+  const handleDecrease = async (product, vId, currentQty, cartKey) => {
     if (currentQty > 1) {
-      const key = `${product}_${vId || ""}`;
+      const key = cartKey || `${product}_${vId || ""}`;
       setItemErrors((prev) => {
         const n = { ...prev };
         delete n[key];
         return n;
       });
-      await updateQuantity(product, vId, null, "decrement");
+      await updateQuantity(product, vId, null, "decrement", cartKey);
     }
   };
 
-  const handleRemove = async (product, vId) => {
-    await removeItem(product, vId);
+  const handleRemove = async (product, vId, cartKey) => {
+    await removeItem(product, vId, cartKey);
   };
 
   const handleCheckout = () => {
@@ -119,7 +119,7 @@ const CartSideBar = () => {
               </div>
             ) : (
               items.map((item) => {
-                const key = `${item.product}_${item.vId || ""}`;
+                const key = item._cartKey || `${item.product}_${item.vId || ""}`;
                 const displaySelections = getDisplaySelections(item);
                 const metaText = [item.tagline, ...displaySelections.map(([, value]) => value)]
                   .filter(Boolean)
@@ -147,7 +147,7 @@ const CartSideBar = () => {
                           </h5>
                           {metaText && <p className={styles.tagline}>{metaText}</p>}
                         </div>
-                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId)}>
+                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId, item._cartKey)}>
                           <TrashIcon />
                         </button>
                       </div>
@@ -158,14 +158,14 @@ const CartSideBar = () => {
       {/* Plus Icon Pehle (As per Image) */}
 
       <button
-        onClick={() => handleDecrease(item.product, item.vId, item.quantity)}
+        onClick={() => handleDecrease(item.product, item.vId, item.quantity, item._cartKey)}
         disabled={item.quantity <= 1}
       >
         <MinusIcon />
       </button>
       <span>{item.quantity}</span>
       <button
-        onClick={() => handleIncrease(item.product, item.vId)}
+        onClick={() => handleIncrease(item.product, item.vId, item._cartKey)}
         disabled={!!itemErrors[key]}
       >
         <PlusIcon />

@@ -34,6 +34,15 @@ const getCustomSelections = (details) => {
   return Object.keys(selections).length > 0 ? selections : null;
 };
 
+// Stable key encoding product + variant + selections — two items are the same only if all three match
+export const makeCartItemKey = (product, vId, customSelections) => {
+  const selKey =
+    customSelections && Object.keys(customSelections).length > 0
+      ? JSON.stringify(Object.fromEntries(Object.entries(customSelections).sort()))
+      : "";
+  return `${product}__${vId || ""}__${selKey}`;
+};
+
 async function fetchCartProduct(productId, vid = null) {
   const res = await axiosClient.get(`/api/web-products/${productId}?depth=1`);
   const productDoc = await res.data;
@@ -115,10 +124,15 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
     return;
   }
 
-  // Check if same product + variant already in cart
-  const existingIndex = items.findIndex(
-    (item) =>
-      item.product === productData.product && item.vId === productData.vId,
+  const cartKey = makeCartItemKey(productData.product, productData.vId, customSelections);
+
+  // Two items are the same only when product + variant + highlights all match
+  const existingIndex = items.findIndex((item) =>
+    item._cartKey
+      ? item._cartKey === cartKey
+      : item.product === productData.product &&
+        item.vId === productData.vId &&
+        JSON.stringify(item.customSelections || {}) === JSON.stringify(customSelections || {}),
   );
 
   if (existingIndex >= 0) {
@@ -156,6 +170,7 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
 
     items.push({
       ...productData,
+      _cartKey: cartKey,
       quantity,
       ...(customSelections ? { customSelections } : {}),
     });
@@ -165,21 +180,25 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
   saveCart({ items, subtotal, totalItems });
 };
 
-// Remove an item from the guest cart by product ID and variant ID
-export const removeItemFromCart = (productId, vid = null) => {
+// Remove an item from the guest cart by cartKey (preferred) or product + variant ID
+export const removeItemFromCart = (productId, vid = null, cartKey = null) => {
   const cart = getCart();
-  const items = (cart.items || []).filter(
-    (item) => !(item.product === productId && item.vId === vid),
-  );
+  const items = (cart.items || []).filter((item) => {
+    if (cartKey) return item._cartKey !== cartKey;
+    return !(item.product === productId && item.vId === vid);
+  });
   const { subtotal, totalItems } = recalculate(items);
   saveCart({ items, subtotal, totalItems });
 };
 
 // Update quantity of a specific item
-export const updateItemQuantity = (productId, vid = null, quantity) => {
+export const updateItemQuantity = (productId, vid = null, quantity, cartKey = null) => {
   const cart = getCart();
   const items = (cart.items || []).map((item) => {
-    if (item.product === productId && item.vId === vid) {
+    const matches = cartKey
+      ? item._cartKey === cartKey
+      : item.product === productId && item.vId === vid;
+    if (matches) {
       const newQty = Math.max(1, quantity);
 
       // Validate stock
@@ -203,16 +222,19 @@ export const updateItemQuantity = (productId, vid = null, quantity) => {
 };
 
 // Decrease quantity of a specific item by 1; removes the item if quantity reaches 0
-export const decrementItem = (productId, vid = null) => {
+export const decrementItem = (productId, vid = null, cartKey = null) => {
   const cart = getCart();
   let items = (cart.items || [])
     .map((item) => {
-      if (item.product === productId && item.vId === vid) {
+      const matches = cartKey
+        ? item._cartKey === cartKey
+        : item.product === productId && item.vId === vid;
+      if (matches) {
         return { ...item, quantity: item.quantity - 1 };
       }
       return item;
     })
-    .filter((item) => item.quantity > 0); // Remove items with 0 quantity
+    .filter((item) => item.quantity > 0);
 
   const { subtotal, totalItems } = recalculate(items);
   saveCart({ items, subtotal, totalItems });

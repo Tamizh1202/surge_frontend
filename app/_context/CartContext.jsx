@@ -6,6 +6,7 @@ import {
   addItemToCart,
   removeItemFromCart,
   updateItemQuantity,
+  makeCartItemKey,
 } from "@/utils/guestCartUtils";
 import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
@@ -29,6 +30,32 @@ const RESERVED_DETAIL_KEYS = new Set([
 
 const SELECTIONS_CACHE_KEY = "cartSelectionsCache";
 const HIGHLIGHTS_CACHE_KEY = "cartHighlightsCache";
+// Tracks virtual per-highlights splits for authenticated users whose server merges product+vId
+const SPLITS_CACHE_KEY = "cartSplitsCache";
+
+const loadSplitsForItem = (product, vId) => {
+  if (typeof window === "undefined") return null;
+  try {
+    const cache = JSON.parse(localStorage.getItem(SPLITS_CACHE_KEY) || "{}");
+    const key = `${product}:${vId || ""}`;
+    const val = cache[key];
+    return Array.isArray(val) && val.length > 0 ? val : null;
+  } catch { return null; }
+};
+
+const saveSplitsForItem = (product, vId, splits) => {
+  if (typeof window === "undefined") return;
+  try {
+    const cache = JSON.parse(localStorage.getItem(SPLITS_CACHE_KEY) || "{}");
+    const key = `${product}:${vId || ""}`;
+    if (!splits || splits.length === 0) {
+      delete cache[key];
+    } else {
+      cache[key] = splits;
+    }
+    localStorage.setItem(SPLITS_CACHE_KEY, JSON.stringify(cache));
+  } catch { }
+};
 
 const saveSelectionsCache = (key, customSelections) => {
   if (typeof window === "undefined" || !customSelections) return;
@@ -258,36 +285,53 @@ export function CartProvider({ children }) {
 
   /** Apply a cart API response (items, subtotal, totalItems) to state */
   const applyCartResponse = (data) => {
-    // Refresh safe backup restoration from local storage
-    let localMetaBackup = {};
-    try {
-      const stored = localStorage.getItem("surge_cart_meta");
-      if (stored) localMetaBackup = JSON.parse(stored);
-    } catch (err) {
-      console.error("Failed to parse cart metadata backup", err);
-    }
+    setItems((previousItems) => {
+      const expanded = [];
 
-    setItems((previousItems) =>
-      (data.items || []).map((item) => {
+      for (const item of (data.items || [])) {
         const key = `${item.product}:${item.vId || ""}`;
-        const previousItem = previousItems.find(
-          (prev) =>
-            String(prev.product) === String(item.product) &&
-            (prev.vId || null) === (item.vId || null),
-        );
+        const splits = loadSplitsForItem(item.product, item.vId);
 
-        const customSelections =
-          (previousItem?.customSelections && Object.keys(previousItem.customSelections).length
-            ? previousItem.customSelections
-            : null) ||
-          loadSelectionsCache(key);
+        if (splits && splits.length > 0) {
+          // Expand server item into virtual per-highlights splits
+          let remaining = item.quantity;
+          splits.forEach((split, i) => {
+            const qty = i === splits.length - 1
+              ? remaining
+              : Math.min(split.quantity, remaining);
+            remaining = Math.max(0, remaining - qty);
+            if (qty > 0) {
+              expanded.push({
+                ...item,
+                _cartKey: split._cartKey,
+                customSelections: split.customSelections || null,
+                productHighlights: split.productHighlights || null,
+                quantity: qty,
+              });
+            }
+          });
+        } else {
+          // No splits — restore customSelections from previous state or cache
+          const previousItem = previousItems.find(
+            (prev) =>
+              String(prev.product) === String(item.product) &&
+              (prev.vId || null) === (item.vId || null),
+          );
+          const customSelections =
+            (previousItem?.customSelections && Object.keys(previousItem.customSelections).length
+              ? previousItem.customSelections
+              : null) ||
+            loadSelectionsCache(key);
 
-        return {
-          ...item,
-          ...(customSelections ? { customSelections } : {}),
-        };
-      }),
-    );
+          expanded.push({
+            ...item,
+            ...(customSelections ? { customSelections } : {}),
+          });
+        }
+      }
+
+      return expanded;
+    });
   };
 
   /** Apply the local guest cart to state */
@@ -306,8 +350,11 @@ export function CartProvider({ children }) {
             ? item.productHighlights
             : null) ||
           loadHighlightsCache(key);
+        // Ensure every item has a stable _cartKey (backfill items added before this fix)
+        const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, customSelections);
         return {
           ...item,
+          _cartKey: cartKey,
           ...(customSelections ? { customSelections } : {}),
           ...(productHighlights ? { productHighlights } : {}),
         };
@@ -349,6 +396,9 @@ export function CartProvider({ children }) {
     if (customSelections) {
       saveSelectionsCache(`${product}:${vId || ""}`, customSelections);
     }
+    // Stable key for this specific product+variant+highlights combination
+    const cartKey = makeCartItemKey(product, vId || null, customSelections);
+
     if (session?.user) {
       try {
         const res = await axiosClient.post("/api/website/cart", {
@@ -358,22 +408,20 @@ export function CartProvider({ children }) {
         });
 
         const data = res.data;
-        applyCartResponse(data);
 
-        if (customSelections || productHighlights) {
-          setItems((currentItems) =>
-            currentItems.map((item) =>
-              String(item.product) === String(product) &&
-                (item.vId || null) === (vId || null)
-                ? {
-                  ...item,
-                  ...(customSelections ? { customSelections } : {}),
-                  ...(productHighlights ? { productHighlights } : {}),
-                }
-                : item,
-            ),
-          );
+        // Maintain virtual splits so applyCartResponse can expand them back
+        if (customSelections) {
+          const existingSplits = loadSplitsForItem(product, vId) || [];
+          const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
+          if (splitIndex >= 0) {
+            existingSplits[splitIndex].quantity += quantity;
+          } else {
+            existingSplits.push({ _cartKey: cartKey, customSelections, productHighlights, quantity });
+          }
+          saveSplitsForItem(product, vId || null, existingSplits);
         }
+
+        applyCartResponse(data);
 
         const added = (data.items || []).find(
           (i) =>
@@ -395,25 +443,21 @@ export function CartProvider({ children }) {
         await addItemToCart(product, quantity, vId, restDetails);
         const cart = getCart();
         applyGuestCart();
-        if (customSelections || productHighlights) {
+        // Patch productHighlights onto the specific item using its stable cartKey
+        if (productHighlights) {
           setItems((currentItems) =>
             currentItems.map((item) =>
-              String(item.product) === String(product) &&
-                (item.vId || null) === (vId || null)
-                ? {
-                  ...item,
-                  ...(customSelections ? { customSelections } : {}),
-                  ...(productHighlights ? { productHighlights } : {}),
-                }
+              item._cartKey === cartKey
+                ? { ...item, productHighlights }
                 : item,
             ),
           );
         }
         // Show toast with the item from the refreshed guest cart
         const added = (cart.items || []).find(
-          (i) =>
-            String(i.product) === String(product) &&
-            (i.vId || null) === (vId || null),
+          (i) => i._cartKey === cartKey ||
+            (String(i.product) === String(product) &&
+              (i.vId || null) === (vId || null)),
         );
         if (added || details) {
           addToCartToast({ ...(added || {}), ...(details || {}), quantity }, openCart);
@@ -427,7 +471,7 @@ export function CartProvider({ children }) {
 
   // ─── Remove ──────────────────────────────────────────────────────────────────
 
-  const removeItem = async (product, vId) => {
+  const removeItem = async (product, vId, cartKey = null) => {
     const key = `${product}_${vId || ""}`;
     try {
       const stored = localStorage.getItem("surge_cart_meta");
@@ -442,25 +486,64 @@ export function CartProvider({ children }) {
 
     if (session?.user) {
       try {
-        const res = await axiosClient.delete("/api/website/cart", {
-          data: { product, vId: vId || null },
-        });
-
-        applyCartResponse(res.data);
+        const splits = loadSplitsForItem(product, vId);
+        if (splits && splits.length > 1 && cartKey) {
+          // Other splits remain — remove this one and decrement server qty by 1
+          const remaining = splits.filter((s) => s._cartKey !== cartKey);
+          saveSplitsForItem(product, vId || null, remaining);
+          const res = await axiosClient.patch("/api/website/cart", {
+            product,
+            vId: vId || null,
+            action: "decrement",
+          });
+          applyCartResponse(res.data);
+        } else {
+          // Last (or only) split — remove entirely from server
+          saveSplitsForItem(product, vId || null, []);
+          const res = await axiosClient.delete("/api/website/cart", {
+            data: { product, vId: vId || null },
+          });
+          applyCartResponse(res.data);
+        }
       } catch (e) {
         console.error("Error removing from cart:", e);
       }
     } else {
-      removeItemFromCart(product, vId);
+      removeItemFromCart(product, vId, cartKey);
       applyGuestCart();
     }
   };
 
   // ─── Update Quantity ─────────────────────────────────────────────────────────
 
-  const updateQuantity = async (product, vId, quantity, action) => {
+  const updateQuantity = async (product, vId, quantity, action, cartKey = null) => {
     if (session?.user) {
       try {
+        const splits = loadSplitsForItem(product, vId);
+        if (splits && splits.length > 1 && cartKey) {
+          // Update only the targeted split and patch server with the new total
+          const splitIndex = splits.findIndex((s) => s._cartKey === cartKey);
+          if (splitIndex >= 0) {
+            const oldQty = splits[splitIndex].quantity;
+            let newQty = oldQty;
+            if (action === "increment") newQty = oldQty + 1;
+            else if (action === "decrement") newQty = Math.max(1, oldQty - 1);
+            else if (typeof quantity === "number") newQty = Math.max(1, quantity);
+
+            splits[splitIndex].quantity = newQty;
+            saveSplitsForItem(product, vId || null, splits);
+
+            const serverTotal = splits.reduce((sum, s) => sum + s.quantity, 0);
+            const res = await axiosClient.patch("/api/website/cart", {
+              product,
+              vId: vId || null,
+              quantity: serverTotal,
+            });
+            applyCartResponse(res.data);
+          }
+          return { ok: true };
+        }
+
         const res = await axiosClient.patch("/api/website/cart", {
           product,
           vId: vId || null,
@@ -482,8 +565,10 @@ export function CartProvider({ children }) {
         const cart = getCart();
         const existing = cart.items?.find(
           (i) =>
-            String(i.product) === String(product) &&
-            (i.vId || null) === (vId || null),
+            cartKey
+              ? i._cartKey === cartKey
+              : String(i.product) === String(product) &&
+                (i.vId || null) === (vId || null),
         );
         if (existing) {
           let newQty = existing.quantity;
@@ -492,7 +577,7 @@ export function CartProvider({ children }) {
             newQty = Math.max(1, existing.quantity - 1);
           else if (typeof quantity === "number") newQty = Math.max(1, quantity);
 
-          updateItemQuantity(product, vId, newQty);
+          updateItemQuantity(product, vId, newQty, cartKey);
         }
         applyGuestCart();
         return { ok: true };

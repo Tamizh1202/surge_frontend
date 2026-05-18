@@ -28,6 +28,7 @@ const RESERVED_DETAIL_KEYS = new Set([
 ]);
 
 const SELECTIONS_CACHE_KEY = "cartSelectionsCache";
+const HIGHLIGHTS_CACHE_KEY = "cartHighlightsCache";
 
 const saveSelectionsCache = (key, customSelections) => {
   if (typeof window === "undefined" || !customSelections) return;
@@ -35,7 +36,7 @@ const saveSelectionsCache = (key, customSelections) => {
     const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
     cache[key] = customSelections;
     localStorage.setItem(SELECTIONS_CACHE_KEY, JSON.stringify(cache));
-  } catch {}
+  } catch { }
 };
 
 const loadSelectionsCache = (key) => {
@@ -44,6 +45,24 @@ const loadSelectionsCache = (key) => {
     const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
     const val = cache[key];
     return val && Object.keys(val).length > 0 ? val : null;
+  } catch { return null; }
+};
+
+const saveHighlightsCache = (key, productHighlights) => {
+  if (typeof window === "undefined" || !productHighlights) return;
+  try {
+    const cache = JSON.parse(localStorage.getItem(HIGHLIGHTS_CACHE_KEY) || "{}");
+    cache[key] = productHighlights;
+    localStorage.setItem(HIGHLIGHTS_CACHE_KEY, JSON.stringify(cache));
+  } catch { }
+};
+
+const loadHighlightsCache = (key) => {
+  if (typeof window === "undefined") return null;
+  try {
+    const cache = JSON.parse(localStorage.getItem(HIGHLIGHTS_CACHE_KEY) || "{}");
+    const val = cache[key];
+    return val && Array.isArray(val) && val.length > 0 ? val : null;
   } catch { return null; }
 };
 
@@ -221,10 +240,11 @@ export function CartProvider({ children }) {
       const metaStorage = {};
       items.forEach((item) => {
         const key = `${item.product}_${item.vId || ""}`;
-        if (item.customSelections || item.tagline) {
+        if (item.customSelections || item.tagline || item.productHighlights) {
           metaStorage[key] = {
             customSelections: item.customSelections || null,
             tagline: item.tagline || null,
+            productHighlights: item.productHighlights || null,
           };
         }
       });
@@ -281,9 +301,15 @@ export function CartProvider({ children }) {
             ? item.customSelections
             : null) ||
           loadSelectionsCache(key);
+        const productHighlights =
+          (item.productHighlights && item.productHighlights.length
+            ? item.productHighlights
+            : null) ||
+          loadHighlightsCache(key);
         return {
           ...item,
           ...(customSelections ? { customSelections } : {}),
+          ...(productHighlights ? { productHighlights } : {}),
         };
       }),
     );
@@ -317,6 +343,8 @@ export function CartProvider({ children }) {
 
   const addToCart = async (product, quantity = 1, vId, details = null) => {
     const { productHighlights: _ph, ...restDetails } = details || {};
+    // Keep productHighlights as a first-class field on the cart item
+    const productHighlights = Array.isArray(_ph) && _ph.length > 0 ? _ph : null;
     const customSelections = getCustomSelections(restDetails);
     if (customSelections) {
       saveSelectionsCache(`${product}:${vId || ""}`, customSelections);
@@ -331,22 +359,22 @@ export function CartProvider({ children }) {
 
         const data = res.data;
         applyCartResponse(data);
-        
-        if (customSelections || tagline) {
+
+        if (customSelections || productHighlights) {
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&
-              (item.vId || null) === (vId || null)
-                ? { 
-                    ...item, 
-                    ...(customSelections ? { customSelections } : {}), 
-                    ...(tagline ? { tagline } : {}) 
-                  }
+                (item.vId || null) === (vId || null)
+                ? {
+                  ...item,
+                  ...(customSelections ? { customSelections } : {}),
+                  ...(productHighlights ? { productHighlights } : {}),
+                }
                 : item,
             ),
           );
         }
-        
+
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
@@ -367,12 +395,20 @@ export function CartProvider({ children }) {
         await addItemToCart(product, quantity, vId, restDetails);
         const cart = getCart();
         applyGuestCart();
+<<<<<<< HEAD
         if (customSelections) {
+=======
+        if (customSelections || productHighlights) {
+>>>>>>> b7f1a48fdbaac861e54b593617ca07bd254796a9
           setItems((currentItems) =>
             currentItems.map((item) =>
               String(item.product) === String(product) &&
                 (item.vId || null) === (vId || null)
-                ? { ...item, customSelections }
+                ? {
+                  ...item,
+                  ...(customSelections ? { customSelections } : {}),
+                  ...(productHighlights ? { productHighlights } : {}),
+                }
                 : item,
             ),
           );

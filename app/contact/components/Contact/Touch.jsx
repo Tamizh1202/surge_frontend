@@ -2,45 +2,30 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState, useEffect, useRef } from "react"; // Added useEffect and useRef
+import { useState, useEffect, useRef } from "react";
 import styles from "./Touch.module.css";
 import one from './get.webp';
 import whatsappIcon from './whatsapp.png';
 
 export default function Touch() {
+  // Form States
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
+  
+  // UI States
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
-  
-  // Custom Select States
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState("");
+  const [isTextareaActive, setIsTextareaActive] = useState(false);
 
-  // Create a Ref for the dropdown container
   const dropdownRef = useRef(null);
+  const characterLimit = 150;
 
-  // --- ADDED: Click Outside Logic ---
-  useEffect(() => {
-    function handleClickOutside(event) {
-      // Agar click dropdownRef ke bahar hua hai, toh close kar do
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setIsOpen(false);
-      }
-    }
-
-    // Bind the event listener
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      // Unbind the event listener on clean up
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-  // ----------------------------------
-
+  // Options for Inquiry Type
   const options = [
     { label: "Order issue", value: "Order issue" },
     { label: "Payment or refund", value: "Payment or refund" },
@@ -51,16 +36,26 @@ export default function Touch() {
     { label: "Other", value: "Other" }
   ];
 
-  const ENDPOINT = "/api/website/contact";
+  // Click Outside logic for Dropdown
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setResponseMessage("");
     setResponseError(false);
 
-    if (!fullName.trim() || !email.trim()) {
+    // Basic Validation
+    if (!fullName.trim() || !email.trim() || !message.trim()) {
       setResponseError(true);
-      setResponseMessage("Please enter your name and email.");
+      setResponseMessage("Please fill in all required fields.");
       return;
     }
 
@@ -74,19 +69,22 @@ export default function Touch() {
         message: message.trim(),
       };
 
-      const res = await fetch(ENDPOINT, {
+      const res = await fetch("/api/website/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       const json = await res.json();
-      if (!res.ok || (json && json.success === false)) {
+
+      if (!res.ok || json?.success === false) {
         setResponseError(true);
         setResponseMessage(json?.message || "Submission failed.");
       } else {
         setResponseError(false);
         setResponseMessage("Thank you! Your message has been submitted.");
+        
+        // --- CLEAR ALL FIELDS ON SUCCESS ---
         setFullName(""); 
         setEmail(""); 
         setPhone(""); 
@@ -98,6 +96,7 @@ export default function Touch() {
       setResponseMessage("Network error. Please try again.");
     } finally {
       setLoading(false);
+      // Status message disappears after 5 seconds
       setTimeout(() => setResponseMessage(""), 5000);
     }
   };
@@ -124,29 +123,31 @@ export default function Touch() {
                   <h3>Let's Get In Touch.</h3>
                   <p>Drop us a message and let's start brewing something great together.</p>
                 </div>
-
                 <Link href="https://wa.me/+9710589535337">
                   <Image src={whatsappIcon} alt="Whatsapp" width={28} height={28} />
                 </Link>
               </div>
 
               <div className={styles.formBox}>
+                {/* Full Name */}
                 <input
                   type="text"
-                  placeholder="Full Name"
+                  placeholder="Full Name *"
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
                 />
 
                 <div className={styles.row}>
+                  {/* Email */}
                   <input
                     type="email"
-                    placeholder="Email"
+                    placeholder="Email *"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
                   />
+                  {/* Phone */}
                   <input
                     type="text"
                     placeholder="Phone Number"
@@ -155,16 +156,20 @@ export default function Touch() {
                   />
                 </div>
 
-                {/* Updated Container with Ref */}
+                {/* Inquiry Type Dropdown */}
                 <div className={styles.container} ref={dropdownRef}>
                   <div
                     className={`${styles.selectTrigger} ${isOpen ? styles.open : ""}`}
                     onClick={() => setIsOpen(!isOpen)}
                   >
-                    <span>
-                        {selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}
+                    <span className={!selected ? styles.placeholderText : ""}>
+                      {selected ? options.find(o => o.value === selected)?.label : "Enquiry Type"}
                     </span>
-                    <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}>▼</span>
+                    <span className={`${styles.arrow} ${isOpen ? styles.arrowUp : ""}`}>
+                      <svg width="17" height="9" viewBox="0 0 17 9" fill="none">
+                        <path opacity="0.9" d="M8.27175 9L-0.000935071 7.02781e-07L16.5444 -1.71995e-06L8.27175 9Z" fill="#818686"/>
+                      </svg>
+                    </span>
                   </div>
 
                   {isOpen && (
@@ -185,12 +190,23 @@ export default function Touch() {
                   )}
                 </div>
 
-                <textarea
-                  placeholder="How we can help you."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  required
-                />
+                {/* Message Textarea with 0/150 counter */}
+                <div className={styles.textareaWrapper} style={{ position: 'relative' }}>
+                  <textarea
+                    placeholder="How we can help you. *"
+                    value={message}
+                    maxLength={characterLimit}
+                    onFocus={() => setIsTextareaActive(true)}
+                    onBlur={() => setIsTextareaActive(false)}
+                    onChange={(e) => setMessage(e.target.value)}
+                    required
+                  />
+                  {(isTextareaActive || message.length > 0) && (
+                    <span className={styles.charLimit}>
+                      {message.length}/{characterLimit}
+                    </span>
+                  )}
+                </div>
               </div>
 
               <div className={styles.Bottom}>
@@ -218,7 +234,7 @@ export default function Touch() {
               <div className={styles.footerItem}>
                 <span>Follow Us</span>
                 <p>Instagram 
-                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ marginLeft: '5px' }}>
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" style={{ marginLeft: '5px' }}>
                     <path d="M0.351292 7.57278L7.3504 0.501536M7.3504 0.501536V6.86565M7.3504 0.501536H1.0512" stroke="#C4754E" />
                   </svg>
                 </p>

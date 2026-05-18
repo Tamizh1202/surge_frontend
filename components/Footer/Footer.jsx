@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import styles from "./Footer.module.css";
 import logo from "./Footer.png";
 
-export default function Footer({ categories }) {
+export default function Footer({ categories = [] }) {
   const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
@@ -19,7 +19,7 @@ export default function Footer({ categories }) {
     setMessage(null);
 
     try {
-      const base = process.env.NEXT_PUBLIC_SERVER_URL || process.env.PAYLOAD_PUBLIC_SERVER_URL || "";
+      const base = process.env.NEXT_PUBLIC_SERVER_URL || "";
       const res = await fetch(`${base}/api/newsletters`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -34,14 +34,15 @@ export default function Footer({ categories }) {
         setEmail("");
       } else if (res.status === 400) {
         setIsError(true);
+     
         setMessage(data?.message || "Invalid email or already subscribed.");
       } else {
         setIsError(true);
         setMessage("Something went wrong. Please try again.");
       }
-    } catch {
+    } catch (err) {
       setIsError(true);
-      setMessage("Something went wrong. Please try again.");
+      setMessage("Network error. Please try again later.");
     } finally {
       setIsLoading(false);
     }
@@ -68,7 +69,8 @@ export default function Footer({ categories }) {
               <h3 className={styles.promoHeading}>Every cup earns more.</h3>
               <p className={styles.promoLabel}>Surge Rewards</p>
               <p className={styles.promoDesc}>
-            Join Surge Rewards. Earn points on every purchase and redeem for free coffee, exclusive drops, and premium perks.
+                Join Surge Rewards. Earn points on every purchase and redeem for
+                free coffee, exclusive drops, and premium perks.
               </p>
               <Link href="/account/surge-beans" className={styles.exploreBtn}>
                 Explore Rewards
@@ -77,11 +79,12 @@ export default function Footer({ categories }) {
 
             <div className={styles.promoCol}>
               <h3 className={styles.promoHeading}>
-             Your coffee ritual, always in your pocket.
+                Your coffee ritual, always in your pocket.
               </h3>
               <p className={styles.promoLabel}>Surge App</p>
               <p className={styles.promoDesc}>
-              Order ahead, track your brews, unlock member-only drops, and manage it all in one place.
+                Order ahead, track your brews, unlock member-only drops, and
+                manage it all in one place.
               </p>
               <div className={styles.appLinks}>
                 <Link href="#" className={styles.appBtn}>
@@ -137,7 +140,7 @@ export default function Footer({ categories }) {
             <div className={styles.newsletterContent}>
               <h2 className={styles.heading}>Be Part of the Surge Community</h2>
               <p className={styles.description}>
-           Join the Surge community and take your coffee ritual further. Get first access to new releases, curated offers, and expert brewing insights. Go behind the scenes — explore the stories, sourcing, and craft behind every cup.
+             Join the Surge community and take your coffee ritual further. Get first access to new releases, curated offers, and expert brewing insights. Go behind the scenes — explore the stories, sourcing, and craft behind every cup.
               </p>
               <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
                 <input
@@ -147,15 +150,14 @@ export default function Footer({ categories }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
-                  suppressHydrationWarning
                 />
-               <button 
-  type="submit" 
-  className={styles.subscribeBtn} 
-  disabled={isLoading}
->
-  {isLoading ? "Joining..." : "Join Now"}
-</button>
+                <button
+                  type="submit"
+                  className={styles.subscribeBtn}
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Joining..." : "Join Now"}
+                </button>
               </form>
               {message && (
                 <p className={isError ? styles.errorMsg : styles.successMsg}>
@@ -172,7 +174,6 @@ export default function Footer({ categories }) {
               <Link href="/events">Events</Link>
               <Link href="/ourmenu">Cafe Menu</Link>
               <Link href="/blogs">Blogs</Link>
-              {/* <Link href="/careers">Careers</Link> */}
             </div>
             <div className={styles.column}>
               <h4>Shop</h4>
@@ -208,18 +209,18 @@ export default function Footer({ categories }) {
         <div className={styles.infoGrid}>
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
-           <address className={styles.addressBox}>
-  <a 
-    href="https://www.google.com/maps/search/?api=1&query=Warehouse+2+26th+St+Al+Qouz+Industrial+fourth+Dubai"
-    target="_blank" 
-    rel="noopener noreferrer"
-    className={styles.mapLink}
-  >
-    Warehouse #2 - 26
-    <br />
-    26th St - Al Qouz Ind.fourth, Al Quoz, Dubai
-  </a>
-</address>
+            <address className={styles.addressBox}>
+              <a
+                href="https://goo.gl/maps/xyz" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.mapLink}
+              >
+                Warehouse #2 - 26
+                <br />
+                26th St - Al Qouz Ind.fourth, Al Quoz, Dubai
+              </a>
+            </address>
           </div>
 
           <div className={styles.contactWrapper}>
@@ -236,24 +237,27 @@ export default function Footer({ categories }) {
             </div>
             <div className={styles.infoBlock}>
               <p className={styles.label}>Phone</p>
-              <Link href="tel:+9710589535337" className={styles.accentLink}>
+              <a href="tel:+9710589535337" className={styles.accentLink}>
                 05 8953 5337
-              </Link>
+              </a>
             </div>
             <div className={styles.infoBlock}>
               <p className={styles.label}>Email</p>
-              <Link
-                href="hello@surgecoffee.ae"
+              <a
+                href="mailto:hello@surgecoffee.ae"
                 className={styles.accentLink}
               >
-             hello@surgecoffee.ae
-              </Link>
+                hello@surgecoffee.ae
+              </a>
             </div>
           </div>
         </div>
-<div className={styles.divide}></div>
+
+        <div className={styles.divide}></div>
         <div className={styles.bottomBar}>
-          <div className={styles.copyright}>© 2026 Surge. All Rights Reserved.</div>
+          <div className={styles.copyright}>
+            © 2026 Surge. All Rights Reserved.
+          </div>
           <div className={styles.legal}>
             <Link href="/terms-and-conditions">Terms and Conditions</Link>
             <Link href="/privacy-policy">Privacy Policy</Link>

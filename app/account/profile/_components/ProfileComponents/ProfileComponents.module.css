@@ -109,6 +109,7 @@ padding-right: clamp(30px, 31vw, 400px);
 .lineInput:focus + .charCounter {
   color: #414343;
 }
+
 /* .Field {
   display: flex;
   align-items: center;

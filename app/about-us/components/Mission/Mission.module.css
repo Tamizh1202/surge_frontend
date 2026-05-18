@@ -325,21 +325,14 @@ padding: 0 clamp(24px, 9vw, 150px);
   .card {
     position: absolute;
     top: 50%;
-
     transform: translate(-50%, -50%);
-
     width: 85% !important;
     height: 380px !important;
-    /* REDUCED CARD HEIGHT */
-
     padding: 30px !important;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-
   }
-
-
   .card:nth-child(1) {
     z-index: 10;
     height: 380px !important;

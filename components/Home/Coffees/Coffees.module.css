@@ -1,11 +1,11 @@
 .selectedSection {
   width: 100%;
-padding-top: clamp(40px, 10vw, 120px);
-padding-left: clamp(25px, 12vw, 125px);
-padding-right: clamp(25px, 12vw, 126px);
+  padding-top: clamp(40px, 10vw, 120px);
+  padding-left: clamp(25px, 12vw, 125px);
+  padding-right: clamp(25px, 12vw, 126px);
 
-/* Bottom: Agar 0 hai toh */
-padding-bottom: 0;
+  /* Bottom: Agar 0 hai toh */
+  padding-bottom: 0;
   background-color: #ffffff;
   display: block;
   box-sizing: border-box;
@@ -101,28 +101,33 @@ padding-bottom: 0;
   flex-shrink: 0;
   background-color: #F5F5F5;
 }
+.coffeeCard {
+  text-decoration: none; 
+}
+
+
 
 .productImageWrapper {
   position: relative;
-    width: 100%;
-    aspect-ratio: 336/322;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background-color: #f0f0f0;
-    padding: 40px;
-    box-sizing: border-box;
-    cursor: pointer;
+  width: 100%;
+  aspect-ratio: 336/322;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  padding: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
   /* ← prevents flex blowout */
 }
 
 .productImg {
   width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.35s ease-in-out;
-    display: block;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.35s ease-in-out;
+  display: block;
 }
 
 
@@ -132,6 +137,7 @@ padding-bottom: 0;
 
 .coffeeCard:hover .coffeeName {
   color: var(--primary-color);
+
 }
 
 .cardTop {
@@ -152,6 +158,7 @@ padding-bottom: 0;
   /* font-weight: 500; */
   color: var(--text-primary);
   margin: 0 0 0 0;
+  text-decoration: none;
 }
 
 .coffeeNotes {
@@ -160,13 +167,14 @@ padding-bottom: 0;
   font-weight: 400;
   color: var(--text-secondary);
   margin-bottom: 16px;
+  text-decoration: none;
   margin-top: 4px;
 }
 
 .price {
   font-size: var(--fs-18);
   font-weight: 500;
-
+  text-decoration: none;
   margin: 0;
   color: var(--text-primary);
   font-family: var(--font-montserrat);
@@ -250,7 +258,7 @@ padding-bottom: 0;
   .selectedSection {
     padding-left: 24px;
     padding-right: 24px;
-   
+
     padding-top: 80px;
   }
 
@@ -304,13 +312,13 @@ padding-bottom: 0;
     /* min-height: 450px; */
   }
 
-  .productImageWrapper {
+  /* .productImageWrapper {
     /* height: 250px; */
-  }
+  /* } */
 
   .selectedHeading {
     font-size: 20px;
-    
+
   }
 
   .selectedSubtext {

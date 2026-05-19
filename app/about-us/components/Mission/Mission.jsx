@@ -1,12 +1,12 @@
 "use client";
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./Mission.module.css";
 import Image from "next/image";
 import storyImg from "./story.webp";
 
 //import//
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
+import { ScrollTrigger } from "gsap/all";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,7 +14,7 @@ export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const cards = cardsRef.current;
 
     const ctx = gsap.context(() => {
@@ -22,7 +22,7 @@ export default function Mission() {
         scrollTrigger: {
           trigger: containerRef.current,
           start: "top top",
-          end: window.innerWidth < 900 ? "+=80%" : `+=${cards.length * 30}%`,
+          end: typeof window !== 'undefined' && window.innerWidth < 900 ? "+=80%" : `+=${cards.length * 30}%`,
           pin: true,
           scrub: 0.5,
           anticipatePin: 1,

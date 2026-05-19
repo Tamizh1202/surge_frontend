@@ -5,7 +5,7 @@ import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
 
 import { gsap } from 'gsap';
-import { Observer } from 'gsap/dist/Observer';
+import { Observer } from 'gsap/all';
 
 import { formatImageUrl } from '@/lib/imageUtils';
 
@@ -79,7 +79,7 @@ export default function ProductOne({ initialProduct }) {
   const scrollDepthRef = useRef(0);
   const collapseAccRef = useRef(0);
   useEffect(() => {
-    if (window.innerWidth <= 900) return;
+    if (typeof window !== 'undefined' && window.innerWidth <= 900) return;
     gsap.registerPlugin(Observer);
 
     // inside your useEffect, replace the entire Observer:

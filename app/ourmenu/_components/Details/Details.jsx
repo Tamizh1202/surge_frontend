@@ -1,16 +1,16 @@
 'use client';
 
-import { useState, useLayoutEffect, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
 import styles from './Details.module.css';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
+import { ScrollTrigger } from 'gsap/all';
 import axiosClient from "@/lib/axios";
 import { formatImageUrl } from "@/lib/imageUtils";
 
 // Fallback image
-// import beveragesImg from './beverages.png';
+// Fallback image replaced with public asset
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -57,7 +57,7 @@ export default function Details() {
                         name: item.name,
                         price: item.salePrice ? `AED ${item.salePrice}` : item.price ? `AED ${item.price}` : '',
                         note: item.tagline || '',
-                        image: formatImageUrl(item.image?.url) || beveragesImg
+                        image: formatImageUrl(item.image?.url) || '/coff.png'
                     });
                     return acc;
                 }, {});
@@ -101,7 +101,7 @@ export default function Details() {
     }, [selectedCategory, loading, sections]);
 
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         if (loading || sections.length === 0) return;
 
         let mm = gsap.matchMedia();
@@ -184,7 +184,7 @@ export default function Details() {
                                 className={styles.imageAnimWrapper}
                             >
                                 <Image
-                                    src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : (section.items[0]?.image || beveragesImg)}
+                                    src={activeSelection.sectionIndex === sectionIndex ? activeSelection.image : (section.items[0]?.image || '/coff.png')}
                                     alt={section.title}
                                     width={541}
                                     height={541}

@@ -144,10 +144,10 @@ export default function CouponsPopup({ cartValue, onApply, onClose }) {
                       {expanded === coupon.id ? "Show less" : "Know more"}
                     </button>
                     {expanded === coupon.id && (
-                      <div className={styles.expandedText}>
+                      <ul className={styles.expandedText}>
                         <li>Discount will be applied on checkout.</li>
                         {coupon.minimumAmount > 0 && <li>Minimum order value: AED {coupon.minimumAmount}.</li>}
-                      </div>
+                      </ul>
                     )}
                   </div>
                   <button

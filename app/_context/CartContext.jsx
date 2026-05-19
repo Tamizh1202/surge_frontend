@@ -227,6 +227,19 @@ export function CartProvider({ children }) {
   }, [session, status]);
 
   useEffect(() => {
+    const computedSubtotal = items.reduce((sum, item) => {
+      const price = parseFloat(item.price?.final_price || item.price || 0);
+      return sum + price * (item.quantity || 1);
+    }, 0);
+    const computedTotalItems = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+    setCartTotals((prev) => {
+      if (prev.subtotal === computedSubtotal && prev.totalItems === computedTotalItems) return prev;
+      return { ...prev, subtotal: computedSubtotal, totalItems: computedTotalItems };
+    });
+  }, [items]);
+
+  useEffect(() => {
     let coinsDiscount = 0;
     if (isBeansApplied && beansBalance > 0) {
       const maxPossibleDiscount = cartTotals.subtotal * 0.2;

@@ -40,6 +40,7 @@ export default function AboutSection() {
 
   /* ── element factory ── */
   function makeEl(idx, scaleVal) {
+    if (typeof document === 'undefined') return null;
     const i = mod(idx, TOTAL);
     const wrap  = document.createElement("div");
     wrap.style.cssText = "position:absolute;inset:0;";

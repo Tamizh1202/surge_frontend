@@ -11,26 +11,64 @@ import toast from "react-hot-toast";
 const ProductDetail = ({ order }) => {
   const [rating, setRating] = useState(order?.orderRating || 0);
   const [hover, setHover] = useState(0);
-  // Status ko state mein rakha hai taaki UI instantly update ho sake
   const [currentStatus, setCurrentStatus] = useState(order?.deliveryStatus || order?.status);
+  const [storedSelections, setStoredSelections] = useState([]);
+
+
+  const getProductId = (item) => {
+    const product = item.product;
+    if (product && typeof product === "object") return product.id;
+    return product || item.productId || item.id || "";
+  };
+
+  const getVariantId = (item) => item.variantID || item.variantId || item.vId || "";
 
   useEffect(() => {
     if (!order) return;
 
-    // Check if the order was just cancelled (using the cache key from OrderCard)
+    // 1. Sync Cancellation Status
     const cancelledList = JSON.parse(localStorage.getItem("cancelled_orders_cache") || "[]");
     if (cancelledList.includes(order.id)) {
       setCurrentStatus('cancelled');
     } else {
       setCurrentStatus(order.deliveryStatus || order.status);
     }
+
+    // 2. Fetch Roast/Grind from LocalStorage (Syncing with OrderCard logic)
+    try {
+      const orderStorageId = order.id || order.invoiceId;
+      const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
+      setStoredSelections(stored[orderStorageId] || []);
+    } catch (error) {
+      console.error("Failed to read order selections", error);
+    }
   }, [order]);
 
   if (!order) return null;
 
-  // getStatusConfig ab updated status ke basis par config layega
   const config = getStatusConfig(currentStatus, order);
   const items = order.items || order.line_items || [];
+
+  // --- Logic to get Roast/Grind Text ---
+  const getItemSelectionsText = (item) => {
+    const productId = String(getProductId(item));
+    const variantId = String(getVariantId(item));
+    
+    const match = storedSelections.find((s) => {
+      return String(s.productId || "") === productId && String(s.variantId || "") === variantId;
+    });
+
+    if (match && match.customSelections) {
+      return Object.values(match.customSelections)
+        .filter(val => val && String(val).trim() !== "" && String(val).toLowerCase() !== item.product?.tagline?.toLowerCase())
+        .join(", ");
+    }
+
+    const fallback = item.customSelections || item.customization || {};
+    return Object.values(fallback)
+      .filter(val => typeof val === 'string' && val.trim() !== "" && val.toLowerCase() !== item.product?.tagline?.toLowerCase())
+      .join(", ");
+  };
 
   const handleRating = async (score) => {
     const newRating = rating === score ? 0 : score;
@@ -52,52 +90,23 @@ const ProductDetail = ({ order }) => {
 
   return (
     <div className={styles.orderCard}>
-      {/* HEADER SECTION - Image ke according change hoga */}
       <div className={styles.orderTop}>
         <div className={styles.orderTopLeft}>
-          {/* Status Icon */}
           <span className={styles.statusIcon}>{config.icon}</span>
-          
           <div>
-          
             <p className={styles.orderStatusTitle} style={{ color: config.color, fontWeight: '600', margin: 0 }}>
               {config.label}
             </p>
-
-          
             <p className={styles.orderDateSub} style={{ margin: '4px 0' }}>
               {config.date}
             </p>
             
-            {/* Cancellation Details: Reason and Refund Info */}
             {currentStatus === 'cancelled' && (
               <div className={styles.cancelDetailsContainer} style={{ marginTop: '4px' }}>
-                <p 
-                  className={styles.reasonText} 
-                  style={{ 
-                    fontSize: '12px', 
-                    color: '#818686', 
-                    fontWeight: '400', 
-                    fontFamily: 'Raleway, sans-serif',
-                    margin: '0', 
-                    lineHeight: '1.4', 
-                  }}
-                >
-                  <span style={{ fontWeight: '600', color: '#4b5563' }}></span> 
+                <p className={styles.reasonText} style={{ fontSize: '12px', color: '#818686', fontWeight: '400', fontFamily: 'Raleway, sans-serif', margin: '0', lineHeight: '1.4' }}>
                   {config.reason}
                 </p>
-                
-                <p 
-                  className={styles.refundText} 
-                  style={{ 
-                    fontSize: '12px', 
-                    color: '#818686', 
-                    fontWeight: '400', 
-                    fontFamily: 'Raleway, sans-serif',
-                    margin: '0', 
-                    lineHeight: '1.2',
-                  }}
-                >
+                <p className={styles.refundText} style={{ fontSize: '12px', color: '#818686', fontWeight: '400', fontFamily: 'Raleway, sans-serif', margin: '0', lineHeight: '1.2' }}>
                   {config.refundedAmount}
                 </p>
               </div>
@@ -105,26 +114,26 @@ const ProductDetail = ({ order }) => {
           </div>
         </div>
         
-        {/* Top Right: Desktop Meta Info */}
         <div className={styles.orderTopRight}>
           <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
           <p>Order ID: <span>#{order.id}</span></p>
         </div>
       </div>
 
-      {/* Mobile Meta Info */}
       <div className={`${styles.orderMobileMeta} ${config.noBottom ? styles.orderMobileMetaNoBorder : ""}`}>
         <p>Order Date: <span>{formatDate(order.date_created || order.createdAt)}</span></p>
         <p>Order ID: <span>#{order.id}</span></p>
       </div>
 
-      {/* ITEMS SECTION */}
       <div className={`${styles.orderMiddle} ${config.noBottom ? styles.orderMiddleNoBottom : ""}`}>
         <div className={styles.orderItems}>
           {items.map((item, idx) => {
             const itemImg = item.productImage?.url || item.product?.productImage?.url;
             const itemName = item.product?.name || item.name || "Coffee Product";
             
+            // Get Roast/Grind text
+            const selectionText = getItemSelectionsText(item);
+
             const weight = item.product?.variants?.find(v => v.id === item.variantID || v.id === item.variantId)?.variantName 
                            || item.product?.weight;
 
@@ -141,6 +150,14 @@ const ProductDetail = ({ order }) => {
                   <p className={styles.itemName}>
                     {itemName} {item.product?.tagline && `- ${item.product.tagline}`}
                   </p>
+                  
+                  {/* Roast & Grind Display */}
+                  {selectionText && (
+                    <p style={{ fontSize: '12px', color: '#818686', margin: '4px 0 22px', textTransform: 'capitalize' }}>
+                      {selectionText}
+                    </p>
+                  )}
+
                   <div className={styles.itemMeta}>
                     {weight && (
                       <>
@@ -157,7 +174,6 @@ const ProductDetail = ({ order }) => {
         </div>
       </div>
 
-      {/* RATING FOOTER */}
       {config.rating && (
         <div className={styles.rateOrderFooter}>
           <span className={styles.rateOrderText}>Rate This Order</span>

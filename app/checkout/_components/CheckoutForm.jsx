@@ -155,19 +155,26 @@ export default function CheckoutForm({
         billingAddress: billAddr,
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
-        products: product.map((p) => ({
-          productId: p.product || p.productId || p.id,
-          variantId: p.vId || p.variantId || "",
-          quantity: p.quantity,
-          productHighlights: p.productHighlights || [],
-        })),
+        products: product.map((p) => {
+          const selections = p.customSelections || {};
+          const selectedHighlights = (p.productHighlights || [])
+            .filter((hl) => selections[hl.sectionTitle])
+            .map((hl) => ({
+              ...hl,
+              items: hl.items.filter((item) => item.point === selections[hl.sectionTitle]),
+            }));
+          return {
+            productId: p.product || p.productId || p.id,
+            variantId: p.vId || p.variantId || "",
+            quantity: p.quantity,
+            productHighlights: selectedHighlights,
+          };
+        }),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
       });
-
       console.log("Payload to be posted:", JSON.stringify(payload, null, 2));
       localStorage.setItem("lastCheckoutPayload", JSON.stringify(payload, null, 2));
-
       // 4. Call backend to create order and get client secret
       const res = await axiosClient.post("/api/checkout/one-time", payload);
       const data = res.data;

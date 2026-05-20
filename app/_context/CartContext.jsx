@@ -301,29 +301,47 @@ export function CartProvider({ children }) {
     setItems((previousItems) => {
       const expanded = [];
 
-      for (const item of (data.items || [])) {
+      for (const rawItem of (data.items || [])) {
+        // Normalize product/vId to plain ID strings in case the backend returns populated objects
+        const productId = typeof rawItem.product === 'object' && rawItem.product !== null
+          ? (rawItem.product.id || rawItem.product.value?.id || String(rawItem.product))
+          : rawItem.product;
+        const vIdNorm = typeof rawItem.vId === 'object' && rawItem.vId !== null
+          ? (rawItem.vId.id || rawItem.vId.value?.id || String(rawItem.vId))
+          : rawItem.vId;
+        const item = { ...rawItem, product: productId, vId: vIdNorm || null };
+
         const key = `${item.product}:${item.vId || ""}`;
         const splits = loadSplitsForItem(item.product, item.vId);
 
         if (splits && splits.length > 0) {
-          // Expand server item into virtual per-highlights splits
-          let remaining = item.quantity;
-          splits.forEach((split, i) => {
-            const qty = i === splits.length - 1
-              ? remaining
-              : Math.min(split.quantity, remaining);
-            remaining = Math.max(0, remaining - qty);
-            if (qty > 0) {
-              expanded.push({
-                ...item,
-                _cartKey: split._cartKey,
-                customSelections: split.customSelections || null,
-                productHighlights: split.productHighlights || null,
-                quantity: qty,
-              });
-            }
-          });
-        } else {
+          // Discard stale splits whose total exceeds what the server actually holds
+          const splitsTotal = splits.reduce((s, x) => s + x.quantity, 0);
+          if (splitsTotal > item.quantity) {
+            saveSplitsForItem(item.product, item.vId || null, []);
+            // Fall through to the non-split path below
+          } else {
+            // Expand server item into virtual per-highlights splits
+            let remaining = item.quantity;
+            splits.forEach((split, i) => {
+              const qty = i === splits.length - 1
+                ? remaining
+                : Math.min(split.quantity, remaining);
+              remaining = Math.max(0, remaining - qty);
+              if (qty > 0) {
+                expanded.push({
+                  ...item,
+                  _cartKey: split._cartKey,
+                  customSelections: split.customSelections || null,
+                  productHighlights: split.productHighlights || null,
+                  quantity: qty,
+                });
+              }
+            });
+            continue;
+          }
+        }
+        {
           // No splits — restore customSelections from previous state or cache
           const previousItem = previousItems.find(
             (prev) =>
@@ -534,7 +552,7 @@ export function CartProvider({ children }) {
       try {
         const splits = loadSplitsForItem(product, vId);
         if (splits && splits.length > 1 && cartKey) {
-          // Update only the targeted split and patch server with the new total
+          // Update only the targeted split, then mirror that action to the server
           const splitIndex = splits.findIndex((s) => s._cartKey === cartKey);
           if (splitIndex >= 0) {
             const oldQty = splits[splitIndex].quantity;
@@ -543,16 +561,18 @@ export function CartProvider({ children }) {
             else if (action === "decrement") newQty = Math.max(1, oldQty - 1);
             else if (typeof quantity === "number") newQty = Math.max(1, quantity);
 
-            splits[splitIndex].quantity = newQty;
-            saveSplitsForItem(product, vId || null, splits);
+            if (newQty !== oldQty) {
+              splits[splitIndex].quantity = newQty;
+              saveSplitsForItem(product, vId || null, splits);
 
-            const serverTotal = splits.reduce((sum, s) => sum + s.quantity, 0);
-            const res = await axiosClient.patch("/api/website/cart", {
-              product,
-              vId: vId || null,
-              quantity: serverTotal,
-            });
-            applyCartResponse(res.data);
+              const serverAction = newQty > oldQty ? "increment" : "decrement";
+              const res = await axiosClient.patch("/api/website/cart", {
+                product,
+                vId: vId || null,
+                action: serverAction,
+              });
+              applyCartResponse(res.data);
+            }
           }
           return { ok: true };
         }
@@ -560,7 +580,7 @@ export function CartProvider({ children }) {
         const res = await axiosClient.patch("/api/website/cart", {
           product,
           vId: vId || null,
-          quantity,
+          ...(quantity != null ? { quantity } : {}),
           action,
         });
         applyCartResponse(res.data);

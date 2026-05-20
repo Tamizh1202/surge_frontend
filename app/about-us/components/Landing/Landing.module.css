@@ -160,7 +160,7 @@
     height: 100dvh;
     width: 100%;
 
-    padding: 70px 24px 32px 24px;
+    padding:85px 24px 32px 24px;
     background-color: #F5F5F5;
     gap: 32px;
     overflow-y: auto;

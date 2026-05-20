@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import styles from './YouMayAlsoLike.module.css';
 import { formatImageUrl } from '@/lib/imageUtils';
 import { useCart } from '@/app/_context/CartContext';
+import { useWishlist } from '@/app/_context/WishlistContext';
 import ProductPopup from '@/app/shop/[category]/_components/AddToCartPopup/AddToCartPopup';
 
 const toSlug = (value) =>
@@ -16,6 +17,13 @@ const toSlug = (value) =>
 
 export default function YouMayAlsoLike({ recommendedProducts }) {
     const { addToCart } = useCart();
+    const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
+
+    const isInWishlist = (id) =>
+        wishlistItems.some((it) => {
+            const itemProductId = it.product?.value?.id || it.product?.id || it.product;
+            return String(itemProductId) === String(id);
+        });
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -100,6 +108,15 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                               sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
                                               className={styles.productImage}
                                           />
+                                          <button
+                                              className={styles.wishlistBtn}
+                                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product.id); }}
+                                          >
+                                              <svg width="18" height="18" viewBox="0 0 24 24"
+                                                  fill={isInWishlist(product.id) ? '#EA2424' : 'white'}>
+                                                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                              </svg>
+                                          </button>
                                       </Link>
                                       <div className={styles.info}>
                                           <Link href={productHref} className={styles.titleLink}>

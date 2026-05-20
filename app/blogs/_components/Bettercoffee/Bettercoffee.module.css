@@ -72,6 +72,20 @@ padding-bottom: clamp(40px, 8vw, 88px);
   line-height: 1.4;
 }
 
+.titleLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
+.descLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  cursor: pointer;
+}
+
 .readMore {
   color: #C4754E;
   font-size: 16px;

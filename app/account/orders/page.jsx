@@ -289,15 +289,6 @@ export default function OrdersPage() {
                   onClick={handleLoadMore}
                   disabled={fetchingMore}
                   className={styles.loadMoreBtn}
-                  style={{
-                    padding: "12px 30px",
-                    backgroundColor: "transparent",
-                    border: "1px solid #2F362A",
-                    color: "#2F362A",
-                    cursor: fetchingMore ? "not-allowed" : "pointer",
-                    fontWeight: "500",
-                    fontSize: "15px",
-                  }}
                 >
                   {fetchingMore ? "Loading..." : "Load More"}
                 </button>

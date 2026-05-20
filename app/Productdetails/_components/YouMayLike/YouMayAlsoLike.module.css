@@ -13,20 +13,29 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 300px));
-  gap: 30px;
+  gap: 20px;
   /* Don't stretch to fill — let cards breathe at natural width */
 }
 
 .card {
   display: flex;
   flex-direction: column;
+  border: 20px solid transparent;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.card:hover {
+  background-color: #F5F5F5;
 }
 
 .imageWrapper,
 .imageLink {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1/1;
   overflow: hidden;
   background-color: #f0f0f0;
   display: block;
@@ -44,8 +53,8 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
   display: block;
 }
 
-.imageLink:hover .productImage {
-  transform: scale(1.05);
+.card:hover .productImage {
+  transform: scale(1.06);
 }
 
 .titleLink {
@@ -61,20 +70,23 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
 
 .wishlistBtn {
   position: absolute;
-  top: 12px;
-  right: 12px;
-  background: none;
+  top: 15px;
+  right: 15px;
+  width: 23px;
+  height: 23px;
+  z-index: 5;
+  background: transparent;
   border: none;
   cursor: pointer;
-  padding: 4px;
-  line-height: 0;
-  opacity: 0.75;
-  transition: opacity 0.2s ease, transform 0.15s ease;
+  transition: all 0.3s ease;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .wishlistBtn:hover {
-  opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.5);
 }
 
 .wishlisted svg path {

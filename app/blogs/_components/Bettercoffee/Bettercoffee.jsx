@@ -64,11 +64,15 @@ export default function CoffeeGrid({ blogs: initialBlogs = [], apiUrl }) {
                   />
                 </div>
                 <div className={styles.cardBody}>
-                  <h3 className={styles.cardTitle}>{item.title}</h3>
-                  <p className={styles.cardDesc}>
-                    {item.shortDescription ||
-                      "Dive deep into the science behind our beans."}
-                  </p>
+                  <Link href={`/blogs/${item.slug}`} className={styles.titleLink}>
+                    <h3 className={styles.cardTitle}>{item.title}</h3>
+                  </Link>
+                  <Link href={`/blogs/${item.slug}`} className={styles.descLink}>
+                    <p className={styles.cardDesc}>
+                      {item.shortDescription ||
+                        "Dive deep into the science behind our beans."}
+                    </p>
+                  </Link>
 
                   <Link href={`/blogs/${item.slug}`} className={styles.readMore}>
                     Read More

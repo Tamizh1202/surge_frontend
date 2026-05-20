@@ -63,7 +63,6 @@ export default function Details() {
                 }, {});
 
                 const dynamicSections = Object.values(groups);
-
                 setSections(dynamicSections);
 
                 if (dynamicSections.length > 0 && dynamicSections[0].items.length > 0) {
@@ -145,7 +144,7 @@ export default function Details() {
     if (sections.length === 0) {
         return (
             <div className={styles.noItems}>
-                {!shopId ? "Please select a shop to view the menu." : "."}
+                {/* {!shopId ? "Please select a shop to view the menu." : "."} */}
             </div>
         );
     }

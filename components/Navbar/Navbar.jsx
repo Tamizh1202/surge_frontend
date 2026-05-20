@@ -152,27 +152,27 @@ export default function Navbar({ categories = [] }) {
             <Link
               href="/about-us"
               prefetch={false}
-              className={`${styles.navLink} ${isActive("/about-us") ? styles.activeRed : ""}`}
+              className={`${styles.navLink} ${isParentActive("/about-us") ? styles.activeRed : ""}`}
             >
               About Us
             </Link>
             <div className={styles.mobileLine}></div>
-            <Link href="/events" className={`${styles.navLink} ${isActive("/events") ? styles.activeRed : ""}`}>
+            <Link href="/events" className={`${styles.navLink} ${isParentActive("/events") ? styles.activeRed : ""}`}>
               Events
             </Link>
             <div className={styles.mobileLine}></div>
-            <Link href="/ourmenu" className={`${styles.navLink} ${isActive("/ourmenu") ? styles.activeRed : ""}`}>
+            <Link href="/ourmenu" className={`${styles.navLink} ${isParentActive("/ourmenu") ? styles.activeRed : ""}`}>
               Cafe Menu
             </Link>
           </nav>
 
           <nav className={styles.menuRight} onClick={(e) => e.stopPropagation()}>
             <div className={styles.mobileLine}></div>
-            <Link href="/contact" className={isActive("/contact") ? styles.activeRed : ""}>
+            <Link href="/contact" className={isParentActive("/contact") ? styles.activeRed : ""}>
               Contact Us
             </Link>
             <div className={styles.mobileLine}></div>
-            <Link href="/blogs" className={isActive("/blogs") ? styles.activeRed : ""}>
+            <Link href="/blogs" className={isParentActive("/blogs") ? styles.activeRed : ""}>
               Blogs
             </Link>
 

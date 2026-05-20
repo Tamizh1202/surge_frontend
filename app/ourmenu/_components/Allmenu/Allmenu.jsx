@@ -56,7 +56,7 @@ const handleExploreClick = () => {
 
   const displayedCategories = shopId
     ? categories.filter((cat) => availableCategoryIds.has(cat.id))
-    : categories;
+    : [];
 
   const handleCategoryClick = (categoryId) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -78,7 +78,8 @@ const handleExploreClick = () => {
       <div className={styles.sectionHeader}>
         <div>
           <h2 className={styles.heading}>
-            From Our Cafe {shopId ? `(${shopId})` : ""}
+            From Our Cafe 
+            {/* {shopId ? `(${shopId})` : ""} */}
           </h2>
           <p className={styles.subtext}>
             Explore the drinks and bites served daily at Surge cafés. From

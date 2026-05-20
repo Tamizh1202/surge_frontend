@@ -18,46 +18,64 @@ export default function Mission() {
     const cards = cardsRef.current;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "top top",
-          end: typeof window !== 'undefined' && window.innerWidth < 900 ? "+=80%" : `+=${cards.length * 30}%`,
-          pin: true,
-          scrub: 0.5,
-          anticipatePin: 1,
+      let mm = gsap.matchMedia();
 
-          fastScrollEnd: true,
-          invalidateOnRefresh: true,
-        },
+      // ── MOBILE (same logic as Details.jsx) ──────────────────────
+      mm.add("(max-width: 900px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: "+=200%",
+            pin: true,
+            scrub: true,
+            anticipatePin: 1,
+            fastScrollEnd: true,
+            invalidateOnRefresh: true,
+          },
+        });
+
+        cards.forEach((card, index) => {
+          if (index === 0) return;
+          tl.fromTo(card,
+            { yPercent: 120, opacity: 0 },
+            { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
+            index - 1
+          );
+        });
       });
 
-      cards.forEach((card, index) => {
-        if (index === 0) return;
-
-        tl.fromTo(
-          card,
-          {
-            yPercent: 120,
-            opacity: 0,
+      // ── DESKTOP (unchanged) ──────────────────────────────────────
+      mm.add("(min-width: 901px)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: containerRef.current,
+            start: "top top",
+            end: `+=${cards.length * 100}%`,
+            pin: true,
+            scrub: true,
+            anticipatePin: 1,
+            fastScrollEnd: true,
+            invalidateOnRefresh: true,
           },
-          {
-            yPercent: -50,
-            opacity: 1,
-            ease: "none",
-            duration: 1,
+        });
 
-            force3D: false,
-          },
-          index - 1
-        );
+        cards.forEach((card, index) => {
+          if (index === 0) return;
+          tl.fromTo(card,
+            { yPercent: 120, opacity: 0 },
+            { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
+            index - 1
+          );
+        });
+
+        tl.to({}, { duration: 0.3 });
       });
 
     }, containerRef);
 
     return () => ctx.revert();
   }, []);
-
   return (
     <div id="our-mission">
       <section ref={containerRef} className={styles.landContainer} >

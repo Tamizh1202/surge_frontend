@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import styles from "./Touch.module.css";
 import one from './get.webp';
 import whatsappIcon from './whatsapp.png';
+import axiosClient from "@/lib/axios";
 
 export default function Touch() {
   // Form States
@@ -28,14 +29,15 @@ export default function Touch() {
   const nameLimit = 15; 
   const phoneLimit = 10;
 
-  const options = [
-    { label: "Payments & Refunds", value: "Payments & Refunds" },
-    { label: "Rewards & Loyalty", value: "Rewards & Loyalty" },
-    { label: "Orders & Support", value: "Orders & Support" },
-    { label: "Pickup & Delivery", value: "Pickup & Delivery" },
-    { label: "General Enquiry", value: "General Enquiry" },
-    { label: "Other", value: "Other" }
-  ];
+const options = [
+  { label: "Orders & Support", value: "order_issue" },
+  { label: "Payments & Refunds", value: "payment_refund" },
+  { label: "Rewards & Loyalty", value: "rewards_stamps" },
+  { label: "Barista Selection", value: "barista_selection" },
+  { label: "Pickup & Delivery", value: "pickup_timing" },
+  { label: "Menu & Availability", value: "menu_availability" },
+  { label: "Other", value: "other" }
+];
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -68,17 +70,11 @@ export default function Touch() {
         message: message.trim(),
       };
 
-      const res = await fetch("/api/website/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await axiosClient.post("/api/web-contact-form", payload);
 
-      const json = await res.json();
-
-      if (!res.ok || json?.success === false) {
+      if (res.data?.success === false) {
         setResponseError(true);
-        setResponseMessage(json?.message || "Submission failed.");
+        setResponseMessage(res.data?.message || "Submission failed.");
       } else {
         setResponseError(false);
         setResponseMessage("Thank you! Your message has been submitted.");
@@ -149,7 +145,7 @@ export default function Touch() {
                   {/* Phone */}
                   <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
                     <input
-                      type="text"
+                      type="number"
                       placeholder="Phone Number"
                       value={phone}
                       maxLength={phoneLimit}

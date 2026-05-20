@@ -62,7 +62,7 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
-  top:20px;
+  top: 20px;
 }
 
 .cardWrapper {
@@ -231,6 +231,7 @@ body {
   font-family: var(--font-raleway);
   font-weight: 400;
   text-align: left;
+  color: var(--primary-color);
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -238,12 +239,13 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  color: var(--primary-color);
+
 }
 
 .selectTrigger:hover,
 .selectTrigger.selectOpen {
   border-color: var(--primary-color);
-  color: var(--primary-color);
 }
 
 .selectHasValue {
@@ -253,6 +255,7 @@ body {
 .selectChevron {
   flex-shrink: 0;
   transition: transform 0.2s ease;
+  color: var(--primary-color);
 }
 
 .selectOpen .selectChevron {

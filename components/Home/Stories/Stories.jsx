@@ -27,16 +27,26 @@ const EASE   = "power2.inOut";
  * featured scale — see rotate()), so it parks at safeX(1.5) = 325.
  * Kept as a function so the offset always tracks the start-scale used.
  */
-function safeX(fromScale) { return SLIDE + (SLIDE / 2) * (fromScale - 1); }
-
 function mod(n, m) { return ((n % m) + m) % m; }
 
 export default function AboutSection() {
   const cur  = useRef(0);
   const busy = useRef(false);
+  const inView = useRef(true);
+  const sectionRef = useRef(null);
+  const refreshTimer = useRef(null);
   const winL = useRef(null);
   const winC = useRef(null);
   const winR = useRef(null);
+
+  function getSlide() {
+    return winC.current?.getBoundingClientRect().width || SLIDE;
+  }
+
+  function getSafeX(fromScale) {
+    const slide = getSlide();
+    return slide + (slide / 2) * (fromScale - 1);
+  }
 
   /* ── element factory ── */
   function makeEl(idx, scaleVal) {
@@ -67,11 +77,13 @@ export default function AboutSection() {
 
   /* ── initial state ── */
   function init() {
+    if (!winL.current || !winC.current || !winR.current) return;
+
     const c = cur.current;
     // winL's incoming element starts at scale 1.5 → park at safeX(1.5)
-    buildWindow(winL.current, mod(c - 1, TOTAL), mod(c,     TOTAL), 1.0, 1.5, safeX(1.5));
-    buildWindow(winC.current, mod(c,     TOTAL),  mod(c + 1, TOTAL), 1.5, 1.0, SLIDE);
-    buildWindow(winR.current, mod(c + 1, TOTAL),  mod(c + 2, TOTAL), 1.0, 1.0, SLIDE);
+    buildWindow(winL.current, mod(c - 1, TOTAL), mod(c,     TOTAL), 1.0, 1.5, getSafeX(1.5));
+    buildWindow(winC.current, mod(c,     TOTAL),  mod(c + 1, TOTAL), 1.5, 1.0, getSlide());
+    buildWindow(winR.current, mod(c + 1, TOTAL),  mod(c + 2, TOTAL), 1.0, 1.0, getSlide());
   }
 
   /*
@@ -86,9 +98,10 @@ export default function AboutSection() {
    */
   function animateFrame(winEl, curScaleEnd, nxtScaleEnd, nxtFromScale) {
     const ch = [...winEl.children];
+    const slide = getSlide();
 
     if (ch[0]) {
-      gsap.to(ch[0],                     { x: -SLIDE,       duration: DUR, ease: EASE });
+      gsap.to(ch[0],                     { x: -slide,       duration: DUR, ease: EASE });
       gsap.to(ch[0].querySelector("div"), { scale: curScaleEnd, duration: DUR, ease: EASE });
     }
     if (ch[1]) {
@@ -104,7 +117,7 @@ export default function AboutSection() {
 
   /* ── main rotation ── */
   function rotate() {
-    if (busy.current) return;
+    if (busy.current || !inView.current) return;
     busy.current = true;
 
     // winL incoming shares the center's zoom-out curve — same 1.5 start, same
@@ -115,7 +128,12 @@ export default function AboutSection() {
     animateFrame(winC.current, 1.2, 1.5);       // outgoing: 1.5→1.2 | incoming: 1.0→1.5
     animateFrame(winR.current, 1.5, 1.0);       // outgoing: 1.0→1.5 | incoming: 1.0→1.0
 
-    setTimeout(() => {
+    refreshTimer.current = window.setTimeout(() => {
+      if (!inView.current) {
+        busy.current = false;
+        return;
+      }
+
       cur.current = mod(cur.current + 1, TOTAL);
       const c = cur.current;
 
@@ -128,9 +146,9 @@ export default function AboutSection() {
       }
 
       // winL's freshly-added waiting element starts at scale 1.5, parked at safeX(1.5)
-      refresh(winL.current, mod(c,     TOTAL), safeX(1.5), 1.5);
-      refresh(winC.current, mod(c + 1, TOTAL), SLIDE,      1.0);
-      refresh(winR.current, mod(c + 2, TOTAL), SLIDE,      1.0);
+      refresh(winL.current, mod(c,     TOTAL), getSafeX(1.5), 1.5);
+      refresh(winC.current, mod(c + 1, TOTAL), getSlide(),  1.0);
+      refresh(winR.current, mod(c + 2, TOTAL), getSlide(),  1.0);
       busy.current = false;
     }, DUR * 1000 + 80);
   }
@@ -138,11 +156,44 @@ export default function AboutSection() {
   useEffect(() => {
     init();
     const interval = setInterval(rotate, GAP);
-    return () => clearInterval(interval);
+    const handleResize = () => {
+      if (!busy.current) init();
+    };
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        inView.current = entry.isIntersecting;
+
+        if (entry.isIntersecting && !busy.current) {
+          init();
+          return;
+        }
+
+        if (!entry.isIntersecting) {
+          busy.current = false;
+          window.clearTimeout(refreshTimer.current);
+          gsap.killTweensOf([
+            ...Array.from(winL.current?.children || []),
+            ...Array.from(winC.current?.children || []),
+            ...Array.from(winR.current?.children || []),
+          ]);
+        }
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    window.addEventListener("resize", handleResize);
+    if (sectionRef.current) observer.observe(sectionRef.current);
+
+    return () => {
+      clearInterval(interval);
+      window.clearTimeout(refreshTimer.current);
+      observer.disconnect();
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
-    <section className={styles.sectionContainer}>
+    <section className={styles.sectionContainer} ref={sectionRef}>
       <div className={styles.layoutWrapper}>
         <div className={styles.textStack}>
           <h2 className={styles.title}>Built in Dubai, Brewed with Purpose</h2>

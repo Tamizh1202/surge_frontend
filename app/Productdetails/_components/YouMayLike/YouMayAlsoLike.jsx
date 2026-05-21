@@ -15,6 +15,20 @@ const toSlug = (value) =>
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-+|-+$/g, '');
 
+const getDisplayPrice = (product) => {
+    const firstVariant = product.variants?.[0];
+    const rawPrice = firstVariant
+        ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
+        : (product.salePrice || product.regularPrice);
+
+    if (!rawPrice) return '';
+
+    const numericPrice = Number(rawPrice);
+    return Number.isFinite(numericPrice)
+        ? `AED ${Math.round(numericPrice)}`
+        : `AED ${rawPrice}`;
+};
+
 export default function YouMayAlsoLike({ recommendedProducts }) {
     const { addToCart } = useCart();
     const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
@@ -34,18 +48,12 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
         if (recommendedProducts && recommendedProducts.length > 0) {
             const mapped = recommendedProducts.map((p) => {
                 const productSlug = p.slug || p.value?.slug || p.product?.slug || toSlug(p.name || p.title);
-                const price =
-                    p.salePrice ||
-                    p.regularPrice ||
-                    p.variants?.[0]?.variantSalePrice ||
-                    p.variants?.[0]?.variantRegularPrice ||
-                    null;
                 return {
                     id: p.id,
                     title: p.name,
                     subtitle: p.tagline,
                     image: formatImageUrl(p.productImage),
-                    price: price ? `AED ${price}` : '',
+                    price: getDisplayPrice(p),
                     slug: productSlug,
                     categorySlug: p.categories?.slug || p.categories?.[0]?.slug || 'coffee-beans',
                     raw: p,

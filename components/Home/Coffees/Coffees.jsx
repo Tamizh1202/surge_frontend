@@ -21,6 +21,20 @@ const getCategorySlug = (coffee) =>
   coffee.category ||
   'coffee-beans';
 
+const getDisplayPrice = (coffee) => {
+  const firstVariant = coffee.variants?.[0];
+  const rawPrice = firstVariant
+    ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
+    : (coffee.salePrice || coffee.regularPrice);
+
+  if (!rawPrice) return '';
+
+  const numericPrice = Number(rawPrice);
+  return Number.isFinite(numericPrice)
+    ? `AED ${Math.round(numericPrice)}`
+    : `AED ${rawPrice}`;
+};
+
 export default function Coffees() {
   const [coffeeData, setCoffeeData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -113,6 +127,7 @@ export default function Coffees() {
             : coffeeData.map((coffee, i) => {
               const categorySlug = getCategorySlug(coffee);
               const productSlug = coffee.slug || toSlug(coffee.name);
+              const price = getDisplayPrice(coffee);
 
               return (
                 <Link key={coffee.id ?? i} href={`/shop/${categorySlug}/${productSlug}`} className={styles.coffeeCard}>
@@ -130,9 +145,7 @@ export default function Coffees() {
                     <div className={styles.cardInfo}>
                       <h3 className={styles.coffeeName}>{coffee.name}</h3>
                       <p className={styles.coffeeNotes}>{coffee.tagline || coffee.description}</p>
-                      <p className={styles.price}>
-                        {coffee.salePrice ? `AED ${coffee.salePrice}` : coffee.regularPrice ? `AED ${coffee.regularPrice}` : ''}
-                      </p>
+                      {price && <p className={styles.price}>{price}</p>}
                     </div>
                     <span className={styles.cardArrow}>
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

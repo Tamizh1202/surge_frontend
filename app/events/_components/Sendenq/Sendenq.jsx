@@ -101,6 +101,34 @@ export default function Sendenq() {
   const [loading, setLoading] = useState(false);
   const [focusedField, setFocusedField] = useState("");
 
+  useEffect(() => {
+    const shouldScroll =
+      window.location.hash === "#enquiry-form" ||
+      new URLSearchParams(window.location.search).get("scrollTo") === "enquiry" ||
+      sessionStorage.getItem("scrollToEventEnquiry") === "true";
+
+    sessionStorage.removeItem("scrollToEventEnquiry");
+    if (!shouldScroll) return;
+
+    const scrollToForm = () => {
+      const formSection = document.getElementById("enquiry-form");
+      if (!formSection) return;
+
+      window.scrollTo({
+        top: formSection.getBoundingClientRect().top + window.scrollY - 90,
+        behavior: "smooth",
+      });
+    };
+
+    const frame = window.requestAnimationFrame(scrollToForm);
+    const layoutTimer = window.setTimeout(scrollToForm, 600);
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(layoutTimer);
+    };
+  }, []);
+
   const LIMITS = {
     firstName: 15,
     lastName: 15,

@@ -17,7 +17,7 @@ export default function Navbar({ categories = [] }) {
   const timeoutRef = useRef(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [hidden, setHidden] = useState(false);
+  // const [hidden, setHidden] = useState(false);
   const { data: session } = useSession();
   const lastScrollY = useRef(0);
 
@@ -41,27 +41,21 @@ export default function Navbar({ categories = [] }) {
     }, 800);
   };
 
+  const navRef = useRef(null); // add this ref
+
+  // Replace your scroll useEffect with this:
   useEffect(() => {
     const handleScroll = () => {
-      // Use document.documentElement.scrollTop as fallback
-      const current =
-        window.scrollY ||
-        document.documentElement.scrollTop ||
-        document.body.scrollTop ||
-        0;
-
-      setHidden(current > lastScrollY.current && current > 60);
+      const current = window.scrollY;
+      if (current > lastScrollY.current && current > 60) {
+        navRef.current?.style.setProperty("transform", "translateY(-100%)");
+      } else {
+        navRef.current?.style.setProperty("transform", "translateY(0)");
+      }
       lastScrollY.current = current;
     };
-
-    // Attach to both window and document to cover all cases
     window.addEventListener("scroll", handleScroll, { passive: true });
-    document.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const { logout } = useAuth();
@@ -99,7 +93,7 @@ export default function Navbar({ categories = [] }) {
         className={`${styles.navOverlay} ${menuOpen ? styles.active : ""}`}
         onClick={() => setMenuOpen(false)}
       />
-      <header className={`${styles.navbar} ${hidden ? styles.navbarHidden : ""}`}>
+      <header ref={navRef} className={styles.navbar}>
         <div className={styles.logo}>
           <Link href="/" className={styles.logoLink}>
             <Image src={logo} alt="Logo" width={89} height={25} priority />

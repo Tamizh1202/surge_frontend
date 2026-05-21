@@ -15,7 +15,7 @@
   z-index: 1000;
   box-sizing: border-box;
   transition: transform 0.3s ease;
-  will-change: transform;
+  
 }
 
 .navbarHidden {

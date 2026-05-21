@@ -26,8 +26,12 @@ export default function Touch() {
 
   const dropdownRef = useRef(null);
   const characterLimit = 150;
-  const nameLimit = 15; 
+  const nameLimit = 40; 
   const phoneLimit = 10;
+
+  const handlePhoneChange = (e) => {
+    setPhone(e.target.value.replace(/\D/g, "").slice(0, phoneLimit));
+  };
 
 const options = [
   { label: "Orders & Support", value: "order_issue" },
@@ -145,13 +149,14 @@ const options = [
                   {/* Phone */}
                   <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
                     <input
-                      type="number"
+                      type="tel"
+                      inputMode="numeric"
                       placeholder="Phone Number"
                       value={phone}
                       maxLength={phoneLimit}
                       onFocus={() => setActiveField("phone")}
                       onBlur={() => setActiveField("")}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={handlePhoneChange}
                       style={{ width: '100%' }}
                     />
                     {(activeField === "phone" || phone.length > 0) && (
@@ -185,7 +190,7 @@ const options = [
                 </div>
 
                 {/* Message Section */}
-                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center'}}>
                   <textarea
                     placeholder="How we can help you. *"
                     value={message}
@@ -194,7 +199,7 @@ const options = [
                     onBlur={() => setIsTextareaActive(false)}
                     onChange={(e) => setMessage(e.target.value)}
                     required
-                    style={{ width: '100%' }}
+                    style={{ width: '100%',paddingBottom:"4px"  }}
                   />
                   {(isTextareaActive || message.length > 0) && (
                     <span style={{ position: 'absolute', right: '10px', bottom: '15px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>

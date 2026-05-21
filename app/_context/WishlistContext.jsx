@@ -1,24 +1,61 @@
 "use client";
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import axiosClient from "@/lib/axios";
 import { toast } from "react-hot-toast";
 
 const WishlistContext = createContext(null);
 
+const getWishlistProductId = (item) =>
+  item.product?.value?.id || item.product?.id || item.product;
+
 export function WishlistProvider({ children }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const { status } = useSession();
+  const optimisticOverrides = useRef(new Map());
+  const mutationVersions = useRef(new Map());
+
+  const applyOptimisticOverrides = (wishlistItems) => {
+    let nextItems = wishlistItems;
+
+    optimisticOverrides.current.forEach((shouldExist, productId) => {
+      const exists = nextItems.some(
+        (item) => String(getWishlistProductId(item)) === productId
+      );
+
+      if (shouldExist && !exists) {
+        nextItems = [...nextItems, { product: productId, optimistic: true }];
+      }
+
+      if (!shouldExist && exists) {
+        nextItems = nextItems.filter(
+          (item) => String(getWishlistProductId(item)) !== productId
+        );
+      }
+    });
+
+    return nextItems;
+  };
+
+  const nextMutationVersion = (productId) => {
+    const id = String(productId);
+    const nextVersion = (mutationVersions.current.get(id) || 0) + 1;
+    mutationVersions.current.set(id, nextVersion);
+    return nextVersion;
+  };
+
+  const isLatestMutation = (productId, version) =>
+    mutationVersions.current.get(String(productId)) === version;
 
   const refresh = async () => {
     setLoading(true);
     try {
       const { data } = await axiosClient.get("/api/wishlist");
-      setItems(data.wishlist?.items || data.items || []);
+      setItems(applyOptimisticOverrides(data.wishlist?.items || data.items || []));
     } catch (e) {
       console.error("Error refreshing wishlist:", e);
-      setItems([]);
+      setItems(applyOptimisticOverrides([]));
     } finally {
       setLoading(false);
     }
@@ -39,10 +76,28 @@ export function WishlistProvider({ children }) {
       });
       return;
     }
+
+    const productKey = String(productId);
+    const version = nextMutationVersion(productKey);
+    let previousItems = [];
+    optimisticOverrides.current.set(productKey, true);
+
+    setItems((currentItems) => {
+      previousItems = currentItems;
+      return applyOptimisticOverrides(currentItems);
+    });
+
     try {
       await axiosClient.post("/api/wishlist", { productId, origin: "store" });
       await refresh();
+      if (isLatestMutation(productKey, version)) {
+        optimisticOverrides.current.delete(productKey);
+      }
     } catch (e) {
+      if (isLatestMutation(productKey, version)) {
+        optimisticOverrides.current.delete(productKey);
+        setItems(previousItems);
+      }
       console.error("Error adding to wishlist:", e);
       const resData = e?.response?.data;
       const backendMsg =
@@ -57,12 +112,30 @@ export function WishlistProvider({ children }) {
       });
       return;
     }
+
+    const productKey = String(productId);
+    const version = nextMutationVersion(productKey);
+    let previousItems = [];
+    optimisticOverrides.current.set(productKey, false);
+
+    setItems((currentItems) => {
+      previousItems = currentItems;
+      return applyOptimisticOverrides(currentItems);
+    });
+
     try {
       await axiosClient.delete("/api/wishlist", {
         data: { productId, origin: "store" },
       });
       await refresh();
+      if (isLatestMutation(productKey, version)) {
+        optimisticOverrides.current.delete(productKey);
+      }
     } catch (e) {
+      if (isLatestMutation(productKey, version)) {
+        optimisticOverrides.current.delete(productKey);
+        setItems(previousItems);
+      }
       console.error("Error removing from wishlist:", e);
     }
   };
@@ -74,11 +147,9 @@ export function WishlistProvider({ children }) {
       });
       return;
     }
-    const exists = items.find((it) => {
-      const itemProductId =
-        it.product?.value?.id || it.product?.id || it.product;
-      return String(itemProductId) === String(productId);
-    });
+    const exists = items.find(
+      (it) => String(getWishlistProductId(it)) === String(productId)
+    );
     return exists ? remove(productId) : add(productId);
   };
 

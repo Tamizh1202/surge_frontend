@@ -130,20 +130,54 @@ export default function Sendenq() {
   }, []);
 
   const LIMITS = {
-    firstName: 15,
-    lastName: 15,
+    firstName: 20,
+    lastName: 20,
     phoneNumber: 9,
+    expectedGuests: 300,
+    timeWindow: 30,
+    addons: 50,
     city: 15,
     message: 200
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name } = e.target;
+    let { value } = e.target;
+
+    if (name === "phoneNumber") {
+      value = value.replace(/\D/g, "").slice(0, LIMITS.phoneNumber);
+    }
+
+    if (name === "expectedGuests") {
+      value = value.replace(/\D/g, "");
+      if (value) value = String(Math.min(Number(value), LIMITS.expectedGuests));
+    }
+
+    if (name === "timeWindow") {
+      value = value.slice(0, LIMITS.timeWindow);
+    }
+
+    if (name === "addons") {
+      value = value.slice(0, LIMITS.addons);
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (formData.phoneNumber.length !== LIMITS.phoneNumber) {
+      toast.error("Please enter a 9-digit phone number.");
+      return;
+    }
+
+    const expectedGuests = Number(formData.expectedGuests);
+    if (!expectedGuests || expectedGuests < 1 || expectedGuests > LIMITS.expectedGuests) {
+      toast.error(`Expected guests must be between 1 and ${LIMITS.expectedGuests}.`);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -154,7 +188,7 @@ export default function Sendenq() {
         phoneNumber: formData.phoneNumber.trim(),
         eventDate: formData.eventDate ? new Date(formData.eventDate).toISOString() : null,
         timeWindow: formData.timeWindow.trim(),
-        expectedGuests: Number(formData.expectedGuests),
+        expectedGuests,
         eventType: formData.eventType, 
         package: formData.package,     
         city: formData.city.trim(),
@@ -211,18 +245,24 @@ export default function Sendenq() {
                 <div className={styles.row}>
                   <input type="email" name="email" placeholder="Email *" value={formData.email} onChange={handleChange} required />
                   <div style={{ position: 'relative', flex: 1 }}>
-                    <input type="tel" name="phoneNumber" placeholder="Phone (e.g. +971...) *" value={formData.phoneNumber} onChange={handleChange} onFocus={() => setFocusedField("phoneNumber")} onBlur={() => setFocusedField("")} maxLength={LIMITS.phoneNumber} required />
+                    <input type="tel" inputMode="numeric" name="phoneNumber" placeholder="Phone number (9 digits) *" value={formData.phoneNumber} onChange={handleChange} onFocus={() => setFocusedField("phoneNumber")} onBlur={() => setFocusedField("")} maxLength={LIMITS.phoneNumber} required />
                     {focusedField === "phoneNumber" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.phoneNumber.length}/{LIMITS.phoneNumber}</span>}
                   </div>
                 </div>
 
                 <div className={styles.row}>
                   <input type="date" name="eventDate" value={formData.eventDate} onChange={handleChange} required />
-                  <input type="text" name="timeWindow" placeholder="Time (e.g. 6PM-10PM) *" value={formData.timeWindow} onChange={handleChange} required />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" name="timeWindow" placeholder="Time window (e.g. 6PM-10PM) *" value={formData.timeWindow} onChange={handleChange} onFocus={() => setFocusedField("timeWindow")} onBlur={() => setFocusedField("")} maxLength={LIMITS.timeWindow} required />
+                    {focusedField === "timeWindow" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.timeWindow.length}/{LIMITS.timeWindow}</span>}
+                  </div>
                 </div>
 
                 <div className={styles.row}>
-                  <input type="number" name="expectedGuests" placeholder="Expected Guests *" value={formData.expectedGuests} onChange={handleChange} required />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" inputMode="numeric" name="expectedGuests" placeholder="Expected Guests *" value={formData.expectedGuests} onChange={handleChange} onFocus={() => setFocusedField("expectedGuests")} onBlur={() => setFocusedField("")} required />
+                    {focusedField === "expectedGuests" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>Max {LIMITS.expectedGuests}</span>}
+                  </div>
                   <CustomDropdown name="eventType" placeholder="Event Type" options={EVENT_TYPE_OPTIONS} value={formData.eventType} onChange={handleChange} />
                 </div>
 
@@ -236,7 +276,10 @@ export default function Sendenq() {
                     <input type="text" name="city" placeholder="City/Area *" value={formData.city} onChange={handleChange} onFocus={() => setFocusedField("city")} onBlur={() => setFocusedField("")} maxLength={LIMITS.city} required />
                     {focusedField === "city" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.city.length}/{LIMITS.city}</span>}
                   </div>
-                  <input type="text" name="addons" placeholder="Add-ons (e.g. water)" value={formData.addons} onChange={handleChange} />
+                  <div style={{ position: 'relative', flex: 1 }}>
+                    <input type="text" name="addons" placeholder="Add-ons (e.g. water)" value={formData.addons} onChange={handleChange} onFocus={() => setFocusedField("addons")} onBlur={() => setFocusedField("")} maxLength={LIMITS.addons} />
+                    {focusedField === "addons" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.addons.length}/{LIMITS.addons}</span>}
+                  </div>
                 </div>
 
                 <div style={{ position: 'relative' }}>

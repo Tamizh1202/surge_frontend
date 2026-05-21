@@ -445,12 +445,17 @@ padding-left: clamp(20px, 7vw, 100px);
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: scale(1);
 }
 
 
 .wishlistIcon:hover {
-    transform: scale(1.5);
+    /* transform: scale(1.5); */
     color: red;
+}
+
+.wishlistIconActive {
+    transform: scale(1.2);
 }
 
 .details {

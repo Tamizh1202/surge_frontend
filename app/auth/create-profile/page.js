@@ -21,7 +21,11 @@ function CreateProfileContent() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isGenderOpen, setIsGenderOpen] = useState(false);
+  const [activeField, setActiveField] = useState("");
   const genderRef = useRef(null);
+
+  const nameLimit = 20;
+  const phoneLimit = 9;
 
   const genderOptions = [
     { label: "Male", value: "male" },
@@ -109,26 +113,48 @@ function CreateProfileContent() {
             />
 
             <div className={styles.nameRow}>
-              <input
-                type="text"
-                placeholder="First name*"
-                className={styles.inputemail}
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-                required
-                disabled={loading}
-                suppressHydrationWarning
-              />
-              <input
-                type="text"
-                placeholder="Last name*"
-                className={styles.inputemail}
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-                required
-                disabled={loading}
-                suppressHydrationWarning
-              />
+              <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  placeholder="First name*"
+                  className={styles.inputemail}
+                  value={firstName}
+                  maxLength={nameLimit}
+                  onFocus={() => setActiveField("firstName")}
+                  onBlur={() => setActiveField("")}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  required
+                  disabled={loading}
+                  suppressHydrationWarning
+                  style={{ width: '100%' }}
+                />
+                {(activeField === "firstName" || firstName.length > 0) && (
+                  <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                    {firstName.length}/{nameLimit}
+                  </span>
+                )}
+              </div>
+              <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  placeholder="Last name*"
+                  className={styles.inputemail}
+                  value={lastName}
+                  maxLength={nameLimit}
+                  onFocus={() => setActiveField("lastName")}
+                  onBlur={() => setActiveField("")}
+                  onChange={(e) => setLastName(e.target.value)}
+                  required
+                  disabled={loading}
+                  suppressHydrationWarning
+                  style={{ width: '100%' }}
+                />
+                {(activeField === "lastName" || lastName.length > 0) && (
+                  <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                    {lastName.length}/{nameLimit}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Phone */}
@@ -137,16 +163,28 @@ function CreateProfileContent() {
                 <Image src={flag} width={24} height={16} alt="flag" />
                 <span>+971</span>
               </div>
-              <input
-                type="number"
-                placeholder="Phone Number*"
-                className={styles.phoneField}
-                value={phone}
-                onChange={(e) => setPhone(e.target.value)}
-                required
-                disabled={loading}
-                suppressHydrationWarning
-              />
+              <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="tel"
+                  inputMode="numeric"
+                  placeholder="Phone Number*"
+                  className={styles.phoneField}
+                  value={phone}
+                  maxLength={phoneLimit}
+                  onFocus={() => setActiveField("phone")}
+                  onBlur={() => setActiveField("")}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, phoneLimit))}
+                  required
+                  disabled={loading}
+                  suppressHydrationWarning
+                  style={{ width: '100%' }}
+                />
+                {(activeField === "phone" || phone.length > 0) && (
+                  <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                    {phone.length}/{phoneLimit}
+                  </span>
+                )}
+              </div>
             </div>
 
             {/* Gender Dropdown */}

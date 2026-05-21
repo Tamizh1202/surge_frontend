@@ -94,11 +94,10 @@ padding-right: clamp(30px, 31vw, 400px);
 .charCounter {
   position: absolute;
   right: 0;
-  
+  font-family: var(--font-montserrat);
   font-size: 12px;
-  color: #a0a0a0; 
-  pointer-events: none; 
-
+  color: #a0a0a0;
+  pointer-events: none;
 }
 
 .lineInput {

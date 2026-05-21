@@ -88,7 +88,6 @@ export const saveAddressAPI = async (userId, addressPayload, token) => {
 };
 
 export const updateAddressAPI = async (userId, addressPayload) => {
-  console.log(addressPayload);
   try {
     const res = await axiosClient.patch(
       `/api/users/${userId}/addresses`,

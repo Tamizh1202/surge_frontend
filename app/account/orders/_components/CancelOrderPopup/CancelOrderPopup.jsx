@@ -9,6 +9,7 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const MIN_CHAR_LIMIT = 10;
+  const MAX_CHAR_LIMIT = 250;
   const reasons = [
     "Changed my mind",
     "Ordered by mistake",
@@ -70,11 +71,12 @@ const CancelOrderPopup = ({ onClose, onConfirm, orderId }) => {
                       className={styles.otherTextArea}
                       placeholder="Please specify your reason"
                       value={otherReasonText}
+                      maxLength={MAX_CHAR_LIMIT}
                       disabled={isSubmitting}
                       onChange={(e) => setOtherReasonText(e.target.value)}
                     />
                     {error && <p className={styles.errorMessage}>{error}</p>}
-                    <p className={styles.charCount}>{otherReasonText.length}/{MIN_CHAR_LIMIT} min characters</p>
+                    <p className={styles.charCount}>{otherReasonText.length}/{MAX_CHAR_LIMIT}</p>
                   </div>
                 )}
               </div>

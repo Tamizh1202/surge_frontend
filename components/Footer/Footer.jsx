@@ -261,6 +261,7 @@ export default function Footer({ categories = [] }) {
                 hello@surgecoffee.ae
               </Link>
             </div>
+            
           </div>
         </div>
         <div className={styles.divide}></div>

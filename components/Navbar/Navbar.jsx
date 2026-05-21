@@ -26,6 +26,7 @@ export default function Navbar({ categories = [] }) {
     setMenuOpen(false);
     setIsShopOpen(false);
     setIsAccountOpen(false);
+    closeCart();
   }, [pathname]);
 
   const totalItems = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;

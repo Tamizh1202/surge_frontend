@@ -276,6 +276,9 @@ const ProfileComponents = ({ initialData }) => {
         addressFirstName: addressForm.addressFirstName,
         addressLastName: addressForm.addressLastName,
         street: addressForm.address,
+        streetNumber: addressForm.streetNumber,
+        apartment: addressForm.apartment,
+        city: addressForm.city,
         country: "United Arab Emirates",
         emirates: addressForm.state,
         phoneNumber: addressForm.phone,
@@ -296,7 +299,20 @@ const ProfileComponents = ({ initialData }) => {
     if (isSubmittingAddress) return;
     setIsSubmittingAddress(true);
     try {
-      const payload = { addressId: editingAddressId, label: addressForm.label, street: addressForm.address, emirates: addressForm.state, phoneNumber: addressForm.phone, isDefaultAddress: addressForm.isDefault };
+      const payload = {
+        addressId: editingAddressId,
+        label: addressForm.label,
+        addressFirstName: addressForm.addressFirstName,
+        addressLastName: addressForm.addressLastName,
+        street: addressForm.address,
+        streetNumber: addressForm.streetNumber,
+        apartment: addressForm.apartment,
+        city: addressForm.city,
+        country: "United Arab Emirates",
+        emirates: addressForm.state,
+        phoneNumber: addressForm.phone,
+        isDefaultAddress: addressForm.isDefault,
+      };
       const result = await updateAddressAPI(session?.user?.id, payload);
       if (result?.success) {
         setAddresses(result.updatedAddresses);

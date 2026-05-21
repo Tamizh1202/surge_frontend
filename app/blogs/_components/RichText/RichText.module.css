@@ -1,7 +1,17 @@
-richtext.module.jsx .RichText {
+.RichText {
   line-height: 1.8;
   font-size: 1.1rem;
   letter-spacing: 0.01em;
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.RichText * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .RichText p {
@@ -41,6 +51,8 @@ richtext.module.jsx .RichText {
   color: #51624d;
   text-decoration: underline;
   transition: opacity 0.2s;
+  overflow-wrap: anywhere;
+  word-break: break-all;
 }
 
 .RichText a:hover {
@@ -68,6 +80,7 @@ richtext.module.jsx .RichText {
   padding: 1.5rem;
   border-radius: 8px;
   overflow-x: auto;
+  white-space: pre-wrap;
   margin-bottom: 1.5rem;
 }
 

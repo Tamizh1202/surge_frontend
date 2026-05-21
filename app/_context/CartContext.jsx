@@ -7,6 +7,7 @@ import {
   removeItemFromCart,
   updateItemQuantity,
   makeCartItemKey,
+  clearCart as clearGuestCart,
 } from "@/utils/guestCartUtils";
 import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
@@ -598,7 +599,7 @@ export function CartProvider({ children }) {
         const cart = getCart();
         const existing = cart.items?.find(
           (i) =>
-            cartKey
+            (cartKey && i._cartKey)
               ? i._cartKey === cartKey
               : String(i.product) === String(product) &&
                 (i.vId || null) === (vId || null),
@@ -621,6 +622,16 @@ export function CartProvider({ children }) {
     }
   };
 
+  const clearCart = async () => {
+    if (session?.user) {
+      await fetchCart();
+    } else {
+      clearGuestCart();
+      setItems([]);
+      setCartTotals((prev) => ({ ...prev, subtotal: 0, totalItems: 0, discount: 0 }));
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -634,6 +645,7 @@ export function CartProvider({ children }) {
         addToCart,
         removeItem,
         updateQuantity,
+        clearCart,
         cartTotals,
         isCouponModalOpen,
         openCouponModal,

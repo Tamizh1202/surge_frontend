@@ -131,7 +131,7 @@ const options = [
                     style={{ width: '100%' }}
                   />
                   {(activeField === "fullName" || fullName.length > 0) && (
-                    <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
+                    <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                       {fullName.length}/{nameLimit}
                     </span>
                   )}
@@ -160,7 +160,7 @@ const options = [
                       style={{ width: '100%' }}
                     />
                     {(activeField === "phone" || phone.length > 0) && (
-                      <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
+                      <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                         {phone.length}/{phoneLimit}
                       </span>
                     )}
@@ -202,7 +202,7 @@ const options = [
                     style={{ width: '100%',paddingBottom:"4px"  }}
                   />
                   {(isTextareaActive || message.length > 0) && (
-                    <span style={{ position: 'absolute', right: '10px', bottom: '15px', fontSize: '10px', color: '#818686', pointerEvents: 'none' }}>
+                    <span style={{ position: 'absolute', right: '10px', bottom: '15px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                       {message.length}/{characterLimit}
                     </span>
                   )}

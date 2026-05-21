@@ -43,11 +43,11 @@ export const makeCartItemKey = (product, vId, customSelections) => {
   return `${product}__${vId || ""}__${selKey}`;
 };
 
+const MAX_ITEM_QTY = 5;
+
 async function fetchCartProduct(productId, vid = null) {
   const res = await axiosClient.get(`/api/web-products/${productId}?depth=1`);
   const productDoc = await res.data;
-
-  console.log(productDoc);
 
   if (!productDoc || productDoc.errors) return null;
 
@@ -86,7 +86,6 @@ async function fetchCartProduct(productId, vid = null) {
 export const getCart = () => {
   try {
     const cart = localStorage.getItem("guestCart");
-    console.log(cart);
     if (cart) {
       return JSON.parse(cart);
     }
@@ -138,15 +137,9 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
   if (existingIndex >= 0) {
     const newQty = items[existingIndex].quantity + quantity;
 
-    // Validate stock
-    if (productData.inStock === false) {
-      throw new Error("This product is out of stock");
-    }
-    if (
-      productData.stockQuantity !== null &&
-      productData.stockQuantity !== undefined &&
-      newQty > productData.stockQuantity
-    ) {
+    if (productData.inStock === false) throw new Error("This product is out of stock");
+    if (newQty > MAX_ITEM_QTY) throw new Error(`Maximum quantity of ${MAX_ITEM_QTY} per item reached`);
+    if (productData.stockQuantity != null && newQty > productData.stockQuantity) {
       throw new Error(`Only ${productData.stockQuantity} units available`);
     }
 
@@ -156,15 +149,9 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
       ...(customSelections ? { customSelections } : {}),
     };
   } else {
-    // Validate stock for new item
-    if (productData.inStock === false) {
-      throw new Error("This product is out of stock");
-    }
-    if (
-      productData.stockQuantity !== null &&
-      productData.stockQuantity !== undefined &&
-      quantity > productData.stockQuantity
-    ) {
+    if (productData.inStock === false) throw new Error("This product is out of stock");
+    if (quantity > MAX_ITEM_QTY) throw new Error(`Maximum quantity of ${MAX_ITEM_QTY} per item reached`);
+    if (productData.stockQuantity != null && quantity > productData.stockQuantity) {
       throw new Error(`Only ${productData.stockQuantity} units available`);
     }
 
@@ -184,7 +171,7 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
 export const removeItemFromCart = (productId, vid = null, cartKey = null) => {
   const cart = getCart();
   const items = (cart.items || []).filter((item) => {
-    if (cartKey) return item._cartKey !== cartKey;
+    if (cartKey && item._cartKey) return item._cartKey !== cartKey;
     return !(item.product === productId && item.vId === vid);
   });
   const { subtotal, totalItems } = recalculate(items);
@@ -195,21 +182,15 @@ export const removeItemFromCart = (productId, vid = null, cartKey = null) => {
 export const updateItemQuantity = (productId, vid = null, quantity, cartKey = null) => {
   const cart = getCart();
   const items = (cart.items || []).map((item) => {
-    const matches = cartKey
+    const matches = (cartKey && item._cartKey)
       ? item._cartKey === cartKey
       : item.product === productId && item.vId === vid;
     if (matches) {
       const newQty = Math.max(1, quantity);
 
-      // Validate stock
-      if (item.inStock === false) {
-        throw new Error("This product is out of stock");
-      }
-      if (
-        item.stockQuantity !== null &&
-        item.stockQuantity !== undefined &&
-        newQty > item.stockQuantity
-      ) {
+      if (item.inStock === false) throw new Error("This product is out of stock");
+      if (newQty > MAX_ITEM_QTY) throw new Error(`Maximum quantity of ${MAX_ITEM_QTY} per item reached`);
+      if (item.stockQuantity != null && newQty > item.stockQuantity) {
         throw new Error(`Only ${item.stockQuantity} units available`);
       }
 

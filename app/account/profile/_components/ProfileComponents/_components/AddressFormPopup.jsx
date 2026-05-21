@@ -22,8 +22,9 @@ const AddressFormPopup = ({
   const limits = {
     firstName: 15,
     lastName: 15,
-    address: 15,       // Address limit
-    streetNumber: 15,  // Street Number limit
+    address: 15,
+    streetNumber: 15,
+    apartment: 30,
     city: 15,
     phone: 9,
   };
@@ -138,14 +139,25 @@ const AddressFormPopup = ({
           </div>
         </div>
 
-        <div className={styles.fieldWrapperRelative}>
-          <input
-            className={styles.lineInput}
-            placeholder="Apartment, Suit etc."
-            value={addressForm.apartment || ""}
-            onChange={(e) => onFormChange("apartment", e.target.value)}
-          />
-          <span className={styles.optionalTag}>(Optional)</span>
+        <div style={{ marginBottom: '24px' }}>
+          <div className={styles.inputWrapperWithLimit}>
+            <input
+              className={styles.lineInput}
+              placeholder="Apartment, Suite etc."
+              value={addressForm.apartment || ""}
+              maxLength={limits.apartment}
+              onFocus={() => setFocusedField("apartment")}
+              onBlur={() => setFocusedField(null)}
+              onChange={(e) => onFormChange("apartment", e.target.value)}
+            />
+            {(focusedField === "apartment" || addressForm.apartment) ? (
+              <span className={styles.charCounter}>
+                {(addressForm.apartment || "").length}/{limits.apartment}
+              </span>
+            ) : (
+              <span className={styles.optionalTag}>(Optional)</span>
+            )}
+          </div>
         </div>
 
         {/* City + Emirate Row */}
@@ -198,59 +210,55 @@ const AddressFormPopup = ({
         </div>
 
         {/* Phone Section */}
-     
-<div className={styles.phoneWrapper}>
-  <div className={styles.inputWrapperWithLimit}>
-    <div style={{ position: "relative", width: "100%", display: "flex", alignItems: "center" }}>
-      
-      {/* Prefix aur Placeholder Logic */}
-      <div style={{ 
-        position: "absolute", 
-        left: 0, 
-        bottom: "8px", 
-        display: "flex", 
-        gap: "16px", 
-        pointerEvents: "none",
-        fontSize: "14px"
-      }}>
-      
-        <span style={{ color: "#2f362a" , }}>+971</span>
-        
-   
-        {!getRawPhone(addressForm.phone) && (
-          <span style={{ color: "#818686" ,fontSize: "16px",
-  fontWeight: "400",
-  fontFamily: 'Raleway'}}>Phone</span>
-        )}
-      </div>
-      
-      <input
-        className={styles.lineInput}
-        style={{ 
-          paddingLeft: "45px", // Prefix ke liye jagah
-          color: "#000" 
-        }}
-        // Native placeholder ko khali rakha hai kyunki humne custom span use kiya hai
-        placeholder="" 
-        value={getRawPhone(addressForm.phone)}
-        maxLength={limits.phone}
-        onFocus={() => setFocusedField("phone")}
-        onBlur={() => setFocusedField(null)}
-        onChange={(e) => {
-          const val = e.target.value.replace(/\D/g, ""); 
-          onFormChange("phone", "+971" + val);
-        }}
-      />
-      
-      {/* Counter: Sirf typed numbers ginega */}
-      {(focusedField === "phone" || getRawPhone(addressForm.phone)) && (
-        <span className={styles.charCounter}>
-          {getRawPhone(addressForm.phone).length}/{limits.phone}
-        </span>
-      )}
-    </div>
-  </div>
-</div>
+        <div className={styles.phoneWrapper}>
+          <div style={{ position: 'relative' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'flex-end',
+              gap: '6px',
+              borderBottom: '1.5px solid #2f362a4d',
+              paddingBottom: '8px',
+              paddingTop: '8px',
+            }}>
+              <span style={{
+                color: '#2f362a',
+                fontSize: '16px',
+                fontFamily: 'var(--font-raleway)',
+                flexShrink: 0,
+                lineHeight: 1,
+              }}>
+                +971
+              </span>
+              <input
+                style={{
+                  flex: 1,
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: '16px',
+                  fontFamily: 'var(--font-raleway)',
+                  fontWeight: 400,
+                  color: '#2f362a',
+                  background: 'transparent',
+                  paddingRight: '35px',
+                }}
+                placeholder="Phone"
+                value={getRawPhone(addressForm.phone)}
+                maxLength={limits.phone}
+                onFocus={() => setFocusedField("phone")}
+                onBlur={() => setFocusedField(null)}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "");
+                  onFormChange("phone", "+971" + val);
+                }}
+              />
+            </div>
+            {isPhoneActive && (
+              <span className={styles.charCounter} style={{ bottom: '8px' }}>
+                {getRawPhone(addressForm.phone).length}/{limits.phone}
+              </span>
+            )}
+          </div>
+        </div>
 
         {/* Save As Labels */}
         <div className={styles.saveAsWrapper}>

@@ -231,9 +231,10 @@
 }
 
 .linkColumns {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 3vw, 60px);
   flex: 1;
-  justify-content: space-between;
   padding-right: 20px;
 }
 
@@ -252,7 +253,7 @@
   display: block;
   margin-bottom: 15px;
   opacity: 0.8;
-  white-space: nowrap;
+  white-space: nowrap;  
   transition: opacity 0.3s ease;
 }
 
@@ -292,10 +293,14 @@
 }
 
 .contactWrapper {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(16px, 3vw, 60px);
   flex: 1;
-  justify-content: space-between;
-  align-items: flex-start;
+}
+
+.contactWrapper .infoBlock {
+  width: auto;
 }
 
 .infoBlock {
@@ -445,7 +450,11 @@
 
   .infoGrid { gap: 3rem; }
   .infoBlock { width: 40%; }
-  .contactWrapper { gap: 2rem; }
+
+  .contactWrapper {
+    display: flex;
+    gap: 2rem;
+  }
 
   .bottomBar {
     flex-wrap: wrap;

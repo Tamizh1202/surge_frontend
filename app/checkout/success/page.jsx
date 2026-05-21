@@ -2,8 +2,8 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
-import axiosClient from "@/lib/axios";
 import { formatImageUrl } from "@/lib/imageUtils";
+import { useCart } from "@/app/_context/CartContext";
 
 function OrderSuccessContent() {
   const router = useRouter();
@@ -11,6 +11,7 @@ function OrderSuccessContent() {
   const orderId = searchParams.get('id');
   const token = searchParams.get('token');
 
+  const { clearCart, closeCart } = useCart();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,12 +22,15 @@ function OrderSuccessContent() {
       setLoading(false);
       return;
     }
-
     const fetchOrder = async () => {
       try {
-        const config = token ? { headers: { 'x-guest-token': token } } : {};
-        const res = await axiosClient.get(`/api/web-orders/${orderId}`, config);
-        setOrder(res.data);
+        const url = `/api/orders/${orderId}${token ? `?token=${encodeURIComponent(token)}` : ''}`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        const data = await res.json();
+        setOrder(data);
+        closeCart();
+        await clearCart();
       } catch (err) {
         console.error("Failed to fetch order", err);
         setError("Failed to load order details");
@@ -34,7 +38,6 @@ function OrderSuccessContent() {
         setLoading(false);
       }
     };
-
     fetchOrder();
   }, [orderId, token]);
 

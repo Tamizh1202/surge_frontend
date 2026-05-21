@@ -109,12 +109,41 @@
 .leftColumn {
   flex: 1;
   max-width: 910px;
+  min-width: 0;
 }
 
 .body {
   display: flex;
   flex-direction: column;
   gap: 32px; 
+  max-width: 100%;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.body * {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.body a {
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.body img,
+.body video,
+.body iframe {
+  max-width: 100%;
+  height: auto;
+}
+
+.body pre {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: pre-wrap;
 }
 
 .sectionTitle {

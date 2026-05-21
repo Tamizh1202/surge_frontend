@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -44,12 +43,25 @@ export default function Navbar({ categories = [] }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const current = window.scrollY;
+      // Use document.documentElement.scrollTop as fallback
+      const current =
+        window.scrollY ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop ||
+        0;
+
       setHidden(current > lastScrollY.current && current > 60);
       lastScrollY.current = current;
     };
+
+    // Attach to both window and document to cover all cases
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const { logout } = useAuth();

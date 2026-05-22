@@ -1,86 +1,140 @@
 import styles from './Coffeepackage.module.css';
-import Image from "next/image";
-
-import cupImg from './cup1.png'; 
-import cupImg2 from './cup2.png';
-import cupImg3 from './cup3.png';
-import cupImg4 from './cup4.png';
 
 const packages = [
   {
     id: 1,
-    title: "30 Cups Package",
-    description: "Ideal for medium-sized events, workshops, and office gatherings.",
-    image: cupImg 
+    name: "Package 01",
+    inclusions: ["Coffee Setup", "Professional Barista", "Decors"],
+    servingOptions: [
+      { count: "50 cups", price: "AED 1500" },
+      { count: "100 Cups", price: "AED 1500" },
+      { count: "150 Cups", price: "AED 1500" }
+    ],
+    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
   },
   {
     id: 2,
-    title: "50 Cups Package",
-    description: "Ideal for medium-sized events, workshops, and office gatherings.",
-    image: cupImg2 
+    name: "Package 02",
+    inclusions: ["Coffee Setup", "Professional Barista", "Decors", "Coffee Setup"],
+    servingOptions: [
+      { count: "50 cups", price: "AED 1500" },
+      { count: "100 Cups", price: "AED 1500" },
+      { count: "150 Cups", price: "AED 1500" }
+    ],
+    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
   },
   {
     id: 3,
-    title: "100 Cups Package",
-    description: "Designed for large-scale events, corporate functions, and high-footfall brand activations.",
-    image: cupImg3
-  },
-  {
-    id: 4,
-    title: "Additional Cups (Top-Up)",
-    description: "Need more than your package? Top up seamlessly — we'll keep the coffee flowing without missing a beat.",
-    image: cupImg4
+    name: "Package 03",
+    inclusions: ["Coffee Setup", "Professional Barista", "Decors"],
+    servingOptions: [
+      { count: "50 cups", price: "AED 1500" },
+      { count: "100 Cups", price: "AED 1500" },
+      { count: "150 Cups", price: "AED 1500" }
+    ],
+    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
   }
 ];
+
+const locations = [
+  { city: "Dubai", price: "Free" },
+  { city: "Sharjah", price: "AED 300" },
+  { city: "Ajman", price: "AED 300" },
+  { city: "RAK", price: "AED 400" },
+  { city: "Al Ain", price: "AED 500" },
+  { city: "Abu Dhabi", price: "AED 500" }
+];
+
+// Reusable SVG Bullet Component for precise, clean rendering
+const BulletIcon = () => (
+  <svg 
+    width="6" 
+    height="6" 
+    viewBox="0 0 6 6" 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg"
+    className={styles.bulletSvg}
+  >
+    <circle cx="3" cy="3" r="3" fill="#C4754E" />
+  </svg>
+);
 
 export default function CoffeePackages() {
   return (
     <section className={styles.container}>
+      {/* --- Main Header --- */}
       <header className={styles.header}>
         <h2 className={styles.mainTitle}>Choose Your Coffee Package</h2>
         <p className={styles.subtitle}>
-     From intimate gatherings to large-scale productions, choose a package built around your guest count and event style. Flexible, streamlined, and engineered for quality in every cup.
+          From intimate gatherings to large-scale events, pick a package based on your guest
+          count and serving needs. Simple, flexible, and crafted to keep every cup consistent.
         </p>
       </header>
 
       <div className={styles.grid}>
         {packages.map((pkg) => (
           <div key={pkg.id} className={styles.card}>
-            <div className={styles.cardContent}>
-              
-              <div className={styles.textGroup}>
-              
-                <h3 className={`${styles.cardTitle} ${styles.desktopOnly}`}>{pkg.title}</h3>
-                <h3 className={`${styles.cardTitle} ${styles.mobileOnly}`}>30 Cups Package</h3>    {/* --- Mobile view --- */}
-                
-               
-                <p className={`${styles.cardDescription} ${styles.desktopOnly}`}>
-                  {pkg.description}
-                </p>
-                <p className={`${styles.cardDescription} ${styles.mobileOnly}`}>
-                  Perfect for small meetings, intimate celebrations, or quick pop-ups.   {/* --- Mobile view --- */}
-                </p>
+          
+            <h3 className={styles.cardTitle}>{pkg.name}</h3>
+            
+   
+            <div className={styles.cardInner}>
+              {/* Core Inclusions */}
+              <ul className={styles.inclusionList}>
+                {pkg.inclusions.map((item, idx) => (
+                  <li key={idx}>
+                    <BulletIcon />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+           
+              <div className={styles.sectionGroup}>
+            
+                <h4 className={styles.sectionHeading}>Serving Options</h4>
+                <div className={styles.sectionContent}>
+                <div className={styles.priceRows}>
+                  {pkg.servingOptions.map((option, idx) => (
+                    <div key={idx} className={styles.priceRow}>
+                      <span className={styles.label}>{option.count}</span>
+                      <span className={styles.value}>{option.price}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-
-              <a href="#enquiry-form" className={styles.link}>
-                Enquire Now 
-                <span className={styles.arrow}>
-                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
-                  </svg>
-                </span>
-              </a>
+</div>
+              <div className={styles.sectionGroup}>
+                <h4 className={styles.sectionHeading}>Optional Add-ons</h4>
+                <ul className={styles.addonList}>
+                  {pkg.addons.map((addon, idx) => (
+                    <li key={idx}>
+                      <BulletIcon />
+                      <span>{addon}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
 
-            <div className={styles.imageWrapper}>
-              <Image 
-                src={pkg.image} 
-                alt={pkg.title} 
-                className={styles.cupImage} 
-              />
-            </div>
+            <a href="#enquiry-form" className={styles.button}>
+              Enquire Now
+            </a>
           </div>
         ))}
+      </div>
+
+      {/* --- Serving Locations Footer --- */}
+      <div className={styles.locationFooter}>
+        <h3 className={styles.locationTitle}>Serving Events Across UAE</h3>
+        <div className={styles.locationGrid}>
+          {locations.map((loc, idx) => (
+            <div key={idx} className={styles.locationCard}>
+              <span className={styles.locCity}>{loc.city}</span>
+              <span className={styles.locPrice}>{loc.price}</span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

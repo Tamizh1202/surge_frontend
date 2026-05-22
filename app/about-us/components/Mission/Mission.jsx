@@ -24,7 +24,6 @@ export default function Mission() {
           start: "top top",
           end: window.innerWidth < 900 ? "+=80%" : `+=${cards.length * 30}%`,
           pin: true,
-          scrub: 0.5,
           anticipatePin: 1,
 
           fastScrollEnd: true,
@@ -38,7 +37,7 @@ export default function Mission() {
         tl.fromTo(
           card,
           {
-            yPercent: 120,
+            yPercent: 0,
             opacity: 0,
           },
           {

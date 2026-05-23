@@ -142,9 +142,10 @@
 
 
 @media (max-width: 767px) {
-
   .shopSelectorContainer {
-    display: none !important;
+    display: block;
+    display:flex;
+    padding: 20px 5%;
   }
 }
 @media (min-width: 1600px) {
@@ -156,12 +157,12 @@
 
 @media (max-width: 1599px) and (min-width: 1101px) {
   .shopSelectorContainer { 
-    padding: 20px 80px; 
+    padding: 20px 50px; 
   }
 }
 @media (max-width: 1100px) and (min-width: 768px) {
   .shopSelectorContainer { 
-    padding: 20px 40px;
+    padding: 20px 4%;
   }
   .triggerRow, .menuItem {
     padding: 12px 20px; 

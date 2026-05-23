@@ -19,7 +19,7 @@
 
 @media screen and (max-width: 768px) {
   .bannerWrapper {
-    height: 280px;
+    /* height: 280px; */
 
     background-position: center center;
     background-size: cover;
@@ -28,6 +28,6 @@
 
 @media screen and (max-width: 480px) {
   .bannerWrapper {
-    height: 200px;
+    /* height: 200px; */
   }
 }

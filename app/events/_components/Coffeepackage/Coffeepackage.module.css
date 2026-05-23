@@ -1,8 +1,8 @@
 .container {
- padding: clamp(40px, 9vw, 103px) clamp(30px, 12vw, 126px);
+  padding: clamp(40px, 9vw, 120px) clamp(30px, 12vw, 125px);
   display: flex;
   flex-direction: column;
-  gap: 51px;
+  gap: 60px;
 }
 
 .header {
@@ -23,109 +23,241 @@
 .subtitle {
   font-size: 16px;
   line-height: 1.6;
-  color: #818686;
+  color: var(--text-secondary);
   font-weight: 400;
   font-family: var(--font-raleway);
   margin: 0;
 }
 
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); 
-  gap: 50px;
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 52px;
 }
 
 .card {
   background-color: #FBF5F1; 
-  padding: 55px 30px 20px;
-  
+  padding: 23px 40px 52px;
   display: flex;
   flex-direction: column;
-}
-
-
-.cardContent {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 32px; 
-}
-
-
-.textGroup {
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
 }
 
 .cardTitle {
-  font-size: 18px;
+  font-size: 22px;
   font-weight: 600;
   color: #C4754E; 
+  font-family: var(--font-montserrat);
+  text-align: center;
+  margin: 0 0 19px 0;
+}
+
+.cardInner {
+  background-color: #ffffff;
+padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 39px;
+}
+
+
+.sectionGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+}
+
+.sectionHeading {
+  font-size: 16px;
+  font-weight: 600;
+  color: #414343;
   font-family: var(--font-montserrat);
   margin: 0;
 }
 
-.cardDescription {
+
+.sectionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 7px; 
+}
+
+
+.inclusionList, .addonList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inclusionList, .addonList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.inclusionList li, .addonList li {
   font-size: 16px;
   font-weight: 400;
   font-family: var(--font-raleway);
-  line-height: 1.5;
   color: #414343;
+  display: flex;
+  align-items: center; 
+  gap: 7px; 
+  line-height: 1.2;
+}
+
+.bulletSvg {
+  flex-shrink: 0; 
+}
+
+.priceRows {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.priceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  color: #414343;
+}
+
+.label {
+  font-weight: 400;
+}
+
+.button {
+  display: block;
+  text-align: center;
+  background-color: #C4754E;
+  color: #ffffff;
+  padding: 17px;
+  text-decoration: none;
+  font-family: var(--font-raleway);
+  font-size: 16px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover {
+  background-color: #a8613d;
+}
+.locationFooter {
+  background-color: #F6F6F6;
+  padding: 34px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.locationTitle {
+  font-size: 22px;
+  font-weight: 600;
+  color: #C4754E;
+  font-family: var(--font-montserrat);
   margin: 0;
 }
 
-.link {
+.locationGrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  background-color: #ffffff;
+  padding: 27px 30px;
+}
+
+.locationCard {
   display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #C4754E;
-  font-family: var(--font-raleway);
-  text-decoration: none;
-  font-weight: 400;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+.locationCard:first-child {
+  padding-left: 0;
+}
+
+
+.locationCard + .locationCard {
+  position: relative;
+  padding-left: 81px; 
+}
+
+.locationCard + .locationCard::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 40px; 
+  background-color: #818686;
+}
+
+.locCity {
   font-size: 16px;
-  transition: opacity 0.2s ease;
+  font-weight: 400;
+  font-family: var(--font-raleway);
+  color: var(--text-primary);
 }
 
-.link:hover {
-  opacity: 0.8;
-  text-underline-offset: 2px;
-  text-decoration: underline;
-}
-
-.arrow {
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-.imageWrapper {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end; 
-  height: 74px;
-  width: 100%;
-  margin-top: 57px; 
-}
-
-
-.cupImage {
-  height: 100%;
-  width: auto;
-  display: block;
-}
-.mobileOnly {
-  display: none;
-}
-
-.desktopOnly {
-  display: block;
+.locPrice {
+  font-size: 18px;
+  font-weight: 500;
+  font-family: var(--font-montserrat);
+  color: var(--text-primary);
 }
 
 @media (max-width: 1450px) {
+  .grid {
+    gap: 32px;
+  }
+
+  .locationGrid {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 30px;
+  }
+
+  .locationCard, .locationCard:first-child, .locationCard + .locationCard {
+    padding: 0 20px;
+  }
+
+  .locationCard + .locationCard::before {
+    display: none;
+  }
+
+  .locationCard:not(:nth-child(3n+1)) {
+    position: relative;
+  }
+
+  .locationCard:not(:nth-child(3n+1))::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 40px;
+    background-color: #EAEAEA;
+  }
+}
+
+
+@media (max-width: 1280px) {
   .container {
-    padding: 80px 60px; 
-    gap: 40px;
+      padding: 100px 60px; 
+    gap: 45px;
   }
 
   .grid {
@@ -133,67 +265,93 @@
     gap: 30px;
   }
 
-  .card {
-   
-    padding: 45px 25px 0px; 
-    min-height: auto;
-    overflow: hidden; 
+  .locationGrid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 24px;
   }
 
-  .imageWrapper {
-    height: 65px; 
-    margin-top: 57px; 
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-end; 
+
+  .locationCard:not(:nth-child(3n+1))::before {
+    display: none;
   }
 
-  .cupImage {
-
-   margin-bottom: 20px;
-    height: 100%;
-    width: auto;
+  .locationCard:not(:nth-child(2n+1)) {
+    position: relative;
   }
- 
+
+  .locationCard:not(:nth-child(2n+1))::before {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1px;
+    height: 40px;
+    background-color: #EAEAEA;
+  }
 }
-@media (max-width: 1024px) {
-  .container {
-    padding: 80px 60px; 
-    gap: 40px;
-  }}
 
-@media (max-width: 600px)and (min-width: 320px) {
+@media (max-width: 768px) {
+   .container {
+    padding: 80px 24px; 
+    gap: 32px;
+  }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 600px) and (min-width: 320px) {
   .container {
-    padding: 80px 24px ; 
+    padding: 60px 24px; 
+    gap: 32px;
   }
 
   .grid {
-    column-gap: 16px;
-    row-gap: 32px;
+    gap: 24px;
   }
 
   .card {
-    padding: 30px 15px 0px; 
+    padding: 35px 20px 20px; 
   }
-
+  
   .cardTitle {
-    font-size: 16px;
+    font-size: 18px;
+    margin-bottom: 20px;
   }
 
-  .cardDescription {
-    font-size: 14px;
-    line-height: 1.4;
+  .cardContentBox {
+    padding: 24px 16px 0 16px;
+    gap: 24px;
   }
 
-  .imageWrapper {
-    height: 50px; 
-    margin-top: 40px; 
-    
+  .button {
+    margin-top: 24px;
   }
-   .desktopOnly {
-    display: none;
+
+  .locationFooter {
+    padding: 30px 16px;
   }
-  .mobileOnly {
-    display: block;
+
+  .locationGrid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .locationCard, .locationCard:first-child, .locationCard + .locationCard {
+    padding: 0 0 12px 0;
+    border-bottom: 1px solid #EAEAEA;
+  }
+
+  .locationCard::before, .locationCard + .locationCard::before {
+    display: none !important;
+  }
+
+  .locationCard:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 }

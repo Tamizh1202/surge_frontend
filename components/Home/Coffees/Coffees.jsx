@@ -98,7 +98,7 @@ export default function Coffees() {
 
         <div className={styles.sliderControls}>
           <button
-            className={`${styles.arrowBtn} ${currentIndex === 0 ? styles.disabled : ""}`}
+            className={`${styles.arrowBtn} ${currentIndex === 0 ? styles.disabled : styles.activeBtn}`}
             onClick={() => scroll(-1)}
             disabled={currentIndex === 0}
           >

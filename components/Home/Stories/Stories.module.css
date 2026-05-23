@@ -74,6 +74,8 @@
   height: 480px;
   flex-shrink: 0;
   align-self: center;
+  contain: layout;
+  overflow-anchor: none;
 }
 
 .frame {
@@ -108,6 +110,11 @@
 @media (max-width: 1450px) {
   .textStack {
     flex: 0 1 380px;
+  }
+
+  .sectionContainer {
+    padding-left: 4%;
+    padding-right: 4%;
   }
 
   .imageFlexContainer {
@@ -176,13 +183,14 @@
 
 @media (max-width: 1024px) {
   .sectionContainer {
-    padding: 80px 35px;
+    padding-left:4%;
+    padding-right:4%;
   }
 
   .layoutWrapper {
     flex-direction: column;
     text-align: left;
-    gap: 40px;
+    gap: 60px;
     align-items: flex-start;
   }
 
@@ -194,7 +202,7 @@
 
   .imageFlexContainer {
     width: 100%;
-    max-width: 812px;
+    /* max-width: 812px; */
     height: auto;
     aspect-ratio: 812 / 480;
   }
@@ -216,11 +224,17 @@
     width: 32.02%;
     height: 63.96%;
   }
+  .title{
+    margin:0px; 
+  }
+  .imageFlexContainer{
+    margin-bottom:25px;
+  }
 }
 
 @media (max-width: 550px) {
   .sectionContainer {
-    padding: 80px 20px;
+    padding: 80px 6%;
   }
 
   .textStack {
@@ -239,5 +253,8 @@
 
   .imageFlexContainer {
     width: 100%;
+  }
+  .button{
+    margin-top:12px;
   }
 }

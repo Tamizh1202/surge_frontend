@@ -32,11 +32,13 @@ export default function Navbar({ categories = [] }) {
   const totalItems = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
 
   const handleMouseEnter = () => {
+    if (window.innerWidth < 1300) return;
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     setIsShopOpen(true);
   };
 
   const handleMouseLeave = () => {
+    if (window.innerWidth < 1300) return;
     timeoutRef.current = setTimeout(() => {
       setIsShopOpen(false);
     }, 800);

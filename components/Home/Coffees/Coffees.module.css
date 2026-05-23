@@ -86,8 +86,13 @@
 .coffeeGrid {
   display: flex;
   gap: 40px;
-  overflow-x: hidden;
-  /* ← add this */
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.coffeeGrid::-webkit-scrollbar {
+  display: none;
 }
 
 .coffeeCard {
@@ -205,21 +210,13 @@
 
 @media screen and (max-width: 1024px) {
 
-  .coffeeCard {
+  /* .coffeeCard {
     flex: 0 0 calc((100% - 30px) / 2);
     min-width: calc((100% - 30px) / 2);
-    aspect-ratio: 6 / 7;
     padding: 20px;
-  }
-
-  .coffeeName {
-    line-height: 1.2em;
-    min-height: 2.4em;
-  }
-
-  .productImageWrapper {
-    height: 350px;
-  }
+    aspect-ratio: 6 / 7;
+  } */
+  
 }
 
 
@@ -233,31 +230,36 @@
 
 
 @media screen and (max-width: 1024px) {
-
-
+  
+  
   .coffeeGrid {
     gap: 30px;
   }
-
+  /* .coffeeName {
+    line-height: 1.2em;
+    min-height: 2.4em;
+  } */
+  
   .coffeeCard {
-
+    
     flex: 0 0 calc((100% - 30px) / 2);
-    min-width: calc((100% - 30px) / 2);
+    /* min-width: calc((100% - 30px) / 2); */
+    aspect-ratio: 300/320;
     height: auto;
     /* min-height: 550px; */
     padding: 20px;
   }
 
-  .productImageWrapper {
-    height: 350px;
+  .productImageWrapper{
+    padding: 25px;
   }
 }
 
 
 @media screen and (max-width: 650px) {
   .selectedSection {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 6%;
+    padding-right: 6%;
 
     padding-top: 80px;
   }
@@ -281,7 +283,7 @@
 
   .sliderControls {
     width: 100%;
-    justify-content: flex-start;
+    justify-content: flex-end;
   }
 
   .cardTop {
@@ -307,14 +309,17 @@
 
     flex: 0 0 85%;
     min-width: 80%;
-    height: auto;
-    padding: 10px;
+    aspect-ratio: 295 / 300;
+    padding: 20px;
     /* min-height: 450px; */
   }
 
-  /* .productImageWrapper {
-    /* height: 250px; */
-  /* } */
+  .productImageWrapper {
+    height: auto;
+    padding:25px;
+    /* height:100%; */
+    /* flex: 1; */
+  }
 
   .selectedHeading {
     font-size: 20px;
@@ -354,3 +359,12 @@
 
   }
 }
+
+/* @media screen and (max-width: 400px){
+.productImageWrapper {
+   
+    height:100%;
+    
+    
+  }
+} */

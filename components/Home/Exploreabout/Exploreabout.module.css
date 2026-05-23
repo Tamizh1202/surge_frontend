@@ -72,7 +72,6 @@ padding: 0 clamp(20px, 10vw, 125px);
   line-height: 1.5;
   font-weight: 400;
  
-  width: 628px;
   font-family: var(--font-raleway);
   color: #818686;
   
@@ -100,7 +99,8 @@ padding: 0 clamp(20px, 10vw, 125px);
 
 @media (max-width: 1500px) {
   .exploreSection {
-    padding: 0 60px; 
+    padding-left:4%;
+    padding-right:4%; 
   }
   
   .exploreCard {
@@ -115,6 +115,9 @@ padding: 0 clamp(20px, 10vw, 125px);
     max-width: 500px; 
       
   }
+  .exploreCard:hover .cardImage {
+  transform: none; 
+}
 }
 
 @media (max-width: 1200px) {
@@ -136,9 +139,9 @@ padding: 0 clamp(20px, 10vw, 125px);
 
 
 @media (min-width: 800px) and (max-width: 1125px) {
-  .exploreSection {
+  /* .exploreSection {
     padding: 0 40px; 
-  }
+  } */
 
   .gridContainer {
     gap: 16px; 
@@ -192,7 +195,7 @@ padding: 0 clamp(20px, 10vw, 125px);
 
 @media (min-width: 768px) and (max-width: 859px) {
   .exploreSection {
-    padding: 0 40px;
+    /* padding: 0 40px; */
     background-color: #fff;
   }
 
@@ -269,14 +272,14 @@ padding: 0 clamp(20px, 10vw, 125px);
 
 @media (min-width: 320px) and (max-width: 767px) {
   .exploreSection {
-    padding: 0 24px; 
+    padding: 0 6%; 
     background-color: #fff;
   }
 
   .gridContainer {
     display: flex;
     flex-direction: column;
-    gap: 60px; 
+    gap: 80px; 
   }
 
   .exploreCard {
@@ -299,7 +302,7 @@ padding: 0 clamp(20px, 10vw, 125px);
 
   .textBox {
     position: absolute;
-    top: -240px;
+    top: -220px;
     left: 0;
   width: 100%;
     padding: 0;
@@ -327,8 +330,8 @@ padding: 0 clamp(20px, 10vw, 125px);
 
   .btn {
     width: fit-content;
-    min-width: 130px;
-    height: 40px;
+    /* min-width: 130px;
+    height: 40px; */
     background-color: #C4754E;
     color: #fff;
     border: none;

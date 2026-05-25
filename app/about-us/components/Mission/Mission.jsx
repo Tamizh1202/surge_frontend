@@ -14,12 +14,15 @@ export default function Mission() {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+
     const cards = cardsRef.current;
+    // Kill any stale triggers before creating new ones
+    ScrollTrigger.getAll().forEach((t) => t.kill());
+
+    const mm = gsap.matchMedia();
 
     const ctx = gsap.context(() => {
-      let mm = gsap.matchMedia();
 
-      // ── MOBILE (same logic as Details.jsx) ──────────────────────
       mm.add("(max-width: 900px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -36,15 +39,18 @@ export default function Mission() {
 
         cards.forEach((card, index) => {
           if (index === 0) return;
-          tl.fromTo(card,
+          tl.fromTo(
+            card,
             { yPercent: 120, opacity: 0 },
             { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
             index - 1
           );
         });
+
+        // matchMedia cleanup callback
+        return () => tl.scrollTrigger?.kill();
       });
 
-      // ── DESKTOP (unchanged) ──────────────────────────────────────
       mm.add("(min-width: 901px)", () => {
         const tl = gsap.timeline({
           scrollTrigger: {
@@ -61,7 +67,8 @@ export default function Mission() {
 
         cards.forEach((card, index) => {
           if (index === 0) return;
-          tl.fromTo(card,
+          tl.fromTo(
+            card,
             { yPercent: 120, opacity: 0 },
             { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
             index - 1
@@ -69,11 +76,23 @@ export default function Mission() {
         });
 
         tl.to({}, { duration: 0.3 });
+
+        return () => tl.scrollTrigger?.kill();
       });
 
     }, containerRef);
 
-    return () => ctx.revert();
+    // ✅ Key fix: refresh AFTER layout/fonts settle in production
+    // Two-pass: immediate + delayed to catch web font shifts
+    ScrollTrigger.refresh();
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 500);
+
+    return () => {
+      clearTimeout(refreshTimer);
+      mm.revert();   // ✅ explicitly revert matchMedia
+      ctx.revert();  // cleans up all GSAP context
+      ScrollTrigger.getAll().forEach((t) => t.kill()); // belt-and-suspenders
+    };
   }, []);
   return (
     <div id="our-mission">

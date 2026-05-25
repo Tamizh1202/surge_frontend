@@ -16,12 +16,9 @@ export default function Mission() {
     gsap.registerPlugin(ScrollTrigger);
 
     const cards = cardsRef.current.filter(Boolean);
-    // Kill any stale triggers before creating new ones
-    ScrollTrigger.getAll().forEach((t) => t.kill());
-
-    const mm = gsap.matchMedia();
 
     const ctx = gsap.context(() => {
+      const mm = gsap.matchMedia();
 
       mm.add("(max-width: 900px)", () => {
         const tl = gsap.timeline({
@@ -46,9 +43,6 @@ export default function Mission() {
             index - 1
           );
         });
-
-        // matchMedia cleanup callback
-        return () => tl.scrollTrigger?.kill();
       });
 
       mm.add("(min-width: 901px)", () => {
@@ -76,27 +70,10 @@ export default function Mission() {
         });
 
         tl.to({}, { duration: 0.3 });
-
-        return () => tl.scrollTrigger?.kill();
       });
-
     }, containerRef);
 
-    // ✅ Key fix: refresh AFTER layout/fonts settle in production
-    // Two-pass: immediate + delayed to catch web font shifts
-    const raf = requestAnimationFrame(() => {
-      buildAnimations();
-
-      // ✅ second pass after fonts/images finish shifting layout
-      timers.push(setTimeout(() => ScrollTrigger.refresh(), 400));
-    });
-
-    return () => {
-      cancelAnimationFrame(raf);
-      timers.forEach(clearTimeout);
-      if (ctx) ctx.revert();
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
+    return () => ctx.revert();
   }, []);
   return (
     <div id="our-mission">

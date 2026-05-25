@@ -12,7 +12,11 @@ import AuthToast from "@/components/AuthToast/AuthToast";
 import PageLoader from "@/components/PageLoader/PageLoader";
 
 export const metadata = {
-  title: "Surge Coffee",                
+  title: "Surge Coffee",
+
+  verification: {
+    google: "ORL_aJZtRjuc6Ipv8As036lXgWwZzpj8moWZxbDPmrQ",
+  },
 };
 
 export default async function RootLayout({

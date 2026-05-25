@@ -12,8 +12,6 @@ import { formatImageUrl } from "@/lib/imageUtils";
 // Fallback image
 // Fallback image replaced with public asset
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Details() {
     const searchParams = useSearchParams();
     const shopId = searchParams.get("shop");
@@ -103,6 +101,7 @@ export default function Details() {
     useEffect(() => {
         if (loading || sections.length === 0) return;
 
+        gsap.registerPlugin(ScrollTrigger);
         let mm = gsap.matchMedia();
 
         mm.add("(max-width: 768px)", () => {

@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import axiosClient from "@/lib/axios";
@@ -13,6 +13,7 @@ export default function OrderSuccessContent() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [storedSelections, setStoredSelections] = useState([]);
 
   useEffect(() => {
     if (!orderId) {
@@ -35,7 +36,64 @@ export default function OrderSuccessContent() {
     };
 
     fetchOrder();
+
+    // Load per-item customization data saved at checkout time
+    try {
+      const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
+      setStoredSelections(stored[orderId] || []);
+    } catch (e) {}
   }, [orderId, token]);
+
+  // Expand order items: if the backend merged two customized items with the same
+  // productId+variantId into one (qty=2), split them back into separate display rows
+  // using the localStorage selections that were saved at checkout time.
+  const displayItems = useMemo(() => {
+    if (!order?.items) return [];
+
+    // Build a queue of { customization, quantity } per "productId__variantId"
+    const rawQueue = {};
+    storedSelections.forEach(({ productId, variantId, customization, quantity }) => {
+      const key = `${productId}__${variantId}`;
+      if (!rawQueue[key]) rawQueue[key] = [];
+      rawQueue[key].push({ customization, quantity: quantity || 1 });
+    });
+
+    // Work on mutable copies so we can consume entries as we match them
+    const queues = {};
+    Object.keys(rawQueue).forEach((k) => { queues[k] = [...rawQueue[k]]; });
+
+    const result = [];
+    order.items.forEach((item) => {
+      const pid = typeof item.product === 'object'
+        ? (item.product?.id || '')
+        : (item.product || item.productId || '');
+      const vid = item.vId || item.variantId || '';
+      const key = `${pid}__${vid}`;
+      const queue = queues[key] || [];
+
+      if (queue.length > 1) {
+        const totalStoredQty = queue.reduce((s, q) => s + q.quantity, 0);
+        if (item.quantity === totalStoredQty) {
+          // Backend merged all customized variants into one — expand each back out
+          queue.forEach(({ customization, quantity }) => {
+            result.push({ ...item, quantity, _customization: customization });
+          });
+          queues[key] = [];
+          return;
+        }
+      }
+
+      // Backend kept items separate (or no stored data): consume the next
+      // queued customization so each separate item gets the right label
+      const first = queue.shift();
+      result.push({
+        ...item,
+        _customization: first?.customization || item.customization || '',
+      });
+    });
+
+    return result;
+  }, [order, storedSelections]);
 
   if (loading) return <div className={styles.Wrapper}><p>Loading order details...</p></div>;
   if (error) return <div className={styles.Wrapper}><p>{error}</p></div>;
@@ -120,11 +178,11 @@ export default function OrderSuccessContent() {
           <div className={styles.SummaryBox}>
             <div className={styles.SummaryHeader}>
               <h3>Order Summary</h3>
-              <p>({order.items?.length || 0} items)</p>
+              <p>({displayItems.length} items)</p>
             </div>
 
             <div className={styles.SummaryItems}>
-              {order.items?.map((item, idx) => (
+              {displayItems.map((item, idx) => (
                 <div className={styles.SummaryItem} key={idx}>
                   <div className={styles.SummaryItemImg}>
                     <img
@@ -135,8 +193,14 @@ export default function OrderSuccessContent() {
                     />
                   </div>
                   <div className={styles.SummaryItemInfo}>
-                    <p className={styles.SummaryItemName}>{item.name}Name {item.variantName && <span>,{item.variantName}g</span>}</p>
-
+                    <p className={styles.SummaryItemName}>
+                      {item.name}{item.variantName && <span>, {item.variantName}g</span>}
+                    </p>
+                    {item._customization && (
+                      <p style={{ fontSize: '12px', color: '#818686', marginTop: '2px', fontFamily: 'var(--font-raleway)' }}>
+                        {item._customization}
+                      </p>
+                    )}
                     <span>×{item.quantity}</span>
                   </div>
                   <p className={styles.SummaryItemPrice}>

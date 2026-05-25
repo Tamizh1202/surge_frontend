@@ -32,14 +32,15 @@ const getCheckoutOrderId = (data) =>
 const rememberOrderSelections = (orderId, products) => {
   if (!orderId || typeof window === "undefined") return;
 
-  const selections = products
-    .map((product) => ({
-      productId: product.product || product.productId || product.id,
-      variantId: product.vId || product.variantId || "",
-      customSelections: product.customSelections || {},
-      customization: Object.values(product.customSelections || {}).filter(Boolean).join(", "),
-    }))
-    .filter((product) => product.customization);
+  // Save every item — including those without customization — so the expansion logic
+  // on the success page can correctly account for the full quantity of each merged item.
+  const selections = products.map((product) => ({
+    productId: product.product || product.productId || product.id,
+    variantId: product.vId || product.variantId || "",
+    customSelections: product.customSelections || {},
+    customization: Object.values(product.customSelections || {}).filter(Boolean).join(", "),
+    quantity: product.quantity || 1,
+  }));
 
   if (selections.length === 0) return;
 
@@ -168,6 +169,9 @@ export default function CheckoutForm({
             variantId: p.vId || p.variantId || "",
             quantity: p.quantity,
             productHighlights: selectedHighlights,
+            customSelections: selections,
+            customization: Object.values(selections).filter(Boolean).join(", "),
+            _cartKey: p._cartKey || "",
           };
         }),
         useWTCoins: !!isBeansApplied,

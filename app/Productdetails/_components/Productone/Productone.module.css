@@ -362,6 +362,19 @@ body {
   font-weight: 600;
 }
 
+.outOfStockBtn {
+  flex-grow: 1;
+  background-color: var(--primary-color);
+  opacity: 0.5;
+  border: none;
+  padding: 12px 99px;
+  font-size: 16px;
+  font-family: var(--font-raleway);
+  font-weight: 600;
+  cursor: not-allowed;
+  color:white;
+}
+
 .specsTable {
   width: 100%;
   font-size: 16px;

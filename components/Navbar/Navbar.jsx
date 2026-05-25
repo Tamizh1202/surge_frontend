@@ -185,20 +185,19 @@ export default function Navbar({ categories = [] }) {
               Blogs
             </Link>
 
-            <div className={styles.mobileLine}></div>
-            {/* 3. Cart click par setMenuOpen(false) add kiya */}
+            <div className={`${styles.mobileLine} ${styles.desktopOnlyCart}`}></div>
             <span
               onClick={() => {
                 setMenuOpen(false);
                 isCartOpen ? closeCart() : openCart();
               }}
-              className={`${styles.navLink} ${isCartOpen ? styles.activeRed : ""}`}
+              className={`${styles.navLink} ${styles.desktopOnlyCart} ${isCartOpen ? styles.activeRed : ""}`}
               style={{ cursor: "pointer", position: "relative" }}
             >
               Cart {totalItems > 0 && `(${totalItems})`}
             </span>
 
-            <div className={styles.mobileLine}></div>
+            {/* <div className={styles.mobileLine}></div> */}
             {!session ? (
               <Link href="/auth" className={isActive("/Login") ? styles.activeRed : ""}>
                 Login
@@ -271,6 +270,25 @@ export default function Navbar({ categories = [] }) {
               </div>
             )}
           </nav>
+        </div>
+        <div
+          className={styles.cartIconMobile}
+          onClick={() => { isCartOpen ? closeCart() : openCart(); }}
+          style={{ position: "relative" }}
+        >
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ display: 'inline-block', position: 'relative', top: '6px' }}
+          >
+            <path d="M0.75 0.75H2.75L5.41 13.17C5.50758 13.6249 5.76067 14.0315 6.12571 14.3199C6.49075 14.6082 6.94491 14.7603 7.41 14.75H17.19C17.6452 14.7493 18.0865 14.5933 18.441 14.3078C18.7956 14.0224 19.0421 13.6245 19.14 13.18L20.79 5.75H3.82M7.7 19.7C7.7 20.2523 7.25228 20.7 6.7 20.7C6.14772 20.7 5.7 20.2523 5.7 19.7C5.7 19.1477 6.14772 18.7 6.7 18.7C7.25228 18.7 7.7 19.1477 7.7 19.7ZM18.7 19.7C18.7 20.2523 18.2523 20.7 17.7 20.7C17.1477 20.7 16.7 20.2523 16.7 19.7C16.7 19.1477 17.1477 18.7 17.7 18.7C18.2523 18.7 18.7 19.1477 18.7 19.7Z" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+          {totalItems > 0 && (
+            <span className={styles.cartBadge}>{totalItems}</span>
+          )}
         </div>
       </header>
     </>

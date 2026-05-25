@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import { formatImageUrl } from "@/lib/imageUtils";
 import { useCart } from "@/app/_context/CartContext";
+import PageLoader from "@/components/PageLoader/PageLoader";
 
 function OrderSuccessContent() {
   const router = useRouter();
@@ -15,6 +16,7 @@ function OrderSuccessContent() {
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [storedSelections, setStoredSelections] = useState([]);
 
   useEffect(() => {
     if (!orderId) {
@@ -22,6 +24,13 @@ function OrderSuccessContent() {
       setLoading(false);
       return;
     }
+
+    // Load per-item customization data saved by CheckoutForm before payment
+    try {
+      const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
+      setStoredSelections(stored[orderId] || []);
+    } catch (e) {}
+
     const fetchOrder = async () => {
       try {
         const url = `/api/orders/${orderId}${token ? `?token=${encodeURIComponent(token)}` : ''}`;
@@ -41,7 +50,55 @@ function OrderSuccessContent() {
     fetchOrder();
   }, [orderId, token]);
 
-  if (loading) return <div className={styles.Wrapper}><p>Loading order details...</p></div>;
+  // Expand backend-merged items back into separate display rows.
+  // The backend merges items with the same productId+variantId into one row (qty N),
+  // but CheckoutForm saved each item's customization separately before payment.
+  const displayItems = useMemo(() => {
+    if (!order?.items) return [];
+
+    // Build a queue of stored customizations keyed by "productId__variantId"
+    const queues = {};
+    storedSelections.forEach(({ productId, variantId, customization, quantity }) => {
+      const key = `${productId}__${variantId || ""}`;
+      if (!queues[key]) queues[key] = [];
+      queues[key].push({ customization, quantity: quantity || 1 });
+    });
+
+    const result = [];
+    order.items.forEach((item) => {
+      const pid = typeof item.product === 'object'
+        ? (item.product?.id || '')
+        : (item.product || '');
+      const vid = item.variantID || item.vId || item.variantId || '';
+      const key = `${pid}__${vid}`;
+      const queue = queues[key];
+
+      if (queue && queue.length > 1) {
+        const totalStoredQty = queue.reduce((s, q) => s + q.quantity, 0);
+        const serverQty = Number(item.quantity);
+        if (serverQty >= totalStoredQty) {
+          // Backend merged these — expand each customization into its own row
+          queue.forEach(({ customization, quantity }) => {
+            result.push({ ...item, quantity, _customization: customization });
+          });
+          const remainder = serverQty - totalStoredQty;
+          if (remainder > 0) {
+            result.push({ ...item, quantity: remainder, _customization: '' });
+          }
+          queues[key] = [];
+          return;
+        }
+      }
+
+      // Item was not merged (or no stored data) — use queue entry if available
+      const first = queue?.shift();
+      result.push({ ...item, _customization: first?.customization || '' });
+    });
+
+    return result;
+  }, [order, storedSelections]);
+
+  if (loading) return <PageLoader />;
   if (error) return <div className={styles.Wrapper}><p>{error}</p></div>;
   if (!order) return null;
 
@@ -124,42 +181,30 @@ function OrderSuccessContent() {
           <div className={styles.SummaryBox}>
             <div className={styles.SummaryHeader}>
               <h3>Order Summary</h3>
-              <p>({order.items?.length || 0} items)</p>
+              <p>({displayItems.length} items)</p>
             </div>
 
             <div className={styles.SummaryItems}>
-              {order.items?.map((item, idx) => {
+              {displayItems.map((item, idx) => {
                 const productName = item.product?.name || item.name || "Coffee Product";
                 const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
-                
+
                 const imgUrl = formatImageUrl(
                   item.productImage?.url || item.product?.productImage?.url || item.image
                 ) || '/1.png';
-                
+
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
 
-            
-                const selections = item.customSelections || item.product?.customSelections || {};
-                const displaySelections = Object.entries(selections)
-                  .filter(([, value]) => value && String(value).trim() !== "");
-                
-                // Fallback storage cross-check logic
-                let backupMeta = null;
-                try {
-                  const stored = localStorage.getItem("surge_cart_meta");
-                  if (stored) {
-                    const parsed = JSON.parse(stored);
-                    const lookupKey = `${item.product?.id || item.product || ""}_${item.variantID || item.vId || ""}`;
-                    backupMeta = parsed[lookupKey];
-                  }
-                } catch(e) { console.error(e); }
+                // _customization is set by the expansion logic above (per-item highlight text).
+                // Fall back to backend's stored customSelections if no expansion occurred.
+                const backendSelections = item.customSelections || item.product?.customSelections || {};
+                const backendSelectionText = Object.values(backendSelections)
+                  .filter((v) => v && String(v).trim() !== "")
+                  .join(", ");
 
-                const finalTagline = item.tagline || item.product?.tagline || backupMeta?.tagline || "";
-                const selectionArray = displaySelections.length > 0 
-                  ? displaySelections.map(([, value]) => value) 
-                  : (backupMeta?.customSelections ? Object.values(backupMeta.customSelections) : []);
-
-                const metaText = [finalTagline, ...selectionArray]
+                const finalTagline = item.tagline || item.product?.tagline || "";
+                const selectionText = item._customization || backendSelectionText;
+                const metaText = [finalTagline, selectionText]
                   .filter(Boolean)
                   .join(", ");
             
@@ -253,7 +298,7 @@ function OrderSuccessContent() {
 
 export default function OrderSuccess() {
   return (
-    <Suspense fallback={<div className={styles.Wrapper}><p>Loading...</p></div>}>
+    <Suspense fallback={<PageLoader />}>
       <OrderSuccessContent />
     </Suspense>
   );

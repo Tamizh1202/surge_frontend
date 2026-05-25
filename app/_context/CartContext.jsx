@@ -1,5 +1,5 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import {
   getCart,
@@ -132,6 +132,7 @@ export function CartProvider({ children }) {
   const [appliedCoupon, setAppliedCoupon] = useState(null);
 
   const { data: session, status } = useSession();
+  const prevStatusRef = useRef(status);
 
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
@@ -272,15 +273,30 @@ export function CartProvider({ children }) {
 
   useEffect(() => {
     if (status === "loading") return;
+
+    const prevStatus = prevStatusRef.current;
+    prevStatusRef.current = status;
+
+    // Merge guest cart into server cart when user logs in
+    if (prevStatus === "unauthenticated" && status === "authenticated") {
+      const guestCart = getCart();
+      if (guestCart.items?.length > 0) {
+        mergeGuestCartThenFetch(guestCart.items);
+        return;
+      }
+    }
+
     fetchCart();
   }, [session, status]);
 
-  // Sync structural metadata details to localStorage whenever items update dynamically
+  // Sync structural metadata details to localStorage whenever items update dynamically.
+  // Keyed by _cartKey (which encodes product + variant + customSelections) so that two
+  // items with the same product/variant but different highlights don't overwrite each other.
   useEffect(() => {
     if (items && items.length > 0) {
       const metaStorage = {};
       items.forEach((item) => {
-        const key = `${item.product}_${item.vId || ""}`;
+        const key = item._cartKey || `${item.product}_${item.vId || ""}`;
         if (item.customSelections || item.tagline || item.productHighlights) {
           metaStorage[key] = {
             customSelections: item.customSelections || null,
@@ -383,7 +399,7 @@ export function CartProvider({ children }) {
             : null) ||
           loadHighlightsCache(key);
         // Ensure every item has a stable _cartKey (backfill items added before this fix)
-        const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, customSelections);
+        const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, customSelections, productHighlights);
         return {
           ...item,
           _cartKey: cartKey,
@@ -398,6 +414,41 @@ export function CartProvider({ children }) {
       discount: 0,
       totalItems: Number(cart.totalItems || 0),
     }));
+  };
+
+  // ─── Merge guest cart on login ───────────────────────────────────────────────
+
+  const mergeGuestCartThenFetch = async (guestItems) => {
+    for (const item of guestItems) {
+      try {
+        await axiosClient.post("/api/website/cart", {
+          product: item.product,
+          quantity: item.quantity,
+          vId: item.vId || null,
+        });
+        // Preserve customSelections / productHighlights in splits cache
+        if (item.customSelections || item.productHighlights) {
+          const existing = loadSplitsForItem(item.product, item.vId) || [];
+          const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, item.customSelections, item.productHighlights);
+          const splitIdx = existing.findIndex((s) => s._cartKey === cartKey);
+          if (splitIdx >= 0) {
+            existing[splitIdx].quantity += item.quantity;
+          } else {
+            existing.push({
+              _cartKey: cartKey,
+              customSelections: item.customSelections || null,
+              productHighlights: item.productHighlights || null,
+              quantity: item.quantity,
+            });
+          }
+          saveSplitsForItem(item.product, item.vId || null, existing);
+        }
+      } catch (err) {
+        console.error("Failed to merge guest cart item:", err);
+      }
+    }
+    clearGuestCart();
+    await fetchCart();
   };
 
   // ─── Fetch ───────────────────────────────────────────────────────────────────
@@ -428,8 +479,8 @@ export function CartProvider({ children }) {
     if (customSelections) {
       saveSelectionsCache(`${product}:${vId || ""}`, customSelections);
     }
-    // Stable key for this specific product+variant+highlights combination
-    const cartKey = makeCartItemKey(product, vId || null, customSelections);
+    // Stable key for this specific product+variant+customSelections+highlights combination
+    const cartKey = makeCartItemKey(product, vId || null, customSelections, productHighlights);
 
     if (session?.user) {
       try {
@@ -441,8 +492,10 @@ export function CartProvider({ children }) {
 
         const data = res.data;
 
-        // Maintain virtual splits so applyCartResponse can expand them back
-        if (customSelections) {
+        // Maintain virtual splits so applyCartResponse can expand them back.
+        // Save whenever there are customSelections OR productHighlights — either alone
+        // is enough to distinguish two items that would otherwise be merged by the server.
+        if (customSelections || productHighlights) {
           const existingSplits = loadSplitsForItem(product, vId) || [];
           const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
           if (splitIndex >= 0) {
@@ -472,7 +525,7 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        await addItemToCart(product, quantity, vId, restDetails);
+        await addItemToCart(product, quantity, vId, restDetails, productHighlights);
         const cart = getCart();
         applyGuestCart();
         // Patch productHighlights onto the specific item using its stable cartKey

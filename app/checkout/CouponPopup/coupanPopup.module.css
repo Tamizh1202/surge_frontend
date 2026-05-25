@@ -29,6 +29,12 @@
 
 }
 
+.applyInputBtn:disabled {
+    opacity: 0.5;
+    cursor: pointer;
+    border: 1px solid var(--primary-color);
+}
+
 /* ── Header ── */
 .header {
     display: flex;
@@ -259,7 +265,7 @@
 }
 
 .expandedText {
-    margin:0;
+    margin: 0;
     font-size: 14x;
     font-weight: 400;
     font-family: var(--font-raleway);

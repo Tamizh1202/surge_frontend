@@ -7,6 +7,7 @@ import SubPopup from "../_components/SubscriptionPopup/SubscriptionPopup";
 import axiosClient from "@/lib/axios";
 import toast from "react-hot-toast";
 import { formatImageUrl } from "@/lib/imageUtils";
+import PageLoader from "@/components/PageLoader/PageLoader";
 
 export default function SubscriptionDetailPage({ params }) {
   // Handle params wrapping/unwrapping
@@ -57,12 +58,7 @@ export default function SubscriptionDetailPage({ params }) {
     });
   };
 
-  if (loading)
-    return (
-      <div className={styles.Container}>
-        <p style={{ textAlign: "center" }}>Loading...</p>
-      </div>
-    );
+  if (loading) return <PageLoader />;
   if (!data || !data.id)
     return <div className={styles.Container}>Subscription not found</div>;
 

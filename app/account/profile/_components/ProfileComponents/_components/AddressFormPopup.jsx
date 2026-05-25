@@ -16,7 +16,29 @@ const AddressFormPopup = ({
 }) => {
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
+  const [touched, setTouched] = useState({});
   const emirateRef = useRef(null);
+
+  const touch = (field) => setTouched((t) => ({ ...t, [field]: true }));
+
+  const getRawPhone = (val) => (val ? val.replace(/^\+971/, "") : "");
+
+  const requiredFields = {
+    addressFirstName: addressForm.addressFirstName?.trim(),
+    addressLastName: addressForm.addressLastName?.trim(),
+    address: addressForm.address?.trim(),
+    streetNumber: addressForm.streetNumber?.trim(),
+    city: addressForm.city?.trim(),
+    state: addressForm.state,
+    phone: getRawPhone(addressForm.phone),
+  };
+
+  const isFormValid = Object.values(requiredFields).every(Boolean);
+
+  const err = (field) =>
+    touched[field] && !requiredFields[field] ? (
+      <span className={styles.fieldError}>This field is required</span>
+    ) : null;
 
   // Limits updated for Address and Street Number
   const limits = {
@@ -42,7 +64,6 @@ const AddressFormPopup = ({
   const title = mode === "edit" ? "Edit address" : "Add address";
   const saveLabel = isSubmitting ? "Saving..." : "Save";
 
-  const getRawPhone = (val) => (val ? val.replace(/^\+971/, "") : "");
   const isPhoneActive = focusedField === "phone" || getRawPhone(addressForm.phone).length > 0;
 
   return (
@@ -69,7 +90,7 @@ const AddressFormPopup = ({
                 value={addressForm.addressFirstName || ""}
                 maxLength={limits.firstName}
                 onFocus={() => setFocusedField("firstName")}
-                onBlur={() => setFocusedField(null)}
+                onBlur={() => { setFocusedField(null); touch("addressFirstName"); }}
                 onChange={(e) => onFormChange("addressFirstName", e.target.value)}
               />
               {(focusedField === "firstName" || addressForm.addressFirstName) && (
@@ -78,6 +99,7 @@ const AddressFormPopup = ({
                 </span>
               )}
             </div>
+            {err("addressFirstName")}
           </div>
           <div className={styles.flex1}>
             <div className={styles.inputWrapperWithLimit}>
@@ -87,7 +109,7 @@ const AddressFormPopup = ({
                 value={addressForm.addressLastName || ""}
                 maxLength={limits.lastName}
                 onFocus={() => setFocusedField("lastName")}
-                onBlur={() => setFocusedField(null)}
+                onBlur={() => { setFocusedField(null); touch("addressLastName"); }}
                 onChange={(e) => onFormChange("addressLastName", e.target.value)}
               />
               {(focusedField === "lastName" || addressForm.addressLastName) && (
@@ -96,6 +118,7 @@ const AddressFormPopup = ({
                 </span>
               )}
             </div>
+            {err("addressLastName")}
           </div>
         </div>
 
@@ -108,7 +131,7 @@ const AddressFormPopup = ({
               value={addressForm.address || ""}
               maxLength={limits.address}
               onFocus={() => setFocusedField("address")}
-              onBlur={() => setFocusedField(null)}
+              onBlur={() => { setFocusedField(null); touch("address"); }}
               onChange={(e) => onFormChange("address", e.target.value)}
             />
             {(focusedField === "address" || addressForm.address) && (
@@ -117,6 +140,7 @@ const AddressFormPopup = ({
               </span>
             )}
           </div>
+          {err("address")}
         </div>
 
         {/* Street Number Field with Limit */}
@@ -128,7 +152,7 @@ const AddressFormPopup = ({
               value={addressForm.streetNumber || ""}
               maxLength={limits.streetNumber}
               onFocus={() => setFocusedField("streetNumber")}
-              onBlur={() => setFocusedField(null)}
+              onBlur={() => { setFocusedField(null); touch("streetNumber"); }}
               onChange={(e) => onFormChange("streetNumber", e.target.value)}
             />
             {(focusedField === "streetNumber" || addressForm.streetNumber) && (
@@ -137,6 +161,7 @@ const AddressFormPopup = ({
               </span>
             )}
           </div>
+          {err("streetNumber")}
         </div>
 
         <div style={{ marginBottom: '24px' }}>
@@ -149,6 +174,7 @@ const AddressFormPopup = ({
               onFocus={() => setFocusedField("apartment")}
               onBlur={() => setFocusedField(null)}
               onChange={(e) => onFormChange("apartment", e.target.value)}
+
             />
             {(focusedField === "apartment" || addressForm.apartment) ? (
               <span className={styles.charCounter}>
@@ -170,7 +196,7 @@ const AddressFormPopup = ({
                 value={addressForm.city || ""}
                 maxLength={limits.city}
                 onFocus={() => setFocusedField("city")}
-                onBlur={() => setFocusedField(null)}
+                onBlur={() => { setFocusedField(null); touch("city"); }}
                 onChange={(e) => onFormChange("city", e.target.value)}
               />
               {(focusedField === "city" || addressForm.city) && (
@@ -178,9 +204,10 @@ const AddressFormPopup = ({
                   {(addressForm.city || "").length}/{limits.city}
                 </span>
               )}
+              {err("city")}
             </div>
           </div>
-          <div className={styles.emirateWrapper} ref={emirateRef}>
+          <div className={styles.emirateWrapper} ref={emirateRef} style={{ display: 'flex', flexDirection: 'column' }}>
             <div
               className={styles.emirateField}
               onClick={() => setIsEmirateOpen(!isEmirateOpen)}
@@ -199,6 +226,7 @@ const AddressFormPopup = ({
                   className={styles.optionItem}
                   onClick={() => {
                     onFormChange("state", opt.value);
+                    touch("state");
                     setIsEmirateOpen(false);
                   }}
                 >
@@ -206,6 +234,7 @@ const AddressFormPopup = ({
                 </div>
               ))}
             </div>
+            {err("state")}
           </div>
         </div>
 
@@ -245,10 +274,11 @@ const AddressFormPopup = ({
                 value={getRawPhone(addressForm.phone)}
                 maxLength={limits.phone}
                 onFocus={() => setFocusedField("phone")}
-                onBlur={() => setFocusedField(null)}
+                onBlur={() => { setFocusedField(null); touch("phone"); }}
                 onChange={(e) => {
+                  // Only keep digits, but don't force prepend "+971"
                   const val = e.target.value.replace(/\D/g, "");
-                  onFormChange("phone", "+971" + val);
+                  onFormChange("phone", val);
                 }}
               />
             </div>
@@ -257,6 +287,7 @@ const AddressFormPopup = ({
                 {getRawPhone(addressForm.phone).length}/{limits.phone}
               </span>
             )}
+            {err("phone")}
           </div>
         </div>
 
@@ -279,9 +310,9 @@ const AddressFormPopup = ({
         <div className={styles.footerActions}>
           <button className={styles.cancelBtn} onClick={onCancel}>Cancel</button>
           <button
-            className={`${styles.saveBtn} ${isSubmitting ? styles.saveBtnDisabled : ""}`}
+            className={`${styles.saveBtn} ${(!isFormValid || isSubmitting) ? styles.saveBtnDisabled : ""}`}
             onClick={onSave}
-            disabled={isSubmitting}
+            disabled={!isFormValid || isSubmitting}
           >
             {saveLabel}
           </button>

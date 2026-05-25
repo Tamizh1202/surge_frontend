@@ -8,13 +8,12 @@ import storyImg from "./story.webp";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const cards = cardsRef.current;
 
     const ctx = gsap.context(() => {
@@ -28,7 +27,7 @@ export default function Mission() {
             start: "top top",
             end: "+=200%",
             pin: true,
-            scrub: true,
+            scrub: 0.8,
             anticipatePin: 1,
             fastScrollEnd: true,
             invalidateOnRefresh: true,
@@ -53,7 +52,7 @@ export default function Mission() {
             start: "top top",
             end: `+=${cards.length * 100}%`,
             pin: true,
-            scrub: true,
+            scrub: 0.8,
             anticipatePin: 1,
             fastScrollEnd: true,
             invalidateOnRefresh: true,

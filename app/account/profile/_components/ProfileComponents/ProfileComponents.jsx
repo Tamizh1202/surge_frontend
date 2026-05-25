@@ -263,7 +263,7 @@ const ProfileComponents = ({ initialData }) => {
     const normalizedLabel = addr.label?.charAt(0).toUpperCase() + addr.label?.slice(1).toLowerCase();
     const finalLabel = ["Home", "Work"].includes(normalizedLabel) ? normalizedLabel : "Others";
     setActiveLabelBtn(finalLabel);
-    setAddressForm({ ...addr, address: addr.street || addr.address || "", phone: addr.phoneNumber || "", state: (addr.emirates || addr.state || "dubai").toLowerCase().replace(/\s+/g, "_"), label: finalLabel });
+    setAddressForm({ ...addr, address: addr.street || addr.address || "", streetNumber: addr.streetNumber || "", phone: addr.phoneNumber || "", state: (addr.emirates || addr.state || "dubai").toLowerCase().replace(/\s+/g, "_"), label: finalLabel });
     setShowEditAddressPopup(true);
   };
 
@@ -286,7 +286,11 @@ const ProfileComponents = ({ initialData }) => {
       };
       const result = await saveAddressAPI(session?.user?.id, payload, token);
       if (result?.success) {
-        setAddresses(result.updatedAddresses);
+        const sn = addressForm.streetNumber || "";
+        const patched = result.updatedAddresses.map((a, idx, arr) =>
+          idx === arr.length - 1 ? { ...a, streetNumber: a.streetNumber || sn } : a
+        );
+        setAddresses(patched);
         setShowAddressPopup(false);
         toast.success("Address saved!");
       }
@@ -315,7 +319,12 @@ const ProfileComponents = ({ initialData }) => {
       };
       const result = await updateAddressAPI(session?.user?.id, payload);
       if (result?.success) {
-        setAddresses(result.updatedAddresses);
+        const sid = editingAddressId;
+        const sn = addressForm.streetNumber || "";
+        const patched = result.updatedAddresses.map((a) =>
+          a.id === sid ? { ...a, streetNumber: a.streetNumber || sn } : a
+        );
+        setAddresses(patched);
         setShowEditAddressPopup(false);
         toast.success("Address updated!");
       }

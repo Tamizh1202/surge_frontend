@@ -34,7 +34,7 @@ export default function Footer({ categories = [] }) {
         setEmail("");
       } else if (res.status === 400) {
         setIsError(true);
-     
+
         setMessage(data?.message || "Invalid email or already subscribed.");
       } else {
         setIsError(true);
@@ -65,7 +65,7 @@ export default function Footer({ categories = [] }) {
           </div>
 
           <div className={styles.promoRightSide}>
-            <div className={styles.promoCol}>
+            <div className={`${styles.promoCol} ${styles.everyCupRow}`}>
               <h3 className={styles.promoHeading}>Every cup earns more.</h3>
               <p className={styles.promoLabel}>Surge Rewards</p>
               <p className={styles.promoDesc}>
@@ -78,7 +78,7 @@ export default function Footer({ categories = [] }) {
             </div>
 
             <div className={styles.promoCol}>
-              <h3 className={styles.promoHeading}>
+              <h3 className={`${styles.promoHeading} ${styles.OrderAhead}`}>
                 Your coffee ritual, always in your pocket.
               </h3>
               <p className={styles.promoLabel}>Surge App</p>
@@ -140,7 +140,7 @@ export default function Footer({ categories = [] }) {
             <div className={styles.newsletterContent}>
               <h2 className={styles.heading}>Be Part of the Surge Community</h2>
               <p className={styles.description}>
-             Join the Surge community and take your coffee ritual further. Get first access to new releases, curated offers, and expert brewing insights. Go behind the scenes — explore the stories, sourcing, and craft behind every cup.
+                Join the Surge community and take your coffee ritual further. Get first access to new releases, curated offers, and expert brewing insights. Go behind the scenes — explore the stories, sourcing, and craft behind every cup.
               </p>
               <form className={styles.subscribeForm} onSubmit={handleSubscribe}>
                 <input
@@ -220,7 +220,7 @@ export default function Footer({ categories = [] }) {
                 <br />
                 Al Rashidiya, Dubai- UAE
               </a>
-              
+
               <a
                 href="https://maps.app.goo.gl/1txtMUDiuU1cXZn17"
                 target="_blank"
@@ -243,7 +243,10 @@ export default function Footer({ categories = [] }) {
                 rel="noopener noreferrer"
                 className={styles.accentLink}
               >
-                Instagram ↗
+                Instagram <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M0.351778 7.58134L7.35956 0.501629M1.05256 0.501629H7.35956V6.87337" stroke="#C4754E" />
+                </svg>
+
               </a>
             </div>
             <div className={styles.infoBlock}>
@@ -261,7 +264,7 @@ export default function Footer({ categories = [] }) {
                 hello@surgecoffee.ae
               </Link>
             </div>
-            
+
           </div>
         </div>
         <div className={styles.divide}></div>

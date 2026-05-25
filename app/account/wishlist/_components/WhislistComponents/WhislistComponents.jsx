@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { useWishlist } from "@/app/_context/WishlistContext";
 import { useCart } from "@/app/_context/CartContext";
 import { formatImageUrl } from "@/lib/imageUtils";
+import PageLoader from "@/components/PageLoader/PageLoader";
 import {
   getSortedVariants,
 } from "@/app/_utils/productVariants";
@@ -165,16 +166,7 @@ const WishlistComponents = () => {
   };
 
 
-  if (loading) {
-    return (
-      <div className={styles.Main}>
-        <div className={styles.MainContainer}>
-          <div className={styles.TopLeft}><h3>Wishlist</h3></div>
-          <div className={styles.EmptyState}><p className={styles.EmptyText}>Loading...</p></div>
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <PageLoader />;
 
   return (
     <div className={styles.Main} style={{ position: 'relative' }}>

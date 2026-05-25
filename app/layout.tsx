@@ -12,7 +12,11 @@ import { Toaster } from "react-hot-toast";
 import AuthToast from "@/components/AuthToast/AuthToast";
 
 export const metadata = {
-  title: "Surge Coffee",                
+  title: "Surge Coffee",
+
+  verification: {
+    google: "ORL_aJZtRjuc6Ipv8As036lXgWwZzpj8moWZxbDPmrQ",
+  },
 };
 
 export default async function RootLayout({

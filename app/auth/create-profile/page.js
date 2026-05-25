@@ -12,7 +12,7 @@ import { Suspense } from "react";
 function CreateProfileContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const [email, setEmail] = useState(session?.user?.email || "");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -47,15 +47,26 @@ function CreateProfileContent() {
       router.push("/auth");
     }
     setEmail(session?.user?.email || "");
-    if (session?.user?.phone && !phone) {
+    if (session?.user?.firstName) setFirstName((prev) => prev || session.user.firstName);
+    if (session?.user?.lastName) setLastName((prev) => prev || session.user.lastName);
+    if (session?.user?.phone) {
       const formatted = session.user.phone.toString().replace(/[^0-9]/g, "");
-      setPhone(formatted);
+      setPhone((prev) => prev || formatted);
     }
-  }, [session]);
+  }, [session, status]);
 
   async function submit(e) {
     e.preventDefault();
     setError("");
+
+    if (!firstName.trim()) {
+      setError("First name is required.");
+      return;
+    }
+    if (!lastName.trim()) {
+      setError("Last name is required.");
+      return;
+    }
 
     const uaePhoneRegex = /^5[024568]\d{7}$/;
     if (!uaePhoneRegex.test(phone)) {
@@ -67,8 +78,8 @@ function CreateProfileContent() {
 
     try {
       const res = await axiosClient.patch(`/api/users/${session?.user?.id}`, {
-        firstName,
-        lastName,
+        firstName: firstName.trim(),
+        lastName: lastName.trim(),
         gender: gender.toLowerCase(),
         phone,
       });
@@ -78,6 +89,14 @@ function CreateProfileContent() {
       if (res.status !== 200) {
         throw new Error(json.message || "Profile update failed");
       }
+
+      await update({
+        user: {
+          ...session?.user,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+        },
+      });
 
       const redirectParam = searchParams.get("redirect") || "/";
       router.push(redirectParam);

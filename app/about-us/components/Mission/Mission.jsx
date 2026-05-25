@@ -8,13 +8,12 @@ import storyImg from "./story.webp";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 
-gsap.registerPlugin(ScrollTrigger);
-
 export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
   useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
     const cards = cardsRef.current;
 
     const ctx = gsap.context(() => {

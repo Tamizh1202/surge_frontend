@@ -138,6 +138,7 @@ export default function Mission() {
               ref={(el) => (cardsRef.current[1] = el)}
               className={`${styles.card} ${styles.penchCard}`}
             >
+              {/* check check */}
               <h1 className={styles.text}>Our Vision </h1>
               <p className={styles.content}>
                 To become the leading Emirati specialty coffee brand — recognised for excellence, authenticity, and innovation, both locally and across the region.

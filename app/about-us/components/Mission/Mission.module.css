@@ -16,6 +16,7 @@ body {
   align-items: center;
   gap: 50px;
   overflow: hidden;
+  z-index: 10;
 }
 
 .right {

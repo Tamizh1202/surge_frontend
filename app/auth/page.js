@@ -6,6 +6,7 @@ import Cookies from "js-cookie";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import axiosClient from "@/lib/axios";
+import PageLoader from "@/components/PageLoader/PageLoader";
 
 function AuthPageContent() {
   const router = useRouter();
@@ -169,6 +170,13 @@ function AuthPageContent() {
   //     callbackUrl: "/auth?from=apple",
   //   });
   // }
+
+  // During a Google OAuth callback, show a loader instead of the login form
+  // to avoid the login page flashing before the redirect completes.
+  const isGoogleCallback = searchParams.get("from") === "google";
+  if (isGoogleCallback && (status === "loading" || loading)) {
+    return <PageLoader />;
+  }
 
   return (
     <>

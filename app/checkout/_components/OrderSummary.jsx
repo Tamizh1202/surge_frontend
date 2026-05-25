@@ -25,7 +25,10 @@ export default function OrderSummary({
     applyCoupon,
     removeCoupon,
     appliedCoupon,
+    coinConfig,
   } = useCart();
+
+  const coinsToEarn = Math.floor((cartTotals.subtotal || 0) * (coinConfig.pointsEarn / 100));
 
   const { status } = useSession();
   const [couponInput, setCouponInput] = useState("");
@@ -192,7 +195,7 @@ export default function OrderSummary({
           <p>Total</p>
           <h5>AED {Number(cartTotals.total || 0).toFixed(2)}</h5>
         </div>
-        <span className={styles.couponEarned}>You're earning xx Beans on this order</span>
+        <span className={styles.couponEarned}>You're earning {coinsToEarn} Beans on this order</span>
       </div>
 
       {showCoupons && (

@@ -1096,7 +1096,7 @@
 
     .mainContainer {
         flex-direction: column;
-        padding: 0 24px 80px 24px !important;
+        padding: 0 5% 80px !important;
         gap: 20px;
         /* padding-top:0px ; */
     }

@@ -6,7 +6,7 @@ import storyImg from "./story.webp";
 
 //import//
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/all";
+import { ScrollTrigger } from "gsap/ScrollTrigger"; // ✅ not "gsap/all"
 
 export default function Mission() {
   const containerRef = useRef(null);
@@ -15,7 +15,7 @@ export default function Mission() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const cards = cardsRef.current;
+    const cards = cardsRef.current.filter(Boolean);
     // Kill any stale triggers before creating new ones
     ScrollTrigger.getAll().forEach((t) => t.kill());
 
@@ -84,14 +84,18 @@ export default function Mission() {
 
     // ✅ Key fix: refresh AFTER layout/fonts settle in production
     // Two-pass: immediate + delayed to catch web font shifts
-    ScrollTrigger.refresh();
-    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 500);
+    const raf = requestAnimationFrame(() => {
+      buildAnimations();
+
+      // ✅ second pass after fonts/images finish shifting layout
+      timers.push(setTimeout(() => ScrollTrigger.refresh(), 400));
+    });
 
     return () => {
-      clearTimeout(refreshTimer);
-      mm.revert();   // ✅ explicitly revert matchMedia
-      ctx.revert();  // cleans up all GSAP context
-      ScrollTrigger.getAll().forEach((t) => t.kill()); // belt-and-suspenders
+      cancelAnimationFrame(raf);
+      timers.forEach(clearTimeout);
+      if (ctx) ctx.revert();
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
   return (

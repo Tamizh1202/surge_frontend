@@ -8,6 +8,7 @@ import axiosClient from '@/lib/axios';
 import { formatImageUrl } from '@/lib/imageUtils';
 import coffeeImg from './coffee.png';
 import { useWishlist } from '@/app/_context/WishlistContext';
+import PageLoader from '@/components/PageLoader/PageLoader';
 
 import prodZero from './prodZero.png';
 import ProductPopup from '../AddToCartPopup/AddToCartPopup';
@@ -21,7 +22,17 @@ export default function Listing({ category }) {
     const [showSort, setShowSort] = useState(false);
     const [selectedSort, setSelectedSort] = useState('Recommended');
     const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+    const [isFilterClosing, setIsFilterClosing] = useState(false);
+    const filterCloseTimer = useRef(null);
     const [popupProduct, setPopupProduct] = useState(null);
+
+    const closeFilter = () => {
+        setIsFilterClosing(true);
+        filterCloseTimer.current = setTimeout(() => {
+            setIsMobileFilterOpen(false);
+            setIsFilterClosing(false);
+        }, 280);
+    };
 
     // Refs for outside click detection
     const sortRef = useRef(null);
@@ -64,7 +75,7 @@ export default function Listing({ category }) {
 
     const handleClearFilters = () => {
         setSelectedFilters([]);
-        setIsMobileFilterOpen(false);
+        closeFilter();
     };
 
     useEffect(() => {
@@ -82,10 +93,6 @@ export default function Listing({ category }) {
                     return [...acc, ...(doc.level1 || [])];
                 }, []);
                 setFilterData(allGroups);
-
-                if (allGroups.length > 0) {
-                    setOpenSections(allGroups[0].id);
-                }
             } catch (err) {
                 console.error("Error fetching filters:", err);
             }
@@ -271,9 +278,7 @@ export default function Listing({ category }) {
                     </div>
                 </header>
 
-                {loading && products.length === 0 && (
-                    <div className={styles.stateMsgContainer}><p className={styles.stateMsg}>Loading products...</p></div>
-                )}
+                {loading && products.length === 0 && <PageLoader />}
 
                 {error && (
                     <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>
@@ -302,6 +307,7 @@ export default function Listing({ category }) {
                                 ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
                                 : (item.salePrice || item.regularPrice);
                             const price = rawPrice ? `AED ${rawPrice}` : '';
+                            const isOutOfStock = item.inStock === false;
 
                             return (
                                 <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
@@ -329,7 +335,12 @@ export default function Listing({ category }) {
                                             {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
                                                 <span className={styles.priceTag}>{price}.00</span>
-                                                {(item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
+                                                {isOutOfStock ? (
+                                                    <>
+                                                        <button className={`${styles.buyBtn} ${styles.outOfStockBtn}`} disabled>Out of Stock</button>
+                                                        <button className={`${styles.mobileText} ${styles.outOfStockBtn}`} disabled>Out of Stock</button>
+                                                    </>
+                                                ) : (item.variants?.length > 0 && (item.productHighlights?.length > 0 || item.subCategories?.length > 0)) ? (
                                                     <>
                                                         <button
                                                             className={styles.buyBtn}
@@ -402,18 +413,18 @@ export default function Listing({ category }) {
 
             {isMobileFilterOpen && (
                 <>
-                    <div className={styles.MobileFilterOverlay} onClick={() => setIsMobileFilterOpen(false)} />
-                    <div className={styles.MobileFilters} ref={mobileFiltersRef}>
+                    <div className={styles.MobileFilterOverlay} onClick={closeFilter} />
+                    <div className={`${styles.MobileFilters} ${isFilterClosing ? styles.MobileFiltersClosing : ''}`} ref={mobileFiltersRef}>
                         <div className={styles.MobileFilterHeader}>
                             <p>Filters</p>
-                            <span onClick={() => setIsMobileFilterOpen(false)}>✕</span>
+                            <span onClick={closeFilter}>✕</span>
                         </div>
                         <div className={styles.LeftBottom}>
                             {renderFilters()}
                         </div>
                         <div className={styles.MobileFilterFooter}>
                             <button onClick={handleClearFilters} className={styles.mobileResetBtn}>Reset</button>
-                            <button onClick={() => setIsMobileFilterOpen(false)} className={styles.mobileApplyBtn}>Apply</button>
+                            <button onClick={closeFilter} className={styles.mobileApplyBtn}>Apply</button>
                         </div>
                     </div>
                 </>

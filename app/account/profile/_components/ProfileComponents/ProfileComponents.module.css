@@ -925,8 +925,17 @@ padding-right: clamp(30px, 31vw, 400px);
 }
 
 .saveBtnDisabled {
-  opacity: 0.7;
+  opacity: 0.5;
   cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fieldError {
+  display: block;
+  font-size: 12px;
+  color: #c0392b;
+  font-family: var(--font-raleway);
+  margin-top: 4px;
 }
 
 /* inline stylings done here */

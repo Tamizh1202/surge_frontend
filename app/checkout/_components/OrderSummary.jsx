@@ -62,11 +62,11 @@ export default function OrderSummary({
       <div className={styles.RightTwo} data-lenis-prevent style={{ overflowY: "auto" }}>
         {product.map((item, idx) => {
           const isSubscription = checkoutMode === "subscription";
-          
+
           const selections = item.customSelections || {};
           const displaySelections = Object.entries(selections)
             .filter(([, value]) => String(value).trim() !== "");
-          
+
           const metaText = [item.tagline, ...displaySelections.map(([, value]) => value)]
             .filter(Boolean)
             .join(", ");
@@ -76,17 +76,17 @@ export default function OrderSummary({
               <div className={styles.ItemImage}>
                 <Image src={formatImageUrl(item.image) || placeholderImage} alt={item.name} width={92} height={92} />
               </div>
-              <div className={styles.ItemInfo} style={{ display: 'flex', flexDirection: 'column',  }}>
+              <div className={styles.ItemInfo} style={{ display: 'flex', flexDirection: 'column', }}>
                 {/* Line 1: Name and Weight (Brazil Santa Ines, 250g) */}
-                <div className={styles.ItemMainRow} style={{ display: 'flex', alignItems: 'center',  }}>
-                  <div className={styles.ItemName} style={{ fontSize: '16px', fontWeight: '400', color: '#414343', fontFamily:"raleway" }}>
+                <div className={styles.ItemMainRow} style={{ display: 'flex', alignItems: 'center', }}>
+                  <div className={styles.ItemName} style={{ fontSize: '16px', fontWeight: '400', color: '#414343', fontFamily: "raleway" }}>
                     {item.name}{item.weight ? `, ${item.weight}g` : item.variantName ? `, ${item.variantName}g` : ''}
                   </div>
                 </div>
-                
+
                 {/* Line 2: Metadata (Expresso Roast, Whole bean, Whole) */}
                 {metaText && (
-                  <div style={{ fontSize: "12px",fontWeight: '500',color: "#818686",marginTop: '4px' , lineHeight: '1.2' }}>
+                  <div style={{ fontSize: "12px", fontWeight: '500', color: "#818686", marginTop: '4px', lineHeight: '1.2' }}>
                     {metaText}
                   </div>
                 )}
@@ -96,7 +96,7 @@ export default function OrderSummary({
                   {item.quantity}<span style={{ fontSize: '16px', color: '#414343' }}>x</span>
                 </div>
               </div>
-              
+
               {!isSubscription && (
                 <div className={styles.ItemPrice}>
                   AED {(parseFloat(item.price?.final_price || item.price) || 0).toFixed(0)}
@@ -123,13 +123,18 @@ export default function OrderSummary({
 
         {!appliedCoupon ? (
           <div className={styles.CouponInputGroup}>
-            <input 
-              type="text" 
-              placeholder="Enter Coupon Code" 
-              value={couponInput} 
-              onChange={(e) => setCouponInput(e.target.value)} 
-            />  
-            <button onClick={handleApplyCoupon} disabled={status !== "authenticated"}>Apply</button>
+            <input
+              type="text"
+              placeholder="Enter Coupon Code"
+              value={couponInput}
+              onChange={(e) => setCouponInput(e.target.value)}
+            />
+            <button
+              onClick={handleApplyCoupon}
+              disabled={status !== "authenticated" || !couponInput.trim()} // <-- Updated line
+            >
+              Apply
+            </button>
           </div>
         ) : (
           <div className={styles.AppliedCouponGroup}>
@@ -187,6 +192,7 @@ export default function OrderSummary({
           <p>Total</p>
           <h5>AED {Number(cartTotals.total || 0).toFixed(2)}</h5>
         </div>
+        <span className={styles.couponEarned}>You're earning xx Beans on this order</span>
       </div>
 
       {showCoupons && (
@@ -196,7 +202,6 @@ export default function OrderSummary({
           onClose={() => setShowCoupons(false)}
         />
       )}
-
       <button className={`${styles.Pay} ${styles.MobilePay}`} onClick={handlePayment} disabled={isProcessing}>
         {isProcessing ? "Processing..." : "Checkout"}
       </button>

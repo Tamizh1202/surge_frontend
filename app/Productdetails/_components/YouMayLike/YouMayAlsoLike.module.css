@@ -150,6 +150,16 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
   opacity: 0.85;
 }
 
+.outOfStock {
+  background: #d1d1d1;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.outOfStock:hover {
+  opacity: 1;
+}
+
 /* ── Skeleton loader ─────────────────────────────────────── */
 .skeleton {
   pointer-events: none;

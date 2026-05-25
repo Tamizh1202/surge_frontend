@@ -10,6 +10,7 @@ import FilterOrdersPopup from "./_components/FilterPopup/FilterOrdersPopup";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import axiosClient from "@/lib/axios";
+
 export default function OrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -209,7 +210,7 @@ export default function OrdersPage() {
     } else if (status === "unauthenticated") {
       setLoading(false);
     }
-  }, [status, session, debouncedSearch, filters]);
+  }, [status, session?.user?.id, debouncedSearch, filters]);
 
   const handleLoadMore = () => {
     if (!fetchingMore && hasNextPage) fetchOrders(page + 1);

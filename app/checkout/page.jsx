@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useMemo, Suspense } from "react";
 import styles from "./page.module.css";
 import CheckoutForm from "./_components/CheckoutForm";
+import PageLoader from "@/components/PageLoader/PageLoader";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/app/_context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
@@ -171,13 +172,7 @@ function CheckoutContent() {
   }, [product, shippingTax, effectiveEmirate, appliedCoupon, isBeansApplied, contextCartTotals.beansDiscount]);
 
   if (isLoading || status === "loading") {
-    return (
-      <div className={styles.MainM}>
-        <div style={{ textAlign: "center", padding: "50px" }}>
-          <p>Loading checkout...</p>
-        </div>
-      </div>
-    );
+    return <PageLoader />;
   }
 
   const elementsOptions = {
@@ -230,7 +225,7 @@ function CheckoutContent() {
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<PageLoader />}>
       <CheckoutContent />
     </Suspense>
   );

@@ -56,6 +56,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                     price: getDisplayPrice(p),
                     slug: productSlug,
                     categorySlug: p.categories?.slug || p.categories?.[0]?.slug || 'coffee-beans',
+                    isOutOfStock: p.inStock === false,
                     raw: p,
                 };
             });
@@ -133,14 +134,20 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                                           <p className={styles.subtitle}>{product.subtitle}</p>
                                           <div className={styles.priceRow}>
                                               <span className={styles.price}>{product.price}</span>
-                                              <button
-                                                  className={styles.addToCart}
-                                                  onClick={() => handleAddToCart(product)}
-                                                  disabled={isAdding}
-                                                  style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
-                                              >
-                                                  {isAdding ? 'Adding...' : 'Add to Cart'}
-                                              </button>
+                                              {product.isOutOfStock ? (
+                                                  <button className={`${styles.addToCart} ${styles.outOfStock}`} disabled>
+                                                      Out of Stock
+                                                  </button>
+                                              ) : (
+                                                  <button
+                                                      className={styles.addToCart}
+                                                      onClick={() => handleAddToCart(product)}
+                                                      disabled={isAdding}
+                                                      style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
+                                                  >
+                                                      {isAdding ? 'Adding...' : 'Add to Cart'}
+                                                  </button>
+                                              )}
                                           </div>
                                       </div>
                                   </div>

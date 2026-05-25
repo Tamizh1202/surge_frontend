@@ -15,7 +15,7 @@
   z-index: 1000;
   box-sizing: border-box;
   transition: transform 0.3s ease;
-  
+
 }
 
 .navbarHidden {
@@ -100,7 +100,7 @@
 
 .activeRed {
   color: var(--primary-color) !important;
- 
+
   text-decoration-color: var(--primary-color);
   text-underline-offset: 8px;
   text-decoration-thickness: 1.5px;
@@ -116,33 +116,49 @@
   display: none;
 }
 
+.cartBadge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background-color: var(--primary-color);
+  color: #fff;
+  border-radius: 50%;
+  min-width: 17px;
+  height: 17px;
+  font-size: 10px;
+  font-family: var(--font-montserrat);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
 
 
 
-/* Mobile responsive alignment */
+
 @media (max-width: 1300px) {
   .cartBadge {
-    top: -5px;
-    right: -23px;
+    /* top: -5px; */
+    /* right: -23px; */
     min-width: 16px;
     height: 16px;
     font-size: 9px;
   }
 }
-/* 2. Mobile (max-width: 1300px) settings */
+
 @media (max-width: 1299px) {
-  
-  /* Menu ke andar se Cart text aur uske upar ki line hide karein */
+
   .desktopOnlyCart {
     display: none;
   }
 
-  /* Upar wali main bar mein SVG icon dikhayein */
+
   .cartIconMobile {
     display: block;
     cursor: pointer;
-    margin-right: 15px; /* Hamburger se thodi doori */
-    z-index: 101; /* Taaki upar dikhe */
+    margin-right: 10px;
+    z-index: 101;
   }
 
   /* Navbar layout taaki logo aur icons sahi dikhein */
@@ -301,6 +317,9 @@
     margin: 0;
     flex-direction: column;
     gap: 16px;
+    font-family: var(--font-raleway);
+    /* font-size: var(--fs-16); */
+    color: var(--text-secondary);
   }
 
   .accountStack li a {

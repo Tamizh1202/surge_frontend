@@ -6,6 +6,7 @@ import DelivereyDetails from "./_components/delivery-details/page";
 import OrderDetails from "./_components/order-details/page";
 import Invoice from "./_components/invoice/page";
 import React, { useEffect, useState } from "react";
+import PageLoader from "@/components/PageLoader/PageLoader";
 
 export default function OrderDetailPage({ params }) {
   const { orderId } = React.use(params);
@@ -48,7 +49,7 @@ export default function OrderDetailPage({ params }) {
     }
   }, [orderId]);
 
-  if (loading) return <div className={styles.loading}>Loading...</div>;
+  if (loading) return <PageLoader />;
   if (!order) return <div className={styles.error}>Order not found.</div>;
 
   return (

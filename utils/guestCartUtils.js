@@ -34,13 +34,17 @@ const getCustomSelections = (details) => {
   return Object.keys(selections).length > 0 ? selections : null;
 };
 
-// Stable key encoding product + variant + selections — two items are the same only if all three match
-export const makeCartItemKey = (product, vId, customSelections) => {
+// Stable key encoding product + variant + selections + highlights — two items are the same only if all four match
+export const makeCartItemKey = (product, vId, customSelections, productHighlights = null) => {
   const selKey =
     customSelections && Object.keys(customSelections).length > 0
       ? JSON.stringify(Object.fromEntries(Object.entries(customSelections).sort()))
       : "";
-  return `${product}__${vId || ""}__${selKey}`;
+  const hlKey =
+    productHighlights && productHighlights.length > 0
+      ? JSON.stringify([...productHighlights].sort())
+      : "";
+  return `${product}__${vId || ""}__${selKey}${hlKey ? `__${hlKey}` : ""}`;
 };
 
 const MAX_ITEM_QTY = 5;
@@ -111,7 +115,7 @@ const recalculate = (items) => {
 };
 
 // Add an item to the guest cart (fetches product details from Payload)
-export const addItemToCart = async (productId, quantity = 1, vid = null, details = null) => {
+export const addItemToCart = async (productId, quantity = 1, vid = null, details = null, productHighlights = null) => {
   const cart = getCart();
   const items = cart.items || [];
   const customSelections = getCustomSelections(details);
@@ -123,7 +127,7 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
     return;
   }
 
-  const cartKey = makeCartItemKey(productData.product, productData.vId, customSelections);
+  const cartKey = makeCartItemKey(productData.product, productData.vId, customSelections, productHighlights);
 
   // Two items are the same only when product + variant + highlights all match
   const existingIndex = items.findIndex((item) =>
@@ -160,6 +164,7 @@ export const addItemToCart = async (productId, quantity = 1, vid = null, details
       _cartKey: cartKey,
       quantity,
       ...(customSelections ? { customSelections } : {}),
+      ...(productHighlights ? { productHighlights } : {}),
     });
   }
 

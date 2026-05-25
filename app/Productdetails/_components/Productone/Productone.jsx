@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import styles from './Productone.module.css';
 import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
+import PageLoader from '@/components/PageLoader/PageLoader';
 
 import { gsap } from 'gsap';
 import { Observer } from 'gsap/all';
@@ -170,7 +171,9 @@ export default function ProductOne({ initialProduct }) {
     }
   }, [initialProduct]);
 
-  if (loading || !product) return <div className={styles.loading}>Loading...</div>;
+  if (loading || !product) return <PageLoader />;
+
+  const isOutOfStock = initialProduct.inStock === false;
 
   const displayPrice = selectedVariant
     ? (selectedVariant.variantSalePrice || selectedVariant.variantRegularPrice)
@@ -267,24 +270,30 @@ export default function ProductOne({ initialProduct }) {
 
               {displayPrice && (
                 <div className={styles.actionRow}>
-                  <div className={styles.quantityPicker}>
-                    <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
-                    <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
-                    <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
-                  </div>
-                  <AddToCart
-                    product={{
-                      productId: initialProduct.id,
-                      name: product.name,
-                      description: product.desc,
-                      image: productImage,
-                      tagline: product.notes,
-                      variationId: selectedVariant?.id || null,
-                      productHighlights: product.highlights,
-                      ...selectedHighlights,
-                    }}
-                    quantity={quantity}
-                  />
+                  {isOutOfStock ? (
+                    <button className={styles.outOfStockBtn} disabled>Out of Stock</button>
+                  ) : (
+                    <>
+                      <div className={styles.quantityPicker}>
+                        <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+                        <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
+                        <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
+                      </div>
+                      <AddToCart
+                        product={{
+                          productId: initialProduct.id,
+                          name: product.name,
+                          description: product.desc,
+                          image: productImage,
+                          tagline: product.notes,
+                          variationId: selectedVariant?.id || null,
+                          productHighlights: product.highlights,
+                          ...selectedHighlights,
+                        }}
+                        quantity={quantity}
+                      />
+                    </>
+                  )}
                 </div>
               )}
 

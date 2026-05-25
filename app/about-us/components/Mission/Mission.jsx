@@ -3,10 +3,8 @@ import { useEffect, useRef } from "react";
 import styles from "./Mission.module.css";
 import Image from "next/image";
 import storyImg from "./story.webp";
-
-//import//
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger"; // ✅ not "gsap/all"
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Mission() {
   const containerRef = useRef(null);
@@ -16,70 +14,102 @@ export default function Mission() {
     gsap.registerPlugin(ScrollTrigger);
 
     const cards = cardsRef.current.filter(Boolean);
+    let ctx;
+    let t1, t2;
 
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia();
+    const build = () => {
+      if (ctx) ctx.revert();
 
-      mm.add("(max-width: 900px)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "+=200%",
-            pin: true,
-            scrub: 0.8,
-            anticipatePin: 1,
-            fastScrollEnd: true,
-            invalidateOnRefresh: true,
-          },
+      ctx = gsap.context(() => {
+        const mm = gsap.matchMedia();
+
+        mm.add("(max-width: 900px)", () => {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "+=200%",
+              pin: true,
+              scrub: 0.8,
+              anticipatePin: 1,
+              fastScrollEnd: true,
+              invalidateOnRefresh: true,
+            },
+          });
+          cards.forEach((card, index) => {
+            if (index === 0) return;
+            tl.fromTo(
+              card,
+              { yPercent: 120, opacity: 0 },
+              { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
+              index - 1
+            );
+          });
         });
 
-        cards.forEach((card, index) => {
-          if (index === 0) return;
-          tl.fromTo(
-            card,
-            { yPercent: 120, opacity: 0 },
-            { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
-            index - 1
-          );
+        mm.add("(min-width: 901px)", () => {
+          const tl = gsap.timeline({
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: `+=${cards.length * 100}%`,
+              pin: true,
+              scrub: 0.8,
+              anticipatePin: 1,
+              fastScrollEnd: true,
+              invalidateOnRefresh: true,
+            },
+          });
+          cards.forEach((card, index) => {
+            if (index === 0) return;
+            tl.fromTo(
+              card,
+              { yPercent: 120, opacity: 0 },
+              { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
+              index - 1
+            );
+          });
+          tl.to({}, { duration: 0.3 });
         });
-      });
+      }, containerRef);
 
-      mm.add("(min-width: 901px)", () => {
-        const tl = gsap.timeline({
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: `+=${cards.length * 100}%`,
-            pin: true,
-            scrub: 0.8,
-            anticipatePin: 1,
-            fastScrollEnd: true,
-            invalidateOnRefresh: true,
-          },
-        });
+      // Two-pass refresh: once immediately after build, once after any
+      // remaining async layout shifts (web fonts, images) settle
+      t1 = setTimeout(() => ScrollTrigger.refresh(), 100);
+      t2 = setTimeout(() => ScrollTrigger.refresh(), 600);
+    };
 
-        cards.forEach((card, index) => {
-          if (index === 0) return;
-          tl.fromTo(
-            card,
-            { yPercent: 120, opacity: 0 },
-            { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
-            index - 1
-          );
-        });
+    // ✅ THE ACTUAL FIX:
+    // useEffect fires after DOM mount — but NOT after fonts/images load.
+    // In localhost this doesn't matter (cache = instant).
+    // In production, real latency means ScrollTrigger calculates the pin
+    // spacer BEFORE layout is final → wrong height → gets stuck.
+    //
+    // document.readyState === "complete" handles client-side navigation
+    // (Next.js router doesn't re-fire window.load on route change).
+    // window.load handles first hard load with real network latency.
+    const init = () => requestAnimationFrame(build);
 
-        tl.to({}, { duration: 0.3 });
-      });
-    }, containerRef);
+    if (document.readyState === "complete") {
+      // Client-side nav, or already fully loaded
+      init();
+    } else {
+      // Hard load: wait for fonts + images to finish
+      window.addEventListener("load", init, { once: true });
+    }
 
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener("load", init);
+      if (ctx) ctx.revert();
+    };
   }, []);
+
   return (
     <div id="our-mission">
-      <section ref={containerRef} className={styles.landContainer} >
-        <div className={styles.right} >
-
+      <section ref={containerRef} className={styles.landContainer}>
+        <div className={styles.right}>
           <Image
             src={storyImg}
             alt="surge"
@@ -87,50 +117,57 @@ export default function Mission() {
             height={647}
             className={styles.product}
             priority
+            onLoad={() => ScrollTrigger.refresh()} // ✅ if image shifts layout after build, re-measure
           />
           <div className={styles.textcontent}>
             <h1 className={styles.storytitle}>Our Story</h1>
             <p className={styles.story}>
-              Surge is an Emirati-owned specialty coffee brand driven by an unwavering passion for quality, authenticity, and community. Our spaces are designed to feel welcoming, familiar, and distinctly local — a place that always feels like yours.
+              Surge is an Emirati-owned specialty coffee brand driven by an
+              unwavering passion for quality, authenticity, and community. Our
+              spaces are designed to feel welcoming, familiar, and distinctly
+              local — a place that always feels like yours.
             </p>
           </div>
         </div>
 
         <div className={styles.left}>
           <div className={styles.cardcontainer}>
-            {/* Card 01 */}
             <div
               ref={(el) => (cardsRef.current[0] = el)}
               className={`${styles.card} ${styles.grayCard}`}
             >
               <h1 className={styles.text}>Our Mission</h1>
               <p className={styles.content}>
-                To deliver consistently exceptional coffee experiences while honouring our local heritage — elevating every cup with purpose, pride, and precision.
+                To deliver consistently exceptional coffee experiences while
+                honouring our local heritage — elevating every cup with purpose,
+                pride, and precision.
               </p>
               <div className={styles.number}>01</div>
             </div>
 
-            {/* Card 02 */}
             <div
               ref={(el) => (cardsRef.current[1] = el)}
               className={`${styles.card} ${styles.penchCard}`}
             >
-              {/* check check */}
-              <h1 className={styles.text}>Our Vision </h1>
+              <h1 className={styles.text}>Our Vision</h1>
               <p className={styles.content}>
-                To become the leading Emirati specialty coffee brand — recognised for excellence, authenticity, and innovation, both locally and across the region.
+                To become the leading Emirati specialty coffee brand — recognised
+                for excellence, authenticity, and innovation, both locally and
+                across the region.
               </p>
               <div className={styles.number}>02</div>
             </div>
 
-            {/* Card 03 */}
             <div
               ref={(el) => (cardsRef.current[2] = el)}
               className={`${styles.card} ${styles.grayCard}`}
             >
               <h1 className={styles.text}>Surge Approach</h1>
               <p className={styles.content}>
-                At Surge, we marry global specialty coffee standards with the vibrant spirit of Dubai. Every cup is crafted with premium beans, served with precision, and designed to bring people together — because great coffee isn't just a drink, it's a daily ritual.
+                At Surge, we marry global specialty coffee standards with the
+                vibrant spirit of Dubai. Every cup is crafted with premium beans,
+                served with precision, and designed to bring people together —
+                because great coffee isn't just a drink, it's a daily ritual.
               </p>
               <div className={styles.number}>03</div>
             </div>

@@ -535,13 +535,24 @@ export function CartProvider({ children }) {
             }
           }
 
+          const prevTotal = existingSplits.reduce((s, x) => s + x.quantity, 0);
           const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
           if (splitIndex >= 0) {
             existingSplits[splitIndex].quantity += quantity;
           } else {
             existingSplits.push({ _cartKey: cartKey, customSelections, productHighlights, quantity });
           }
-          saveSplitsForItem(product, vId || null, existingSplits);
+          const newTotal = prevTotal + quantity;
+
+          // Only persist splits when the server actually accepted the full addition.
+          // If the server has a combined per-product cap and returned the same (or lower)
+          // total, skip saving — otherwise stale-detection collapses the split items.
+          const serverItem = (data.items || []).find(
+            (i) => String(i.product) === String(product) && (i.vId || null) === (vId || null),
+          );
+          if ((serverItem?.quantity ?? 0) >= newTotal) {
+            saveSplitsForItem(product, vId || null, existingSplits);
+          }
         }
 
         applyCartResponse(data);
@@ -663,16 +674,33 @@ export function CartProvider({ children }) {
             }
 
             if (newQty !== oldQty) {
-              splits[splitIndex].quantity = newQty;
-              saveSplitsForItem(product, vId || null, splits);
-
               const serverAction = newQty > oldQty ? "increment" : "decrement";
               const res = await axiosClient.patch("/api/website/cart", {
                 product,
                 vId: vId || null,
                 action: serverAction,
               });
-              applyCartResponse(res.data);
+
+              // Save updated split only when the server confirmed the change.
+              // If the server hit a combined per-product cap and returned the unchanged
+              // total, keep the original splits so stale-detection doesn't collapse
+              // separate highlighted items into one merged item.
+              const serverItem = (res.data.items || []).find(
+                (i) => String(i.product) === String(product) && (i.vId || null) === (vId || null),
+              );
+              const serverQty = serverItem?.quantity ?? 0;
+              const currentTotal = splits.reduce((s, x) => s + x.quantity, 0);
+              const expectedTotal = currentTotal - oldQty + newQty;
+
+              if (serverQty >= expectedTotal) {
+                splits[splitIndex].quantity = newQty;
+                saveSplitsForItem(product, vId || null, splits);
+                applyCartResponse(res.data);
+              } else {
+                // Server didn't accept — re-render with server state and old split quantities
+                applyCartResponse(res.data);
+                return { ok: false, message: "Maximum quantity of 5 per item reached" };
+              }
             }
           }
           return { ok: true };

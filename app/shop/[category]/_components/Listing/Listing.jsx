@@ -110,8 +110,8 @@ export default function Listing({ category }) {
             if (!category?.id) return;
             setLoading(true);
             try {
-                const sortParam = selectedSort === 'Price:High to Low' ? '-salePrice,-regularPrice' :
-                    selectedSort === 'Price:Low to High' ? 'salePrice,regularPrice' :
+                const sortParam = selectedSort === 'Price:High to Low' ? '-regularPrice' :
+                    selectedSort === 'Price:Low to High' ? 'regularPrice' :
                         '-createdAt';
 
                 const res = await axiosClient.get(

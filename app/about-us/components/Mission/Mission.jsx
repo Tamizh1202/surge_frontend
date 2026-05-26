@@ -15,9 +15,10 @@ export default function Mission() {
 
     const cards = cardsRef.current.filter(Boolean);
     let ctx;
-    let t1, t2;
+    let initRafId;
+    let roRafId;
 
-    const build = () => {
+    const setupCtx = () => {
       if (ctx) ctx.revert();
 
       ctx = gsap.context(() => {
@@ -72,35 +73,34 @@ export default function Mission() {
           tl.to({}, { duration: 0.3 });
         });
       }, containerRef);
-
-      // Two-pass refresh: once immediately after build, once after any
-      // remaining async layout shifts (web fonts, images) settle
-      t1 = setTimeout(() => ScrollTrigger.refresh(), 100);
-      t2 = setTimeout(() => ScrollTrigger.refresh(), 600);
     };
 
-    // ✅ THE ACTUAL FIX:
-    // useEffect fires after DOM mount — but NOT after fonts/images load.
-    // In localhost this doesn't matter (cache = instant).
-    // In production, real latency means ScrollTrigger calculates the pin
-    // spacer BEFORE layout is final → wrong height → gets stuck.
-    //
-    // document.readyState === "complete" handles client-side navigation
-    // (Next.js router doesn't re-fire window.load on route change).
-    // window.load handles first hard load with real network latency.
-    const init = () => requestAnimationFrame(build);
+    // ResizeObserver fires whenever the page height changes — fonts settling,
+    // logo images loading, video metadata, anything that shifts layout above
+    // Mission. Time-based timeouts (setTimeout) are guesses; this is exact.
+    const ro = new ResizeObserver(() => {
+      cancelAnimationFrame(roRafId);
+      roRafId = requestAnimationFrame(() => ScrollTrigger.refresh());
+    });
+
+    const init = () => {
+      initRafId = requestAnimationFrame(() => {
+        setupCtx();
+        ScrollTrigger.refresh();
+        ro.observe(document.documentElement);
+      });
+    };
 
     if (document.readyState === "complete") {
-      // Client-side nav, or already fully loaded
       init();
     } else {
-      // Hard load: wait for fonts + images to finish
       window.addEventListener("load", init, { once: true });
     }
 
     return () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
+      cancelAnimationFrame(initRafId);
+      cancelAnimationFrame(roRafId);
+      ro.disconnect();
       window.removeEventListener("load", init);
       if (ctx) ctx.revert();
     };

@@ -27,7 +27,7 @@ export default function Touch() {
   const dropdownRef = useRef(null);
   const characterLimit = 150;
   const nameLimit = 40; 
-  const phoneLimit = 10;
+  const phoneLimit = 9;
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value.replace(/\D/g, "").slice(0, phoneLimit));

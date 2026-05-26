@@ -27,8 +27,8 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Scope</h3>
 
+          <p className={styles.bold}>This policy applies to personal data collected through:</p>
           <ul>
-            <p>This policy applies to personal data collected through:</p>
             <li>Visitors to our website</li>
             <li>Users of our mobile application</li>
             <li>Customers placing in-store or app-based orders</li>
@@ -40,7 +40,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Data Controller</h3>
 
-          <p>
+          <p  style={{margin:"0px"}}>
             Surge Coffee, Dubai, United Arab Emirates, is the data
             controller responsible for your personal data.
           </p>
@@ -49,9 +49,8 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Information We Collect</h3>
 
+          <p className={styles.bold}>We may collect the following categories of personal data:</p>
           <ul>
-            <p>We may collect the following categories of personal data:</p>
-
             <li>
               Contact Information: Name, email address, phone number, delivery
               address
@@ -123,8 +122,8 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Data Sharing and Disclosure</h3>
 
+          <p className={styles.bold}>We may share personal data only with:</p>
           <ul>
-            <p>We may share personal data only with:</p>
             <li>Delivery and logistics partners</li>
             <li>Payment processing providers</li>
             <li>IT and analytics service providers</li>
@@ -135,7 +134,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>International Data Transfers</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             Your data may be processed outside your country of residence. We
             ensure appropriate safeguards are in place to protect your data.
           </p>
@@ -144,7 +143,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Data Security</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             We use industry-standard technical and organizational security
             measures to protect your personal information from unauthorized
             access or disclosure.
@@ -154,7 +153,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Data Retention</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             Personal data is retained only for as long as necessary to fulfill
             business, legal, or regulatory requirements.
           </p>
@@ -164,7 +163,7 @@ const PrivacyPolicy = () => {
           <h3>Your Rights</h3>
 
           <ul>
-            <p>Request access to your personal data</p>
+            <li>Request access to your personal data</li>
             <li>Request correction of inaccurate data</li>
             <li>Payment processing providers</li>
 
@@ -178,7 +177,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3> Cookies and Tracking Technologies</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             We use cookies and similar technologies to enhance user experience
             and analyze performance. You can manage cookie settings through your
             browser or device.
@@ -188,7 +187,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3> Children's Privacy</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             Our services are not intended for individuals under the age of 18,
             and we do not knowingly collect data from minors.
           </p>
@@ -197,7 +196,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3> Changes to This Privacy Policy</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             We may update this Privacy Policy from time to time. Continued use
             of our services indicates acceptance of the updated policy.
           </p>
@@ -217,7 +216,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Desc}>
           <h3>Mobile Application Privacy Policy</h3>
 
-          <p>
+          <p style={{margin:"0px"}}>
             This section applies specifically to the Surge Coffee mobile
             application.
           </p>
@@ -279,7 +278,7 @@ const PrivacyPolicy = () => {
         <div className={styles.Content}>
           <h3>Rewards & Loyalty Program</h3>
 
-          <p>
+          <p  style={{margin:"0px"}}>
             This section explains how we collect and use data related to our
             in-app rewards programs.
           </p>

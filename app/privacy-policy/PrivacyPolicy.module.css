@@ -23,12 +23,18 @@
   justify-content: left;
 
 }
+
+.intro p{
+  font-weight: 600;
+}
 .Heading h1{
   font-family: var(--lexend);
   font-weight: 500;
   color: #2F362A;
   text-transform: uppercase;
   font-size: var(--fs-60);
+  margin:0px;
+  margin-top: 25px;
 }
 .Desc{
   display: flex;
@@ -78,6 +84,10 @@
   font-size: 15px;
   font-weight: 400;
   color: #6E736A;
+}
+p.bold, .bold p {
+  font-weight: 500;
+  color: black;
 }
 @media (max-width: 1440px) {
   .mainPage {

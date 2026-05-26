@@ -19,7 +19,7 @@ const TermsAndConditions = () => {
         </div>
         <div className={styles.Content}>
           <h3>Eligibility</h3>
-          <p>
+          <p style={{margin:"0px"}}>
             You must use our Services in compliance with applicable laws of the
             United Arab Emirates.
           </p>
@@ -36,42 +36,42 @@ const TermsAndConditions = () => {
         </div>
          <div className={styles.Content}>
           <h3>Products & Services</h3>
-          <p>We offer roasted coffee, beverages, merchandise, equipment, and café-related services. Availability, pricing, and descriptions may change at any time.</p>
+          <p style={{margin:"0px"}}>We offer roasted coffee, beverages, merchandise, equipment, and café-related services. Availability, pricing, and descriptions may change at any time.</p>
 
         </div>
         <div className={styles.Content}>
           <h3>Pricing & Payments</h3>
-          <p>All prices are listed in AED. Payments, where applicable, must be completed using approved payment methods.</p>
+          <p style={{margin:"0px"}}>All prices are listed in AED. Payments, where applicable, must be completed using approved payment methods.</p>
 
         </div>
         <div className={styles.Content}>
           <h3>Shipping & Delivery</h3>
-          <p>Delivery timelines are estimates only. Risk of loss transfers to the customer upon dispatch.</p>
+          <p style={{margin:"0px"}}>Delivery timelines are estimates only. Risk of loss transfers to the customer upon dispatch.</p>
 
         </div>
         <div className={styles.Content}>
           <h3>Returns & Refunds</h3>
-          <p>Roasted coffee products are non-returnable. Equipment returns are accepted only if unused and approved after inspection.</p>
+          <p style={{margin:"0px"}}>Roasted coffee products are non-returnable. Equipment returns are accepted only if unused and approved after inspection.</p>
 
         </div>
         <div className={styles.Content}>
           <h3> Intellectual Property</h3>
-          <p>All content, logos, designs, and trademarks are the property of Surge Coffee and may not be used without written permission.</p>
+          <p style={{margin:"0px"}}>All content, logos, designs, and trademarks are the property of Surge Coffee and may not be used without written permission.</p>
 
         </div>
          <div className={styles.Content}>
           <h3> Limitation of Liability</h3>
-          <p>To the fullest extent permitted by law, Surge Coffee shall not be liable for indirect, incidental, or consequential damages.</p>
+          <p style={{margin:"0px"}}>To the fullest extent permitted by law, Surge Coffee shall not be liable for indirect, incidental, or consequential damages.</p>
 
         </div>
         <div className={styles.Content}>
           <h3>Governing Law</h3>
-          <p>These Terms are governed by the laws of the United Arab Emirates, applicable in the Emirate of Dubai.</p>
+          <p style={{margin:"0px"}}>These Terms are governed by the laws of the United Arab Emirates, applicable in the Emirate of Dubai.</p>
 
         </div>
         <div className={styles.Content}>
           <h3>Changes to Terms</h3>
-          <p>We may update these Terms at any time. Continued use of the Services signifies acceptance of updated terms.</p>
+          <p style={{margin:"0px"}}>We may update these Terms at any time. Continued use of the Services signifies acceptance of updated terms.</p>
 
         </div>
         <div className={styles.Content}>

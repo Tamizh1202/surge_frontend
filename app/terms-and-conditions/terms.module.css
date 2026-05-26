@@ -70,6 +70,10 @@
   font-weight: 400;
   color: #6E736A;
 }
+p.bold, .bold p {
+  font-weight: 600;
+  color: black;
+}
 @media (max-width: 1440px) {
   .mainPage {
     padding-right: 300px;

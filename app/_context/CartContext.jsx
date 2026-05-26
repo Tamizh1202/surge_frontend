@@ -506,7 +506,35 @@ export function CartProvider({ children }) {
         // Save whenever there are customSelections OR productHighlights — either alone
         // is enough to distinguish two items that would otherwise be merged by the server.
         if (customSelections || productHighlights) {
-          const existingSplits = loadSplitsForItem(product, vId) || [];
+          let existingSplits = loadSplitsForItem(product, vId) || [];
+
+          // If no splits recorded yet, retroactively create splits for any items already
+          // in state with the same product+vId (e.g. a plain item added before highlights
+          // were selected). Without this, the plain item's quantity gets absorbed into
+          // the new highlighted split instead of staying as a separate cart entry.
+          if (existingSplits.length === 0) {
+            const prevItems = items.filter(
+              (i) =>
+                String(i.product) === String(product) &&
+                (i.vId || null) === (vId || null),
+            );
+            if (prevItems.length > 0) {
+              existingSplits = prevItems.map((i) => ({
+                _cartKey:
+                  i._cartKey ||
+                  makeCartItemKey(
+                    String(i.product),
+                    i.vId || null,
+                    i.customSelections || null,
+                    i.productHighlights || null,
+                  ),
+                customSelections: i.customSelections || null,
+                productHighlights: i.productHighlights || null,
+                quantity: i.quantity,
+              }));
+            }
+          }
+
           const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
           if (splitIndex >= 0) {
             existingSplits[splitIndex].quantity += quantity;
@@ -583,14 +611,19 @@ export function CartProvider({ children }) {
       try {
         const splits = loadSplitsForItem(product, vId);
         if (splits && splits.length > 1 && cartKey) {
-          // Other splits remain — remove this one and decrement server qty by 1
+          // Other splits remain — remove this split and decrement server qty by its quantity
+          const splitToRemove = splits.find((s) => s._cartKey === cartKey);
           const remaining = splits.filter((s) => s._cartKey !== cartKey);
           saveSplitsForItem(product, vId || null, remaining);
-          const res = await axiosClient.patch("/api/website/cart", {
-            product,
-            vId: vId || null,
-            action: "decrement",
-          });
+          const removeQty = splitToRemove?.quantity || 1;
+          let res;
+          for (let i = 0; i < removeQty; i++) {
+            res = await axiosClient.patch("/api/website/cart", {
+              product,
+              vId: vId || null,
+              action: "decrement",
+            });
+          }
           applyCartResponse(res.data);
         } else {
           // Last (or only) split — remove entirely from server

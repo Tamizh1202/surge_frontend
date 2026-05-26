@@ -6,10 +6,10 @@ import Choosesurge from './components/Choosesurge/Choosesurge';
 export default function AboutUsPage() {
   return (
     <main>
-      <Landing />
-      {/* <Mission /> */}
-      <Logos />
-      <Choosesurge />
+      {/* <Landing /> */}
+      <Mission />
+      {/* <Logos /> */}
+      {/* <Choosesurge /> */}
     </main>
   );
 }

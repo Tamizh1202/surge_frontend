@@ -55,6 +55,7 @@ export default function Mission() {
               pin: true,
               scrub: 0.8,
               markers: true,
+              pinSpacing: true,
               onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
@@ -64,7 +65,7 @@ export default function Mission() {
             tl.fromTo(
               card,
               { yPercent: 120, opacity: 0 },
-              { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
+              { yPercent: -50, opacity: 1, ease: "none", duration: 1 },
               index - 1
             );
           });

@@ -3,6 +3,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 import axiosClient from "@/lib/axios";
+import { formatImageUrl } from "@/lib/imageUtils";
 
 export default function OrderSuccessContent() {
   const router = useRouter();
@@ -186,7 +187,7 @@ export default function OrderSuccessContent() {
                 <div className={styles.SummaryItem} key={idx}>
                   <div className={styles.SummaryItemImg}>
                     <img
-                      src={item.image || '/1.png'}
+                      src={formatImageUrl(item.image) || '/1.png'}
                       alt={item.name}
                       width={72}
                       height={72}

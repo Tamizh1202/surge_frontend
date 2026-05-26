@@ -173,7 +173,9 @@ export default function ProductOne({ initialProduct }) {
 
   if (loading || !product) return <PageLoader />;
 
-  const isOutOfStock = initialProduct.inStock === false;
+  const isOutOfStock = product.variants.length > 0
+    ? selectedVariant?.variantInStock === false
+    : initialProduct.inStock === false;
 
   const displayPrice = selectedVariant
     ? (selectedVariant.variantSalePrice || selectedVariant.variantRegularPrice)
@@ -275,9 +277,9 @@ export default function ProductOne({ initialProduct }) {
                   ) : (
                     <>
                       <div className={styles.quantityPicker}>
-                        <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>−</button>
+                        <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}>−</button>
                         <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
-                        <button onClick={() => setQuantity(q => Math.min(5, q + 1))}>+</button>
+                        <button onClick={() => setQuantity(q => Math.min(5, q + 1))} disabled={quantity >= 5}>+</button>
                       </div>
                       <AddToCart
                         product={{

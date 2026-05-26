@@ -307,7 +307,9 @@ export default function Listing({ category }) {
                                 ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice)
                                 : (item.salePrice || item.regularPrice);
                             const price = rawPrice ? `AED ${rawPrice}` : '';
-                            const isOutOfStock = item.inStock === false;
+                            const isOutOfStock = item.variants?.length > 0
+                                ? firstVariant?.variantInStock === false
+                                : item.inStock === false;
 
                             return (
                                 <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>

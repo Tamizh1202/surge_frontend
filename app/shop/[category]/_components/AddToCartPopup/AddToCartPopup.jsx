@@ -64,6 +64,8 @@ export default function ProductPopup({ product, onClose }) {
     const [quantity, setQuantity] = useState(1);
     const [loading, setLoading] = useState(false);
 
+    const isOutOfStock = selectedVariant?.variantInStock === false;
+
     const price = product?.salePrice
         ? `AED ${product.salePrice}`
         : product?.regularPrice
@@ -136,9 +138,9 @@ export default function ProductPopup({ product, onClose }) {
                     <div className={styles.field}>
                         <label className={styles.fieldLabel}>Quantity</label>
                         <div className={styles.qtyControl}>
-                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.max(1, q - 1))} aria-label="Decrease">−</button>
+                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.max(1, q - 1))} disabled={quantity <= 1} aria-label="Decrease">−</button>
                             <div className={styles.qtyValue}>{String(quantity).padStart(2, "0")}</div>
-                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(5, q + 1))} aria-label="Increase">+</button>
+                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(5, q + 1))} disabled={quantity >= 5} aria-label="Increase">+</button>
                         </div>
                     </div>
                 </div>
@@ -160,14 +162,20 @@ export default function ProductPopup({ product, onClose }) {
                 ))}
 
                 {/* CTA */}
-                <button
-                    type="button"
-                    className={styles.addBtn}
-                    onClick={handleAddToCart}
-                    disabled={loading}
-                >
-                    {loading ? "Adding..." : "Add to Cart"}
-                </button>
+                {isOutOfStock ? (
+                    <button type="button" className={styles.outOfStockBtn} disabled>
+                        Out of Stock
+                    </button>
+                ) : (
+                    <button
+                        type="button"
+                        className={styles.addBtn}
+                        onClick={handleAddToCart}
+                        disabled={loading}
+                    >
+                        {loading ? "Adding..." : "Add to Cart"}
+                    </button>
+                )}
 
             </div>
         </div>

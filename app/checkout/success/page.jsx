@@ -29,7 +29,7 @@ function OrderSuccessContent() {
     try {
       const stored = JSON.parse(localStorage.getItem("orderCustomSelections") || "{}");
       setStoredSelections(stored[orderId] || []);
-    } catch (e) {}
+    } catch (e) { }
 
     const fetchOrder = async () => {
       try {
@@ -189,10 +189,10 @@ function OrderSuccessContent() {
                 const productName = item.product?.name || item.name || "Coffee Product";
                 const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
 
-                const imgUrl = formatImageUrl(
-                  item.productImage?.url || item.product?.productImage?.url || item.image
-                ) || '/1.png';
-
+                // const imgUrl = formatImageUrl(
+                //   item.product?.productImage?.url || item.productImage?.url || item.image
+                // ) || '/1.png';
+                const imgUrl = formatImageUrl(item.image) || '/1.png';
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
 
                 // _customization is set by the expansion logic above (per-item highlight text).
@@ -207,7 +207,7 @@ function OrderSuccessContent() {
                 const metaText = [finalTagline, selectionText]
                   .filter(Boolean)
                   .join(", ");
-            
+
 
                 return (
                   <div className={styles.SummaryItem} key={idx} style={{ alignItems: 'flex-start' }}>
@@ -224,15 +224,15 @@ function OrderSuccessContent() {
                         {productName}
                         {variantName && <span>, {variantName}g</span>}
                       </p>
-                      
+
                       {/* Line 2: Added Metadata configuration rendering matching OrderSummary */}
                       {metaText && (
-                        <div style={{ fontSize: "12px", fontWeight: '500', color: "#818686", margin: '4px 0 0 0', lineHeight: '1.2',fontFamily: 'Raleway' }}>
+                        <div style={{ fontSize: "12px", fontWeight: '500', color: "#818686", margin: '4px 0 0 0', lineHeight: '1.2', fontFamily: 'Raleway' }}>
                           {metaText}
                         </div>
                       )}
 
-                      <span style={{ marginTop: '16px',fontSize: "16px", fontWeight: '400', color: "#414343"}}>{item.quantity}x</span>
+                      <span style={{ marginTop: '16px', fontSize: "16px", fontWeight: '400', color: "#414343" }}>{item.quantity}x</span>
                     </div>
                     <p className={styles.SummaryItemPrice}>
                       AED {itemPrice.toFixed(0)}

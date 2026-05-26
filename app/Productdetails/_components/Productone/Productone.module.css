@@ -345,9 +345,14 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-.quantityPicker button:hover {
+.quantityPicker button:hover:not(:disabled) {
   background-color: var(--primary-color);
   color: #ffffff;
+}
+
+.quantityPicker button:disabled {
+  color: #c0b9b9;
+  cursor: default;
 }
 
 .addToCart {

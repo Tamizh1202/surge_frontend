@@ -483,6 +483,16 @@ export function CartProvider({ children }) {
     const cartKey = makeCartItemKey(product, vId || null, customSelections, productHighlights);
 
     if (session?.user) {
+      // Per-highlight cap: check before posting to server so we never over-increment
+      if (customSelections || productHighlights) {
+        const existingSplits = loadSplitsForItem(product, vId) || [];
+        const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
+        if (splitIndex >= 0 && existingSplits[splitIndex].quantity + quantity > 5) {
+          toast.error("Maximum quantity of 5 per item reached");
+          return;
+        }
+      }
+
       try {
         const res = await axiosClient.post("/api/website/cart", {
           product,
@@ -614,6 +624,10 @@ export function CartProvider({ children }) {
             if (action === "increment") newQty = oldQty + 1;
             else if (action === "decrement") newQty = Math.max(1, oldQty - 1);
             else if (typeof quantity === "number") newQty = Math.max(1, quantity);
+
+            if (newQty > 5) {
+              return { ok: false, message: "Maximum quantity of 5 per item reached" };
+            }
 
             if (newQty !== oldQty) {
               splits[splitIndex].quantity = newQty;

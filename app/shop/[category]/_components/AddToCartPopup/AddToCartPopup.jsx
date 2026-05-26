@@ -80,7 +80,7 @@ export default function ProductPopup({ product, onClose }) {
         if (loading) return;
         setLoading(true);
         try {
-            const imageUrl = formatImageUrl(product.productImage);
+            const imageUrl = formatImageUrl(selectedVariant?.variantImage || product.productImage);
             await addToCart(product.id, quantity, selectedVariant?.id || "", {
                 productId: product.id,
                 name: product.name,

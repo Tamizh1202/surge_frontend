@@ -58,10 +58,10 @@ function OrderSuccessContent() {
 
     // Build a queue of stored customizations keyed by "productId__variantId"
     const queues = {};
-    storedSelections.forEach(({ productId, variantId, customization, quantity }) => {
+    storedSelections.forEach(({ productId, variantId, customization, quantity, image }) => {
       const key = `${productId}__${variantId || ""}`;
       if (!queues[key]) queues[key] = [];
-      queues[key].push({ customization, quantity: quantity || 1 });
+      queues[key].push({ customization, quantity: quantity || 1, image: image || "" });
     });
 
     const result = [];
@@ -78,8 +78,8 @@ function OrderSuccessContent() {
         const serverQty = Number(item.quantity);
         if (serverQty >= totalStoredQty) {
           // Backend merged these — expand each customization into its own row
-          queue.forEach(({ customization, quantity }) => {
-            result.push({ ...item, quantity, _customization: customization });
+          queue.forEach(({ customization, quantity, image }) => {
+            result.push({ ...item, quantity, _customization: customization, _image: image });
           });
           const remainder = serverQty - totalStoredQty;
           if (remainder > 0) {
@@ -92,7 +92,7 @@ function OrderSuccessContent() {
 
       // Item was not merged (or no stored data) — use queue entry if available
       const first = queue?.shift();
-      result.push({ ...item, _customization: first?.customization || '' });
+      result.push({ ...item, _customization: first?.customization || '', _image: first?.image || '' });
     });
 
     return result;
@@ -189,10 +189,12 @@ function OrderSuccessContent() {
                 const productName = item.product?.name || item.name || "Coffee Product";
                 const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
 
-                // const imgUrl = formatImageUrl(
-                //   item.product?.productImage?.url || item.productImage?.url || item.image
-                // ) || '/1.png';
-                const imgUrl = formatImageUrl(item.image) || '/1.png';
+                const variantForImage = item.product?.variants?.find(
+                  v => v.id === (item.variantID || item.vId || item.variantId)
+                );
+                const imgUrl = item._image
+                  || formatImageUrl(variantForImage?.variantImage || item.product?.productImage || item.image)
+                  || '/1.png';
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
 
                 // _customization is set by the expansion logic above (per-item highlight text).

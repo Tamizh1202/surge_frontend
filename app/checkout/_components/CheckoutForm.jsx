@@ -40,6 +40,7 @@ const rememberOrderSelections = (orderId, products) => {
     customSelections: product.customSelections || {},
     customization: Object.values(product.customSelections || {}).filter(Boolean).join(", "),
     quantity: product.quantity || 1,
+    image: product.image || "",
   }));
 
   if (selections.length === 0) return;

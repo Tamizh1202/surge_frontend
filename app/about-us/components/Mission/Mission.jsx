@@ -30,7 +30,8 @@ export default function Mission() {
               end: "+=200%",
               pin: true,
               scrub: 0.8,
-              // Remove anticipatePin — it miscalculates in production
+              markers: true,
+              onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
           });
@@ -53,6 +54,8 @@ export default function Mission() {
               end: `+=${cards.length * 100}%`,
               pin: true,
               scrub: 0.8,
+              markers: true,
+              onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
           });

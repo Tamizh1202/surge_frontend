@@ -1,12 +1,12 @@
 .container {
   display: flex;
-  width: 100%;
+  width: 100vw;
   height: 100svh;
   background-color: #F8F8F8;
   position: relative;
   overflow: hidden;
   box-sizing: border-box;
-  gap: 0; 
+  gap: 0;
 }
 
 .leftSide {
@@ -76,7 +76,7 @@
   transform: translate(-40%, -40%);
   pointer-events: none;
   display: flex;
-  
+
   justify-content: center;
 }
 
@@ -160,7 +160,7 @@
     height: 100dvh;
     width: 100%;
 
-    padding:85px 24px 32px 24px;
+    padding: 85px 24px 32px 24px;
     background-color: #F5F5F5;
     gap: 32px;
     overflow-y: auto;

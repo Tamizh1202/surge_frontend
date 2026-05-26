@@ -30,8 +30,8 @@ export default function Mission() {
               end: "+=200%",
               pin: true,
               scrub: 0.8,
-              markers: true,
-              onUpdate: (self) => console.log(self.progress),
+              // markers: true,
+              // onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
           });
@@ -54,9 +54,9 @@ export default function Mission() {
               end: `+=${cards.length * 100}%`,
               pin: true,
               scrub: 0.8,
-              markers: true,
+              // markers: true,
               pinSpacing: true,
-              onUpdate: (self) => console.log(self.progress),
+              // onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
           });

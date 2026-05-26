@@ -185,12 +185,14 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 
 .locationCard:first-child {
   padding-left: 0;
+  text-align: center;
 }
 
 
 .locationCard + .locationCard {
   position: relative;
-  padding-left: 81px; 
+  /* padding-left: 81px;  */
+  text-align:center;
 }
 
 .locationCard + .locationCard::before {

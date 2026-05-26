@@ -15,8 +15,6 @@ export default function Mission() {
 
     const cards = cardsRef.current.filter(Boolean);
     let ctx;
-    let initRafId;
-    let roRafId;
 
     const setupCtx = () => {
       if (ctx) ctx.revert();
@@ -32,8 +30,7 @@ export default function Mission() {
               end: "+=200%",
               pin: true,
               scrub: 0.8,
-              anticipatePin: 1,
-              fastScrollEnd: true,
+              // Remove anticipatePin — it miscalculates in production
               invalidateOnRefresh: true,
             },
           });
@@ -56,8 +53,6 @@ export default function Mission() {
               end: `+=${cards.length * 100}%`,
               pin: true,
               scrub: 0.8,
-              anticipatePin: 1,
-              fastScrollEnd: true,
               invalidateOnRefresh: true,
             },
           });
@@ -75,19 +70,14 @@ export default function Mission() {
       }, containerRef);
     };
 
-    // ResizeObserver fires whenever the page height changes — fonts settling,
-    // logo images loading, video metadata, anything that shifts layout above
-    // Mission. Time-based timeouts (setTimeout) are guesses; this is exact.
-    const ro = new ResizeObserver(() => {
-      cancelAnimationFrame(roRafId);
-      roRafId = requestAnimationFrame(() => ScrollTrigger.refresh());
-    });
-
+    // Wait for full page load including all assets, then single refresh
     const init = () => {
-      initRafId = requestAnimationFrame(() => {
-        setupCtx();
-        ScrollTrigger.refresh();
-        ro.observe(document.documentElement);
+      // Double RAF ensures browser has painted and layout is truly settled
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          setupCtx();
+          ScrollTrigger.refresh();
+        });
       });
     };
 
@@ -98,9 +88,6 @@ export default function Mission() {
     }
 
     return () => {
-      cancelAnimationFrame(initRafId);
-      cancelAnimationFrame(roRafId);
-      ro.disconnect();
       window.removeEventListener("load", init);
       if (ctx) ctx.revert();
     };
@@ -117,7 +104,6 @@ export default function Mission() {
             height={647}
             className={styles.product}
             priority
-            onLoad={() => ScrollTrigger.refresh()} // ✅ if image shifts layout after build, re-measure
           />
           <div className={styles.textcontent}>
             <h1 className={styles.storytitle}>Our Story</h1>

@@ -4,13 +4,14 @@ import styles from "./Mission.module.css";
 import Image from "next/image";
 import storyImg from "./story.webp";
 import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Mission() {
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
-  useEffect(() => {
+  useGSAP(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     const cards = cardsRef.current.filter(Boolean);
@@ -55,7 +56,7 @@ export default function Mission() {
               pin: true,
               scrub: 0.8,
               markers: true,
-              pinSpacing: true,
+              // pinSpacing: true,
               onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },

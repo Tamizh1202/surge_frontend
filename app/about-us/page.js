@@ -7,7 +7,7 @@ export default function AboutUsPage() {
   return (
     <main>
       <Landing />
-      <Mission />
+      {/* <Mission /> */}
       <Logos />
       <Choosesurge />
     </main>

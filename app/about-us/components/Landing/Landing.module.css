@@ -157,13 +157,13 @@
   .container {
     display: flex;
     flex-direction: column;
-    height: 100dvh;
+    min-height: 100dvh;
     width: 100%;
 
     padding: 85px 24px 32px 24px;
     background-color: #F5F5F5;
     gap: 32px;
-    overflow-y: auto;
+    overflow: visible;
     box-sizing: border-box;
   }
 

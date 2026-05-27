@@ -79,7 +79,7 @@
   transition: transform 0.3s ease;
 
   /* Combined: Shifted up 3px AND rotated 180deg by default */
-  transform: translateY(-5px) rotate(180deg);
+  transform: translateY(0px) rotate(180deg);
 }
 
 .arrowUp {

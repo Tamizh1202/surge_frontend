@@ -58,6 +58,10 @@ const saveSplitsForItem = (product, vId, splits) => {
   } catch { }
 };
 
+// Normalize a vId value that may arrive as a populated Payload object or a plain string
+const normVId = (v) =>
+  typeof v === 'object' && v !== null ? (v.id || v.value?.id || null) : (v || null);
+
 const saveSelectionsCache = (key, customSelections) => {
   if (typeof window === "undefined" || !customSelections) return;
   try {
@@ -487,8 +491,8 @@ export function CartProvider({ children }) {
       if (customSelections || productHighlights) {
         const existingSplits = loadSplitsForItem(product, vId) || [];
         const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
-        if (splitIndex >= 0 && existingSplits[splitIndex].quantity + quantity > 5) {
-          toast.error("Maximum quantity of 5 per item reached");
+        if (splitIndex >= 0 && existingSplits[splitIndex].quantity + quantity > 10) {
+          toast.error("Maximum quantity of 10 per item reached");
           return;
         }
       }
@@ -548,7 +552,7 @@ export function CartProvider({ children }) {
           // If the server has a combined per-product cap and returned the same (or lower)
           // total, skip saving — otherwise stale-detection collapses the split items.
           const serverItem = (data.items || []).find(
-            (i) => String(i.product) === String(product) && (i.vId || null) === (vId || null),
+            (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
           );
           if ((serverItem?.quantity ?? 0) >= newTotal) {
             saveSplitsForItem(product, vId || null, existingSplits);
@@ -560,7 +564,7 @@ export function CartProvider({ children }) {
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
-            (i.vId || null) === (vId || null),
+            normVId(i.vId) === (vId || null),
         );
         if (added || details) {
           addToCartToast({ ...(added || {}), ...(details || {}), customSelections, quantity }, openCart);
@@ -669,8 +673,8 @@ export function CartProvider({ children }) {
             else if (action === "decrement") newQty = Math.max(1, oldQty - 1);
             else if (typeof quantity === "number") newQty = Math.max(1, quantity);
 
-            if (newQty > 5) {
-              return { ok: false, message: "Maximum quantity of 5 per item reached" };
+            if (newQty > 10) {
+              return { ok: false, message: "Maximum quantity of 10 per item reached" };
             }
 
             if (newQty !== oldQty) {
@@ -686,7 +690,7 @@ export function CartProvider({ children }) {
               // total, keep the original splits so stale-detection doesn't collapse
               // separate highlighted items into one merged item.
               const serverItem = (res.data.items || []).find(
-                (i) => String(i.product) === String(product) && (i.vId || null) === (vId || null),
+                (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
               );
               const serverQty = serverItem?.quantity ?? 0;
               const currentTotal = splits.reduce((s, x) => s + x.quantity, 0);
@@ -699,7 +703,7 @@ export function CartProvider({ children }) {
               } else {
                 // Server didn't accept — re-render with server state and old split quantities
                 applyCartResponse(res.data);
-                return { ok: false, message: "Maximum quantity of 5 per item reached" };
+                return { ok: false, message: "Maximum quantity of 10 per item reached" };
               }
             }
           }

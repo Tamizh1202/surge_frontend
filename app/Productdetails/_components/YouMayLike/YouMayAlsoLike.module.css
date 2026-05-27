@@ -1,5 +1,5 @@
 .section {
-padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
+  padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
 }
 
 .heading {
@@ -119,15 +119,16 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
 
 .priceRow {
   display: flex;
-  align-items: center;
+  align-items: baseline;
   justify-content: space-between;
+  flex-direction: column;
   gap: 12px;
 }
 
 .price {
   font-family: var(--font-montserrat);
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
 }
@@ -140,6 +141,7 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
   color: #fff;
   background: var(--primary-color);
   border: none;
+  width: 100%;
   padding: 9px 20px;
   cursor: pointer;
   transition: opacity 0.2s ease;
@@ -234,18 +236,75 @@ padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
 
 @media (max-width: 768px) {
   .section {
-    padding: 0 20px 60px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 280px));
-    gap: 20px;
+    padding: 0 0 60px;
   }
 
   .heading {
     font-size: 20px;
-    margin-bottom: 24px;
+    margin-bottom: 20px;
+    padding: 0 20px;
+  }
+
+  .grid {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 14px;
+    padding: 0 20px 16px;
+    /* ← real padding, left AND right */
+    scroll-padding-left: 20px;
+    /* ← tells snap: honour that 20px */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* no ::before / ::after needed anymore */
+  .card {
+    flex: 0 0 72vw;
+    max-width: 280px;
+    scroll-snap-align: start;
+    border: 0;
+    background-color: transparent;
+  }
+
+  .imageLink {
+    padding: 20px;
+  }
+
+  .productImage {
+    width: calc(100% - 40px) !important;
+    height: calc(100% - 40px) !important;
+    inset: 20px !important;
+  }
+
+  .info {
+    padding: 12px 0 0;
+  }
+
+  .dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #d8d8d8;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .dotActive {
+    background: var(--primary-color);
+    transform: scale(1.3);
   }
 }
-
-

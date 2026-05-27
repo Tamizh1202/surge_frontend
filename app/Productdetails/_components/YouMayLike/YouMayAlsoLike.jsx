@@ -1,7 +1,7 @@
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import styles from './YouMayAlsoLike.module.css';
 import { formatImageUrl } from '@/lib/imageUtils';
 import { useCart } from '@/app/_context/CartContext';
@@ -44,6 +44,10 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
     const [popupProduct, setPopupProduct] = useState(null);
     const [addingId, setAddingId] = useState(null);
 
+    // ── Dot indicator state (mobile carousel only) ──
+    const [activeDot, setActiveDot] = useState(0);
+    const gridRef = useRef(null);
+
     useEffect(() => {
         if (recommendedProducts && recommendedProducts.length > 0) {
             const mapped = recommendedProducts.map((p) => {
@@ -67,6 +71,15 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
             setLoading(false);
         }
     }, [recommendedProducts]);
+
+    // Update active dot as user scrolls the carousel
+    const handleScroll = useCallback(() => {
+        const el = gridRef.current;
+        if (!el) return;
+        const cardWidth = el.scrollWidth / products.length;
+        const idx = Math.round(el.scrollLeft / cardWidth);
+        setActiveDot(Math.min(idx, products.length - 1));
+    }, [products.length]);
 
     const needsPopup = (raw) =>
         raw.variants?.length > 0 &&
@@ -99,61 +112,73 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
         <>
             <section className={styles.section}>
                 <h2 className={styles.heading}>You may also like</h2>
-                <div className={styles.grid}>
+                <div className={styles.grid} ref={gridRef} onScroll={handleScroll}>
                     {products.map((product) => {
-                              const isAdding = addingId === product.id;
-                              const productHref = `/shop/${product.categorySlug}/${product.slug}`;
-                              return (
-                                  <div key={product.id} className={styles.card}>
-                                      <Link
-                                          href={productHref}
-                                          className={styles.imageLink}
-                                          aria-label={`View ${product.title}`}
-                                      >
-                                          <Image
-                                              src={product.image}
-                                              alt={product.title}
-                                              fill
-                                              sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
-                                              className={styles.productImage}
-                                          />
-                                          <button
-                                              className={styles.wishlistBtn}
-                                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product.id); }}
-                                          >
-                                              <svg width="18" height="18" viewBox="0 0 24 24"
-                                                  fill={isInWishlist(product.id) ? '#EA2424' : 'white'}>
-                                                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-                                              </svg>
-                                          </button>
-                                      </Link>
-                                      <div className={styles.info}>
-                                          <Link href={productHref} className={styles.titleLink}>
-                                              <h3 className={styles.title}>{product.title}</h3>
-                                          </Link>
-                                          <p className={styles.subtitle}>{product.subtitle}</p>
-                                          <div className={styles.priceRow}>
-                                              <span className={styles.price}>{product.price}</span>
-                                              {product.isOutOfStock ? (
-                                                  <button className={`${styles.addToCart} ${styles.outOfStock}`} disabled>
-                                                      Out of Stock
-                                                  </button>
-                                              ) : (
-                                                  <button
-                                                      className={styles.addToCart}
-                                                      onClick={() => handleAddToCart(product)}
-                                                      disabled={isAdding}
-                                                      style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
-                                                  >
-                                                      {isAdding ? 'Adding...' : 'Add to Cart'}
-                                                  </button>
-                                              )}
-                                          </div>
-                                      </div>
-                                  </div>
-                              );
-                          })}
+                        const isAdding = addingId === product.id;
+                        const productHref = `/shop/${product.categorySlug}/${product.slug}`;
+                        return (
+                            <div key={product.id} className={styles.card}>
+                                <Link
+                                    href={productHref}
+                                    className={styles.imageLink}
+                                    aria-label={`View ${product.title}`}
+                                >
+                                    <Image
+                                        src={product.image}
+                                        alt={product.title}
+                                        fill
+                                        sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 300px"
+                                        className={styles.productImage}
+                                    />
+                                    <button
+                                        className={styles.wishlistBtn}
+                                        onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(product.id); }}
+                                    >
+                                        <svg width="18" height="18" viewBox="0 0 24 24"
+                                            fill={isInWishlist(product.id) ? '#EA2424' : 'white'}>
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                                        </svg>
+                                    </button>
+                                </Link>
+                                <div className={styles.info}>
+                                    <Link href={productHref} className={styles.titleLink}>
+                                        <h3 className={styles.title}>{product.title}</h3>
+                                    </Link>
+                                    <p className={styles.subtitle}>{product.subtitle}</p>
+                                    <div className={styles.priceRow}>
+                                        <span className={styles.price}>{product.price}</span>
+                                        {product.isOutOfStock ? (
+                                            <button className={`${styles.addToCart} ${styles.outOfStock}`} disabled>
+                                                Out of Stock
+                                            </button>
+                                        ) : (
+                                            <button
+                                                className={styles.addToCart}
+                                                onClick={() => handleAddToCart(product)}
+                                                disabled={isAdding}
+                                                style={{ opacity: isAdding ? 0.7 : 1, cursor: isAdding ? 'not-allowed' : 'pointer' }}
+                                            >
+                                                {isAdding ? 'Adding...' : 'Add to Cart'}
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
+
+                {/* Dot indicators — only visible on mobile via CSS */}
+                {/* {products.length > 1 && (
+                    <div className={styles.dots}>
+                        {products.map((_, i) => (
+                            <span
+                                key={i}
+                                className={`${styles.dot} ${i === activeDot ? styles.dotActive : ''}`}
+                            />
+                        ))}
+                    </div>
+                )} */}
             </section>
 
             {popupProduct && (

@@ -9,11 +9,11 @@ import story3 from "../Stories/story3.webp";
 import Link from "next/link";
 
 const IMAGES = [story1, story2, story3];
-const TOTAL  = IMAGES.length;
-const DUR    = 1.1;          // seconds (GSAP)
-const GAP    = 3000;         // ms between rotations
-const SLIDE  = 260;          // px — matches frame width
-const EASE   = "power2.inOut";
+const TOTAL = IMAGES.length;
+const DUR = 1.1;          // seconds (GSAP)
+const GAP = 3000;         // ms between rotations
+const SLIDE = 260;          // px — matches frame width
+const EASE = "power2.inOut";
 
 /*
  * safeX — parking position for winL's waiting element.
@@ -30,7 +30,7 @@ const EASE   = "power2.inOut";
 function mod(n, m) { return ((n % m) + m) % m; }
 
 export default function AboutSection() {
-  const cur  = useRef(0);
+  const cur = useRef(0);
   const busy = useRef(false);
   const inView = useRef(true);
   const sectionRef = useRef(null);
@@ -52,14 +52,14 @@ export default function AboutSection() {
   function makeEl(idx, scaleVal) {
     if (typeof document === 'undefined') return null;
     const i = mod(idx, TOTAL);
-    const wrap  = document.createElement("div");
+    const wrap = document.createElement("div");
     wrap.style.cssText = "position:absolute;inset:0;";
     const inner = document.createElement("div");
     inner.style.cssText = "position:absolute;inset:0;transform-origin:center center;";
     gsap.set(inner, { scale: scaleVal });
     const img = document.createElement("img");
-    img.src    = IMAGES[i].src;
-    img.alt    = "Surge Story";
+    img.src = IMAGES[i].src;
+    img.alt = "Surge Story";
     img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
     inner.appendChild(img);
     wrap.appendChild(inner);
@@ -81,9 +81,9 @@ export default function AboutSection() {
 
     const c = cur.current;
     // winL's incoming element starts at scale 1.5 → park at safeX(1.5)
-    buildWindow(winL.current, mod(c - 1, TOTAL), mod(c,     TOTAL), 1.0, 1.5, getSafeX(1.5));
-    buildWindow(winC.current, mod(c,     TOTAL),  mod(c + 1, TOTAL), 1.5, 1.0, getSlide());
-    buildWindow(winR.current, mod(c + 1, TOTAL),  mod(c + 2, TOTAL), 1.0, 1.0, getSlide());
+    buildWindow(winL.current, mod(c - 1, TOTAL), mod(c, TOTAL), 1.0, 1.5, getSafeX(1.5));
+    buildWindow(winC.current, mod(c, TOTAL), mod(c + 1, TOTAL), 1.5, 1.0, getSlide());
+    buildWindow(winR.current, mod(c + 1, TOTAL), mod(c + 2, TOTAL), 1.0, 1.0, getSlide());
   }
 
   /*
@@ -101,7 +101,7 @@ export default function AboutSection() {
     const slide = getSlide();
 
     if (ch[0]) {
-      gsap.to(ch[0],                     { x: -slide,       duration: DUR, ease: EASE });
+      gsap.to(ch[0], { x: -slide, duration: DUR, ease: EASE });
       gsap.to(ch[0].querySelector("div"), { scale: curScaleEnd, duration: DUR, ease: EASE });
     }
     if (ch[1]) {
@@ -138,22 +138,24 @@ export default function AboutSection() {
       const c = cur.current;
 
       function refresh(winEl, nxtIdx, nxtX, nxtScale) {
-        winEl.children[0].remove();
-        gsap.set(winEl.children[0], { x: 0 });
-        const nxtEl = makeEl(nxtIdx, nxtScale);
-        gsap.set(nxtEl, { x: nxtX });
-        winEl.appendChild(nxtEl);
+        const exitedEl = winEl.children[0];            // recycle instead of remove
+        const i = mod(nxtIdx, TOTAL);
+        exitedEl.querySelector("img").src = IMAGES[i].src;
+        gsap.set(exitedEl.querySelector("div"), { scale: nxtScale });
+        gsap.set(exitedEl, { x: nxtX });
+        winEl.appendChild(exitedEl);                   // moves in-place, no DOM mutation
       }
 
       // winL's freshly-added waiting element starts at scale 1.5, parked at safeX(1.5)
-      refresh(winL.current, mod(c,     TOTAL), getSafeX(1.5), 1.5);
-      refresh(winC.current, mod(c + 1, TOTAL), getSlide(),  1.0);
-      refresh(winR.current, mod(c + 2, TOTAL), getSlide(),  1.0);
+      refresh(winL.current, mod(c, TOTAL), getSafeX(1.5), 1.5);
+      refresh(winC.current, mod(c + 1, TOTAL), getSlide(), 1.0);
+      refresh(winR.current, mod(c + 2, TOTAL), getSlide(), 1.0);
       busy.current = false;
     }, DUR * 1000 + 80);
   }
 
   useEffect(() => {
+    
     init();
     const interval = setInterval(rotate, GAP);
     const handleResize = () => {

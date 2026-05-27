@@ -76,12 +76,15 @@
   display: inline-block;
   font-size: 10px;
   margin-left: 8px;
-  transform: rotate(180deg);
   transition: transform 0.3s ease;
+
+  /* Combined: Shifted up 3px AND rotated 180deg by default */
+  transform: translateY(-5px) rotate(180deg);
 }
 
 .arrowUp {
-  transform: rotate(0deg);
+  /* Combined: Keeps the 3px shift, but changes rotation to 0deg on click */
+  transform: translateY(-3px) rotate(0deg);
 }
 
 .hamburger {

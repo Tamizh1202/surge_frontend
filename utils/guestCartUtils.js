@@ -47,7 +47,7 @@ export const makeCartItemKey = (product, vId, customSelections, productHighlight
   return `${product}__${vId || ""}__${selKey}${hlKey ? `__${hlKey}` : ""}`;
 };
 
-const MAX_ITEM_QTY = 5;
+const MAX_ITEM_QTY = 10;
 
 async function fetchCartProduct(productId, vid = null) {
   const res = await axiosClient.get(`/api/web-products/${productId}?depth=1`);

@@ -84,7 +84,7 @@ body {
   top: 50%;
   left: 35%;
   transform: translate(-50%, -50%);
-  opacity: 1 !important;
+  opacity: 1;
   display: flex;
   flex-direction: column;
   padding: 50px;
@@ -312,9 +312,9 @@ body {
 
   .left {
     width: 100%;
-    height: 420px;
+    flex: 1;
+    min-height: 0;
     position: relative;
-    flex: none;
     clip-path: inset(0 0 50% 0);
   }
 
@@ -329,14 +329,20 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     width: 85% !important;
-    height: 380px !important;
+    height: 100% !important;
     padding: 30px !important;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
   }
 
-  .card:nth-child(1) {
+  .card:nth-child(1),
+  .card:nth-child(2),
+  .card:nth-child(3) {
+    height: 100% !important;
+  }
+
+  /* .card:nth-child(1) {
     z-index: 10;
     height: 380px !important;
   }
@@ -349,7 +355,7 @@ body {
   .card:nth-child(3) {
     z-index: 30;
     height: 380px !important;
-  }
+  } */
 
   .text {
     font-size: 22px;

@@ -166,7 +166,7 @@ const CartSideBar = () => {
       <span>{item.quantity}</span>
       <button
         onClick={() => handleIncrease(item.product, item.vId, item._cartKey)}
-        disabled={item.quantity >= 5 || !!itemErrors[key]}
+        disabled={item.quantity >= 10 || !!itemErrors[key]}
       >
         <PlusIcon />
       </button>

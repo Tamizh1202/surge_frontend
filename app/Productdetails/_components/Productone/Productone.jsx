@@ -279,7 +279,7 @@ export default function ProductOne({ initialProduct }) {
                       <div className={styles.quantityPicker}>
                         <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1}>−</button>
                         <span style={{ margin: "0px 10px", fontFamily: "var(--font-raleway)" }}>{quantity.toString().padStart(2, '0')}</span>
-                        <button onClick={() => setQuantity(q => Math.min(5, q + 1))} disabled={quantity >= 5}>+</button>
+                        <button onClick={() => setQuantity(q => Math.min(10, q + 1))} disabled={quantity >= 10}>+</button>
                       </div>
                       <AddToCart
                         product={{

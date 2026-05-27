@@ -275,48 +275,59 @@ const WhiteMantisBeans = () => {
                         )}
                     </div>
                     <div className={styles.mobileOnly}>
-                        <div className={styles.grid}>
-                            <div className={styles.gridss}>
-
-                                {displayData.map((item, index) => {
-                                    const { datePart: txDate, timePart: txTime } = formatDateParts(item.transaction_date);
-                                    return (
-                                        <div key={index} className={styles.tableContent}>
-                                            <div className={styles.LHS}>
-                                                <div className={styles.itemDate}
-                                                    style={{ color: item.coins.includes('+') ? '#428B54' : '#E54842' }}>
-                                                    {item.transaction_type}
-                                                </div>
-                                                <div className={styles.itemDetail}>
-                                                    {item.details.split(':').map((part, i) => (
-                                                        <div key={i}>
-                                                            {i === 0 ? part + ':' : part.trim()}
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-
-                                            <div className={styles.RHS}>
-                                                <div className={styles.itemDate} style={{
-                                                    color: item.coins.includes('+') ? '#428B54' : '#E54842'
-                                                }}>
-                                                    {item.coins}
-                                                </div>
-                                                <div className={styles.itemDate}>
-                                                    <div>{txDate}</div>
-                                                    <div>{txTime}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                                {hasMore && (
-                                    <div className={styles.more}>
-                                        <a onClick={loadMore} style={{ cursor: 'pointer' }}>View more</a>
-                                    </div>
-                                )}
+                        {displayData.length === 0 ? (
+                            <div className={styles.zeroState}>
+                                <Image src={beansZero} alt="No transactions" width={220} height={210} />
+                                <div className={styles.zeroStateP}>
+                                    <p style={{ color: 'black' }}>No Surge Beans yet</p>
+                                    <p>Start earning beans when you shop.</p>
+                                </div>
+                                <button className={styles.zeroStateButton} onClick={() => router.push("/shop")}>
+                                    Explore Coffee
+                                </button>
                             </div>
-                        </div>
+                        ) : (
+                            <div className={styles.grid}>
+                                <div className={styles.gridss}>
+                                    {displayData.map((item, index) => {
+                                        const { datePart: txDate, timePart: txTime } = formatDateParts(item.transaction_date);
+                                        const isCredit = item.coins.includes('+');
+                                        const coinColor = isCredit ? '#428B54' : '#E54842';
+
+                                        return (
+                                            <div key={index} className={styles.tableContent}>
+                                                <div className={styles.LHS}>
+                                                    <div className={styles.itemDate} style={{ color: coinColor }}>
+                                                        {item.transaction_type}
+                                                    </div>
+                                                    <div className={styles.itemDetail}>
+                                                        {item.details.split(':').map((part, i) => (
+                                                            <div key={i}>{i === 0 ? part + ':' : part.trim()}</div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+
+                                                <div className={styles.RHS}>
+                                                    <div className={styles.itemDate} style={{ color: coinColor }}>
+                                                        {item.coins}
+                                                    </div>
+                                                    <div className={styles.itemDate}>
+                                                        <div>{txDate}</div>
+                                                        <div>{txTime}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+
+                                    {hasMore && (
+                                        <div className={styles.more}>
+                                            <a onClick={loadMore} style={{ cursor: 'pointer' }}>View more</a>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div ref={faqRef} className={styles.faq}>
                         <div className={styles.faqMain}>

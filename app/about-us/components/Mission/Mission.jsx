@@ -27,11 +27,10 @@ export default function Mission() {
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top top",
-              end: "+=200%",
+              end: "+=170%",
               pin: true,
               scrub: 0.8,
-              // markers: true,
-              // onUpdate: (self) => console.log(self.progress),
+              pinSpacing: false,   // ← add this
               invalidateOnRefresh: true,
             },
           });

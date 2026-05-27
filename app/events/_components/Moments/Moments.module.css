@@ -63,6 +63,7 @@ padding: 0 clamp(20px, 10vw, 125px) clamp(30px, 5vw, 60px);
   .momentsContainer {
     padding: 40px 40px;
     gap: 20px;
+    height:60vh;
   }
   
   .text {

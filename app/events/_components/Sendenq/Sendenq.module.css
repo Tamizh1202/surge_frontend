@@ -204,7 +204,7 @@
   border-radius: 0;
   /* border:1px solid var(--text-secondary); */
   /* no border radius */
-  box-shadow: 4px  8px 24px rgba(65, 67, 67, 0.12);
+  box-shadow: 4px 8px 24px rgba(65, 67, 67, 0.12);
   overflow: hidden;
 
   max-height: 0;
@@ -255,7 +255,7 @@
 }
 
 @media screen and (max-width: 1600px) {
- 
+
 
   .image {
     width: 100%;
@@ -312,6 +312,8 @@
 
   .row {
     gap: 15px;
+    align-items: flex-end;
+    /* ← add this */
   }
 
   .formBox input,
@@ -353,6 +355,9 @@
     display: flex;
     flex-direction: row;
     gap: 15px;
+
+    align-items: flex-end;
+
   }
 
   .formBox input,

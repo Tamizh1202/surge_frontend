@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState, useMemo, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Image from 'next/image';
 import styles from './page.module.css';
 import { formatImageUrl } from "@/lib/imageUtils";
 import { useCart } from "@/app/_context/CartContext";
@@ -192,7 +193,7 @@ function OrderSuccessContent() {
                 const variantForImage = item.product?.variants?.find(
                   v => v.id === (item.variantID || item.vId || item.variantId)
                 );
-                const imgUrl = item._image
+                const imgUrl = formatImageUrl(item._image)
                   || formatImageUrl(variantForImage?.variantImage || item.product?.productImage || item.image)
                   || '/1.png';
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
@@ -214,7 +215,7 @@ function OrderSuccessContent() {
                 return (
                   <div className={styles.SummaryItem} key={idx} style={{ alignItems: 'flex-start' }}>
                     <div className={styles.SummaryItemImg}>
-                      <img
+                      <Image
                         src={imgUrl}
                         alt={productName}
                         width={92}

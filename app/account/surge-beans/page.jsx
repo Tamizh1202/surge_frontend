@@ -111,7 +111,6 @@ const WhiteMantisBeans = () => {
                 <div className={styles.main}>
 
                 </div>
-                <h3 className={styles.pageTitle}>Surge Rewards</h3>
                 <div className={styles.main1}>
 
                     <div>
@@ -292,24 +291,43 @@ const WhiteMantisBeans = () => {
                                 <div className={styles.gridss}>
                                     {displayData.map((item, index) => {
                                         const { datePart: txDate, timePart: txTime } = formatDateParts(item.transaction_date);
+
+                                        // 1. Dynamic Styling Logic
                                         const isCredit = item.coins.includes('+');
                                         const coinColor = isCredit ? '#428B54' : '#E54842';
 
+                                        const badgeStyle = {
+                                            color: coinColor,
+                                            backgroundColor: isCredit ? 'rgba(66, 139, 84, 0.15)' : 'rgba(229, 72, 66, 0.15)',
+                                            display: 'inline-flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            padding: '4px 8px',
+                                            borderRadius: '20px',
+                                            fontSize: 'var(--fs-16)',
+                                            fontWeight: '500',
+                                            textTransform: 'capitalize',
+                                        };
+
                                         return (
                                             <div key={index} className={styles.tableContent}>
+                                                {/* Left Hand Side */}
                                                 <div className={styles.LHS}>
-                                                    <div className={styles.itemDate} style={{ color: coinColor }}>
+                                                    <div style={badgeStyle}>
                                                         {item.transaction_type}
                                                     </div>
                                                     <div className={styles.itemDetail}>
                                                         {item.details.split(':').map((part, i) => (
-                                                            <div key={i}>{i === 0 ? part + ':' : part.trim()}</div>
+                                                            <div key={i}>
+                                                                {i === 0 ? `${part}:` : part.trim()}
+                                                            </div>
                                                         ))}
                                                     </div>
                                                 </div>
 
+                                                {/* Right Hand Side */}
                                                 <div className={styles.RHS}>
-                                                    <div className={styles.itemDate} style={{ color: coinColor }}>
+                                                    <div className={styles.itemDate} style={{ color: coinColor, fontWeight: '600' }}>
                                                         {item.coins}
                                                     </div>
                                                     <div className={styles.itemDate}>
@@ -321,9 +339,12 @@ const WhiteMantisBeans = () => {
                                         );
                                     })}
 
+                                    {/* Load More Button */}
                                     {hasMore && (
                                         <div className={styles.more}>
-                                            <a onClick={loadMore} style={{ cursor: 'pointer' }}>View more</a>
+                                            <a onClick={loadMore} style={{ cursor: 'pointer' }}>
+                                                View more
+                                            </a>
                                         </div>
                                     )}
                                 </div>

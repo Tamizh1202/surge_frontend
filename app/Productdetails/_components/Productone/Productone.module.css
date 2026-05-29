@@ -1,19 +1,5 @@
-html {
-  overflow: auto;
-  height: 100%;
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
-  /* min-height: 200vh; */
-  /* tall enough to scroll past the sticky section */
-  background-color: #f8f8f8;
-}
-
 .container {
   position: relative;
-  /* add this */
   display: flex;
   flex-direction: column;
   min-height: 200vh;
@@ -61,14 +47,14 @@ html {
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 20px;
+  top: 0;
 }
 
 .cardWrapper {
   position: relative;
   width: 100%;
   max-width: 500px;
-  height: 650px;
+  height: min(650px, calc(100vh - 80px));
   display: flex;
   justify-content: center;
   align-items: center;
@@ -107,8 +93,7 @@ html {
   opacity: 1;
   visibility: visible;
   z-index: 2;
-  /* position: relative;
-  top:40px;    */
+  overflow-y: auto;
 }
 
 .card2Hide {
@@ -118,7 +103,7 @@ html {
   pointer-events: none;
 }
 
-/* -phy & Elements --- */
+/* --- Typography & Elements --- */
 .headerGroup {
   display: flex;
   flex-direction: column;
@@ -230,7 +215,6 @@ html {
   font-family: var(--font-raleway);
   font-weight: 400;
   text-align: left;
-  color: var(--primary-color);
   transition: border-color 0.2s ease, color 0.2s ease;
 }
 
@@ -239,7 +223,6 @@ html {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--primary-color);
-
 }
 
 .selectTrigger:hover,
@@ -293,7 +276,7 @@ html {
   background: #ffffff;
   color: #414343;
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fs-16);
   font-family: var(--font-raleway);
   text-align: left;
 }
@@ -303,11 +286,6 @@ html {
   background: rgba(196, 117, 78, 0.1);
   color: #C4754E;
 }
-
-/* .buttonGroup .sizeButton:hover {
-  color: white;
-  background-color: var(--primary-color);
-} */
 
 .sizeButton {
   padding: 12px 16px;
@@ -328,7 +306,6 @@ html {
 .quantityPicker {
   display: grid;
   grid-template-columns: auto 36px auto;
-  /* fixed middle column */
   align-items: center;
   border: 1px solid var(--primary-color);
   color: var(--primary-color);
@@ -337,7 +314,6 @@ html {
 .quantityPicker button {
   background: none;
   border: none;
-  /* margin:0px 3px; */
   padding: 13px 15px;
   cursor: pointer;
   color: var(--primary-color);
@@ -376,7 +352,7 @@ html {
   font-family: var(--font-raleway);
   font-weight: 600;
   cursor: not-allowed;
-  color:white;
+  color: white;
 }
 
 .specsTable {
@@ -389,7 +365,7 @@ html {
 }
 
 .specsTable td {
-
+  padding: 4px 8px;
   font-size: var(--fs-18);
   font-family: var(--font-raleway);
   font-weight: 400;
@@ -418,43 +394,6 @@ html {
   font-family: var(--font-raleway);
 }
 
-.cardWrapper {
-  position: relative;
-  width: 100%;
-  max-width: 500px;
-  height: 650px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.card1Show {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-}
-
-.card1Hide {
-  transform: translateY(-120%);
-  opacity: 0;
-  visibility: hidden;
-}
-
-.card2Show {
-  transform: translateY(0);
-  opacity: 1;
-  visibility: visible;
-  overflow-y: auto;
-  /* must be auto, not hidden */
-  /* height: 100%; */
-}
-
-.card2Hide {
-  transform: translateY(120%);
-  opacity: 0;
-  visibility: hidden;
-}
-
 .description {
   font-size: var(--fs-16);
   font-weight: 400;
@@ -479,77 +418,65 @@ html {
   display: none;
 }
 
+/* --- Medium laptop (1025–1399px) --- */
 @media (max-width: 1399px) and (min-width: 1025px) {
-
   .productWrapper {
-
-    width: 400px;
-
-  }
-
-  .detailsSection {
-    top: 50px;
+    width: clamp(300px, 28vw, 420px);
+    padding: 80px 0 30px 0;
   }
 
   .card {
-
     max-width: 460px;
-
-    padding: 40px;
-
-  }
-
-}
-
-
-
-
-
-@media (max-width: 1024px) {
-
-  .container {
-
-    flex-direction: row;
-
-  }
-
-  .imageSection {
-
-    flex: 0.8;
-
-  }
-
-  .productWrapper {
-
-    width: 320px;
-
-  }
-
-  .card {
-
-    padding: 30px;
-
-    max-width: 450px;
-
+    padding: 36px 44px;
     gap: 24px;
-
   }
 
   .cardWrapper {
-
-    height: 600px;
-
+    height: min(620px, calc(100vh - 100px));
   }
-
 }
 
+/* --- Small laptop / large tablet landscape (901–1024px) --- */
+@media (max-width: 1024px) and (min-width: 901px) {
+  .productWrapper {
+    width: clamp(180px, 26vw, 300px);
+    padding: 60px 0 20px 0;
+  }
 
+  .imageSection {
+    flex: 0.9;
+  }
 
+  .card {
+    padding: 24px 28px;
+    max-width: 420px;
+    gap: 18px;
+  }
+
+  .cardWrapper {
+    height: min(560px, calc(100vh - 100px));
+  }
+
+  .selectionGroup {
+    gap: 16px;
+  }
+
+  .addToCart {
+    padding: 12px 24px;
+  }
+
+  .outOfStockBtn {
+    padding: 12px 24px;
+  }
+}
+
+/* --- Tablet portrait (600–900px) --- */
 @media (min-width: 600px) and (max-width: 900px) {
   .container {
     flex-direction: column;
+    min-height: 0;
     height: auto;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .stickyWrapper {
@@ -568,13 +495,12 @@ html {
   .productWrapper {
     width: 55%;
     max-width: 300px;
+    padding: 0;
     margin: 0 auto;
-
   }
 
   .detailsSection {
     width: 100%;
-
     padding: 20px 15px 60px 15px;
     background-color: #F8F8F8;
     box-sizing: border-box;
@@ -582,6 +508,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
+    top: 0;
   }
 
   .cardWrapper {
@@ -589,7 +516,6 @@ html {
     flex-direction: column;
     gap: 25px;
     height: auto;
-
     width: 100%;
     max-width: 800px;
     position: static;
@@ -604,10 +530,7 @@ html {
     max-width: 100%;
     padding: 30px 20px;
     box-sizing: border-box;
-
     background: #ffffff;
-
-
     margin-bottom: 5px;
     transition: none;
   }
@@ -633,7 +556,7 @@ html {
     gap: 12px;
     width: 100%;
     margin-top: 5px;
-    margin-bottom:20px
+    margin-bottom: 20px;
   }
 
   .addToCart {
@@ -644,17 +567,13 @@ html {
   }
 }
 
-
-
-
-
-
-
+/* --- Mobile (325–600px) --- */
 @media (min-width: 325px) and (max-width: 600px) {
   .container {
     flex-direction: column;
+    min-height: 0;
     height: auto;
-    overflow-x: hidden;
+    overflow-x: clip;
   }
 
   .stickyWrapper {
@@ -670,12 +589,8 @@ html {
     background-color: #ffffff;
   }
 
-  .container {
-    min-height: 0px;
-  }
-
   .productWrapper {
-    padding: 0px;
+    padding: 0;
     width: 70%;
     max-width: 300px;
     margin: 0 auto;
@@ -683,11 +598,11 @@ html {
 
   .detailsSection {
     width: 100%;
-
     padding: 40px 20px 80px 20px;
     background-color: #F8F8F8;
     box-sizing: border-box;
     margin-top: -20px;
+    top: 0;
   }
 
   .cardWrapper {
@@ -704,19 +619,13 @@ html {
     transform: none !important;
     opacity: 1 !important;
     visibility: visible !important;
-
-
     width: 100%;
     max-width: 100%;
     padding: 20px 16px;
     box-sizing: border-box;
-
     background: #ffffff;
-
-
     margin-bottom: 5px;
   }
-
 
   .buttonGroup {
     display: flex;
@@ -732,7 +641,8 @@ html {
   .sizeButton {
     flex: 1;
     padding: 12px 2px;
-    font-size: var(--fs-16);
+    font-size: var(--fs-18);
+    font-weight: 600;
     white-space: nowrap;
   }
 
@@ -741,13 +651,12 @@ html {
     flex-direction: row;
     gap: 10px;
     align-items: stretch;
-    margin-bottom:20px
+    margin-bottom: 20px;
   }
 
   .quantityPicker {
     display: grid;
     grid-template-columns: auto 36px auto;
-    /* fixed middle column */
     align-items: center;
     min-width: 100px;
   }

@@ -14,11 +14,11 @@
   gap: 100px;
   align-items: flex-start;
   /* max-width: 1200px; */
-/* Margin-left (20%): Mobile par min 30px, badi screen par max 300px */
-margin-left: clamp(30px, 20vw, 300px);
+  /* Margin-left (20%): Mobile par min 30px, badi screen par max 300px */
+  margin-left: clamp(30px, 20vw, 300px);
 
-/* Margin-top (12%): Mobile par min 20px, badi screen par max 150px */
-margin-top: clamp(20px, 12vw, 150px);
+  /* Margin-top (12%): Mobile par min 20px, badi screen par max 150px */
+  margin-top: clamp(20px, 12vw, 150px);
 
   /* padding: 120px 40px 100px 40px; */
 }
@@ -227,7 +227,7 @@ margin-top: clamp(20px, 12vw, 150px);
 }
 
 .SummaryItemImg img {
- width: 100%;
+  width: 100%;
   height: 100%;
   object-fit: contain;
   display: block;
@@ -237,7 +237,7 @@ margin-top: clamp(20px, 12vw, 150px);
   flex: 1;
   display: flex;
   flex-direction: column;
-  
+
 }
 
 .SummaryItemName {
@@ -277,7 +277,8 @@ margin-top: clamp(20px, 12vw, 150px);
 }
 
 .TotalRow p {
-  font-weight: 400;;
+  font-weight: 400;
+  ;
   margin: 0;
   font-family: var(--font-raleway);
   font-size: var(--fs-16);
@@ -305,16 +306,16 @@ margin-top: clamp(20px, 12vw, 150px);
     margin-left: 150px;
     gap: 80px;
   }
- 
+
   .LeftSide {
     width: 480px;
   }
- 
+
   .SummaryBox {
     width: 480px;
   }
 }
- 
+
 /* ─── Standard desktop / small laptop ─── */
 @media (min-width: 1025px) and (max-width: 1480px) {
   .SuccessLayout {
@@ -322,16 +323,16 @@ margin-top: clamp(20px, 12vw, 150px);
     margin-top: 180px;
     gap: 60px;
   }
- 
+
   .LeftSide {
     width: 420px;
   }
- 
+
   .SummaryBox {
     width: 420px;
   }
 }
- 
+
 /* ─── Tablet landscape — still two columns ─── */
 @media (min-width: 641px) and (max-width: 1024px) {
   .SuccessLayout {
@@ -340,31 +341,31 @@ margin-top: clamp(20px, 12vw, 150px);
     margin-top: 130px;
     gap: 40px;
   }
- 
+
   .LeftSide {
     width: 100%;
     flex: 1;
   }
- 
+
   .RightSide {
     flex: 0 0 300px;
     top: 110px;
   }
- 
+
   .SummaryBox {
     /* width: 100%; */
-    width:320px;
+    width: 320px;
   }
- 
+
   .SummaryItems {
     max-height: 220px;
   }
- 
+
   .DetailGrid {
     grid-template-columns: 1fr 1fr;
   }
 }
- 
+
 /* ─── Mobile — single column ─── */
 @media (max-width: 640px) {
   .SuccessLayout {
@@ -374,13 +375,13 @@ margin-top: clamp(20px, 12vw, 150px);
     margin-top: 100px;
     gap: 0;
   }
- 
+
   /* Form/details on top, summary below */
   .LeftSide {
     order: 1;
     width: 100%;
   }
- 
+
   .RightSide {
     order: 2;
     width: 100%;
@@ -388,91 +389,113 @@ margin-top: clamp(20px, 12vw, 150px);
     top: auto;
     /* margin-top: 60px; */
   }
- 
+
   .SummaryBox {
     width: 100%;
     gap: 32px;
     margin-top: 80px;
     margin-bottom: 80px;
   }
- 
+
   .SummaryItems {
     max-height: 200px;
   }
- 
+
   .SummaryItem {
     gap: 12px;
   }
- 
+
   .SummaryItemName,
   .SummaryItemInfo span,
   .SummaryItemPrice {
-    font-size: var(--fs-14);
+    font-size: var(--fs-18);
   }
- 
+  .SummaryItemPrice {
+    font-weight:600;
+  }
+
   .TotalRow p {
-    font-size: var(--fs-14);
+    font-size: var(--fs-18);
   }
- 
+
+  .DetailCardLabel {
+    font-family: var(--lato);
+    font-size: var(--fs-18);
+  }
+
+  .CellLabel {
+    font-size: var(--fs-18);
+  }
+
+  .CellValue span {
+    font-size: var(--fs-18);  
+  }
+
   .GrandTotal p {
-    font-size: var(--fs-14);
+    font-size: var(--fs-18);
   }
-  .Heading{
+
+  .Heading {
     margin-top: 30px;
   }
+
   .ThankYou {
-    font-size: var(--fs-16);
+    font-size: var(--fs-22);
   }
- 
-  .ConfirmBanner{
+
+  .ConfirmBanner {
     padding: 16px;
   }
+
   .DetailCard {
-    padding:0px;
+    padding: 0px;
   }
-  .DetailCell{
-    gap:4px;
+
+  .DetailCell {
+    gap: 4px;
   }
-  .ConfirmSub{
-    font-size: var(--fs-14);
+
+  .ConfirmSub {
+    font-size: var(--fs-16);
     width: 80%;
     line-height: 1.5;
     font-weight: 400;
   }
+
   .DetailGrid {
     grid-template-columns: 1fr;
     row-gap: 24px;
   }
- 
+
   .FullWidth {
     border: none;
     margin-top: 24px;
     padding-top: 0px;
   }
- 
+
   .DetailCard {
     margin-bottom: 32px;
     margin-top: 32px;
   }
- 
+
   .ContinueBtn {
     padding: 15px;
-    font-size: var(--fs-14);
+    font-size: var(--fs-18);
   }
 }
- 
+
 /* ─── Very small mobile ─── */
 @media (max-width: 380px) {
   .SuccessLayout {
     margin-left: 16px;
     margin-right: 16px;
   }
- 
+
   .ConfirmBanner,
   .DetailCard {
     padding: 14px 12px;
   }
- 
+
   .SummaryHeader h3 {
     font-size: var(--fs-16);
   }

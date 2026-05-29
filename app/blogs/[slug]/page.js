@@ -4,6 +4,10 @@ import BlogDetail from '../_components/Blogdetails/Blogdetails';
 
 const API_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
+if (!API_URL) {
+  throw new Error('NEXT_PUBLIC_SERVER_URL is not defined. Add it to your .env.local file.');
+}
+
 export default async function Page({ params }) {
   // 1. Params ko safe tareeke se fetch karein
   const { slug } = await params;

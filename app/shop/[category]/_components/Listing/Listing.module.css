@@ -708,7 +708,7 @@
     font-size: 14px;
     cursor: pointer;
     flex-grow: 1;
-    max-width: 150px;
+    width: 150px;
     text-align: center;
 }
 
@@ -1089,7 +1089,19 @@
 
 
 
-
+@media (min-width: 951px) and (max-width: 1199px){
+    .footerRow{
+        flex-direction: column;
+    }
+    .buyBtn{
+        width:stretch !important;
+        width:0px;
+    }
+    .priceTag{
+        align-self:baseline;
+        font-weight: 600;
+    }
+}
 @media (max-width: 950px) {
 
 

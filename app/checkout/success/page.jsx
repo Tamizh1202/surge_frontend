@@ -223,19 +223,19 @@ function OrderSuccessContent() {
                       />
                     </div>
                     <div className={styles.SummaryItemInfo} style={{ display: 'flex', flexDirection: 'column', }}>
-                      <p className={styles.SummaryItemName} style={{ margin: 0, fontSize: '16px', color: '#414343' }}>
+                      <p className={styles.SummaryItemName} style={{ margin: 0, fontSize: 'var(--fs-18)', color: '#414343' }}>
                         {productName}
                         {variantName && <span>, {variantName}g</span>}
                       </p>
 
                       {/* Line 2: Added Metadata configuration rendering matching OrderSummary */}
                       {metaText && (
-                        <div style={{ fontSize: "12px", fontWeight: '500', color: "#818686", margin: '4px 0 0 0', lineHeight: '1.2', fontFamily: 'Raleway' }}>
+                        <div style={{ fontSize: "var(--fs-16)", fontWeight: '500', color: "#818686", margin: '6px 0 0 0', lineHeight: '1.2', fontFamily: 'Raleway' }}>
                           {metaText}
                         </div>
                       )}
 
-                      <span style={{ marginTop: '16px', fontSize: "16px", fontWeight: '400', color: "#414343" }}>{item.quantity}x</span>
+                      <span style={{ marginTop: '16px', fontSize: "var(--fs-18)", fontWeight: '400', color: "#414343" }}>{item.quantity}x</span>
                     </div>
                     <p className={styles.SummaryItemPrice}>
                       AED {itemPrice.toFixed(0)}

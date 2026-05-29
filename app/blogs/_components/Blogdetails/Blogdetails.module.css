@@ -1,49 +1,48 @@
-
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
   padding: 108px 125px;
- box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .breadcrumbsHeaderGap {
   display: flex;
   flex-direction: column;
-  gap: 67px; 
+  gap: 67px;
 }
 
 .headerHeroGap {
   display: flex;
   flex-direction: column;
-  gap: 55px; 
+  gap: 55px;
 }
 
 .heroContentGap {
   display: flex;
   flex-direction: column;
-  gap: 40px; 
+  gap: 40px;
 }
 
 
 .Breadcrumbs {
   display: flex;
   align-items: center;
-  gap: 16px; 
+  gap: 16px;
   font-size: var(--fs-16);
   font-family: var(--font-raleway);
-  color: var(--text-secondary); 
+  color: var(--text-secondary);
 }
 
 .Breadcrumbs p {
   display: flex;
-  align-items: center; 
+  align-items: center;
   gap: 8px;
   margin: 0;
 }
 
 .Breadcrumbs a {
-  text-decoration: none; 
+  text-decoration: none;
   color: var(--text-secondary);
 }
 
@@ -54,13 +53,14 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 24px; 
+  gap: 24px;
 }
+
 .mainTitle {
   display: flex;
   flex-direction: column;
   font-size: 60px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-primary);
   font-family: var(--font-montserrat);
   line-height: 1.1;
@@ -69,11 +69,11 @@
 
 
 .sourcingSubLine {
-  font-size: 60px; 
+  font-size: 60px;
   font-weight: 500;
-    font-family: var(--font-montserrat);
+  font-family: var(--font-montserrat);
   color: var(--text-primary);
- 
+
 }
 
 .date {
@@ -81,7 +81,7 @@
   color: var(--text-secondary);
   font-weight: 600;
   font-family: var(--font-montserrat);
-  margin: 0; 
+  margin: 0;
 }
 
 .imageWrapper {
@@ -92,18 +92,18 @@
 }
 
 .heroImg {
-  width: 100%;    
-  height: 526px; 
+  width: 100%;
+  height: 526px;
   display: block;
-  object-fit: cover; 
+  object-fit: cover;
 
 }
 
 .Main {
   display: flex;
   width: 100%;
-  
-  gap: 146px; 
+
+  gap: 146px;
 }
 
 .leftColumn {
@@ -115,7 +115,7 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: 32px; 
+  gap: 32px;
   max-width: 100%;
   min-width: 0;
   overflow-wrap: anywhere;
@@ -161,9 +161,10 @@
   font-family: var(--font-raleway);
   margin: 0;
   width: 910px;
-  text-align: justify; 
+  text-align: justify;
   text-justify: inter-word;
 }
+
 .inlineImage {
   object-fit: cover;
 }
@@ -202,7 +203,7 @@
   width: 209px;
   height: 128px;
   overflow: hidden;
-  
+
 }
 
 .sidebarInfo {
@@ -218,26 +219,26 @@
   font-weight: 400;
   line-height: 1.4;
   color: #2F362A;
-font-family: var(--font-raleway);
-margin: 0;
+  font-family: var(--font-raleway);
+  margin: 0;
 
 }
 
 .readTime {
   font-size: var(--fs-16);
-   font-weight: 400;
+  font-weight: 400;
   font-family: var(--font-raleway);
   color: var(--text-secondary);
 
 }
 
 
-.sidebarDate{
-   font-size: var(--fs-16);
-   font-weight: 400;
+.sidebarDate {
+  font-size: var(--fs-16);
+  font-weight: 400;
   font-family: var(--font-raleway);
   color: var(--text-secondary);
- 
+
 
 }
 
@@ -251,11 +252,11 @@ margin: 0;
 
 @media (max-width: 1600px) {
   .container {
-    padding: 108px 30px; 
+    padding: 108px 30px;
   }
 
   .Main {
-    gap: 60px; 
+    gap: 60px;
   }
 }
 
@@ -264,25 +265,28 @@ margin: 0;
     padding-left: 40px;
     padding-right: 40px;
   }
+
   .Main {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     width: 100%;
     gap: 40px;
   }
-  
-  .leftColumn, 
+
+  .leftColumn,
   .body,
   .text {
-    width: 100% !important; 
-    max-width: 100% ;
+    width: 100% !important;
+    max-width: 100%;
     min-width: 0;
   }
-  .inlineImage, 
+
+  .inlineImage,
   .inlineImage img {
     width: 100%;
     object-fit: cover;
   }
+
   .rightColumn {
     width: 100%;
     max-width: 100%;
@@ -299,51 +303,56 @@ margin: 0;
 @media (min-width: 710px) and (max-width: 1024px) {
 
 
-.container {
-    padding: 108px 30px 0; 
+  .container {
+    padding: 120px 30px 0;
     width: 100%;
     box-sizing: border-box;
   }
 
-  .mainTitle, 
+  .mainTitle,
   .sourcingSubLine {
-    font-size: 40px; 
+    font-size: 40px;
     line-height: 1.2;
     width: 100%;
-    
+
   }
-.breadcrumbsHeaderGap {
-   gap: 24px; 
+
+  .breadcrumbsHeaderGap {
+    gap: 24px;
   }
+
   .headerHeroGap {
-     gap: 24px;
-     }
-  .heroContentGap { 
-    gap: 20px; 
+    gap: 24px;
   }
+
+  .heroContentGap {
+    gap: 20px;
+  }
+
   .text {
     font-size: 16px;
     line-height: 1.4;
-    text-align: left; 
+    text-align: left;
     width: 100%;
-        text-align: justify; 
-  text-justify: inter-word;
+    text-align: justify;
+    text-justify: inter-word;
     overflow-wrap: break-word;
-   
+
   }
+
   .heroImg {
-    height: 250px; 
+    height: 250px;
     width: 100%;
     object-fit: cover;
   }
 
-  .inlineImage, 
+  .inlineImage,
   .inlineImage img {
-    width: 100% ;
-   height: 346px;
+    width: 100%;
+    height: 346px;
     max-width: 100%;
     display: block;
-  
+
   }
 
   .Main {
@@ -359,40 +368,42 @@ margin: 0;
 
   .rightColumn {
     width: 100%;
-    overflow: hidden; 
+    overflow: hidden;
   }
+
   .rightList {
     display: flex;
-    flex-direction: row; 
-    overflow-x: auto;   
-    gap: 16px;           
-    scrollbar-width: none; 
-    -webkit-overflow-scrolling: touch; 
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 16px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
 
-.rightCard {
+  .rightCard {
     display: flex;
-    flex-direction: column; 
-    flex-shrink: 0;         
-    width: 400px;           
-    height: 450px; 
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 400px;
+    height: 450px;
     gap: 0;
-}
+  }
 
-.rightThumb {
+  .rightThumb {
     width: 100%;
-    flex: 1; 
-    min-height: 140px; 
+    flex: 1;
+    min-height: 140px;
     margin-bottom: 12px;
-    overflow: hidden; 
-}
+    overflow: hidden;
+  }
 
-.rightThumb img {
+  .rightThumb img {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     object-fit: cover;
     display: block;
-}
+  }
+
   .sidebarInfo {
     display: flex;
     flex-direction: column;
@@ -402,15 +413,15 @@ margin: 0;
 
   .readTime {
     padding-bottom: 12px;
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     display: block;
   }
 
   .sidebarBlogTitle {
-    padding-bottom: 21px; 
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    padding-bottom: 15px;
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     font-weight: 600;
     line-height: 1.4;
     display: block;
@@ -418,8 +429,8 @@ margin: 0;
 
 
   .sidebarDate {
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     display: block;
   }
 
@@ -428,61 +439,68 @@ margin: 0;
 
 
 @media (min-width: 325px) and (max-width: 700px) {
-  
+
   .container {
-    padding: 108px 24px 0; 
+    padding: 115px 24px 0;
     width: 100%;
     box-sizing: border-box;
   }
-.body {
-  display: flex;
-  flex-direction: column;
-  gap: 24px; 
-}
 
-  .mainTitle, 
+  .body {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .Breadcrumbs {
+    display: none;
+  }
+
+  .mainTitle,
   .sourcingSubLine {
-    font-size: 28px; 
+    font-size: 28px;
     line-height: 1.2;
     width: 100%;
-    
+
   }
-.breadcrumbsHeaderGap {
-   gap: 24px; 
+
+  .breadcrumbsHeaderGap {
+    gap: 24px;
   }
 
   .headerHeroGap {
-     gap: 24px;
-     }
+    gap: 24px;
+  }
 
-  .heroContentGap { 
-    gap: 20px; 
+  .heroContentGap {
+    gap: 20px;
   }
 
 
   .text {
     font-size: 16px;
     line-height: 1.4;
-    text-align: left; 
+    text-align: left;
     width: 100%;
-        text-align: justify; 
-  text-justify: inter-word;
+    text-align: justify;
+    text-justify: inter-word;
     overflow-wrap: break-word;
-   
+
   }
+
   .heroImg {
-    height: 250px; 
+    height: 250px;
     width: 100%;
     object-fit: cover;
   }
 
-  .inlineImage, 
+  .inlineImage,
   .inlineImage img {
-    width: 100% ;
-    height: auto ;
+    width: 100%;
+    height: auto;
     max-width: 100%;
     display: block;
-  
+
   }
 
   .Main {
@@ -498,40 +516,42 @@ margin: 0;
 
   .rightColumn {
     width: 100%;
-    overflow: hidden; 
+    overflow: hidden;
   }
+
   .rightList {
     display: flex;
-    flex-direction: row; 
-    overflow-x: auto;   
-    gap: 16px;           
-    scrollbar-width: none; 
-    -webkit-overflow-scrolling: touch; 
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 16px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
 
-.rightCard {
+  .rightCard {
     display: flex;
-    flex-direction: column; 
-    flex-shrink: 0;         
-    width: 350px;           
-    height: 450px; 
+    flex-direction: column;
+    flex-shrink: 0;
+    width: 350px;
+    height: 450px;
     gap: 0;
-}
+  }
 
-.rightThumb {
+  .rightThumb {
     width: 100%;
-    flex: 1; 
-    min-height: 140px; 
+    flex: 1;
+    min-height: 140px;
     margin-bottom: 12px;
-    overflow: hidden; 
-}
+    overflow: hidden;
+  }
 
-.rightThumb img {
+  .rightThumb img {
     width: 100%;
-    height: 100%; 
+    height: 100%;
     object-fit: cover;
     display: block;
-}
+  }
+
   .sidebarInfo {
     display: flex;
     flex-direction: column;
@@ -541,33 +561,33 @@ margin: 0;
 
   .readTime {
     padding-bottom: 12px;
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     display: block;
   }
 
   .sidebarBlogTitle {
-    padding-bottom: 21px; 
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    padding-bottom: px;
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     font-weight: 600;
     line-height: 1.4;
     display: block;
   }
 
   .sidebarDate {
-    font-size: 16px;
-     font-family: var(--font-raleway);
+    font-size: var(--fs-18);
+    font-family: var(--font-raleway);
     display: block;
   }
-  
-.activePage {
-    display: block;        
-    flex: 1;              
-    min-width: 0;         
-    white-space: nowrap;   
+
+  .activePage {
+    display: block;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
     color: #C4754E;
     margin: 0;
   }
- 
+
 }

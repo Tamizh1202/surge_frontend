@@ -851,7 +851,7 @@
 
 .MenuDropdown {
   position: absolute;
-  top: 100%;
+  /* top: 100%; */
   right: 0;
   background-color: #ffffff;
   border: 1px solid #d9d9d9;
@@ -916,7 +916,7 @@
 
 .ViewAll span {
   font-family: var(--lato);
-  font-size: 14px;
+  font-size: var(--fs-18x);
   color: var(--primary-color);
 }
 
@@ -971,7 +971,7 @@
   justify-content: space-between;
   align-items: center;
   height: 40px;
-  border:1px solid var(--text-secondary);
+  border: 1px solid var(--text-secondary);
   padding: 0 16px;
   background: #ffffff;
 }
@@ -1163,9 +1163,10 @@
   padding-left: 4px;
   z-index: 2;
 }
-.couponEarned{
+
+.couponEarned {
   color: var(--green);
-  font-family:var(--font-lato);
+  font-family: var(--font-lato);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1335,15 +1336,21 @@
   .Three,
   /* .Five, */
   .billingAddress {
-    padding-top: 80px;
+    padding-top: 50px;
   }
 
 
 
   .Five h3 {
-    margin-top: 80px;
+    margin-top: 50px;
   }
 
+  .Five p {
+    font-family: var(--lato);
+    font-size: var(--fs-16);
+    color: #6e736a;
+    margin-bottom: 24px;
+  }
 
   .ItemImage img {
     width: 100%;
@@ -1371,7 +1378,7 @@
   .Input:not(:placeholder-shown)~.FloatLabel {
     top: 4px;
     transform: none;
-    font-size: 11px;
+    font-size: var(--fs-12);
   }
 
   .One {
@@ -1380,7 +1387,7 @@
 
   .CustomOptionsList {
     position: absolute;
-    top: 100%;
+    top: 75%;
     left: 0;
     width: 100%;
     background: #ffffff;
@@ -1429,7 +1436,7 @@
   /* ── Form inputs ── */
   .Input {
     padding: 18px 10px 4px 0;
-    font-size: 14px;
+    font-size: var(--fs-18);
   }
 
   .PhoneWrapper {
@@ -1443,7 +1450,7 @@
   }
 
   .Two {
-    gap: 5px;
+    gap: 0px;
   }
 
   .TwoTwo {
@@ -1457,13 +1464,17 @@
   .Five h3,
   .CouponHeader h3,
   .RightOne h3 {
-    font-size: var(--fs-20)rr;
+    font-size: var(--fs-24);
     margin-bottom: 8px;
   }
 
   .TwoOne p {
     margin-top: 0px;
     font-size: var(--fs-12);
+  }
+  .PickupList p{
+    font-size: var(--fs-16);
+    margin-top:20px;
   }
 
   /* ── Pay button ── */
@@ -1500,7 +1511,7 @@
   .ItemQty,
   .ItemPrice,
   .ItemName {
-    font-size: 14px;
+    font-size: var(--fs-18);
   }
 
   .Subtotal {
@@ -1530,7 +1541,11 @@
   .EstimatedTax h5,
   .Total p,
   .Total h5 {
-    font-size: 14px;
+    font-size: var(--fs-18);
+  }
+
+  .couponEarned {
+    font-size: var(--fs-16);
   }
 
   /* ── Delivery selector ── */
@@ -1540,12 +1555,12 @@
   }
 
   .ThreeRow p {
-    font-size: 14px;
+    font-size: var(--fs-18);
   }
 
   /* ── Billing toggle ── */
   .BillingToggle p {
-    font-size: 14px;
+    font-size: var(--fs-16);
   }
 
   /* ── Contact / save checkbox ── */
@@ -1554,7 +1569,7 @@
   }
 
   .CheckBox p {
-    font-size: 13px;
+    font-size: var(--fs-16);
   }
 
   /* ── Coupon ── */
@@ -1572,9 +1587,14 @@
 
   .CouponInputGroup input,
   .CouponInputGroup button {
-    font-size: 13px;
+    font-size: var(--fs-16);
     border: none;
     border-bottom: 1px solid var(--text-secondary);
+  }
+
+  .CheckboxContainer {
+    align-items: center;
+    position: none;
   }
 
   .CouponInputGroup button {

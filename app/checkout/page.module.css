@@ -1457,7 +1457,7 @@
   .Five h3,
   .CouponHeader h3,
   .RightOne h3 {
-    font-size: 16px;
+    font-size: var(--fs-20)rr;
     margin-bottom: 8px;
   }
 

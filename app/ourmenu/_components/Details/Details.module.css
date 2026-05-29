@@ -55,16 +55,16 @@
 }
 
 .itemInfo h1 {
-  font-size: clamp(16px, 1.8vw, 18px);
-  font-weight: 500;
-  font-family: var(--font-montserrat);
-  color: #414343;
+  font-size: var(--fs-16);
+  font-weight: 600;
+  font-family: var(--font-raleway);
+  color: var(--text-primary);
   margin: 0;
 }
 
 .itemInfo p {
-  font-size: clamp(13px, 1.4vw, 16px);
-  color: #818686;
+  font-size: var(--fs-16);
+  color: var(--text-secondary);
   margin: 0;
   font-family: var(--font-raleway);
   font-weight: 400;
@@ -72,8 +72,8 @@
 }
 
 .price {
-  font-size: clamp(14px, 1.6vw, 18px);
-  font-weight: 500;
+  font-size: var(--fs-16);
+  font-weight: 600;
   font-family: var(--font-montserrat);
   color: #414343;
   white-space: nowrap;
@@ -107,7 +107,7 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  
+
 }
 
 .menuImage {
@@ -295,7 +295,7 @@
 
   .itemInfo h1 {
 
-    font-size: 18px;
+    font-size: var(--fs-20);
     margin: 0;
     font-weight: 500;
   }
@@ -341,7 +341,7 @@
   }
 
   .categoryTitle {
-    font-size: 22px;
+    font-size: var(--fs-24);
     margin-bottom: 20px;
     color: #C4754E;
     flex-shrink: 0;
@@ -357,6 +357,10 @@
     flex-shrink: 0;
   }
 
+  .itemInfo {
+    gap: 4px;
+  }
+
   .menuImage {
     width: 100%;
     height: auto;
@@ -370,11 +374,11 @@
     position: relative;
     z-index: 5;
     padding-top: 10px;
-   
+
   }
 
   .menuItem {
-    padding: 16px 0;
+    padding: 16px 8px 16px 8px;
     border-bottom: 1px solid #414343;
     background: #fff;
 
@@ -389,7 +393,8 @@
   }
 }
 
-.loading, .noItems {
+.loading,
+.noItems {
   width: 100%;
   padding: 50px 0px;
   text-align: center;

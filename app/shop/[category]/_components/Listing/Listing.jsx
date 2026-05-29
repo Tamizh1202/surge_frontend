@@ -110,9 +110,7 @@ export default function Listing({ category }) {
             if (!category?.id) return;
             setLoading(true);
             try {
-                const sortParam = selectedSort === 'Price:High to Low' ? '-regularPrice' :
-                    selectedSort === 'Price:Low to High' ? 'regularPrice' :
-                        '-createdAt';
+                const sortParam = '-createdAt';
 
                 const res = await axiosClient.get(
                     `/api/web-products`,
@@ -147,6 +145,21 @@ export default function Listing({ category }) {
         return product.subCategories?.some((sub) =>
             selectedFilters.includes(sub.level2Id)
         );
+    });
+
+    const getDisplayPrice = (item) => {
+        const firstVariant = item.variants?.[0];
+        return parseFloat(
+            firstVariant
+                ? (firstVariant.variantSalePrice || firstVariant.variantRegularPrice || 0)
+                : (item.salePrice || item.regularPrice || 0)
+        );
+    };
+
+    const sortedProducts = [...filteredProducts].sort((a, b) => {
+        if (selectedSort === 'Price:Low to High') return getDisplayPrice(a) - getDisplayPrice(b);
+        if (selectedSort === 'Price:High to Low') return getDisplayPrice(b) - getDisplayPrice(a);
+        return 0;
     });
 
     const toggleFilter = (id) => {
@@ -285,7 +298,7 @@ export default function Listing({ category }) {
                 )}
 
                 <div className={styles.productGrid}>
-                    {!loading && filteredProducts.length === 0 ? (
+                    {!loading && sortedProducts.length === 0 ? (
                         <div className={styles.noProducts}>
                             <div className={styles.noProductsIcon}>
                                 <Image src={prod} alt="No products" width={200} height={200} priority />
@@ -297,7 +310,7 @@ export default function Listing({ category }) {
                             </Link>
                         </div>
                     ) : (
-                        filteredProducts.map((item) => {
+                        sortedProducts.map((item) => {
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
                             const slug = item.slug || item.id;
                             const name = item.name || '';
@@ -308,7 +321,7 @@ export default function Listing({ category }) {
                                 : (item.salePrice || item.regularPrice);
                             const price = rawPrice ? `AED ${rawPrice}` : '';
                             const isOutOfStock = item.variants?.length > 0
-                                ? firstVariant?.variantInStock === false
+                                ? item.variants.every(v => v.variantInStock === false)
                                 : item.inStock === false;
 
                             return (

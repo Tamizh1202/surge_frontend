@@ -21,6 +21,24 @@
 
   --lato: "Raleway", sans-serif;
   --lexend: "Montserrat", sans-serif;
+  
+  --fs-12: clamp(0.625rem, 0.19vw + 0.55rem, 0.75rem);
+  /* 10px → 12px */
+  --fs-14: clamp(0.75rem, 0.19vw + 0.69rem, 0.875rem);
+  /* 12px → 14px */
+  --fs-16: clamp(0.875rem, 0.19vw + 0.83rem, 1rem);
+  /* 14px → 16px */
+  --fs-18: clamp(1rem, 0.38vw + 0.91rem, 1.125rem);
+  /* 16px → 18px */
+  --fs-20: clamp(1.125rem, 0.56vw + 0.99rem, 1.25rem);
+  /* 18px → 20px */
+  --fs-22: clamp(1.25rem, 0.38vw + 1.16rem, 1.375rem);
+  /* 20px → 22px */
+  --fs-24: clamp(1.375rem, 0.56vw + 1.25rem, 1.5rem);
+  --fs-60: clamp(3.625rem, 0.56vw + 3.5rem, 3.75rem);
+  /* 22px → 24px */
+}
+
 
   /* --fs-12: 12px;  */
   /* clamp(0.75rem, 0.15vw + 0.71rem, 0.875rem); */
@@ -57,24 +75,6 @@
   /* clamp(3rem, 10vw + 1rem, 9.375rem); */
 
   /* slope formula: (max - min) / (1440 - 375) */
-
-  --fs-12: clamp(0.625rem, 0.19vw + 0.55rem, 0.75rem);
-  /* 10px → 12px */
-  --fs-14: clamp(0.75rem, 0.19vw + 0.69rem, 0.875rem);
-  /* 12px → 14px */
-  --fs-16: clamp(0.875rem, 0.19vw + 0.83rem, 1rem);
-  /* 14px → 16px */
-  --fs-18: clamp(1rem, 0.38vw + 0.91rem, 1.125rem);
-  /* 16px → 18px */
-  --fs-20: clamp(1.125rem, 0.56vw + 0.99rem, 1.25rem);
-  /* 18px → 20px */
-  --fs-22: clamp(1.25rem, 0.38vw + 1.16rem, 1.375rem);
-  /* 20px → 22px */
-  --fs-24: clamp(1.375rem, 0.56vw + 1.25rem, 1.5rem);
-  --fs-60: clamp(3.625rem, 0.56vw + 3.5rem, 3.75rem);
-  /* 22px → 24px */
-}
-
 html {
   scroll-behavior: auto;
   /* disable smooth scroll, let GSAP handle it */

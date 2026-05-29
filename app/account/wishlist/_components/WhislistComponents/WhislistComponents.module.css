@@ -239,6 +239,19 @@ padding-left: clamp(15px, 7%, 100px);
     gap: 20px;
   }
 
+  .Card {
+    background-color: #F5F5F5;
+  }
+
+  .ImgContainer {
+    background-color: #f0f0f0;
+    margin-bottom: 0;
+  }
+
+  .CardContent {
+    padding: 8px 10px 12px;
+  }
+
   .AddToCartBtn {
     padding: 11px 20px;
     font-size: 13px;
@@ -259,27 +272,37 @@ padding-left: clamp(15px, 7%, 100px);
     gap: 14px;
   }
 
+  .Card {
+    background-color: #F5F5F5;
+  }
+
   .ImgContainer {
-    margin-bottom: 8px;
+    background-color: #f0f0f0;
+    margin-bottom: 0;
+    padding: 25px;
+  }
+
+  .CardContent {
+    padding: 8px 10px 12px;
   }
 
   .ProductName {
-    font-size: 12px;
+    font-size: var(--fs-18);
   }
 
   .Description {
-    font-size: 11px;
+    font-size: var(--fs-16);
     margin-bottom: 4px;
   }
 
   .PriceRow {
     flex-direction: column;
     align-items: flex-start;
-    gap: 6px;
+    gap: 20px;
   }
 
   .CurrentPrice {
-    font-size: 13px;
+    font-size: var(--fs-16);
   }
 
   .AddToCartBtn {
@@ -324,9 +347,7 @@ padding-left: clamp(15px, 7%, 100px);
     margin-bottom: 6px;
   }
 
-  .ProductName {
-    font-size: 11px;
-  }
+  
 
   .Description {
     font-size: 10px;

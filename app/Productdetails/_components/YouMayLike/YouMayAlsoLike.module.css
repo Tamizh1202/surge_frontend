@@ -236,11 +236,11 @@
 
 @media (max-width: 768px) {
   .section {
-    padding: 0 0 60px;
+    padding: 0 0 80px;
   }
 
   .heading {
-    font-size: 20px;
+    font-size: var(--fs-22);
     margin-bottom: 20px;
     padding: 0 20px;
   }
@@ -252,7 +252,7 @@
     overflow-y: visible;
     scroll-snap-type: x mandatory;
     -webkit-overflow-scrolling: touch;
-    gap: 14px;
+    gap: 20px;
     padding: 0 20px 16px;
     /* ← real padding, left AND right */
     scroll-padding-left: 20px;
@@ -306,5 +306,17 @@
   .dotActive {
     background: var(--primary-color);
     transform: scale(1.3);
+  }
+  .title{
+    font-size:var(--fs-18);
+    font-weight:500;
+  }
+  .subtitle{
+    font-size:var(--fs-16);
+    margin-bottom:12px;
+  }
+  .price{
+    font-size:var(--fs-18);
+  
   }
 }

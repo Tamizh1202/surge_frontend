@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   max-width: none;
- padding: clamp(50px, 12vw, 150px) 0;
+  padding: clamp(50px, 12vw, 150px) 0;
 }
 
 .topSection {
@@ -106,7 +106,7 @@
 }
 
 .locationPopup {
-  background: #FBF5F1; 
+  background: #FBF5F1;
   padding: 16px;
   width: 225px;
   text-align: center;
@@ -157,19 +157,20 @@
   transition: transform 0.3s ease;
 
 }
+
 .markerPin {
 
-  width: 41px; 
-  aspect-ratio: 1 / 1; 
-  position: relative; 
+  width: 41px;
+  aspect-ratio: 1 / 1;
+  position: relative;
   transition: transform 0.3s ease;
 }
 
 
 @media (max-width: 480px) {
   .markerPin {
-  
-    width: 16px; 
+
+    width: 16px;
   }
 }
 
@@ -241,7 +242,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #C4754E; 
+  color: #C4754E;
   text-decoration: none;
   font-family: var(--font-raleway);
   font-size: 16px;
@@ -355,11 +356,12 @@
 
 @media (max-width: 1024px) {
   .container {
-    padding: 80px 0;
+    padding:0;
   }
 
   .careersSection,
   .topSection {
+    /* padding-top:80px; */
     padding-left: 40px;
     padding-right: 40px;
   }
@@ -368,10 +370,13 @@
     width: 100%;
     margin-bottom: 32px;
     margin-top: 8px;
+    font-size:var(--fs-16);
+    line-height:1.3;
   }
 
   .heading {
     margin: 0px;
+    font-size:var(--fs-22);
   }
 
   .mapImg {
@@ -405,7 +410,7 @@
   .jobItem {
     align-items: flex-end;
     flex-wrap: nowrap;
-    padding-bottom: 20px;
+    padding-bottom: 16px;
   }
 
   .mapContainer {
@@ -423,8 +428,29 @@
     margin: 0;
   }
 
+  .topSubtext {
+    line-height: 1.3;
+  }
+
+  .mainHeading {
+    font-size: var(--fs-24);
+    font-weight: 600;
+    font-family: var(--font-montserrat);
+    margin:0;
+    margin-bottom:8px;
+  }
+  .locationItem{
+    gap:4px;  
+  }
+  .locName{
+    margin:0px;
+  }
+  .goldLink{
+    margin-top:6px;
+  }
+
   .jobInfo p {
-    font-size: var(--fs-14);
+    font-size: var(--fs-16);
     color: #818686;
     font-weight: 400;
     font-family: var(--font-raleway);
@@ -432,27 +458,30 @@
     /* line-height: 1.4; */
     width: 90%;
   }
-  .detailLink{
-    font-size: var(--fs-12);
+
+  .detailLink {
+    font-size: var(--fs-14);
   }
+
   .emailFooter {
-  margin-top: 30px;
-  font-size: 16px;
-  font-weight: 400;
-  font-family: var(--font-raleway);
-  color: #414343;
-  
-}
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: var(--font-raleway);
+    color: #414343;
+
+  }
 }
 
-@media (max-width: 480px) and (min-width:320px){
+@media (max-width: 480px) and (min-width:320px) {
   .container {
     padding: 80px 0 0;
   }
+
   .container .careersSection,
   .container .topSection {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 6%;
+    padding-right: 6%;
     padding-bottom: 80px;
   }
 
@@ -465,13 +494,18 @@
 
   }
 
- 
+
 
   .container .detailLink {
     white-space: nowrap;
-    font-size: 14px;
+    font-size: var(--fs-16);
     flex-shrink: 0;
     align-self: center;
   }
-  
+
+}
+@media (min-width: 481px) and (max-width:1023px){
+  .topSection {
+        padding-top: 60px;
+    }
 }

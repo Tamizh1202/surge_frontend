@@ -1,4 +1,4 @@
-.sectionContainer {
+﻿.sectionContainer {
   width: 100%;
   display: flex;
   padding: 120px 125px;
@@ -27,7 +27,7 @@
 .title {
   font-size: 22px;
   font-weight: 600;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-montserrat);
   line-height: 1.2;
 }
@@ -48,7 +48,7 @@
   border: none;
   width: fit-content;
   margin-top: 24px;
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-family: var(--font-raleway);
   padding: 12px 40px;
   cursor: pointer;
@@ -62,7 +62,7 @@
 }
 
 
-/* ─── IMAGE CAROUSEL ─── */
+/* â”€â”€â”€ IMAGE CAROUSEL â”€â”€â”€ */
 
 /*
  * Container: sized to exactly fit 3 slots + 2 gaps
@@ -105,9 +105,9 @@
 }
 
 
-/* ─── Responsive ─── */
+/* â”€â”€â”€ Responsive â”€â”€â”€ */
 
-@media (max-width: 1450px) {
+@media (max-width: 1440px) {
   .textStack {
     flex: 0 1 380px;
   }
@@ -141,14 +141,9 @@
   }
 }
 
-@media (max-width: 1280px) {
-  .sectionContainer {
-    padding-left: 60px;
-    padding-right: 60px;
-  }
-}
 
-@media (max-width: 1250px) {
+
+@media (max-width: 1200px) {
   .layoutWrapper {
     gap: 30px;
   }
@@ -232,7 +227,7 @@
   }
 }
 
-@media (max-width: 550px) {
+@media (max-width: 640px) {
   .sectionContainer {
     padding: 80px 6%;
   }
@@ -244,11 +239,11 @@
   }
 
   .title {
-    font-size: 20px;
+    font-size: var(--fs-22);
   }
 
   .description {
-    font-size: 14px;
+    font-size: var(--fs-16);
   }
 
   .imageFlexContainer {

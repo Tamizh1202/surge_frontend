@@ -7,6 +7,7 @@ import styles from "./Touch.module.css";
 import one from './get.webp';
 import whatsappIcon from './whatsapp.png';
 import axiosClient from "@/lib/axios";
+import { validateUAEPhone } from "@/utils/validatorFunctions";
 
 export default function Touch() {
   // Form States
@@ -16,6 +17,7 @@ export default function Touch() {
   const [message, setMessage] = useState("");
   
   // UI States
+  const [phoneError, setPhoneError] = useState("");
   const [loading, setLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
   const [responseError, setResponseError] = useState(false);
@@ -31,6 +33,7 @@ export default function Touch() {
 
   const handlePhoneChange = (e) => {
     setPhone(e.target.value.replace(/\D/g, "").slice(0, phoneLimit));
+    if (phoneError) setPhoneError("");
   };
 
 const options = [
@@ -147,7 +150,7 @@ const options = [
                   />
 
                   {/* Phone */}
-                  <div style={{ position: 'relative', flex: 1, display: 'flex', alignItems: 'center' }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
                     <input
                       type="tel"
                       inputMode="numeric"
@@ -155,13 +158,26 @@ const options = [
                       value={phone}
                       maxLength={phoneLimit}
                       onFocus={() => setActiveField("phone")}
-                      onBlur={() => setActiveField("")}
+                      onBlur={() => {
+                        setActiveField("");
+                        if (phone.length > 0) {
+                          const err = validateUAEPhone(phone);
+                          setPhoneError(err);
+                        } else {
+                          setPhoneError("");
+                        }
+                      }}
                       onChange={handlePhoneChange}
                       style={{ width: '100%' }}
                     />
                     {(activeField === "phone" || phone.length > 0) && (
-                      <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                      <span style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                         {phone.length}/{phoneLimit}
+                      </span>
+                    )}
+                    {phoneError && (
+                      <span style={{ position: 'absolute', bottom: '-18px', left: 0, color: '#c0392b', fontSize: '11px', fontFamily: 'var(--font-raleway)' }}>
+                        {phoneError}
                       </span>
                     )}
                   </div>

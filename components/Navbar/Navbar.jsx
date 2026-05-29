@@ -272,7 +272,7 @@ export default function Navbar({ categories = [] }) {
           </nav>
         </div>
         <div
-          className={styles.cartIconMobile}
+          className={`${styles.cartIconMobile} ${styles.mid}`}
           onClick={() => { isCartOpen ? closeCart() : openCart(); }}
           style={{ position: "relative" }}
         >

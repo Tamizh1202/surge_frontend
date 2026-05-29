@@ -1,7 +1,7 @@
 import Image from "next/image";
 import styles from './Loation.module.css';
 import mapImage from './location.webp';
-import markerIcon from './map.png'; 
+import markerIcon from './map.png';
 
 export default function Location() {
   const locations = [
@@ -22,7 +22,7 @@ export default function Location() {
       <section className={styles.topSection}>
         <h1 className={styles.mainHeading}>Find Your Nearest Surge.</h1>
         <p className={styles.topSubtext}>
-       Discover Surge across Dubai. Whether you're grabbing a quick pick-up or settling in for a slow morning, every location delivers the same signature quality, warmth, and consistency.
+          Discover Surge across Dubai. Whether you're grabbing a quick pick-up or settling in for a slow morning, every location delivers the same signature quality, warmth, and consistency.
         </p>
 
         <div className={styles.locationGrid}>
@@ -31,9 +31,9 @@ export default function Location() {
               <span className={styles.locName}>{loc.name}</span>
               <span className={styles.locArea}>{loc.area}</span>
               <a href="#" className={styles.goldLink}>
-                View on Map 
+                View on Map
                 <svg width="9" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.351292 7.57668L7.3504 0.505443M1.0512 0.505443H7.3504V6.86956" stroke="#C4754E"/>
+                  <path d="M0.351292 7.57668L7.3504 0.505443M1.0512 0.505443H7.3504V6.86956" stroke="#C4754E" />
                 </svg>
               </a>
             </div>
@@ -42,17 +42,17 @@ export default function Location() {
 
         <div className={styles.mapWrapper}>
           <div className={styles.mapContainer}>
-            <Image 
-              src={mapImage} 
-              alt="UAE Map" 
+            <Image
+              src={mapImage}
+              alt="UAE Map"
               className={styles.mapImg}
-              priority 
+              priority
             />
-            
+
             {locations.map((loc, index) => (
-              <div 
-                key={index} 
-                className={styles.markerWrapper} 
+              <div
+                key={index}
+                className={styles.markerWrapper}
                 style={{ top: loc.top, left: loc.left }}
               >
                 {/* Hover Card (Popup) */}
@@ -60,23 +60,23 @@ export default function Location() {
                   <span className={styles.popupName}>{loc.name}</span>
                   <span className={styles.popupArea}>{loc.area}</span>
                   <a href="#" className={styles.popupLink}>
-                    View on Map 
+                    View on Map
                     <svg width="9" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0.351292 7.57668L7.3504 0.505443M1.0512 0.505443H7.3504V6.86956" stroke="#C4754E"/>
+                      <path d="M0.351292 7.57668L7.3504 0.505443M1.0512 0.505443H7.3504V6.86956" stroke="#C4754E" />
                     </svg>
                   </a>
                 </div>
 
                 {/* Pin Icon */}
-               <div className={styles.markerPin}>
-  <Image 
-    src={markerIcon} 
-    alt="map marker" 
-    fill 
-    sizes="41px"
-    style={{ objectFit: 'contain' }} 
-  />
-</div>
+                <div className={styles.markerPin}>
+                  <Image
+                    src={markerIcon}
+                    alt="map marker"
+                    fill
+                    sizes="41px"
+                    style={{ objectFit: 'contain' }}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -88,7 +88,7 @@ export default function Location() {
       <section className={styles.careersSection}>
         <h2 className={styles.heading}>Join the Surge Team</h2>
         <p className={styles.description}>
-       We're always looking for talented, passionate people who live the craft. If you share our vision for exceptional coffee, reach out — tell us why you belong on the Surge team.
+          We're always looking for talented, passionate people who live the craft. If you share our vision for exceptional coffee, reach out — tell us why you belong on the Surge team.
         </p>
 
         <div className={styles.jobGrid}>
@@ -99,9 +99,9 @@ export default function Location() {
                 <p>{job.desc}</p>
               </div>
               <a href="#" className={styles.detailLink}>
-                View Details 
+                View Details
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E"/>
+                  <path d="M0.351292 7.57668L7.3504 0.505443M7.3504 0.505443V6.86956M7.3504 0.505443H1.0512" stroke="#C4754E" />
                 </svg>
               </a>
             </div>
@@ -109,10 +109,10 @@ export default function Location() {
         </div>
 
         <div className={styles.emailFooter}>
-         Don't see the right role? Reach out anyway at hello@surge.ae — great people always get our attention.<br /> 
-          <a href="mailto:hello@surge.ae" className={styles.emailLink}>
+          Don't see the right role? Reach out anyway at <a href="mailto:hello@surge.ae" className={styles.emailLink}>
             hello@surge.ae
-          </a>
+          </a> — great people always get our attention.<br />
+
         </div>
       </section>
     </div>

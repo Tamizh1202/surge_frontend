@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "../ProfileComponents.module.css";
 import { ADDRESS_LABELS, UAE_STATES } from "../profileConstants";
+import { validateUAEPhone } from "@/utils/validatorFunctions";
 
 const AddressFormPopup = ({
   mode,
@@ -17,6 +18,7 @@ const AddressFormPopup = ({
   const [isEmirateOpen, setIsEmirateOpen] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
   const [touched, setTouched] = useState({});
+  const [phoneFormatError, setPhoneFormatError] = useState("");
   const emirateRef = useRef(null);
 
   const touch = (field) => setTouched((t) => ({ ...t, [field]: true }));
@@ -274,11 +276,21 @@ const AddressFormPopup = ({
                 value={getRawPhone(addressForm.phone)}
                 maxLength={limits.phone}
                 onFocus={() => setFocusedField("phone")}
-                onBlur={() => { setFocusedField(null); touch("phone"); }}
+                onBlur={() => {
+                  setFocusedField(null);
+                  touch("phone");
+                  const raw = getRawPhone(addressForm.phone);
+                  if (raw.length > 0) {
+                    const err = validateUAEPhone(raw);
+                    setPhoneFormatError(err);
+                  } else {
+                    setPhoneFormatError("");
+                  }
+                }}
                 onChange={(e) => {
-                  // Only keep digits, but don't force prepend "+971"
                   const val = e.target.value.replace(/\D/g, "");
                   onFormChange("phone", val);
+                  if (phoneFormatError) setPhoneFormatError("");
                 }}
               />
             </div>
@@ -287,7 +299,11 @@ const AddressFormPopup = ({
                 {getRawPhone(addressForm.phone).length}/{limits.phone}
               </span>
             )}
-            {err("phone")}
+            {(touched.phone && !requiredFields.phone) ? (
+              <span style={{ position: 'absolute', bottom: '-20px', left: 0, fontSize: '12px', color: '#c0392b', fontFamily: 'var(--font-raleway)' }}>This field is required</span>
+            ) : phoneFormatError ? (
+              <span style={{ position: 'absolute', bottom: '-20px', left: 0, fontSize: '12px', color: '#c0392b', fontFamily: 'var(--font-raleway)' }}>{phoneFormatError}</span>
+            ) : null}
           </div>
         </div>
 

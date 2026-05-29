@@ -111,6 +111,7 @@ const WhiteMantisBeans = () => {
                 <div className={styles.main}>
 
                 </div>
+                <h3 className={styles.pageTitle}>Surge Rewards</h3>
                 <div className={styles.main1}>
 
                     <div>

@@ -204,7 +204,7 @@
 
 @media (max-width: 374px) {
   .orderCard {
-    padding: 16px 12px;
+    padding: 16px;
     margin-bottom: 16px;
   }
 
@@ -300,14 +300,18 @@
 /* --- Mobile (375px – 639px) --- */
 @media (min-width: 375px) and (max-width: 639px) {
   .orderCard {
-    padding: 18px 14px;
-    margin-bottom: 18px;
+    padding: 24px 16px 16px;
+    margin-bottom: 12px;
   }
 
   .cardHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
+    margin-bottom:8px;
+  }
+  .divider{
+    margin-bottom:32px;
   }
 
   .metaGroup p {
@@ -315,12 +319,27 @@
   }
 
   .itemsBox {
-    padding: 16px 14px;
+    padding: 16px;
   }
 
   .itemsBoxHeader {
     flex-wrap: wrap;
     gap: 6px;
+  }
+  .productDetails h4{
+    font-size:var(--fs-18);
+    font-weight:400;
+  }
+  .productDetails p{
+    font-size:var(--fs-18);
+  }
+  .detailsLink{
+    font-size:var(--fs-18);
+  
+  }
+  .itemsBoxHeader{
+    font-size:var(--fs-18);
+  
   }
 
   .imageContainer {
@@ -340,6 +359,10 @@
 
   .cancelButton {
     width: 100%;
+    font-size:var(--fs-18);
+  }
+  .statusTexts h3{
+    font-size:var(--fs-20);
   }
 }
 

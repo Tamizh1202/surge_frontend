@@ -21,9 +21,9 @@ padding-left: clamp(30px, 12vw, 125px);
 }
 
 .title {
-  font-size: 22px;
+  font-size: var(--fs-24);
   font-weight: 600;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-montserrat);
   margin: 0;
 }
@@ -37,9 +37,9 @@ padding-left: clamp(30px, 12vw, 125px);
 }
 
 .tab {
-  font-size: 18px;
-  color: #414343;
-  font-weight: 500;
+  font-size: var(--fs-20);
+  color: var(--text-secondary);
+  font-weight: 400;
   cursor: pointer;
   font-family: var(--font-montserrat);
   transition: 0.2s;
@@ -51,8 +51,8 @@ padding-left: clamp(30px, 12vw, 125px);
 
 
 .activeTab {
-  color: #C4754E;
-  font-weight: 600;
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .infoTable {
@@ -65,7 +65,7 @@ padding-left: clamp(30px, 12vw, 125px);
   justify-content: space-between; 
   align-items: center;
   padding: 16px 19px;
-  border-bottom: 1px solid #818686;
+  border-bottom: 1px solid var(--text-secondary);
 }
 
 .row:last-child {
@@ -73,18 +73,18 @@ padding-left: clamp(30px, 12vw, 125px);
 }
 
 .label {
-  color: #818686;
+  color: var(--text-secondary);
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--fs-18);
   font-family: var(--font-raleway);
   flex: 1;
 }
 
 .value {
-  color: #414343;
+  color: var(--text-primary);
   flex: 2;
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--fs-18);
   font-family: var(--font-raleway);
   line-height: 1.4;
   text-align: left;
@@ -133,7 +133,7 @@ padding-left: clamp(30px, 12vw, 125px);
 @media (max-width: 768px) {
   .container {
     flex-direction: column;
-    padding: 20px;
+    padding: 24px;
     gap: 32px;
     align-items: center;
   }
@@ -153,6 +153,7 @@ padding-left: clamp(30px, 12vw, 125px);
     flex-direction: row;
     align-items: flex-start;
     gap: 12px;
+    padding: 16px 19px 16px 10px;
   }
   
   .label, .value {

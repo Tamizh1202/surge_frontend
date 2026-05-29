@@ -6,7 +6,7 @@ import AddressCard from "./AddressCard";
 import Image from "next/image";
 import AddressZero from "./NoAddressGif.gif";
 
-const AddressSection = ({ addresses = [], onAddNew, onEdit, onDeleteRequest }) => {
+const AddressSection = ({ addresses = [], onAddNew, onEdit, onDeleteRequest, errorMsg }) => {
   const defaultAddress = addresses.find((a) => a.isDefaultAddress);
   const otherAddresses = defaultAddress
     ? addresses.filter((a) => a.id !== defaultAddress.id)
@@ -15,12 +15,12 @@ const AddressSection = ({ addresses = [], onAddNew, onEdit, onDeleteRequest }) =
   return (
     <div className={styles.AddressSection}>
       {/* Header */}
-      <div className={`${styles.AddressHeader} ${styles.SectionHeader}`} >
+      <div className={`${styles.AddressHeader} ${styles.SectionHeader}`} style={{ position: 'relative' }}>
         <h4>Saved Address</h4>
-     <button  
-  onClick={onAddNew} 
-  className={styles.AddAddressBtn} 
-  
+     <button
+  onClick={onAddNew}
+  className={styles.AddAddressBtn}
+
 >
   <svg
     width="13"
@@ -36,6 +36,11 @@ const AddressSection = ({ addresses = [], onAddNew, onEdit, onDeleteRequest }) =
   </svg>
   <span>Add Address</span>
 </button>
+        {errorMsg && (
+          <span style={{ position: 'absolute', top: '100%', left: 0, fontSize: '12px', color: '#c0392b', fontFamily: 'var(--font-raleway)' }}>
+            {errorMsg}
+          </span>
+        )}
       </div>
 
       {addresses.length > 0 ? (

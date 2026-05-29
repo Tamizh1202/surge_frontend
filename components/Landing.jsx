@@ -21,7 +21,7 @@ export default function HomePage() {
 
       <div className={styles.heroContent}>
         <h1 className={styles.heroTitle}>
-          Elevate You <span className={styles.spantext} ><br />Coffee Ritual</span> <br />
+          Elevate Your <span className={styles.spantext} ><br />Coffee Ritual</span> <br />
           {/* <span className={styles.spantext} >coffee</span>  */}
           
         </h1>

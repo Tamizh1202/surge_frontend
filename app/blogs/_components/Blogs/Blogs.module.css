@@ -1,73 +1,100 @@
+/* ─── Page wrapper ─────────────────────────────────────────────────────────── */
 .main {
   display: flex;
-  height: 100vh;
-  padding:
-    clamp(80px, 8vw, 150px) clamp(40px, 6.5vw, 125px) 32px clamp(40px, 6.5vw, 125px);
+  flex-direction: column;
+  width: 100%;
   background-color: #fff;
+  padding: clamp(80px, 8vw, 150px) clamp(40px, 6.5vw, 125px) 32px clamp(40px, 6.5vw, 125px);
   box-sizing: border-box;
 }
 
-.MainContainer {
+/* ─── Progress bar ─────────────────────────────────────────────────────────── */
+.progressBar {
+  width: 100%;
+  height: 2px;
+  background: #e8e0d8;
+  margin-bottom: 0;
+}
+
+.progressFill {
+  height: 100%;
+  width: 0%;
+}
+
+/* ─── Static outer card — NEVER moves ──────────────────────────────────────── */
+.mainCard {
   display: flex;
   align-items: stretch;
   width: 100%;
   max-width: 1670px;
-  overflow: hidden;
-  /* Add this to ensure children align correctly */
-  justify-content: space-between;
+  height: 649px;
 }
 
-.LeftConatiner {
+/* ─── LEFT: image clipping window ──────────────────────────────────────────── */
+.imgWindow {
   position: relative;
   width: 840px;
-  height: 649px;
   flex-shrink: 0;
-  /* Keep the image side fixed */
+  overflow: hidden;             /* this is the "window" — clips the sliding image */
+  background: #e8e0d8;
+}
+
+/* Each image slide sits absolutely inside the window */
+.imgSlide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .image {
   object-fit: cover;
 }
 
-.RightContainer {
+/* ─── RIGHT: static card panel ─────────────────────────────────────────────── */
+.rightSide {
   background-color: #F5F5F5;
-  display: flex;
-padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   flex: 1;
-  /* THIS IS KEY: It forces the right side to grow and fill the rest of the 1670px */
   min-width: 0;
-  /* Prevents text from pushing the container wider than its parent */
-}
-
-.RightContent {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 100%;
+  padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
+  overflow: hidden;
 }
 
-.top {
+/* ─── TOP: text clipping window (animates with image) ──────────────────────── */
+.textWindow {
+  flex: 1;
+  position: relative;
+  overflow: hidden;             /* clips sliding text — same principle as imgWindow */
+  min-height: 0;
+}
+
+/* Each text slide sits absolutely inside the text window */
+.textSlide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-
+/* Sub-components inside textSlide */
 .timeWrapper {
   display: flex;
   align-items: center;
   gap: 4px;
-
 }
 
 .min {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-18);
   font-weight: 400;
   color: #818686;
   margin: 0;
 }
-
 
 .textGroup {
   display: flex;
@@ -93,20 +120,14 @@ padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   margin: 0;
 }
 
-.linkWrapper {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-}
-
-
-
+/* ─── BOTTOM: 100% static — GSAP never touches this ────────────────────────── */
 .bottom {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-
+  flex-shrink: 0;
+  padding-top: 24px;
 }
 
 .read {
@@ -114,16 +135,18 @@ padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   align-items: center;
   gap: 8px;
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-18);
   font-weight: 400;
-  color: #C4754E;
+  color: var(--primary-color);
   margin: 0;
   cursor: pointer;
+  text-decoration: none;
 }
+
 .read:hover {
   text-decoration: underline;
-  text-underline-offset: 2px;   
-  text-decoration-thickness: 1px; 
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
   opacity: 0.8;
 }
 
@@ -131,79 +154,27 @@ padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   display: flex;
   gap: 8px;
   align-items: center;
-  /* Keeps active and inactive dots vertically aligned */
   justify-content: flex-end;
   min-height: 20px;
-  /* Ensure the height doesn't jump when the dot changes */
 }
 
-.dotImg {
+.dot {
   cursor: pointer;
-  display: block;
-  object-fit: contain;
+  display: inline-block;
   transition: all 0.3s ease;
-  /* Makes the swap feel smooth */
 }
 
-/* Core Embla Structure */
-.embla {
-  overflow: hidden;
-  width: 100%;
-}
-
-.embla__container {
-  display: flex;
-  /* This prevents the "peeking" by ensuring the track aligns correctly */
-  backface-visibility: hidden;
-}
-
-.embla__slide {
-  flex: 0 0 100%;
-  /* Force each slide to be exactly 100% width */
-  min-width: 100%;
-  /* Ensure it doesn't shrink */
-  display: flex;
-  justify-content: center;
-  /* Centers your 1670px content on large screens */
-}
-
-/* Fix for your existing MainContainer inside the slide */
-.MainContainer {
-  display: flex;
-  align-items: stretch;
-  width: 100%;
-  max-width: 1670px;
-  /* Your design width */
-  /* Remove overflow: hidden if it's cutting off shadows/edges */
-}
-
-/* Ensure the RightContainer fills the rest of the space properly */
-.RightContainer {
-  background-color: #F5F5F5;
-  display: flex;
-  padding: 60px 125px;
-  flex: 1;
-  min-width: 0;
-}
-
-/* Add pointer to dots */
-.dotImg {
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.dotImg:hover {
+.dot:hover {
   transform: scale(1.2);
 }
 
-/* styles.css */
-
+/* ─── Zero / empty state ────────────────────────────────────────────────────── */
 .latestBlogs {
   width: 100%;
   padding: 40px 0px 0px 40px;
 }
 
-.latestBlogs__heading {
+.latestBlogsHeading {
   text-align: left;
   margin: 0 0 100px 0;
   letter-spacing: 1px;
@@ -211,24 +182,24 @@ padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   font-size: var(--fs--22);
 }
 
-.latestBlogs__zeroState {
+.latestBlogsZeroState {
   text-align: center;
   display: flex;
   justify-content: center;
 }
 
-.latestBlogs__zeroState__title {
+.latestBlogsZeroTitle {
   font-weight: bold;
   margin: 0 0 10px 0;
   color: var(--primary-color);
 }
 
-.latestBlogs__zeroState__subtitle {
+.latestBlogsZeroSubtitle {
   margin: 0 0 20px 0;
   color: var(--secondary-color);
 }
 
-.latestBlogs__zeroState__button {
+.latestBlogsZeroButton {
   padding: 13px 42px;
   border: 2px solid var(--primary-color);
   background: white;
@@ -238,167 +209,107 @@ padding: clamp(30px, 6vw, 80px) clamp(40px, 12vw, 150px);
   font-size: var(--fs-16);
   font-weight: 600;
   text-decoration: none;
-  /* removes underline */
   display: inline-block;
 }
 
-.latestBlogs__zeroState__button:hover {
+.latestBlogsZeroButton:hover {
   background-color: var(--primary-color);
   color: white;
 }
 
-@media screen and (max-width: 1600px) {
+/* ─── Tablet (≤1024px) — layout stays side-by-side, just scaled ────────────── */
+@media (max-width: 1024px) {
   .main {
-    padding: 140px 60px 75px 60px;
+    padding: 120px 32px 24px 32px;
   }
 
-  .LeftConatiner {
-    width: 50%;
-    height: auto;
-    min-height: 529px;
+  .mainCard {
+    height: 520px;
   }
 
-  .RightContainer {
-    width: 50%;
-    height: auto;
-    min-height: 529px;
-    padding: 40px 60px;
-    flex-shrink: 1;
+  .imgWindow {
+    width: 42%;
   }
 
-  .RightContent {
-    justify-content: flex-start;
-    gap: 25px;
-    box-sizing: border-box;
-  }
-}
-
-
-
-@media screen and (max-width: 768px) {
-  .main {
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh;
-    box-sizing: border-box;
-    overflow: hidden;
-  }
-
-  .MainContainer {
-    flex-direction: column;
-    width: 100%;
-    max-width: 100%;
-    height: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-  }
-
-  .LeftConatiner {
-    flex: 0 0 30vh;
-    /* fixed image slice */
-    width: 100%;
-    height: 30vh;
-  }
-
-  .RightContainer {
-    flex: 0 0 70vh;
-    /* remaining slice */
-    width: 100%;
-    padding: 24px;
-    background-color: #F5F5F5;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 16px;
-    overflow-y: auto;
-    /* safety if content overflows on tiny screens */
+  .rightSide {
+    padding: 32px 36px;
   }
 
   .head {
-    font-size: 24px;
-    line-height: 1.2;
-    width: 100%;
+    font-size: clamp(22px, 3.2vw, 34px);
   }
 
   .description {
     font-size: 14px;
-    width: 100%;
     max-width: 100%;
   }
 
-  .bottom {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-top: 25px;
-    padding-top: 25px;
+  .min {
+    font-size: 14px;
   }
 
-  .btn {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    min-width: fit-content;
-  }
-
-  .dotImg {
-    width: 11px;
-    height: auto;
-    object-fit: contain;
-    display: block;
+  .read {
+    font-size: 14px;
   }
 }
 
-@media screen and (max-width: 325px) {
-  .head {
-    font-size: 20px;
-  }
-}
-
+/* ─── Small tablet (≤768px) — tighten further, still side-by-side ──────────── */
 @media (max-width: 768px) {
-  .latestBlogs {
-    padding: 24px 0px 0px 24px;
+  .main {
+    padding: 120px 20px 20px 20px;
   }
 
-  .latestBlogs__heading {
-    margin: 0 0 80px 0;
-    font-size: var(--fs--18, 18px);
+  .mainCard {
+    height: 420px;
   }
 
-  .latestBlogs__zeroState__button {
-    padding: 11px 32px;
+  .imgWindow {
+    width: 40%;
+  }
+
+  .rightSide {
+    padding: 24px 24px;
+  }
+
+  .head {
+    font-size: clamp(18px, 3.5vw, 26px);
+  }
+
+  .description {
+    font-size: 13px;
+  }
+
+  .textSlide {
+    gap: 16px;
   }
 }
-
-/* Mobile */
 @media (max-width: 480px) {
-  .latestBlogs {
-    padding: 150px 0px 0px 16px;
+  .main {
+    padding: 0;
+    padding-top:90px;
   }
 
-  .latestBlogs__heading {
-    margin: 0 0 60px 0;
-    font-size: var(--fs--16, 16px);
+  .mainCard {
+    flex-direction: column;
+    height: auto;
   }
 
-  .latestBlogs__zeroState__title {
-    font-size: 15px;
-  }
-
-  .latestBlogs__zeroState__subtitle {
-    font-size: 13px;
-    padding: 0 16px;
-  }
-
-  .latestBlogs__zeroState__button {
-    padding: 10px 24px;
-    font-size: 13px;
+  .imgWindow {
     width: 100%;
-    max-width: 240px;
+    height: 220px;
+    flex-shrink: 0;
+  }
+
+  .rightSide {
+    padding: 24px 24px 20px 24px;
+    min-height: 260px;
+  }
+
+  .head {
+    font-size: 18px;
+  }
+
+  .description {
+    font-size: 12px;
   }
 }

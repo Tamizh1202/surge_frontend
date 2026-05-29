@@ -3,9 +3,9 @@
 
   align-items: center;
   height: auto;
-padding-left: clamp(20px, 8vw, 120px);
-padding-bottom: clamp(15px, 8vw, 100px);
-padding-right: clamp(30px, 31vw, 400px);
+  padding-left: clamp(20px, 8vw, 120px);
+  padding-bottom: clamp(15px, 8vw, 100px);
+  padding-right: clamp(30px, 31vw, 400px);
   background-color: #ffffff;
 }
 
@@ -107,7 +107,7 @@ padding-right: clamp(30px, 31vw, 400px);
   width: 100%;
 }
 
-.lineInput:focus + .charCounter {
+.lineInput:focus+.charCounter {
   color: #414343;
 }
 
@@ -180,9 +180,10 @@ padding-right: clamp(30px, 31vw, 400px);
   outline: none;
   width: 100%;
   font-family: inherit;
-  font-size: inherit;
+  /* font-size: inherit; */
   background: transparent;
   color: var(--text-primary);
+  font-size: var(--fs-18);
 }
 
 .Field input:enabled {
@@ -477,7 +478,7 @@ padding-right: clamp(30px, 31vw, 400px);
   background: #ffffff;
   padding: 14px 40px;
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-18);
 
   color: #C4754E;
   font-weight: 600;
@@ -512,6 +513,7 @@ padding-right: clamp(30px, 31vw, 400px);
 .AddressCard {
   border-top: 1px solid #2f362a4d;
   padding-top: 16px;
+  padding-bottom: 16px;
   display: flex;
   justify-content: space-between;
 
@@ -523,6 +525,7 @@ padding-right: clamp(30px, 31vw, 400px);
   font-size: 15px;
   font-weight: 400;
   width: 100%;
+
 }
 
 /* 1. This handles the "Name on Left, Home on Right" */
@@ -1487,7 +1490,8 @@ padding-right: clamp(30px, 31vw, 400px);
   .pfrembtn {
     width: 100%;
     padding: 8px 10px;
-    font-size: 14px;
+    font-size: var(--fs-16);
+    ;
   }
 
   .Row {
@@ -1508,7 +1512,7 @@ padding-right: clamp(30px, 31vw, 400px);
     padding: 19px 0px;
     display: flex;
     justify-content: space-between;
-    gap: 100px;
+    gap: 0;
 
   }
 
@@ -1532,6 +1536,23 @@ padding-right: clamp(30px, 31vw, 400px);
     box-sizing: border-box;
   }
 
+  .fixerOne,
+  .fixerTwo {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .fixerOne p {
+    margin-bottom: 8px;
+  }
+
+  .AddressCard {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 0px;
+  }
+
+
   .Name {
     gap: 12px;
   }
@@ -1554,7 +1575,7 @@ padding-right: clamp(30px, 31vw, 400px);
 
   .fixerOne p,
   .fixerTwo p {
-    font-size: var(--fs-14);
+    font-size: var(--fs-18);
   }
 
   .AddressHeader {
@@ -1574,26 +1595,31 @@ padding-right: clamp(30px, 31vw, 400px);
     padding: 24px;
   }
 
+  .CustomSelectTrigger {
+    padding: 0;
+  }
+
   .AddressHeader h4 {
-    font-size: 20px;
+    font-size: var(--fs-24);
   }
 
   .AddressSection {
-    padding-right: 20px;
+    /* padding-right: 20px; */
     gap: 35px;
   }
 
   .DeleteAccount {
     gap: 16px;
+    margin-bottom: 20px;
 
   }
 
   .DeleteAccount h4 {
-    font-size: 20px;
+    font-size: var(--fs-22);
   }
 
   .DeleteAccount button {
-    font-size: 14px;
+    font-size: var(--fs-18);
 
   }
 
@@ -1636,6 +1662,30 @@ padding-right: clamp(30px, 31vw, 400px);
     display: flex;
     flex-direction: column;
     gap: 20px;
+  }
+
+  .underlineSelect svg {
+    margin-left: 0;
+  }
+
+  .ActionRow {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .SaveBtn {
+    flex: 1;
+    width: auto !important;
+    padding: 14px 0;
+    font-size: var(--fs-18);
+  }
+
+  .CancelBtn {
+    flex: 1;
+    width: auto !important;
+    padding: 14px 0;
+    font-size: var(--fs-18);
   }
 }
 

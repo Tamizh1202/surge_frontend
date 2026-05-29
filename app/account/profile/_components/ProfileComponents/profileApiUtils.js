@@ -11,7 +11,7 @@ export const updateProfileAPI = async (userId, payload) => {
   } catch (error) {
     console.error(
       "updateProfileAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -35,7 +35,7 @@ export const removeProfileImageAPI = async (userId) => {
   } catch (error) {
     console.error(
       "removeProfileImageAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -75,7 +75,7 @@ export const saveAddressAPI = async (userId, addressPayload, token) => {
   } catch (error) {
     console.error(
       "saveAddressAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -111,7 +111,7 @@ export const updateAddressAPI = async (userId, addressPayload) => {
   } catch (error) {
     console.error(
       "updateAddressAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -132,7 +132,7 @@ export const deleteAddressAPI = async (userId, addressId) => {
   } catch (error) {
     console.error(
       "deleteAddressAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -158,7 +158,7 @@ export const confirmDeleteAccountAPI = async (userId) => {
   } catch (error) {
     console.error(
       "confirmDeleteAccountAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -185,7 +185,7 @@ export const uploadProfileImageAPI = async ({ base64, filename }) => {
   } catch (error) {
     console.error(
       "uploadProfileImageAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -211,7 +211,7 @@ export const changeEmailOtpAPI = async (email) => {
   } catch (error) {
     console.error(
       "changeEmailOtpAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =
@@ -237,7 +237,7 @@ export const verifyChangeEmailOtpAPI = async (email, otp) => {
   } catch (error) {
     console.error(
       "verifyChangeEmailOtpAPI error:",
-      error.response?.data || error.message,
+      error.response?.status, error.response?.data, error.message,
     );
     const resData = error?.response?.data;
     const backendMsg =

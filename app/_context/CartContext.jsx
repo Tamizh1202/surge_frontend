@@ -487,9 +487,28 @@ export function CartProvider({ children }) {
     const cartKey = makeCartItemKey(product, vId || null, customSelections, productHighlights);
 
     if (session?.user) {
+      // Per-variant cap for plain items (no splits): each weight/variant gets its own max-10
+      if (!customSelections && !productHighlights) {
+        const existingVariantItem = items.find(
+          (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
+        );
+        if (existingVariantItem && existingVariantItem.quantity + quantity > 10) {
+          toast.error("Maximum quantity of 10 per item reached");
+          return;
+        }
+      }
+
       // Per-highlight cap: check before posting to server so we never over-increment
       if (customSelections || productHighlights) {
-        const existingSplits = loadSplitsForItem(product, vId) || [];
+        const serverItemExists = items.some(
+          (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
+        );
+        let existingSplits = loadSplitsForItem(product, vId) || [];
+        // Stale splits from a previous session — clear them so they don't block adds
+        if (!serverItemExists && existingSplits.length > 0) {
+          saveSplitsForItem(product, vId || null, []);
+          existingSplits = [];
+        }
         const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
         if (splitIndex >= 0 && existingSplits[splitIndex].quantity + quantity > 10) {
           toast.error("Maximum quantity of 10 per item reached");
@@ -724,6 +743,7 @@ export function CartProvider({ children }) {
         const backendMsg =
           resData?.message || resData?.error || resData?.errors?.[0]?.message;
         const message = backendMsg || e?.message || "Failed to update quantity";
+        if (e?.response?.status === 400) fetchCart();
         return { ok: false, message };
       }
     } else {

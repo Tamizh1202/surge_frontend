@@ -47,7 +47,7 @@
 .navLink,
 .menuRight a {
   font-family: var(--font-montserrat);
-  font-size: var(--fs-16);
+  font-size: var(--fs-18);
   font-weight: 400;
   text-decoration: none;
   color: var(--black);
@@ -307,7 +307,7 @@
   .linkStack li a {
     text-decoration: none;
     color: var(--text-secondary);
-    font-size: var(--fs-16);
+    font-size: var(--fs-18);
     font-weight: 400;
     font-family: var(--font-raleway);
     display: block;
@@ -330,8 +330,10 @@
     color: var(--text-secondary);
     font-weight: 400;
     font-family: var(--font-raleway);
-    font-size: var(--fs-16);
+    font-size: var(--fs-18);
   }
+  
+
 }
 
 

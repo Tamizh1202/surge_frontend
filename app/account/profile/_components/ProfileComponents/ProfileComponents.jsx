@@ -255,6 +255,7 @@ const ProfileComponents = ({ initialData }) => {
     setActiveLabelBtn("Home");
     setAddressForm({ isDefault: true, country: "United Arab Emirates", state: "dubai", label: "Home" });
     setAddressErrors({});
+    setAddressGeneralError("");
     setShowAddressPopup(true);
   };
 
@@ -287,12 +288,22 @@ const ProfileComponents = ({ initialData }) => {
       const result = await saveAddressAPI(session?.user?.id, payload, token);
       if (result?.success) {
         const sn = addressForm.streetNumber || "";
-        const patched = result.updatedAddresses.map((a, idx, arr) =>
-          idx === arr.length - 1 ? { ...a, streetNumber: a.streetNumber || sn } : a
-        );
-        setAddresses(patched);
+        if (result.updatedAddresses?.length > 0) {
+          const patched = result.updatedAddresses.map((a, idx, arr) =>
+            idx === arr.length - 1
+              ? { ...a, street: a.street || addressForm.address, streetNumber: a.streetNumber || sn }
+              : a
+          );
+          setAddresses(patched);
+        } else {
+          const optimistic = { ...payload, id: `temp-${Date.now()}`, street: addressForm.address };
+          setAddresses((prev) => [...prev, optimistic]);
+        }
         setShowAddressPopup(false);
         toast.success("Address saved!");
+      } else if (result?.error) {
+        setShowAddressPopup(false);
+        setAddressGeneralError(result.error);
       }
     } finally {
       setIsSubmittingAddress(false);
@@ -321,10 +332,18 @@ const ProfileComponents = ({ initialData }) => {
       if (result?.success) {
         const sid = editingAddressId;
         const sn = addressForm.streetNumber || "";
-        const patched = result.updatedAddresses.map((a) =>
-          a.id === sid ? { ...a, streetNumber: a.streetNumber || sn } : a
-        );
-        setAddresses(patched);
+        if (result.updatedAddresses?.length > 0) {
+          const patched = result.updatedAddresses.map((a) =>
+            a.id === sid
+              ? { ...a, street: a.street || addressForm.address, streetNumber: a.streetNumber || sn }
+              : a
+          );
+          setAddresses(patched);
+        } else {
+          setAddresses((prev) => prev.map((a) =>
+            a.id === sid ? { ...payload, id: sid, street: addressForm.address, streetNumber: sn } : a
+          ));
+        }
         setShowEditAddressPopup(false);
         toast.success("Address updated!");
       }
@@ -404,6 +423,7 @@ const ProfileComponents = ({ initialData }) => {
                 onAddNew={openAddAddress}
                 onEdit={openEditAddress}
                 onDeleteRequest={handleDeleteRequest}
+                errorMsg={addressGeneralError}
               />
             )}
             {!isGuestUser && (

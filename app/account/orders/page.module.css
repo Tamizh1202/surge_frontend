@@ -202,12 +202,12 @@ padding-bottom: clamp(40px, 7vw, 100px);
   .main {
     padding-left: 0px;
   
-    padding-bottom: 48px;
+    padding-bottom: 0px;
   }
 
   .container {
     width: 100%;
-    gap: 80px;
+    gap: 40px;
   }
 
   .Top {

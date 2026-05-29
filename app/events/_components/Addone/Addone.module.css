@@ -93,14 +93,14 @@
 .cardTitle {
   font-size: 16px;
   font-weight: 600;
-  color: #414343;
+  color: var(--text-primary);
   font-family: var(--font-montserrat);
-  margin: 0 0 6px 0;
+  margin: 0 0 8px 0;
 }
 
 .cardDesc {
   font-size: 16px;
-  color: #818686;
+  color: var(--text-secondary);
   font-weight: 400;
   line-height: 1.4;
   font-family: var(--font-raleway);
@@ -233,12 +233,12 @@
     padding-left: 24px;
     padding-right: 24px;
     padding-top: 32px;
-    padding-bottom: 60px;
+    padding-bottom: 40px;
     gap: 24px;
   }
 
   .sectionHeading {
-    font-size: 20px;
+    font-size: var(--fs-22);
   }
 
   .imageWrapper {
@@ -258,7 +258,7 @@
   }
 
   .tabButton {
-    font-size: 16px; 
+    font-size: var(--fs-18); 
     padding: 0 16px 10px 16px;
     flex-shrink: 0;
   }
@@ -273,22 +273,22 @@
   }
 
   .cardTitle {
-    font-size: 15px;
+    font-size: var(--fs-18);
   }
 
   .cardDesc {
-    font-size: 14px;
+    font-size: var(--fs-16);
     margin-bottom: 20px;
   }
 
   .pointsList {
     grid-template-columns: 1fr; 
-    row-gap: 14px;
+    row-gap: 10px;
     margin-bottom: 40px;
   }
 
   .pointItem {
-    font-size: 15px; 
+    font-size: var(--fs-18); 
   }
 
   .enquireLink {

@@ -8,11 +8,17 @@ padding-left: clamp(20px, 7vw, 100px);
 }
 
 .border {
-
   display: flex;
   flex-direction: column;
-
   /* width:900px */
+}
+
+.pageTitle {
+  font-family: var(--font-montserrat);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 24px 0;
 }
 
 .main h1 {
@@ -497,11 +503,12 @@ heading .olive .heading {
 
   .head {
     padding-right: 0;
-    padding-left: 0px;
-    width: 100vw;
+    padding-left: 0;
+    width: calc(100% + 48px);
     max-width: none;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: -24px;
+    margin-right: -24px;
+    box-sizing: border-box;
   }
 
   .border {

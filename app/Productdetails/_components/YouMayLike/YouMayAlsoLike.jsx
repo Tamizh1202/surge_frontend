@@ -60,7 +60,9 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                     price: getDisplayPrice(p),
                     slug: productSlug,
                     categorySlug: p.categories?.slug || p.categories?.[0]?.slug || 'coffee-beans',
-                    isOutOfStock: p.inStock === false,
+                    isOutOfStock: p.variants?.length > 0
+                        ? p.variants.every(v => v.variantInStock === false)
+                        : p.inStock === false,
                     raw: p,
                 };
             });
@@ -169,7 +171,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                 </div>
 
                 {/* Dot indicators — only visible on mobile via CSS */}
-                {/* {products.length > 1 && (
+                {products.length > 1 && (
                     <div className={styles.dots}>
                         {products.map((_, i) => (
                             <span
@@ -178,7 +180,7 @@ export default function YouMayAlsoLike({ recommendedProducts }) {
                             />
                         ))}
                     </div>
-                )} */}
+                )}
             </section>
 
             {popupProduct && (

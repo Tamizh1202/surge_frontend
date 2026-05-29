@@ -9,7 +9,7 @@ import beverages from "./Menu3.webp";
 import desserts from "./Menu4.webp";
 
 const MobileArrow = () => (
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="15" height="15" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0.75 8.75L8.75 0.75M8.75 0.75H0.75M8.75 0.75V8.75" stroke="#414343" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );

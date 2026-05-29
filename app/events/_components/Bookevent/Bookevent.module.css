@@ -170,12 +170,10 @@
 @media (max-width: 640px) {
   .Bottom {
     flex: 0 0 52vh;
-    /* ← slightly less height for images on mobile */
   }
 
   .imageWrapper {
     width: 52vh;
-    /* ← square to match */
     height: 52vh;
   }
 
@@ -205,13 +203,14 @@
   }
 
   .Subtitle {
-    font-size: 14px;
+    font-size: var(--fs-16);
     max-width: 100%;
   }
 
   .eventButton {
     margin-top: 20px;
     padding: 14px 32px;
+    font-size:var(--fs-18);
   }
   .Track {
   display: flex;

@@ -121,7 +121,9 @@ const CartSideBar = () => {
               items.map((item) => {
                 const key = item._cartKey || `${item.product}_${item.vId || ""}`;
                 const displaySelections = getDisplaySelections(item);
-                const metaText = [item.tagline, ...displaySelections.map(([, value]) => value)]
+                const metaText = [
+                  // item.tagline,
+                   ...displaySelections.map(([, value]) => value)]
                   .filter(Boolean)
                   .join(", ");
                 return (

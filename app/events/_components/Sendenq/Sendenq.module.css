@@ -55,7 +55,7 @@
 }
 
 .Top h3 {
-  font-size: 22px;
+  font-size: var(--fs-24);
   font-family: var(--font-montserrat);
   font-weight: 600;
   color: #414343;
@@ -63,7 +63,7 @@
 }
 
 .Top p {
-  font-size: 16px;
+  font-size: var(--fs-18);
   color: #818686;
   font-family: var(--font-raleway);
   font-weight: 400;
@@ -116,7 +116,7 @@
   border: none;
   padding: 12px 40px;
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-18);
   font-weight: 600;
   margin-top: 40px;
   cursor: pointer;
@@ -368,6 +368,11 @@
 
   }
 
+  .formMain {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 
   .Bottom {
     display: block;

@@ -64,6 +64,9 @@ export default function CheckoutForm({
   status,
   delivery,
   setDelivery,
+  shops,
+  selectedShopId,
+  setSelectedShopId,
   savedAddresses,
   setSavedAddresses,
   selectedAddressId,
@@ -116,6 +119,7 @@ export default function CheckoutForm({
       delivery,
       status,
       selectedAddressId,
+      selectedShopId,
       shippingForm,
       billingForm,
       useShippingAsBilling,
@@ -177,6 +181,7 @@ export default function CheckoutForm({
         }),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
+        pickupShopId: delivery === "pickup" ? selectedShopId : undefined,
       });
       console.log("Payload to be posted:", JSON.stringify(payload, null, 2));
       localStorage.setItem("lastCheckoutPayload", JSON.stringify(payload, null, 2));
@@ -272,6 +277,9 @@ export default function CheckoutForm({
               <ShippingAddressSection
                 delivery={delivery}
                 status={status}
+                shops={shops}
+                selectedShopId={selectedShopId}
+                setSelectedShopId={setSelectedShopId}
                 savedAddresses={savedAddresses}
                 setSavedAddresses={setSavedAddresses}
                 selectedAddressId={selectedAddressId}

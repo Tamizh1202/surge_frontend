@@ -29,6 +29,7 @@ export const validateCheckoutForm = ({
   delivery,
   status,
   selectedAddressId,
+  selectedShopId,
   shippingForm,
   billingForm,
   useShippingAsBilling,
@@ -44,6 +45,11 @@ export const validateCheckoutForm = ({
   // Email
   const emailErr = validateEmail(email);
   if (emailErr) fail("email", emailErr);
+
+  // Pickup — a shop must be selected
+  if (delivery === "pickup" && !selectedShopId) {
+    fail("pickupShop", "Please select a pickup location");
+  }
 
   // Shipping (only if shipping mode + no saved address selected)
   if (delivery === "ship") {

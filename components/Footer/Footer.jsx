@@ -6,7 +6,25 @@ import { usePathname } from "next/navigation";
 import styles from "./Footer.module.css";
 import logo from "./Footer.png";
 
-export default function Footer({ categories = [] }) {
+function buildMapsUrl(shop) {
+  const { latitude, longitude } = shop.address || {};
+  if (latitude && longitude) {
+    return `https://www.google.com/maps?q=${latitude},${longitude}`;
+  }
+  const parts = [shop.address?.street, shop.address?.city, "UAE"].filter(Boolean);
+  return `https://maps.google.com/maps?q=${encodeURIComponent(parts.join(", "))}`;
+}
+
+function formatShopAddress(shop) {
+  const { street, city, emirates } = shop.address || {};
+  const emirateLabel = emirates
+    ? emirates.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+    : "";
+  const line2 = [city, emirateLabel, "UAE"].filter(Boolean).join(", ");
+  return { line1: street || "", line2 };
+}
+
+export default function Footer({ categories = [], shops = [] }) {
   const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState(null);
@@ -210,27 +228,46 @@ export default function Footer({ categories = [] }) {
           <div className={styles.infoBlock}>
             <p className={styles.label}>Our Store</p>
             <address className={styles.addressBox}>
-              <a
-                href="https://maps.app.goo.gl/RwrVRs8ER9H4WJCE6"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.mapLink}
-              >
-                SURGE- Bin Sougat Centre
-                <br />
-                Al Rashidiya, Dubai- UAE
-              </a>
-
-              <a
-                href="https://maps.app.goo.gl/1txtMUDiuU1cXZn17"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.mapLink}
-              >
-                SURGE- Emarat Petrol Station
-                <br />
-                Al Khawaneej, Dubai- UAE
-              </a>
+              {shops.length > 0 ? (
+                shops.map((shop) => {
+                  const { line1, line2 } = formatShopAddress(shop);
+                  return (
+                    <a
+                      key={shop.id}
+                      href={buildMapsUrl(shop)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.mapLink}
+                    >
+                      {line1 && <>{line1}<br /></>}
+                      {line2}
+                    </a>
+                  );
+                })
+              ) : (
+                <>
+                  <a
+                    href="https://maps.app.goo.gl/RwrVRs8ER9H4WJCE6"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mapLink}
+                  >
+                    SURGE- Bin Sougat Centre
+                    <br />
+                    Al Rashidiya, Dubai- UAE
+                  </a>
+                  <a
+                    href="https://maps.app.goo.gl/1txtMUDiuU1cXZn17"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.mapLink}
+                  >
+                    SURGE- Emarat Petrol Station
+                    <br />
+                    Al Khawaneej, Dubai- UAE
+                  </a>
+                </>
+              )}
             </address>
           </div>
 

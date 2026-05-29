@@ -110,11 +110,24 @@ export default function OrderSuccessContent() {
     ? `${paymentData.brand.toUpperCase()} •••• ${paymentData.last4}`
     : "Stripe Payment";
 
+  const isPickup = order.deliveryOption === 'pickup';
+
+  const formatPickupLocation = (shop) => {
+    if (!shop || typeof shop !== 'object') return 'Pickup at store';
+    const { street, city, emirates } = shop.address || {};
+    const emirateLabel = emirates
+      ? emirates.split('_').map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+      : '';
+    return [street, city, emirateLabel, 'UAE'].filter(Boolean).join(', ');
+  };
+
   const rows = [
     { label: 'Order Id', value: order.id || orderId },
     { label: 'Payment Method', value: paymentMethodStr, icon: true },
     { label: 'Billing Address', value: formatAddress(order.billingAddress) },
-    { label: 'Shipping Address', value: formatAddress(order.shippingAddress || order.billingAddress) },
+    isPickup
+      ? { label: 'Pickup Location', value: formatPickupLocation(order.pickupShop) }
+      : { label: 'Shipping Address', value: formatAddress(order.shippingAddress || order.billingAddress) },
     { label: 'Contact Information', value: order.email, fullWidth: true },
   ];
 

@@ -2,12 +2,10 @@
   display: flex;
   justify-content: left;
   align-items: start;
-  
   height: 100%;
-padding-left: clamp(20px, 7vw, 100px);
-padding-bottom: clamp(40px, 7vw, 100px);
+  padding-left: 40px;
+  padding-bottom: clamp(40px, 7vw, 100px);
   background-color: #ffffff;
-  
 }
 
 .container {
@@ -263,11 +261,7 @@ padding-bottom: clamp(40px, 7vw, 100px);
 /* --- Small laptop (1024px – 1279px) --- */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .main {
-    /* Use logical padding for better consistency */
-    padding-inline: 4rem; /* Balanced fluid padding */
-    box-sizing: border-box;
-    width: 100%;
-    
+    padding-left: 40px;
   }
 
   .Top {
@@ -296,8 +290,3 @@ padding-bottom: clamp(40px, 7vw, 100px);
   }
 }
 
-@media (min-width:1000px) and (max-width:1400){
-  .main{
-    padding-left: 40px;
-  }
-}

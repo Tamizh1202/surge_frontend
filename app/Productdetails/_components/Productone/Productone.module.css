@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 160vh;
+  min-height: 165vh;
   background-color: #f8f8f8;
 }
 
@@ -445,70 +445,23 @@
     gap: 20px;
   }
 
-  /* font sizes: each reduced by 2 steps */
-  .title {
-    font-size: var(--fs-20);
-  }
-
-  .tastingNotes {
-    font-size: var(--fs-14);
-  }
-
-  .buyLabel {
-    font-size: var(--fs-14);
-  }
-
-  .price {
-    font-size: var(--fs-20);
-  }
-
-  .label {
-    font-size: var(--fs-14);
-  }
-
-  .selectTrigger {
-    font-size: var(--fs-14);
-  }
-
-  .selectOption {
-    font-size: var(--fs-14);
-  }
-
-  .sizeButton {
-    font-size: var(--fs-14);
-  }
-
-  .addToCart {
-    font-size: var(--fs-12);
-  }
-
-  .outOfStockBtn {
-    font-size: var(--fs-12);
-  }
-
-  .specsTable td {
-    font-size: var(--fs-14);
-  }
-
-  .specsTables td {
-    font-size: var(--fs-14);
-  }
-
-  .specsTables p {
-    font-size: var(--fs-14);
-  }
-
-  .specValue {
-    font-size: var(--fs-12);
-  }
-
-  .description {
-    font-size: var(--fs-12);
-  }
-
-  .bulletLabel {
-    font-size: var(--fs-12);
-  }
+  /* font sizes: each increased by 2 steps (capped at --fs-22) */
+  .title         { font-size: var(--fs-22); }
+  .tastingNotes  { font-size: var(--fs-16); }
+  .buyLabel      { font-size: var(--fs-16); }
+  .price         { font-size: var(--fs-22); }
+  .label         { font-size: var(--fs-16); }
+  .selectTrigger { font-size: var(--fs-16); }
+  .selectOption  { font-size: var(--fs-16); }
+  .sizeButton    { font-size: var(--fs-16); }
+  .addToCart     { font-size: var(--fs-14); }
+  .outOfStockBtn { font-size: var(--fs-14); }
+  .specsTable td { font-size: var(--fs-16); }
+  .specsTables td{ font-size: var(--fs-16); }
+  .specsTables p { font-size: var(--fs-16); }
+  .specValue     { font-size: var(--fs-14); }
+  .description   { font-size: var(--fs-14); }
+  .bulletLabel   { font-size: var(--fs-14); }
 
   .container {
     position: relative;
@@ -523,6 +476,10 @@
   .productWrapper {
     width: clamp(160px, 24vw, 270px);
     padding: 60px 0 20px 0;
+  }
+
+  .container {
+    min-height: 160vh;
   }
 
   .imageSection {

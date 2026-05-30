@@ -566,7 +566,7 @@
 
 .footer {
     text-align: center;
-    margin-top: 43px;
+    margin-top: 15px;
 }
 
 .viewMoreBtn {
@@ -1082,7 +1082,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         column-gap: 20px;
-        row-gap: 80px;
+        row-gap: 40px;
 
     }
 

@@ -1,11 +1,9 @@
 .main {
   display: flex;
-
   align-items: center;
   height: auto;
-  padding-left: clamp(20px, 8vw, 120px);
+  padding-left: 40px;
   padding-bottom: clamp(15px, 8vw, 100px);
-  padding-right: clamp(30px, 31vw, 400px);
   background-color: #ffffff;
 }
 
@@ -1691,7 +1689,7 @@
 
 @media (min-width: 641px) and (max-width: 1440px) {
   .main {
-    padding-left: 0px;
+    padding-left: 40px;
     padding-right: 40px;
     padding-bottom: 100px;
   }
@@ -1720,11 +1718,6 @@
   }
 }
 
-@media (min-width:1000px) and (max-width:1400) {
-  .main {
-    padding-left: 40px;
-  }
-}
 
 
 

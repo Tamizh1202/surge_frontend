@@ -3,7 +3,7 @@
   width: 100%;
   padding-right: clamp(16px, 4%, 60px);
   padding-bottom: clamp(20px, 8%, 100px);
-  padding-left: clamp(16px, 4%, 60px);
+  padding-left: 40px;
 }
 
 .border {
@@ -650,7 +650,7 @@ heading .olive .heading {
 
 @media (min-width: 1200px) {
   .head {
-    padding-left: clamp(20px, 8%, 120px);
+    padding-left: 40px;
     padding-right: calc(100% - 720px);
   }
 }

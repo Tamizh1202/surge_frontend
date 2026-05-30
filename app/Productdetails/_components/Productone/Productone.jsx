@@ -5,8 +5,6 @@ import Image from 'next/image';
 import AddToCart from '@/components/AddToCart';
 import PageLoader from '@/components/PageLoader/PageLoader';
 
-import { gsap } from 'gsap';
-import { Observer } from 'gsap/all';
 
 import { formatImageUrl } from '@/lib/imageUtils';
 
@@ -81,46 +79,63 @@ export default function ProductOne({ initialProduct }) {
   const collapseAccRef = useRef(0);
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 900) return;
-    gsap.registerPlugin(Observer);
 
-    // inside your useEffect, replace the entire Observer:
-    const obs = Observer.create({
-      target: window,
-      type: "wheel,touch",
-      tolerance: 20,
-      onChange: (self) => {
-        const expanded = isExpandedRef.current;
+    let touchStartY = 0;
 
-        if (!expanded && self.deltaY > 0) {
-          setIsExpanded(true);
-          scrollDepthRef.current = 0;
+    const handleWheel = (e) => {
+      // Card A visible + scroll down → trap scroll, animate to card B
+      if (!isExpandedRef.current && e.deltaY > 0) {
+        e.preventDefault();
+        setIsExpanded(true);
+        collapseAccRef.current = 0;
+      }
+      // Card B visible + at page top + scroll up → animate back to card A
+      else if (isExpandedRef.current && window.scrollY === 0 && e.deltaY < 0) {
+        e.preventDefault();
+        collapseAccRef.current += Math.abs(e.deltaY);
+        if (collapseAccRef.current >= 40) {
+          setIsExpanded(false);
           collapseAccRef.current = 0;
-          return;
         }
+      }
+    };
 
-        if (expanded) {
-          if (self.deltaY > 0) {
-            scrollDepthRef.current = Math.min(scrollDepthRef.current + self.deltaY, 20);
-            collapseAccRef.current = 0;
-          } else {
-            scrollDepthRef.current = Math.max(scrollDepthRef.current + self.deltaY, 0); // fixed
-            if (scrollDepthRef.current <= 0) {
-              collapseAccRef.current += Math.abs(self.deltaY);
-              if (collapseAccRef.current >= 20) { // lowered
-                setIsExpanded(false);
-                scrollDepthRef.current = 0;
-                collapseAccRef.current = 0;
-              }
-            } else {
-              collapseAccRef.current = 0;
-            }
-          }
-        }
-      },
-      preventDefault: false
-    });
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+    };
 
-    return () => obs.kill();
+    const handleTouchMove = (e) => {
+      const dy = touchStartY - e.touches[0].clientY; // positive = swipe up (scroll down)
+      if (!isExpandedRef.current && dy > 15) {
+        e.preventDefault();
+        setIsExpanded(true);
+        touchStartY = e.touches[0].clientY;
+      } else if (isExpandedRef.current && window.scrollY === 0 && dy < -15) {
+        e.preventDefault();
+        setIsExpanded(false);
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+
+    // Reset to card A if user scrolls back to top via scrollbar
+    const handleScroll = () => {
+      if (window.scrollY === 0 && isExpandedRef.current) {
+        setIsExpanded(false);
+        collapseAccRef.current = 0;
+      }
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   useEffect(() => {

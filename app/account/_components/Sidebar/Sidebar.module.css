@@ -182,7 +182,7 @@
   cursor: pointer;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 760px) {
   .Main {
     display: none;
   }

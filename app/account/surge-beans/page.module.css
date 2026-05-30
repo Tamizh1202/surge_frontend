@@ -1,10 +1,9 @@
 .head {
   box-sizing: border-box;
   width: 100%;
-  overflow: hidden;
-  padding-right: clamp(30px, 31vw, 400px);
-  padding-bottom: clamp(20px, 8vw, 100px);
-  padding-left: clamp(20px, 7vw, 100px);
+  padding-right: clamp(16px, 4%, 60px);
+  padding-bottom: clamp(20px, 8%, 100px);
+  padding-left: clamp(16px, 4%, 60px);
 }
 
 .border {
@@ -135,6 +134,8 @@ heading .olive .heading {
   flex-direction: column;
 
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .tableHeading,
@@ -166,7 +167,7 @@ heading .olive .heading {
 
 
 .more {
-  padding: 16px 143px;
+  padding: 16px clamp(16px, 8%, 143px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -502,6 +503,7 @@ heading .olive .heading {
   }
 
   .head {
+    overflow: hidden;
     padding-right: 0;
     padding-left: 0;
     width: calc(100% + 48px);
@@ -521,7 +523,7 @@ heading .olive .heading {
     flex-direction: row;
     justify-content: space-between;
     padding: 16px 10px;
-    font-size:var(--fs-18);
+    font-size: var(--fs-18);
     border-bottom: 1px solid var(--text-secondary);
   }
 
@@ -545,7 +547,7 @@ heading .olive .heading {
     width: 85%;
     font-family: var(--lato);
     font-weight: 400;
-    font-size:var(--fs-18);
+    font-size: var(--fs-18);
     color: #6e736a;
   }
 
@@ -590,7 +592,7 @@ heading .olive .heading {
 
   .stepItem p {
     width: 90%;
-    font-size:var(--fs-16);
+    font-size: var(--fs-16);
   }
 
   .box {
@@ -621,53 +623,35 @@ heading .olive .heading {
 
   .heading h1 {
     margin-top: 50px;
-    font-size:var(--fs-24);
+    font-size: var(--fs-24);
   }
 
   .faqHeading h1 {
     margin-top: 50px;
-    font-size:var(--fs-24);
+    font-size: var(--fs-24);
   }
-  .quesStyle h4{
-    font-size:var(--fs-18);
-    width:85%;
+
+  .quesStyle h4 {
+    font-size: var(--fs-18);
+    width: 85%;
   }
-}
 
-@media (max-width: 1400px) {
-  .tableHeading {
-    gap: 60px;
-  }
-}
-
-
-@media (min-width: 550px) and (max-width: 1200px) {
-  .head {
-    padding-right: 40px;
-    padding-left: 0px;
+  .gridss {
+    overflow-x: hidden;
+    /* prevent internal scroll on mobile */
   }
 }
 
-@media (min-width: 1000px) and (max-width: 1400px) {
-  .head {
-    padding-left: 40px;
-  }
-
-  .tableContent {
-    gap: 24px;
-  }
-}
-
-@media (min-width: 741) and (max-width: 999px) {
-  .head {
-    padding-right: 5%;
-  }
-
-  .tableHeading {
-    gap: 35px;
-  }
-
+@media (min-width: 741px) and (max-width: 999px) {
   .tableContent {
     gap: 5px;
   }
 }
+
+@media (min-width: 1200px) {
+  .head {
+    padding-left: clamp(20px, 8%, 120px);
+    padding-right: calc(100% - 720px);
+  }
+}
+

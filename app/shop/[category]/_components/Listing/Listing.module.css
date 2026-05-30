@@ -5,7 +5,7 @@
     width: 100%;
 
     padding-top: clamp(20px, 6vw, 80px) !important;
-    padding-right:  clamp(20px, 7vw, 100px) !important;
+    padding-right: clamp(20px, 7vw, 100px) !important;
     padding-bottom: clamp(20px, 6vw, 80px) !important;
     padding-left: clamp(20px, 7vw, 100px) !important;
     gap: 112px;
@@ -26,6 +26,7 @@
     height: auto;
 
 }
+
 .filterTitle {
     font-family: var(--font-raleway);
     font-size: 16px;
@@ -432,7 +433,38 @@
 
 
 
+.badgeStack {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
 
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    font-size: var(--fs-14);
+    font-family:var(--font-raleway);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+}
+
+.badgeNew {
+    background-color: #ffffff;
+    color: #1a1a1a;
+}
+
+.badgeBestseller {
+    background-color: #c0673a;
+    /* the warm terracotta from your screenshot */
+    color: #ffffff;
+}
 
 .wishlistIcon {
     position: absolute;
@@ -770,7 +802,7 @@
 }
 
 .MobileFilterFooter {
-    
+
     width: 100%;
     background-color: white;
     padding: 32px 0px;
@@ -1036,7 +1068,7 @@
         display: flex;
         padding: 0 100px 100px 125px;
         gap: 50px;
-        
+
     }
 
     .mainContent {
@@ -1082,27 +1114,30 @@
     }
 }
 
-@media (max-width: 1200px){
-    .productCard{
-        border:none;
+@media (max-width: 1200px) {
+    .productCard {
+        border: none;
     }
 }
 
 
 
-@media (min-width: 951px) and (max-width: 1199px){
-    .footerRow{
+@media (min-width: 951px) and (max-width: 1199px) {
+    .footerRow {
         flex-direction: column;
     }
-    .buyBtn{
-        width:stretch !important;
-        width:0px;
+
+    .buyBtn {
+        width: stretch !important;
+        width: 0px;
     }
-    .priceTag{
-        align-self:baseline;
+
+    .priceTag {
+        align-self: baseline;
         font-weight: 600;
     }
 }
+
 @media (max-width: 950px) {
 
 
@@ -1131,15 +1166,17 @@
     .productGrid {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 15px;
-        row-gap:24px;
+        row-gap: 24px;
     }
 }
-@media (max-width: 400px){
-    .sortBox{
+
+@media (max-width: 400px) {
+    .sortBox {
         padding: 12px 15px;
     }
-    .headerActions{
-        gap:10px;   
+
+    .headerActions {
+        gap: 10px;
         /* width:50%; */
     }
 }

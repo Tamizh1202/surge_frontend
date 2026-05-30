@@ -13,7 +13,6 @@ export default function Mission() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const cards = cardsRef.current.filter(Boolean);
     let ctx;
 
     const setupCtx = () => {
@@ -23,29 +22,44 @@ export default function Mission() {
         const mm = gsap.matchMedia();
 
         mm.add("(max-width: 900px)", () => {
+          const cards = cardsRef.current.filter(Boolean);
+
+          // Set card 1 and 2 off screen bottom before animation
+          gsap.set(cards[1], { yPercent: 200, opacity: 0 });
+          gsap.set(cards[2], { yPercent: 200, opacity: 0 });
+
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top top",
-              end: "+=170%",
+              end: "+=200%",        // 2 × 100% viewport = one full vp per card
               pin: true,
               scrub: 0.8,
-              pinSpacing: false,   // ← add this
+              pinSpacing: true,     // spacer div pushed in by GSAP, logos follow naturally
               invalidateOnRefresh: true,
             },
           });
-          cards.forEach((card, index) => {
-            if (index === 0) return;
-            tl.fromTo(
-              card,
-              { yPercent: 120, opacity: 0 },
-              { yPercent: -50, opacity: 1, ease: "none", duration: 1, force3D: false },
-              index - 1
-            );
-          });
+
+          // Card 1: comes from full screen bottom (200%) to resting position (-50%)
+          tl.fromTo(
+            cards[1],
+            { yPercent: 200, opacity: 0 },
+            { yPercent: -50, opacity: 1, ease: "none", duration: 1 },
+            0
+          );
+
+          // Card 2: same, starts after card 1 finishes
+          tl.fromTo(
+            cards[2],
+            { yPercent: 200, opacity: 0 },
+            { yPercent: -50, opacity: 1, ease: "none", duration: 1 },
+            1
+          );
         });
 
         mm.add("(min-width: 901px)", () => {
+          const cards = cardsRef.current.filter(Boolean);
+
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: containerRef.current,
@@ -53,12 +67,11 @@ export default function Mission() {
               end: `+=${cards.length * 100}%`,
               pin: true,
               scrub: 0.8,
-              // markers: true,
               pinSpacing: true,
-              // onUpdate: (self) => console.log(self.progress),
               invalidateOnRefresh: true,
             },
           });
+
           cards.forEach((card, index) => {
             if (index === 0) return;
             tl.fromTo(
@@ -68,14 +81,14 @@ export default function Mission() {
               index - 1
             );
           });
+
           tl.to({}, { duration: 0.3 });
         });
+
       }, containerRef);
     };
 
-    // Wait for full page load including all assets, then single refresh
     const init = () => {
-      // Double RAF ensures browser has painted and layout is truly settled
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setupCtx();
@@ -95,7 +108,6 @@ export default function Mission() {
       if (ctx) ctx.revert();
     };
   }, []);
-
   return (
     <div id="our-mission">
       <section ref={containerRef} className={styles.landContainer}>

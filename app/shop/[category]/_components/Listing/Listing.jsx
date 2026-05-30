@@ -328,6 +328,24 @@ export default function Listing({ category }) {
                                 <Link href={`/shop/${category?.slug || 'all'}/${slug}`} key={item.id} className={styles.linkWrapper}>
                                     <div className={styles.productCard}>
                                         <div className={styles.imageWrapper}>
+                                            <div className={styles.badgeStack}>
+                                                {item.isLatest && (
+                                                    <span className={`${styles.badge} ${styles.badgeNew}`}>
+                                                        <svg width="12" height="12" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M5.87806 3.33295L5.14235 0.552131C5.0356 0.149429 4.4644 0.14922 4.35765 0.551922L3.62194 3.33295C3.60363 3.4023 3.56727 3.46556 3.51657 3.5163C3.46587 3.56703 3.40264 3.60343 3.3333 3.6218L0.55203 4.3575C0.149323 4.46425 0.149323 5.03565 0.55203 5.14239L3.33289 5.8781C3.40223 5.89641 3.46549 5.93277 3.51623 5.98347C3.56696 6.03417 3.60337 6.0974 3.62173 6.16673L4.35744 8.94797C4.46419 9.35068 5.0356 9.35068 5.14235 8.94797L5.87806 6.16694C5.89637 6.09759 5.93273 6.03434 5.98343 5.9836C6.03413 5.93287 6.09736 5.89646 6.1667 5.8781L8.94797 5.14219C9.35068 5.03544 9.35068 4.46404 8.94797 4.35729L6.16691 3.62159C6.09756 3.60327 6.0343 3.56692 5.98356 3.51622C5.93283 3.46552 5.89642 3.40229 5.87806 3.33295Z" fill="#C4754E" stroke="#C4754E" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round" />
+                                                        </svg>
+                                                        New arrival
+                                                    </span>
+                                                )}
+                                                {item.isBestseller && (
+                                                    <span className={`${styles.badge} ${styles.badgeBestseller}`}>
+                                                        <svg width="8" height="16" viewBox="0 0 8 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M7.91 2.2651L6.2825 6.14939L2.12625 6.51216L5.285 9.29044L4.34 13.3871L7.91 11.2193V12.2457L3.0275 15.2186L4.305 9.60012L0 5.81316L5.67875 5.30882L7.91 0V2.2651Z" fill="white" />
+                                                        </svg>
+                                                        Bestseller
+                                                    </span>
+                                                )}
+                                            </div>
                                             <button
                                                 className={`${styles.wishlistIcon} ${isInWishlist(item.id) ? styles.wishlistIconActive : ''}`}
                                                 onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleWishlist(item.id); }}

@@ -9,7 +9,7 @@
     font-family: var(--font-montserrat);
     font-weight: 600;
     color: #2F362A;
-    text-transform: none; 
+    text-transform: none;
     margin-bottom: 20px;
     margin-top: 0;
     margin-bottom: 30px;
@@ -19,46 +19,48 @@
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #F5F5F5; 
-    border: none; 
-   
+    background-color: #F5F5F5;
+    border: none;
+
 }
 
 .Top {
     display: flex;
     padding: 15px 25px;
-    align-items: flex-start; 
+    align-items: flex-start;
     justify-content: space-between;
     cursor: pointer;
-  
+
 }
+
 .divider {
-  height: 1px;
-  background-color: #818681;
-  margin: 0 25px; }
+    height: 1px;
+    background-color: #818681;
+    margin: 0 25px;
+}
 
 .Left {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     gap: 4px;
-   
+
 }
 
 .Left h1 {
-      font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
     font-weight: 600;
     font-size: 16px;
     margin: 0;
-    color:#818681;
+    color: #818681;
 }
 
 
 .savingsBadge {
-     font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
     font-weight: 400;
     font-size: 16px;
-    color: #C4754E; 
-    background-color: transparent; 
+    color: #C4754E;
+    background-color: transparent;
     padding: 0;
     margin: 0;
 }
@@ -105,7 +107,7 @@
 }
 
 .detailRow span {
-   font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
     font-size: 16px;
     font-weight: 400;
     color: #6E736A;
@@ -136,7 +138,7 @@
 }
 
 .paymentLeft p {
-     font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
     font-weight: 400;
     font-size: 16px;
     color: #414343;
@@ -152,14 +154,26 @@
 }
 
 .paymentRight p {
-     font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
     font-size: 16px;
-     font-weight: 400;
+    font-weight: 400;
     color: #414343;
     margin: 0;
     overflow-wrap: anywhere;
 }
 
 
-
-
+@media (max-width: 768px) {
+    .main h1 {
+        font-size: var(--fs-24);
+    }
+    .detailRow span{
+        font-size:var(--fs-18);
+    }
+    .paymentLeft p{
+        font-size:var(--fs-18);
+    }
+    .paymentRight p{
+        font-size:var(--fs-18);
+    }
+}

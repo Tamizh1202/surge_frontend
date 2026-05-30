@@ -1,11 +1,11 @@
 .orderCard {
 
 
-width: 100%;
+    width: 100%;
     max-width: 710px;
 
 
- 
+
 
 
 
@@ -21,7 +21,8 @@ width: 100%;
 
 
 
-    overflow: hidden; /* Ensures the footer corners don't bleed */
+    overflow: hidden;
+    /* Ensures the footer corners don't bleed */
 
 
 
@@ -47,7 +48,7 @@ width: 100%;
 
     justify-content: space-between;
 
-padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
+    padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
@@ -87,11 +88,12 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-  margin-bottom: 10px; /* Precision adjustment for icon top alignment */
+    margin-bottom: 10px;
+    /* Precision adjustment for icon top alignment */
 
 
 
-  flex-shrink: 0;
+    flex-shrink: 0;
 
 
 
@@ -107,7 +109,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
- 
+
 
 
 
@@ -167,7 +169,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-      font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
 
 
 
@@ -219,7 +221,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-      font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
 
 
 
@@ -401,17 +403,14 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 .orderItemInfo {
 
-
-
     display: flex;
-
-
 
     flex-direction: column;
 
+    min-width: 0;
 
+    flex: 1;
 
-   
 
 
 
@@ -431,7 +430,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-    font-size: 16px;
+    font-size: var(--fs-18);
 
 
 
@@ -445,10 +444,31 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     font-weight: 400;
 
+    overflow-wrap: break-word;
 
+    word-break: break-word;
 
 }
 
+.itemTagline {
+
+    font-family: var(--font-raleway);
+
+    font-size: var(--fs-16);
+
+    color: #818686;
+
+    font-weight: 400;
+
+    margin: 4px 0 0;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+
+}
 
 
 
@@ -475,7 +495,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-      font-family: var(--font-raleway);
+    font-family: var(--font-raleway);
 
 
 
@@ -527,7 +547,8 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-    background-color: #B87856; /* The terracotta/burnt orange color */
+    background-color: #B87856;
+    /* The terracotta/burnt orange color */
 
 
 
@@ -547,7 +568,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
- 
+
 
 
 
@@ -579,7 +600,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-     
+
 
 
 
@@ -659,7 +680,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     .orderCard {
 
-        width: 100%; 
+        width: 100%;
 
         max-width: 100%;
 
@@ -667,10 +688,16 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
         margin-right: auto;
 
-        
+
 
     }
 
+    .orderStatusTitle,
+    .orderDateSub {
+
+        font-size: var(--fs-18);
+
+    }
 
 
     .orderTopRight {
@@ -693,9 +720,9 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
         padding: 20px;
 
-       border-top:none;
+        border-top: none;
 
-      
+
 
     }
 
@@ -711,21 +738,22 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
         padding: 16px 20px;
 
-        border-top:1px solid #818686;
+        border-top: 1px solid #818686;
 
     }
 
 
 
-    .orderMobileMeta p {
+    .orderMobileMeta p,
+    .orderMobileMeta span {
 
         font-family: var(--font-raleway);
 
-        font-size: 14px;
+        font-size: var(--fs-18);
 
-        color:#414343;
+        color: #414343;
 
-        font-weight:400;
+        font-weight: 400;
 
         margin: 0;
 
@@ -736,15 +764,8 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
     .orderMobileMeta span {
 
         color: #818686;
-
-        font-weight:400;
-
-        font-size:14px;
-
-        font-family:var(--font-raleway)
-
-        
-
+        font-weight: 400;
+        font-family: var(--font-raleway)
     }
 
 
@@ -753,6 +774,15 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
         padding: 14px 20px;
 
+    }
+    .itemName{
+        font-size:var(--fs-18);
+    }
+    .itemTagline {
+        font-size: var(--fs-16);
+    }
+    .itemMeta{
+        font-size:var(--fs-16);
     }
 
 }
@@ -765,7 +795,7 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     .orderItem {
 
-        gap: 12px; 
+        gap: 12px;
 
     }
 
@@ -783,9 +813,11 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     .itemName {
 
-        font-size: 14px; 
+        font-size: 14px;
 
     }
+
+    
 
 
 
@@ -797,11 +829,11 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
     }
 
- 
+
 
     .rateOrderFooter {
 
-        flex-direction: column; 
+        flex-direction: column;
 
         gap: 10px;
 
@@ -811,13 +843,9 @@ padding: clamp(12px, 2vw, 24px) clamp(12px, 2vw, 24px);
 
 
 
-    .orderStatusTitle {
 
-        font-size: 14px;
 
-    }
 
-    
 
     .orderDateSub {
 

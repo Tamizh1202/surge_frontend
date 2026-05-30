@@ -8,9 +8,9 @@ import capsulesImg from "./shop3.png";
 import merchImg from "./shop4.png";
 import { formatImageUrl } from "@/lib/imageUtils";
 
-const NavbarShop = ({ onClose, categories = [] }) => {
+const NavbarShop = ({ onClose, categories = [], isClosing = false }) => {
   return (
-    <div className={styles.megaMenuContainer}>
+    <div className={`${styles.megaMenuContainer} ${isClosing ? styles.closing : ""}`}>
       <div className={styles.imageGrid}>
         {categories.map((cat) => (
           <Link

@@ -156,14 +156,6 @@ body {
 }
 
 
-
-
-
-
-
-
-
-
 @media (min-width: 1700px) {
   .landContainer {
     padding: 0 140px;
@@ -263,9 +255,6 @@ body {
 }
 
 
-
-
-
 @media (min-width: 320px) and (max-width: 900px) {
 
   .landContainer {
@@ -278,7 +267,6 @@ body {
     align-items: center;
     overflow: hidden;
   }
-
 
   .right {
     display: block;
@@ -309,28 +297,33 @@ body {
     width: 350px;
   }
 
-
   .left {
     width: 100%;
     flex: 1;
     min-height: 0;
     position: relative;
-    clip-path: inset(0 0 50% 0);
+    overflow: hidden;
+    /* ← CHANGED: was clip-path: inset(0 0 50% 0) */
   }
 
   .cardcontainer {
-    padding-right: 40px;
     width: 100%;
+    /* ← CHANGED: removed padding-right: 40px */
     position: relative;
+    height: 100%;
   }
 
   .card {
     position: absolute;
     top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%);
-    width: 85% !important;
-    height: 100% !important;
-    padding: 30px !important;
+    width: 92% !important;
+    /* ← CHANGED: was 85% */
+    height: 95% !important;
+    /* ← CHANGED: was 100% */
+    padding: 32px 28px 24px !important;
+    /* ← CHANGED */
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -339,23 +332,9 @@ body {
   .card:nth-child(1),
   .card:nth-child(2),
   .card:nth-child(3) {
-    height: 100% !important;
+    height: 95% !important;
+    /* ← CHANGED: was 100% */
   }
-
-  /* .card:nth-child(1) {
-    z-index: 10;
-    height: 380px !important;
-  }
-
-  .card:nth-child(2) {
-    z-index: 20;
-    height: 380px !important;
-  }
-
-  .card:nth-child(3) {
-    z-index: 30;
-    height: 380px !important;
-  } */
 
   .text {
     font-size: 22px;
@@ -368,8 +347,13 @@ body {
   }
 
   .number {
-    font-size: 45px;
+    font-size: 90px;
+    /* ← CHANGED: was 45px */
     margin-top: auto;
-    line-height: 1;
+    align-self: flex-end;
+    line-height: 0.9;
+    /* ← CHANGED: was 1 */
+    opacity: 0.9;
+    /* ← CHANGED: added */
   }
 }

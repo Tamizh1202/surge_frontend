@@ -147,13 +147,14 @@ const ProductDetail = ({ order }) => {
                   className={styles.orderItemImg}
                 />
                 <div className={styles.orderItemInfo}>
-                  <p className={styles.itemName}>
-                    {itemName} {item.product?.tagline && `- ${item.product.tagline}`}
-                  </p>
+                  <p className={styles.itemName}>{itemName}</p>
+                  {item.product?.tagline && (
+                    <p className={styles.itemTagline}>{item.product.tagline}</p>
+                  )}
                   
                   {/* Roast & Grind Display */}
                   {selectionText && (
-                    <p style={{ fontSize: '12px', color: '#818686', margin: '4px 0 22px', textTransform: 'capitalize' }}>
+                    <p style={{ fontSize: 'var(--fs-16)', color: '#818686', margin: '4px 0 18px', textTransform: 'capitalize' }}>
                       {selectionText}
                     </p>
                   )}

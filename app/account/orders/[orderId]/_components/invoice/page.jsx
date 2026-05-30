@@ -23,6 +23,7 @@ export default function Invoice({ order }) {
           style={{
             cursor: downloading ? "not-allowed" : "pointer",
             opacity: downloading ? 0.7 : 1,
+            fontSize: "var(--fs-18)",
           }}
           disabled={downloading}
           onClick={handleDownload}

@@ -14,6 +14,7 @@ export default function Navbar({ categories = [] }) {
   const pathname = usePathname();
   const { isCartOpen, openCart, closeCart, items } = useCart();
   const [isShopOpen, setIsShopOpen] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const timeoutRef = useRef(null);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -34,13 +35,18 @@ export default function Navbar({ categories = [] }) {
   const handleMouseEnter = () => {
     if (window.innerWidth < 1300) return;
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setIsClosing(false);
     setIsShopOpen(true);
   };
 
   const handleMouseLeave = () => {
     if (window.innerWidth < 1300) return;
     timeoutRef.current = setTimeout(() => {
-      setIsShopOpen(false);
+      setIsClosing(true);
+      setTimeout(() => {
+        setIsShopOpen(false);
+        setIsClosing(false);
+      }, 300);
     }, 800);
   };
 
@@ -133,10 +139,10 @@ export default function Navbar({ categories = [] }) {
                 </span>
               </Link>
 
-              {isShopOpen && (
-                <div className={`${styles.dropdownWrapper} ${isShopOpen ? styles.dropdownOpen : ""}`}>
+              {(isShopOpen || isClosing) && (
+                <div className={`${styles.dropdownWrapper} ${isShopOpen && !isClosing ? styles.dropdownOpen : ""}`}>
                   <div className={styles.desktopOnly}>
-                    <NavbarShop categories={categories} onClose={() => setIsShopOpen(false)} />
+                    <NavbarShop categories={categories} isClosing={isClosing} onClose={() => setIsShopOpen(false)} />
                   </div>
                   <div className={styles.mobileOnly}>
                     <ul className={styles.linkStack}>

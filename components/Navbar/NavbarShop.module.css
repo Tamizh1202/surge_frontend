@@ -93,3 +93,20 @@ padding: clamp(40px, 9vw, 111px) clamp(25px, 12vw, 153px) clamp(30px, 7vw, 84px)
     transform: translateY(0);
   }
 }
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+}
+
+.closing {
+  animation: slideUp 0.3s ease-in forwards;
+  pointer-events: none;
+}

@@ -100,23 +100,19 @@ export default function ProductOne({ initialProduct }) {
 
         if (expanded) {
           if (self.deltaY > 0) {
-            // scrolling down inside page B — accumulate depth, reset collapse
-            scrollDepthRef.current += self.deltaY;
+            scrollDepthRef.current = Math.min(scrollDepthRef.current + self.deltaY, 20);
             collapseAccRef.current = 0;
           } else {
-            // scrolling up — drain depth first
-            scrollDepthRef.current = Math.max(0, scrollDepthRef.current + self.deltaY);
-
+            scrollDepthRef.current = Math.max(scrollDepthRef.current + self.deltaY, 0); // fixed
             if (scrollDepthRef.current <= 0) {
-              // only NOW at the top — start accumulating overscroll
               collapseAccRef.current += Math.abs(self.deltaY);
-              if (collapseAccRef.current >= 80) {
+              if (collapseAccRef.current >= 20) { // lowered
                 setIsExpanded(false);
                 scrollDepthRef.current = 0;
                 collapseAccRef.current = 0;
               }
             } else {
-              collapseAccRef.current = 0; // still mid-page, do nothing
+              collapseAccRef.current = 0;
             }
           }
         }

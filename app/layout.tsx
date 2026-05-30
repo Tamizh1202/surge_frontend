@@ -10,6 +10,7 @@ import { WishlistProvider } from "./_context/WishlistContext";
 import { Toaster } from "react-hot-toast";
 import AuthToast from "@/components/AuthToast/AuthToast";
 import PageLoader from "@/components/PageLoader/PageLoader";
+import LenisProvider from "@/components/LenisProvider/LenisProvider";
 
 export const metadata = {
   title: "Surge Coffee",
@@ -60,6 +61,7 @@ export default async function RootLayout({
       </head>
 
       <body suppressHydrationWarning>
+        <LenisProvider>
         <NextAuthProvider>
           {/* 2. AuthProvider must be the parent of CartProvider */}
           <Toaster
@@ -92,6 +94,7 @@ export default async function RootLayout({
             </CartProvider>
           </AuthProvider>
         </NextAuthProvider>
+        </LenisProvider>
       </body>
     </html>
   );

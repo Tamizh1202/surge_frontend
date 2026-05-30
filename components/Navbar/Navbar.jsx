@@ -47,7 +47,7 @@ export default function Navbar({ categories = [] }) {
         setIsShopOpen(false);
         setIsClosing(false);
       }, 300);
-    }, 800);
+    }, 150);
   };
 
   const navRef = useRef(null); // add this ref

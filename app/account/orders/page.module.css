@@ -3,7 +3,7 @@
   justify-content: left;
   align-items: start;
   height: 100%;
-  padding-left: 40px;
+  padding-left: 150px;
   padding-bottom: clamp(40px, 7vw, 100px);
   background-color: #ffffff;
 }
@@ -261,7 +261,7 @@
 /* --- Small laptop (1024px – 1279px) --- */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .main {
-    padding-left: 40px;
+    padding-left: 80px;
   }
 
   .Top {

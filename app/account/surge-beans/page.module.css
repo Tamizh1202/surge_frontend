@@ -3,7 +3,7 @@
   width: 100%;
   padding-right: clamp(16px, 4%, 60px);
   padding-bottom: clamp(20px, 8%, 100px);
-  padding-left: 40px;
+  padding-left: 150px;
 }
 
 .border {
@@ -648,9 +648,15 @@ heading .olive .heading {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1200px) and (max-width: 1440px) {
   .head {
-    padding-left: 40px;
+    padding-left: 80px;
+    padding-right: calc(100% - 720px);
+  }
+}
+
+@media (min-width: 1441px) {
+  .head {
     padding-right: calc(100% - 720px);
   }
 }

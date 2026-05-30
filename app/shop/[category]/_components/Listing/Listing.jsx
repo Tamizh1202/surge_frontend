@@ -14,7 +14,7 @@ import prodZero from './prodZero.png';
 import ProductPopup from '../AddToCartPopup/AddToCartPopup';
 import prod from './Noproducts.gif';
 
-const SORT_OPTIONS = ['Recommended', 'Price:High to Low', 'Price:Low to High', 'Popularity'];
+const SORT_OPTIONS = ['Recommended', 'Price: High to Low', 'Price: Low to High', 'Popularity'];
 
 export default function Listing({ category }) {
     const { items: wishlistItems, toggle: toggleWishlist } = useWishlist();
@@ -105,12 +105,21 @@ export default function Listing({ category }) {
         setProducts([]);
     }, [category?.id, selectedSort]);
 
+    const getSortParam = (sort) => {
+        switch (sort) {
+            case 'Price: Low to High': return 'salePrice';
+            case 'Price: High to Low': return '-salePrice';
+            case 'Popularity': return '-popularity';
+            default: return '-createdAt';
+        }
+    };
+
     useEffect(() => {
         async function fetchData() {
             if (!category?.id) return;
             setLoading(true);
             try {
-                const sortParam = '-createdAt';
+                const sortParam = getSortParam(selectedSort);
 
                 const res = await axiosClient.get(
                     `/api/web-products`,
@@ -157,8 +166,8 @@ export default function Listing({ category }) {
     };
 
     const sortedProducts = [...filteredProducts].sort((a, b) => {
-        if (selectedSort === 'Price:Low to High') return getDisplayPrice(a) - getDisplayPrice(b);
-        if (selectedSort === 'Price:High to Low') return getDisplayPrice(b) - getDisplayPrice(a);
+        if (selectedSort === 'Price: Low to High') return getDisplayPrice(a) - getDisplayPrice(b);
+        if (selectedSort === 'Price: High to Low') return getDisplayPrice(b) - getDisplayPrice(a);
         return 0;
     });
 
@@ -291,8 +300,6 @@ export default function Listing({ category }) {
                     </div>
                 </header>
 
-                {loading && products.length === 0 && <PageLoader />}
-
                 {error && (
                     <div className={styles.stateMsgContainer}><p className={styles.errorMsg}>{error}</p></div>
                 )}
@@ -310,7 +317,9 @@ export default function Listing({ category }) {
                             </Link>
                         </div>
                     ) : (
-                        sortedProducts.map((item) => {
+                        <>
+                        {sortedProducts.map((item) => {
+
                             const imageUrl = formatImageUrl(item.productImage) || coffeeImg;
                             const slug = item.slug || item.id;
                             const name = item.name || '';
@@ -421,11 +430,19 @@ export default function Listing({ category }) {
                                     </div>
                                 </Link>
                             );
-                        })
+                        })}
+                        {loading && Array.from({ length: products.length === 0 ? 9 : 3 }).map((_, i) => (
+                            <div key={`skel-${i}`} className={styles.skeletonCard}>
+                                <div className={styles.skeletonImage} />
+                                <div className={styles.skeletonName} />
+                                <div className={styles.skeletonPrice} />
+                            </div>
+                        ))}
+                        </>
                     )}
                 </div>
 
-                {!loading && hasNextPage && filteredProducts.length > 0 && (
+                {hasNextPage && filteredProducts.length > 0 && (
                     <div className={styles.footer}>
                         <button className={styles.viewMoreBtn} onClick={handleViewMore} disabled={loading}>
                             {loading ? "Loading..." : "View More"}

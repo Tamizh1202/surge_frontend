@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   height: auto;
-  padding-left: 40px;
+  padding-left: 150px;
   padding-bottom: clamp(15px, 8vw, 100px);
   background-color: #ffffff;
 }
@@ -1814,5 +1814,17 @@
   .buttons {
     padding: 13px 20px;
     width: 100%;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .main {
+    padding-left: 80px;
+  }
+}
+
+@media (min-width: 1281px) {
+  .main {
+    padding-left: 150px;
   }
 }

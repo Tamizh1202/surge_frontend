@@ -4,7 +4,7 @@
   padding-top: 0;
   padding-right: clamp(20px, 8%, 120px);
   padding-bottom: clamp(15px, 4%, 60px);
-  padding-left: 40px;
+  padding-left: 150px;
   background-color: #ffffff;
   box-sizing: border-box;
 }
@@ -209,7 +209,7 @@
 
 @media (max-width: 1280px) {
   .Main {
-    padding: 0 20px 48px 40px;
+    padding: 0 20px 48px 80px;
   }
 
   .Bottom {
@@ -224,9 +224,9 @@
   }
 }
 
-@media (min-width: 1000px) and (max-width: 1400px) {
+@media (min-width: 1025px) and (max-width: 1280px) {
   .Main {
-    padding-left: 40px;
+    padding-left: 80px;
     padding-right: 80px;
   }
 }

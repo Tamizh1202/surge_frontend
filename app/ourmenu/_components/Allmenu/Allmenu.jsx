@@ -20,7 +20,7 @@ export default function Menu() {
   const [categories, setCategories] = useState([]);
   const [availableCategoryIds, setAvailableCategoryIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
-const handleExploreClick = () => {
+  const handleExploreClick = () => {
     router.push('/');
   };
   useEffect(() => {
@@ -78,7 +78,7 @@ const handleExploreClick = () => {
       <div className={styles.sectionHeader}>
         <div>
           <h2 className={styles.heading}>
-            From Our Cafe 
+            From Our Cafe
             {/* {shopId ? `(${shopId})` : ""} */}
           </h2>
           <p className={styles.subtext}>
@@ -98,19 +98,19 @@ const handleExploreClick = () => {
           /* --- ZERO STATE SECTION --- */
           <div className={styles.zeroState}>
             <div className={styles.zeroStateContent}>
-              <div className={styles.zeroIcon}><Image 
-    src={noMenuImg} 
-    alt="No items found" 
-    width={200} 
-    height={200} 
-    priority 
-  /></div>
+              <div className={styles.zeroIcon}><Image
+                src={noMenuImg}
+                alt="No items found"
+                width={200}
+                height={200}
+                priority
+              /></div>
               <h3>No Categories Found</h3>
               <p>We couldn't find any menu categories for this selection.</p>
               {shopId && (
-             <button onClick={handleExploreClick} className={styles.clearBtn}>
-                Show All Categories
-              </button>
+                <button onClick={handleExploreClick} className={styles.clearBtn}>
+                  Show All Categories
+                </button>
               )}
             </div>
           </div>
@@ -126,7 +126,7 @@ const handleExploreClick = () => {
             // } else if (slug.includes("breakfast")) {
             //   categoryImage = breakfast;
             // }
-            
+
             return (
               <div
                 key={category.id}

@@ -105,7 +105,7 @@ export default function Details() {
         let mm = gsap.matchMedia();
 
         mm.add("(max-width: 768px)", () => {
-            sectionsRef.current.forEach((section) => {
+            sectionsRef.current.forEach((section, index) => {
                 if (!section) return;
                 const itemList = section.querySelector(`.${styles.itemList}`);
                 if (!itemList) return;
@@ -118,6 +118,7 @@ export default function Details() {
                         start: "top top",
                         end: () => `+=${listHeight}`,
                         pin: true,
+                        markers: { startColor: "red", endColor: "green", fontSize: "18px", fontWeight: "bold", indent: (index * 10 + 100) },
                         pinSpacing: false,
                         scrub: 0.05,
                     }
@@ -149,7 +150,7 @@ export default function Details() {
     }
 
     return (
-        <main ref={containerRef} className={styles.container}>
+        <section ref={containerRef} className={styles.container}>
             {sections.map((section, sectionIndex) => (
                 <section
                     key={section.id || sectionIndex}
@@ -194,6 +195,6 @@ export default function Details() {
                     </div>
                 </section>
             ))}
-        </main>
+        </section>
     );
 }

@@ -725,7 +725,7 @@
 .priceTag {
     font-family: var(--font-montserrat);
     font-size: 18px;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--text-primary);
     white-space: nowrap;
 }
@@ -830,6 +830,41 @@
 .mobileApplyBtn {
     background-color: #C4754E;
     color: white;
+}
+
+@keyframes shimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+.skeletonCard {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.skeletonImage {
+    width: 100%;
+    aspect-ratio: 295 / 339.67;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+.skeletonName {
+    height: 16px;
+    width: 70%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+}
+
+.skeletonPrice {
+    height: 16px;
+    width: 40%;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
 }
 
 @media (max-width: 950px) {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./CartSideBar.module.css";
 import { useCart } from "@/app/_context/CartContext";
@@ -8,9 +8,20 @@ import { useRouter } from "next/navigation";
 import { formatImageUrl } from "@/lib/imageUtils";
 import cartZero from "./Empty cart-optimize.gif";
 
-const getDisplaySelections = (item) => {
+/**
+ * Extract display text from a cart item.
+ * - Authenticated items: productHighlights is [{sectionTitle, items:[{point}]}] returned by server
+ * - Guest items: customSelections is {sectionTitle: selectedValue, ...}
+ */
+const getDisplayValues = (item) => {
+  if (Array.isArray(item.productHighlights) && item.productHighlights.length > 0 &&
+      item.productHighlights[0]?.sectionTitle !== undefined) {
+    return item.productHighlights.flatMap(
+      (s) => (s.items || []).map((i) => i.point).filter(Boolean),
+    );
+  }
   const selections = item.customSelections || {};
-  return Object.entries(selections).filter(([, value]) => String(value).trim() !== "");
+  return Object.values(selections).filter((v) => String(v).trim() !== "");
 };
 
 const CartSideBar = () => {
@@ -41,37 +52,42 @@ const CartSideBar = () => {
     };
   }, [isCartOpen]);
 
-  const totalQuantity = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  // Number of distinct cart rows (not total quantity)
+  const itemCount = items?.length || 0;
   const subtotal = items?.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 0)), 0) || 0;
-  const isCartEmpty = totalQuantity === 0;
-  const handleIncrease = async (product, vId, cartKey) => {
-    const key = cartKey || `${product}_${vId || ""}`;
-    const result = await updateQuantity(product, vId, null, "increment", cartKey);
+  const isCartEmpty = itemCount === 0;
+
+  // Stable key that uniquely identifies a cart row
+  const rowKey = (item) =>
+    item._cartKey ||
+    `${item.product}:${item.vId || ""}:${JSON.stringify(item.productHighlights || [])}`;
+
+  const handleIncrease = async (item) => {
+    const key = rowKey(item);
+    const result = await updateQuantity(
+      item.product, item.vId, null, "increment",
+      item.productHighlights || [], item._cartKey || null,
+    );
     if (result && !result.ok) {
       setItemErrors((prev) => ({ ...prev, [key]: result.message }));
     } else {
-      setItemErrors((prev) => {
-        const n = { ...prev };
-        delete n[key];
-        return n;
-      });
+      setItemErrors((prev) => { const n = { ...prev }; delete n[key]; return n; });
     }
   };
 
-  const handleDecrease = async (product, vId, currentQty, cartKey) => {
-    if (currentQty > 1) {
-      const key = cartKey || `${product}_${vId || ""}`;
-      setItemErrors((prev) => {
-        const n = { ...prev };
-        delete n[key];
-        return n;
-      });
-      await updateQuantity(product, vId, null, "decrement", cartKey);
+  const handleDecrease = async (item) => {
+    if (item.quantity > 1) {
+      const key = rowKey(item);
+      setItemErrors((prev) => { const n = { ...prev }; delete n[key]; return n; });
+      await updateQuantity(
+        item.product, item.vId, null, "decrement",
+        item.productHighlights || [], item._cartKey || null,
+      );
     }
   };
 
-  const handleRemove = async (product, vId, cartKey) => {
-    await removeItem(product, vId, cartKey);
+  const handleRemove = async (item) => {
+    await removeItem(item.product, item.vId, item.productHighlights || [], item._cartKey || null);
   };
 
   const handleCheckout = () => {
@@ -92,8 +108,7 @@ const CartSideBar = () => {
         <div className={styles.header}>
           <div className={styles.headerTitle}>
             <h4>Your Cart</h4>
-            {/* Updated item count display */}
-            <span>({totalQuantity} {totalQuantity === 1 ? 'item' : 'items'})</span>
+            <span>({itemCount} {itemCount === 1 ? "item" : "items"})</span>
           </div>
           <button className={styles.closeBtn} onClick={closeCart}>
             <CloseIcon />
@@ -109,23 +124,17 @@ const CartSideBar = () => {
                 <p>Explore our curated coffee collections.</p>
                 <button
                   className={styles.StartShopping}
-                  onClick={() => {
-                    closeCart();
-                    router.push("/shop");
-                  }}
+                  onClick={() => { closeCart(); router.push("/shop"); }}
                 >
                   Start Shopping
                 </button>
               </div>
             ) : (
               items.map((item) => {
-                const key = item._cartKey || `${item.product}_${item.vId || ""}`;
-                const displaySelections = getDisplaySelections(item);
-                const metaText = [
-                  // item.tagline,
-                   ...displaySelections.map(([, value]) => value)]
-                  .filter(Boolean)
-                  .join(", ");
+                const key = rowKey(item);
+                const displayValues = getDisplayValues(item);
+                const metaText = displayValues.join(", ");
+
                 return (
                   <div className={styles.productCard} key={key}>
                     <div className={styles.prodImageWrapper}>
@@ -149,43 +158,36 @@ const CartSideBar = () => {
                           </h5>
                           {metaText && <p className={styles.tagline}>{metaText}</p>}
                         </div>
-                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item.product, item.vId, item._cartKey)}>
+                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item)}>
                           <TrashIcon />
                         </button>
                       </div>
 
-                 <div className={styles.prodFooter}>
-  <div className={styles.qtyContainer}>
-    <div className={styles.qtyControls}>
-      {/* Plus Icon Pehle (As per Image) */}
-
-      <button
-        onClick={() => handleDecrease(item.product, item.vId, item.quantity, item._cartKey)}
-        disabled={item.quantity <= 1}
-      >
-        <MinusIcon />
-      </button>
-      <span>{item.quantity}</span>
-      <button
-        onClick={() => handleIncrease(item.product, item.vId, item._cartKey)}
-        disabled={item.quantity >= 10 || !!itemErrors[key]}
-      >
-        <PlusIcon />
-      </button>
-
-      {/* Minus Icon Baad mein */}
-    </div>
-    
-    {itemErrors[key] && (
-      <p className={styles.errorText}>{itemErrors[key]}</p>
-    )}
-  </div>
-
-
-  <span className={styles.price}>
-    AED {Number(item.price * item.quantity).toFixed(2)}
-  </span>
-</div>
+                      <div className={styles.prodFooter}>
+                        <div className={styles.qtyContainer}>
+                          <div className={styles.qtyControls}>
+                            <button
+                              onClick={() => handleDecrease(item)}
+                              disabled={item.quantity <= 1}
+                            >
+                              <MinusIcon />
+                            </button>
+                            <span>{item.quantity}</span>
+                            <button
+                              onClick={() => handleIncrease(item)}
+                              disabled={item.quantity >= 10 || !!itemErrors[key]}
+                            >
+                              <PlusIcon />
+                            </button>
+                          </div>
+                          {itemErrors[key] && (
+                            <p className={styles.errorText}>{itemErrors[key]}</p>
+                          )}
+                        </div>
+                        <span className={styles.price}>
+                          AED {Number(item.price * item.quantity).toFixed(2)}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 );
@@ -213,7 +215,6 @@ const CartSideBar = () => {
   );
 };
 
-// Icons (keeping your existing ones)
 const CloseIcon = () => (
   <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M1.4 14.5954L0 13.1359L5.6 7.29772L0 1.45954L1.4 0L7 5.83818L12.6 0L14 1.45954L8.4 7.29772L14 13.1359L12.6 14.5954L7 8.75727L1.4 14.5954Z" fill="#414343" />

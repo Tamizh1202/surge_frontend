@@ -162,24 +162,15 @@ export default function CheckoutForm({
         billingAddress: billAddr,
         shippingAddressAsBillingAddress: useShippingAsBilling,
         email: email,
-        products: product.map((p) => {
-          const selections = p.customSelections || {};
-          const selectedHighlights = (p.productHighlights || [])
-            .filter((hl) => selections[hl.sectionTitle])
-            .map((hl) => ({
-              ...hl,
-              items: hl.items.filter((item) => item.point === selections[hl.sectionTitle]),
-            }));
-          return {
-            productId: p.product || p.productId || p.id,
-            variantId: p.vId || p.variantId || "",
-            quantity: p.quantity,
-            productHighlights: selectedHighlights,
-            customSelections: selections,
-            customization: Object.values(selections).filter(Boolean).join(", "),
-            _cartKey: p._cartKey || "",
-          };
-        }),
+        products: product.map((p) => ({
+          productId: p.product || p.productId || p.id,
+          variantId: p.vId || p.variantId || "",
+          quantity: p.quantity,
+          // productHighlights already contains only the selected values:
+          // – authenticated items: returned directly from the server cart
+          // – guest items: built from customSelections via buildHighlightsForServer in CartContext
+          productHighlights: p.productHighlights || [],
+        })),
         useWTCoins: !!isBeansApplied,
         appliedCouponCode: appliedCoupon?.code || "",
         pickupShopId: delivery === "pickup" ? selectedShopId : undefined,

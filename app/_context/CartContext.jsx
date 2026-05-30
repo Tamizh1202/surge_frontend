@@ -29,78 +29,11 @@ const RESERVED_DETAIL_KEYS = new Set([
   "variantId",
 ]);
 
-const SELECTIONS_CACHE_KEY = "cartSelectionsCache";
-const HIGHLIGHTS_CACHE_KEY = "cartHighlightsCache";
-// Tracks virtual per-highlights splits for authenticated users whose server merges product+vId
-const SPLITS_CACHE_KEY = "cartSplitsCache";
-
-const loadSplitsForItem = (product, vId) => {
-  if (typeof window === "undefined") return null;
-  try {
-    const cache = JSON.parse(localStorage.getItem(SPLITS_CACHE_KEY) || "{}");
-    const key = `${product}:${vId || ""}`;
-    const val = cache[key];
-    return Array.isArray(val) && val.length > 0 ? val : null;
-  } catch { return null; }
-};
-
-const saveSplitsForItem = (product, vId, splits) => {
-  if (typeof window === "undefined") return;
-  try {
-    const cache = JSON.parse(localStorage.getItem(SPLITS_CACHE_KEY) || "{}");
-    const key = `${product}:${vId || ""}`;
-    if (!splits || splits.length === 0) {
-      delete cache[key];
-    } else {
-      cache[key] = splits;
-    }
-    localStorage.setItem(SPLITS_CACHE_KEY, JSON.stringify(cache));
-  } catch { }
-};
-
-// Normalize a vId value that may arrive as a populated Payload object or a plain string
 const normVId = (v) =>
-  typeof v === 'object' && v !== null ? (v.id || v.value?.id || null) : (v || null);
-
-const saveSelectionsCache = (key, customSelections) => {
-  if (typeof window === "undefined" || !customSelections) return;
-  try {
-    const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
-    cache[key] = customSelections;
-    localStorage.setItem(SELECTIONS_CACHE_KEY, JSON.stringify(cache));
-  } catch { }
-};
-
-const loadSelectionsCache = (key) => {
-  if (typeof window === "undefined") return null;
-  try {
-    const cache = JSON.parse(localStorage.getItem(SELECTIONS_CACHE_KEY) || "{}");
-    const val = cache[key];
-    return val && Object.keys(val).length > 0 ? val : null;
-  } catch { return null; }
-};
-
-const saveHighlightsCache = (key, productHighlights) => {
-  if (typeof window === "undefined" || !productHighlights) return;
-  try {
-    const cache = JSON.parse(localStorage.getItem(HIGHLIGHTS_CACHE_KEY) || "{}");
-    cache[key] = productHighlights;
-    localStorage.setItem(HIGHLIGHTS_CACHE_KEY, JSON.stringify(cache));
-  } catch { }
-};
-
-const loadHighlightsCache = (key) => {
-  if (typeof window === "undefined") return null;
-  try {
-    const cache = JSON.parse(localStorage.getItem(HIGHLIGHTS_CACHE_KEY) || "{}");
-    const val = cache[key];
-    return val && Array.isArray(val) && val.length > 0 ? val : null;
-  } catch { return null; }
-};
+  typeof v === "object" && v !== null ? (v.id || v.value?.id || null) : (v || null);
 
 const getCustomSelections = (details) => {
   if (!details) return null;
-
   const selections = Object.fromEntries(
     Object.entries(details).filter(
       ([key, value]) =>
@@ -110,9 +43,43 @@ const getCustomSelections = (details) => {
         String(value).trim() !== "",
     ),
   );
-
   return Object.keys(selections).length > 0 ? selections : null;
 };
+
+/**
+ * Convert customSelections { "Roast Type": "Espresso", "Grind": "Whole Beans" }
+ * into the productHighlights array the backend expects:
+ * [{ sectionTitle: "Roast Type", items: [{ point: "Espresso" }] }, ...]
+ */
+const buildHighlightsForServer = (customSelections) => {
+  if (!customSelections || Object.keys(customSelections).length === 0) return [];
+  return Object.entries(customSelections).map(([sectionTitle, point]) => ({
+    sectionTitle,
+    items: [{ point: String(point) }],
+  }));
+};
+
+/**
+ * Stable string key for a highlights array — used for client-side duplicate detection.
+ * Mirrors what the backend's normalizeHighlights produces (sorted sections + sorted points).
+ */
+const normalizeHighlightsClient = (highlights) => {
+  if (!Array.isArray(highlights) || highlights.length === 0) return "[]";
+  const normalized = highlights
+    .map((section) => ({
+      sectionTitle: section.sectionTitle || "",
+      items: (Array.isArray(section.items) ? section.items : [])
+        .map((item) => ({ point: typeof item === "string" ? item : (item.point || "") }))
+        .filter((item) => item.point)
+        .sort((a, b) => a.point.localeCompare(b.point)),
+    }))
+    .filter((s) => s.sectionTitle || s.items.length > 0)
+    .sort((a, b) => a.sectionTitle.localeCompare(b.sectionTitle));
+  return JSON.stringify(normalized);
+};
+
+const highlightsMatchItem = (a, b) =>
+  normalizeHighlightsClient(a || []) === normalizeHighlightsClient(b || []);
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
@@ -150,21 +117,15 @@ export function CartProvider({ children }) {
     try {
       const res = await axiosClient.get(`/api/surge-coupon/coupons/${code}`);
       const data = res.data;
-
       const coupon = data.coupon || data.docs?.[0];
-
       if (coupon && (data.success || !data.message)) {
         const minAmount = Number(coupon.minimumAmount || 0);
         if (minAmount > 0 && cartTotals.subtotal < minAmount) {
-          return {
-            ok: false,
-            message: `Minimum amount of AED ${minAmount} required`,
-          };
+          return { ok: false, message: `Minimum amount of AED ${minAmount} required` };
         }
         let discountVal = 0;
         if (coupon.discountType === "percentage") {
-          discountVal =
-            cartTotals.subtotal * (Number(coupon.discountAmount) / 100);
+          discountVal = cartTotals.subtotal * (Number(coupon.discountAmount) / 100);
         } else {
           discountVal = Number(coupon.discountAmount);
         }
@@ -184,22 +145,14 @@ export function CartProvider({ children }) {
       return { ok: false, message: data.message || "Invalid coupon code" };
     } catch (e) {
       const resData = e?.response?.data;
-      const backendMsg =
-        resData?.message || resData?.error || resData?.errors?.[0]?.message;
-      return {
-        ok: false,
-        message: backendMsg || e.message || "Failed to apply coupon",
-      };
+      const backendMsg = resData?.message || resData?.error || resData?.errors?.[0]?.message;
+      return { ok: false, message: backendMsg || e.message || "Failed to apply coupon" };
     }
   };
 
   const removeCoupon = () => {
     if (appliedCoupon) {
-      setCartTotals((prev) => ({
-        ...prev,
-        discount: 0,
-        total: prev.subtotal,
-      }));
+      setCartTotals((prev) => ({ ...prev, discount: 0, total: prev.subtotal }));
       setAppliedCoupon(null);
     }
   };
@@ -211,11 +164,9 @@ export function CartProvider({ children }) {
         axiosClient.get("/api/user-surge-coins"),
         axiosClient.get("/api/globals/surge-coins"),
       ]);
-
       if (balanceRes.data.docs?.[0]) {
         setBeansBalance(balanceRes?.data?.docs?.[0]?.totalBalance || 0);
       }
-
       if (configRes.data) {
         setCoinConfig({
           pointsEarn: configRes.data.pointsEarn || 5,
@@ -238,7 +189,6 @@ export function CartProvider({ children }) {
       return sum + price * (item.quantity || 1);
     }, 0);
     const computedTotalItems = items.reduce((sum, item) => sum + (item.quantity || 1), 0);
-
     setCartTotals((prev) => {
       if (prev.subtotal === computedSubtotal && prev.totalItems === computedTotalItems) return prev;
       return { ...prev, subtotal: computedSubtotal, totalItems: computedTotalItems };
@@ -252,17 +202,16 @@ export function CartProvider({ children }) {
       const balanceInAed = beansBalance / coinConfig.pointsToAed;
       coinsDiscount = Math.min(maxPossibleDiscount, balanceInAed);
     }
-
     setCartTotals((prev) => ({
       ...prev,
       beansDiscount: coinsDiscount,
       total: Math.max(
         0,
         prev.subtotal -
-        (prev.discount || 0) +
-        (prev.shipping || 0) +
-        (prev.tax || 0) -
-        coinsDiscount,
+          (prev.discount || 0) +
+          (prev.shipping || 0) +
+          (prev.tax || 0) -
+          coinsDiscount,
       ),
     }));
   }, [
@@ -281,8 +230,9 @@ export function CartProvider({ children }) {
     const prevStatus = prevStatusRef.current;
     prevStatusRef.current = status;
 
-    // Merge guest cart into server cart when user logs in
-    if (prevStatus === "unauthenticated" && status === "authenticated") {
+    // Use !== "authenticated" so the "loading" → "authenticated" transition (after OAuth
+    // redirect) also triggers the merge — not just soft-nav sign-ins.
+    if (prevStatus !== "authenticated" && status === "authenticated") {
       const guestCart = getCart();
       if (guestCart.items?.length > 0) {
         mergeGuestCartThenFetch(guestCart.items);
@@ -293,97 +243,15 @@ export function CartProvider({ children }) {
     fetchCart();
   }, [session, status]);
 
-  // Sync structural metadata details to localStorage whenever items update dynamically.
-  // Keyed by _cartKey (which encodes product + variant + customSelections) so that two
-  // items with the same product/variant but different highlights don't overwrite each other.
-  useEffect(() => {
-    if (items && items.length > 0) {
-      const metaStorage = {};
-      items.forEach((item) => {
-        const key = item._cartKey || `${item.product}_${item.vId || ""}`;
-        if (item.customSelections || item.tagline || item.productHighlights) {
-          metaStorage[key] = {
-            customSelections: item.customSelections || null,
-            tagline: item.tagline || null,
-            productHighlights: item.productHighlights || null,
-          };
-        }
-      });
-      if (Object.keys(metaStorage).length > 0) {
-        localStorage.setItem("surge_cart_meta", JSON.stringify(metaStorage));
-      }
-    }
-  }, [items]);
-
   // ─── Helpers ────────────────────────────────────────────────────────────────
 
-  /** Apply a cart API response (items, subtotal, totalItems) to state */
+  /**
+   * Apply a cart API response to state.
+   * The server now owns the full item identity (product + vId + productHighlights),
+   * so we set items directly — no client-side split expansion needed.
+   */
   const applyCartResponse = (data) => {
-    setItems((previousItems) => {
-      const expanded = [];
-
-      for (const rawItem of (data.items || [])) {
-        // Normalize product/vId to plain ID strings in case the backend returns populated objects
-        const productId = typeof rawItem.product === 'object' && rawItem.product !== null
-          ? (rawItem.product.id || rawItem.product.value?.id || String(rawItem.product))
-          : rawItem.product;
-        const vIdNorm = typeof rawItem.vId === 'object' && rawItem.vId !== null
-          ? (rawItem.vId.id || rawItem.vId.value?.id || String(rawItem.vId))
-          : rawItem.vId;
-        const item = { ...rawItem, product: productId, vId: vIdNorm || null };
-
-        const key = `${item.product}:${item.vId || ""}`;
-        const splits = loadSplitsForItem(item.product, item.vId);
-
-        if (splits && splits.length > 0) {
-          // Discard stale splits whose total exceeds what the server actually holds
-          const splitsTotal = splits.reduce((s, x) => s + x.quantity, 0);
-          if (splitsTotal > item.quantity) {
-            saveSplitsForItem(item.product, item.vId || null, []);
-            // Fall through to the non-split path below
-          } else {
-            // Expand server item into virtual per-highlights splits
-            let remaining = item.quantity;
-            splits.forEach((split, i) => {
-              const qty = i === splits.length - 1
-                ? remaining
-                : Math.min(split.quantity, remaining);
-              remaining = Math.max(0, remaining - qty);
-              if (qty > 0) {
-                expanded.push({
-                  ...item,
-                  _cartKey: split._cartKey,
-                  customSelections: split.customSelections || null,
-                  productHighlights: split.productHighlights || null,
-                  quantity: qty,
-                });
-              }
-            });
-            continue;
-          }
-        }
-        {
-          // No splits — restore customSelections from previous state or cache
-          const previousItem = previousItems.find(
-            (prev) =>
-              String(prev.product) === String(item.product) &&
-              (prev.vId || null) === (item.vId || null),
-          );
-          const customSelections =
-            (previousItem?.customSelections && Object.keys(previousItem.customSelections).length
-              ? previousItem.customSelections
-              : null) ||
-            loadSelectionsCache(key);
-
-          expanded.push({
-            ...item,
-            ...(customSelections ? { customSelections } : {}),
-          });
-        }
-      }
-
-      return expanded;
-    });
+    setItems(data.items || []);
   };
 
   /** Apply the local guest cart to state */
@@ -391,25 +259,10 @@ export function CartProvider({ children }) {
     const cart = getCart();
     setItems(
       (cart.items || []).map((item) => {
-        const key = `${item.product}:${item.vId || ""}`;
-        const customSelections =
-          (item.customSelections && Object.keys(item.customSelections).length
-            ? item.customSelections
-            : null) ||
-          loadSelectionsCache(key);
-        const productHighlights =
-          (item.productHighlights && item.productHighlights.length
-            ? item.productHighlights
-            : null) ||
-          loadHighlightsCache(key);
-        // Ensure every item has a stable _cartKey (backfill items added before this fix)
-        const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, customSelections, productHighlights);
-        return {
-          ...item,
-          _cartKey: cartKey,
-          ...(customSelections ? { customSelections } : {}),
-          ...(productHighlights ? { productHighlights } : {}),
-        };
+        const cartKey =
+          item._cartKey ||
+          makeCartItemKey(item.product, item.vId, item.customSelections || null, item.productHighlights || null);
+        return { ...item, _cartKey: cartKey };
       }),
     );
     setCartTotals((prev) => ({
@@ -425,28 +278,14 @@ export function CartProvider({ children }) {
   const mergeGuestCartThenFetch = async (guestItems) => {
     for (const item of guestItems) {
       try {
+        // Convert the guest item's customSelections to the server-side productHighlights format
+        const highlightsForServer = buildHighlightsForServer(item.customSelections);
         await axiosClient.post("/api/website/cart", {
           product: item.product,
           quantity: item.quantity,
           vId: item.vId || null,
+          productHighlights: highlightsForServer,
         });
-        // Preserve customSelections / productHighlights in splits cache
-        if (item.customSelections || item.productHighlights) {
-          const existing = loadSplitsForItem(item.product, item.vId) || [];
-          const cartKey = item._cartKey || makeCartItemKey(item.product, item.vId, item.customSelections, item.productHighlights);
-          const splitIdx = existing.findIndex((s) => s._cartKey === cartKey);
-          if (splitIdx >= 0) {
-            existing[splitIdx].quantity += item.quantity;
-          } else {
-            existing.push({
-              _cartKey: cartKey,
-              customSelections: item.customSelections || null,
-              productHighlights: item.productHighlights || null,
-              quantity: item.quantity,
-            });
-          }
-          saveSplitsForItem(item.product, item.vId || null, existing);
-        }
       } catch (err) {
         console.error("Failed to merge guest cart item:", err);
       }
@@ -477,43 +316,26 @@ export function CartProvider({ children }) {
 
   const addToCart = async (product, quantity = 1, vId, details = null) => {
     const { productHighlights: _ph, ...restDetails } = details || {};
-    // Keep productHighlights as a first-class field on the cart item
-    const productHighlights = Array.isArray(_ph) && _ph.length > 0 ? _ph : null;
     const customSelections = getCustomSelections(restDetails);
-    if (customSelections) {
-      saveSelectionsCache(`${product}:${vId || ""}`, customSelections);
-    }
-    // Stable key for this specific product+variant+customSelections+highlights combination
-    const cartKey = makeCartItemKey(product, vId || null, customSelections, productHighlights);
+
+    // Build the highlights payload: use the user's selected values from customSelections.
+    // The raw _ph from details is the full product highlights list (all options), not selections.
+    const highlightsForServer = buildHighlightsForServer(customSelections);
+
+    // Stable key for this combination (used for guest cart and toast matching)
+    const cartKey = makeCartItemKey(product, vId || null, customSelections, highlightsForServer);
 
     if (session?.user) {
-      // Per-variant cap for plain items (no splits): each weight/variant gets its own max-10
-      if (!customSelections && !productHighlights) {
-        const existingVariantItem = items.find(
-          (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
-        );
-        if (existingVariantItem && existingVariantItem.quantity + quantity > 10) {
-          toast.error("Maximum quantity of 10 per item reached");
-          return;
-        }
-      }
-
-      // Per-highlight cap: check before posting to server so we never over-increment
-      if (customSelections || productHighlights) {
-        const serverItemExists = items.some(
-          (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
-        );
-        let existingSplits = loadSplitsForItem(product, vId) || [];
-        // Stale splits from a previous session — clear them so they don't block adds
-        if (!serverItemExists && existingSplits.length > 0) {
-          saveSplitsForItem(product, vId || null, []);
-          existingSplits = [];
-        }
-        const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
-        if (splitIndex >= 0 && existingSplits[splitIndex].quantity + quantity > 10) {
-          toast.error("Maximum quantity of 10 per item reached");
-          return;
-        }
+      // Client-side cap check: look for a matching item already in state
+      const existingItem = items.find(
+        (i) =>
+          String(i.product) === String(product) &&
+          normVId(i.vId) === (vId || null) &&
+          highlightsMatchItem(i.productHighlights, highlightsForServer),
+      );
+      if (existingItem && existingItem.quantity + quantity > 10) {
+        toast.error("Maximum quantity of 10 per item reached");
+        return;
       }
 
       try {
@@ -521,72 +343,23 @@ export function CartProvider({ children }) {
           product,
           quantity,
           vId: vId || null,
+          productHighlights: highlightsForServer,
         });
 
         const data = res.data;
-
-        // Maintain virtual splits so applyCartResponse can expand them back.
-        // Save whenever there are customSelections OR productHighlights — either alone
-        // is enough to distinguish two items that would otherwise be merged by the server.
-        if (customSelections || productHighlights) {
-          let existingSplits = loadSplitsForItem(product, vId) || [];
-
-          // If no splits recorded yet, retroactively create splits for any items already
-          // in state with the same product+vId (e.g. a plain item added before highlights
-          // were selected). Without this, the plain item's quantity gets absorbed into
-          // the new highlighted split instead of staying as a separate cart entry.
-          if (existingSplits.length === 0) {
-            const prevItems = items.filter(
-              (i) =>
-                String(i.product) === String(product) &&
-                (i.vId || null) === (vId || null),
-            );
-            if (prevItems.length > 0) {
-              existingSplits = prevItems.map((i) => ({
-                _cartKey:
-                  i._cartKey ||
-                  makeCartItemKey(
-                    String(i.product),
-                    i.vId || null,
-                    i.customSelections || null,
-                    i.productHighlights || null,
-                  ),
-                customSelections: i.customSelections || null,
-                productHighlights: i.productHighlights || null,
-                quantity: i.quantity,
-              }));
-            }
-          }
-
-          const prevTotal = existingSplits.reduce((s, x) => s + x.quantity, 0);
-          const splitIndex = existingSplits.findIndex((s) => s._cartKey === cartKey);
-          if (splitIndex >= 0) {
-            existingSplits[splitIndex].quantity += quantity;
-          } else {
-            existingSplits.push({ _cartKey: cartKey, customSelections, productHighlights, quantity });
-          }
-          const newTotal = prevTotal + quantity;
-
-          // Only persist splits when the server actually accepted the full addition.
-          // If the server has a combined per-product cap and returned the same (or lower)
-          // total, skip saving — otherwise stale-detection collapses the split items.
-          const serverItem = (data.items || []).find(
-            (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
-          );
-          if ((serverItem?.quantity ?? 0) >= newTotal) {
-            saveSplitsForItem(product, vId || null, existingSplits);
-          }
-        }
-
         applyCartResponse(data);
 
         const added = (data.items || []).find(
           (i) =>
             String(i.product) === String(product) &&
-            normVId(i.vId) === (vId || null),
+            normVId(i.vId) === (vId || null) &&
+            highlightsMatchItem(i.productHighlights, highlightsForServer),
         );
         if (added || details) {
-          addToCartToast({ ...(added || {}), ...(details || {}), customSelections, quantity }, openCart);
+          addToCartToast(
+            { ...(added || {}), ...(details || {}), customSelections, quantity },
+            openCart,
+          );
         }
       } catch (e) {
         console.error("Error adding to cart:", e);
@@ -597,24 +370,16 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        await addItemToCart(product, quantity, vId, restDetails, productHighlights);
+        // Pass the selected highlights (same format as server returns for authenticated users)
+        // so guest items and authenticated items are consistent. CheckoutForm can then do a
+        // direct p.productHighlights pass-through for both cases without re-filtering.
+        await addItemToCart(product, quantity, vId, restDetails, highlightsForServer.length > 0 ? highlightsForServer : null);
         const cart = getCart();
         applyGuestCart();
-        // Patch productHighlights onto the specific item using its stable cartKey
-        if (productHighlights) {
-          setItems((currentItems) =>
-            currentItems.map((item) =>
-              item._cartKey === cartKey
-                ? { ...item, productHighlights }
-                : item,
-            ),
-          );
-        }
-        // Show toast with the item from the refreshed guest cart
         const added = (cart.items || []).find(
-          (i) => i._cartKey === cartKey ||
-            (String(i.product) === String(product) &&
-              (i.vId || null) === (vId || null)),
+          (i) =>
+            i._cartKey === cartKey ||
+            (String(i.product) === String(product) && (i.vId || null) === (vId || null)),
         );
         if (added || details) {
           addToCartToast({ ...(added || {}), ...(details || {}), quantity }, openCart);
@@ -628,45 +393,19 @@ export function CartProvider({ children }) {
 
   // ─── Remove ──────────────────────────────────────────────────────────────────
 
-  const removeItem = async (product, vId, cartKey = null) => {
-    const key = `${product}_${vId || ""}`;
-    try {
-      const stored = localStorage.getItem("surge_cart_meta");
-      if (stored) {
-        const metaStorage = JSON.parse(stored);
-        delete metaStorage[key];
-        localStorage.setItem("surge_cart_meta", JSON.stringify(metaStorage));
-      }
-    } catch (err) {
-      console.error(err);
-    }
-
+  /**
+   * @param {string} product
+   * @param {string|null} vId
+   * @param {Array} productHighlights  — for authenticated: the highlights array from the cart item
+   * @param {string|null} cartKey      — for guest: the _cartKey from the guest cart item
+   */
+  const removeItem = async (product, vId, productHighlights = [], cartKey = null) => {
     if (session?.user) {
       try {
-        const splits = loadSplitsForItem(product, vId);
-        if (splits && splits.length > 1 && cartKey) {
-          // Other splits remain — remove this split and decrement server qty by its quantity
-          const splitToRemove = splits.find((s) => s._cartKey === cartKey);
-          const remaining = splits.filter((s) => s._cartKey !== cartKey);
-          saveSplitsForItem(product, vId || null, remaining);
-          const removeQty = splitToRemove?.quantity || 1;
-          let res;
-          for (let i = 0; i < removeQty; i++) {
-            res = await axiosClient.patch("/api/website/cart", {
-              product,
-              vId: vId || null,
-              action: "decrement",
-            });
-          }
-          applyCartResponse(res.data);
-        } else {
-          // Last (or only) split — remove entirely from server
-          saveSplitsForItem(product, vId || null, []);
-          const res = await axiosClient.delete("/api/website/cart", {
-            data: { product, vId: vId || null },
-          });
-          applyCartResponse(res.data);
-        }
+        const res = await axiosClient.delete("/api/website/cart", {
+          data: { product, vId: vId || null, productHighlights },
+        });
+        applyCartResponse(res.data);
       } catch (e) {
         console.error("Error removing from cart:", e);
       }
@@ -678,62 +417,30 @@ export function CartProvider({ children }) {
 
   // ─── Update Quantity ─────────────────────────────────────────────────────────
 
-  const updateQuantity = async (product, vId, quantity, action, cartKey = null) => {
+  /**
+   * @param {string} product
+   * @param {string|null} vId
+   * @param {number|null} quantity
+   * @param {string} action          — 'increment' | 'decrement' | null
+   * @param {Array} productHighlights — for authenticated: highlights array from the cart item
+   * @param {string|null} cartKey     — for guest: the _cartKey from the guest cart item
+   */
+  const updateQuantity = async (
+    product,
+    vId,
+    quantity,
+    action,
+    productHighlights = [],
+    cartKey = null,
+  ) => {
     if (session?.user) {
       try {
-        const splits = loadSplitsForItem(product, vId);
-        if (splits && splits.length > 1 && cartKey) {
-          // Update only the targeted split, then mirror that action to the server
-          const splitIndex = splits.findIndex((s) => s._cartKey === cartKey);
-          if (splitIndex >= 0) {
-            const oldQty = splits[splitIndex].quantity;
-            let newQty = oldQty;
-            if (action === "increment") newQty = oldQty + 1;
-            else if (action === "decrement") newQty = Math.max(1, oldQty - 1);
-            else if (typeof quantity === "number") newQty = Math.max(1, quantity);
-
-            if (newQty > 10) {
-              return { ok: false, message: "Maximum quantity of 10 per item reached" };
-            }
-
-            if (newQty !== oldQty) {
-              const serverAction = newQty > oldQty ? "increment" : "decrement";
-              const res = await axiosClient.patch("/api/website/cart", {
-                product,
-                vId: vId || null,
-                action: serverAction,
-              });
-
-              // Save updated split only when the server confirmed the change.
-              // If the server hit a combined per-product cap and returned the unchanged
-              // total, keep the original splits so stale-detection doesn't collapse
-              // separate highlighted items into one merged item.
-              const serverItem = (res.data.items || []).find(
-                (i) => String(i.product) === String(product) && normVId(i.vId) === (vId || null),
-              );
-              const serverQty = serverItem?.quantity ?? 0;
-              const currentTotal = splits.reduce((s, x) => s + x.quantity, 0);
-              const expectedTotal = currentTotal - oldQty + newQty;
-
-              if (serverQty >= expectedTotal) {
-                splits[splitIndex].quantity = newQty;
-                saveSplitsForItem(product, vId || null, splits);
-                applyCartResponse(res.data);
-              } else {
-                // Server didn't accept — re-render with server state and old split quantities
-                applyCartResponse(res.data);
-                return { ok: false, message: "Maximum quantity of 10 per item reached" };
-              }
-            }
-          }
-          return { ok: true };
-        }
-
         const res = await axiosClient.patch("/api/website/cart", {
           product,
           vId: vId || null,
           ...(quantity != null ? { quantity } : {}),
           action,
+          productHighlights,
         });
         applyCartResponse(res.data);
         return { ok: true };
@@ -749,20 +456,14 @@ export function CartProvider({ children }) {
     } else {
       try {
         const cart = getCart();
-        const existing = cart.items?.find(
-          (i) =>
-            (cartKey && i._cartKey)
-              ? i._cartKey === cartKey
-              : String(i.product) === String(product) &&
-                (i.vId || null) === (vId || null),
+        const existing = cart.items?.find((i) =>
+          cartKey && i._cartKey ? i._cartKey === cartKey : String(i.product) === String(product) && (i.vId || null) === (vId || null),
         );
         if (existing) {
           let newQty = existing.quantity;
           if (action === "increment") newQty = existing.quantity + 1;
-          else if (action === "decrement")
-            newQty = Math.max(1, existing.quantity - 1);
+          else if (action === "decrement") newQty = Math.max(1, existing.quantity - 1);
           else if (typeof quantity === "number") newQty = Math.max(1, quantity);
-
           updateItemQuantity(product, vId, newQty, cartKey);
         }
         applyGuestCart();

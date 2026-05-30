@@ -49,9 +49,11 @@ function AuthPageContent() {
       if (payloadToken) {
         // Normal path: server-side exchange in JWT callback already populated the session
         Cookies.set("payload-token", payloadToken, { expires: 7 });
-        window.location.href = session.user?.isNewUser
-          ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
-          : redirectParam;
+        router.push(
+          session.user?.isNewUser
+            ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
+            : redirectParam
+        );
         return;
       }
 
@@ -85,9 +87,11 @@ function AuthPageContent() {
           });
         }
 
-        window.location.href = res.data.isNewUser
-          ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
-          : redirectParam;
+        router.push(
+          res.data.isNewUser
+            ? `/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`
+            : redirectParam
+        );
       } catch (e) {
         googleCallbackHandled.current = false; // allow retry on error
         setError(

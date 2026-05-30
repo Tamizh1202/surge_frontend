@@ -303,7 +303,7 @@
 
 @media (min-width: 1481px) and (max-width: 1820px) {
   .SuccessLayout {
-    margin-left: 18%;
+    margin-left: 16%;
     gap: 80px;
   }
 
@@ -410,8 +410,9 @@
   .SummaryItemPrice {
     font-size: var(--fs-18);
   }
+
   .SummaryItemPrice {
-    font-weight:600;
+    font-weight: 600;
   }
 
   .TotalRow p {
@@ -428,7 +429,7 @@
   }
 
   .CellValue span {
-    font-size: var(--fs-18);  
+    font-size: var(--fs-18);
   }
 
   .GrandTotal p {

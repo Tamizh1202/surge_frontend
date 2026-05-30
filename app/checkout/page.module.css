@@ -1193,7 +1193,7 @@
 /* ─── Large desktop ─── */
 @media (min-width: 1481px) and (max-width: 1820px) {
   .Main {
-    padding-left: 18%;
+    padding-left: 16%;
     padding-right: 150px;
   }
 
@@ -1541,8 +1541,11 @@
   .EstimatedTax h5,
   .Total p,
   .Total h5 {
-    font-size: var(--fs-18);
+    font-size: var(--fs-20);
   }
+  /* .Total p{
+    font-weight:600;
+  } */
 
   .couponEarned {
     font-size: var(--fs-16);

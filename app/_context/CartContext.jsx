@@ -370,9 +370,10 @@ export function CartProvider({ children }) {
       }
     } else {
       try {
-        // Pass the full _ph (all highlight options) for guest cart display, and customSelections for differentiation
-        const productHighlights = Array.isArray(_ph) && _ph.length > 0 ? _ph : null;
-        await addItemToCart(product, quantity, vId, restDetails, productHighlights);
+        // Pass the selected highlights (same format as server returns for authenticated users)
+        // so guest items and authenticated items are consistent. CheckoutForm can then do a
+        // direct p.productHighlights pass-through for both cases without re-filtering.
+        await addItemToCart(product, quantity, vId, restDetails, highlightsForServer.length > 0 ? highlightsForServer : null);
         const cart = getCart();
         applyGuestCart();
         const added = (cart.items || []).find(

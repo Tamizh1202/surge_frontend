@@ -1193,7 +1193,7 @@
 /* ─── Large desktop ─── */
 @media (min-width: 1481px) and (max-width: 1820px) {
   .Main {
-    padding-left: 20%;
+    padding-left: 18%;
     padding-right: 150px;
   }
 

@@ -35,6 +35,8 @@ function CheckoutContent() {
   }, [cartProducts]);
 
   const [delivery, setDelivery] = useState("ship");
+  const [shops, setShops] = useState([]);
+  const [selectedShopId, setSelectedShopId] = useState(null);
   const [savedAddresses, setSavedAddresses] = useState([]);
   const [selectedAddressId, setSelectedAddressId] = useState(null);
   const [openMenuId, setOpenMenuId] = useState(null);
@@ -114,6 +116,17 @@ function CheckoutContent() {
         }
       } catch (err) {
         console.error("Failed to fetch shipping/tax", err);
+      }
+
+      try {
+        const res = await axiosClient.get(`/api/shop?limit=100&sort=createdAt`);
+        const fetchedShops = (res.data?.docs || []).filter((s) => s.isShopOpen !== false);
+        setShops(fetchedShops);
+        if (fetchedShops.length > 0) {
+          setSelectedShopId(fetchedShops[0].id);
+        }
+      } catch (err) {
+        console.error("Failed to fetch shops", err);
       }
 
       setIsLoading(false);
@@ -196,6 +209,9 @@ function CheckoutContent() {
         status={status}
         delivery={delivery}
         setDelivery={setDelivery}
+        shops={shops}
+        selectedShopId={selectedShopId}
+        setSelectedShopId={setSelectedShopId}
         savedAddresses={savedAddresses}
         setSavedAddresses={setSavedAddresses}
         selectedAddressId={selectedAddressId}

@@ -195,7 +195,8 @@ export const buildOneTimePayload = ({
     email,
     products,
     useWTCoins,
-    appliedCouponCode
+    appliedCouponCode,
+    pickupShopId,
 }) => ({
     deliveryOption: delivery,
     shippingAddress,
@@ -204,7 +205,8 @@ export const buildOneTimePayload = ({
     email,
     products,
     useWTCoins,
-    appliedCouponCode
+    appliedCouponCode,
+    ...(pickupShopId ? { pickupShopId } : {}),
 });
 
 /**

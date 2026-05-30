@@ -16,9 +16,27 @@ import {
   saveAddressAPI,
 } from "@/app/account/profile/_components/ProfileComponents/profileApiUtils";
 
+function formatShopTime(isoString) {
+  if (!isoString) return "";
+  const date = new Date(isoString);
+  if (isNaN(date.getTime())) return "";
+  return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+}
+
+function formatShopAddressLine(shop) {
+  const { street, apartment, city, emirates } = shop.address || {};
+  const emirateLabel = emirates
+    ? emirates.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
+    : "";
+  return [street, apartment, city, emirateLabel].filter(Boolean).join(", ");
+}
+
 export default function ShippingAddressSection({
   delivery,
   status,
+  shops = [],
+  selectedShopId,
+  setSelectedShopId,
   savedAddresses,
   setSavedAddresses,
   selectedAddressId,
@@ -559,14 +577,43 @@ const APARTMENT_MAX_LENGTH =100;
       {delivery === "pickup" && (
         <div className={styles.PickupList}>
           <p>Pickup Locations Near You</p>
-          <div className={styles.PickupCard}>
-            <input type="radio" style={{ accentColor: "var(--primary-color)" }} checked readOnly />
-            <div>
-              <h5>Surge Store - Main Branch</h5>
-              <p>Your pickup address line, City</p>
-              <span>10:00 AM – 7:00 PM</span>
+          {shops.length > 0 ? (
+            shops.map((shop) => {
+              const isSelected = selectedShopId === shop.id;
+              const openTime = formatShopTime(shop.operationalSettings?.openingTime);
+              const closeTime = formatShopTime(shop.operationalSettings?.closingTime);
+              const hoursLabel = openTime && closeTime ? `${openTime} – ${closeTime}` : "";
+              const addressLine = formatShopAddressLine(shop);
+              return (
+                <div
+                  key={shop.id}
+                  className={styles.PickupCard}
+                  style={{ cursor: "pointer", outline: isSelected ? "2px solid var(--primary-color)" : undefined }}
+                  onClick={() => setSelectedShopId(shop.id)}
+                >
+                  <input
+                    type="radio"
+                    style={{ accentColor: "var(--primary-color)" }}
+                    checked={isSelected}
+                    onChange={() => setSelectedShopId(shop.id)}
+                  />
+                  <div>
+                    <h5>{addressLine || "Surge Store"}</h5>
+                    {hoursLabel && <span>{hoursLabel}</span>}
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className={styles.PickupCard}>
+              <input type="radio" style={{ accentColor: "var(--primary-color)" }} checked readOnly />
+              <div>
+                <h5>Surge Store - Main Branch</h5>
+                <p>Your pickup address line, City</p>
+                <span>10:00 AM – 7:00 PM</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       )}
     </div>

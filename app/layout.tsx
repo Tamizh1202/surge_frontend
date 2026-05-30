@@ -24,19 +24,30 @@ export default async function RootLayout({
 }: {
   children: ReactNode;
 }) {
+  const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+
   let categories = [];
   try {
-    const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
     const res = await fetch(
       `${serverUrl}/api/web-categories?sort=createdAt`,
-      {
-        next: { revalidate: 3600 },
-      },
+      { next: { revalidate: 3600 } },
     );
     const data = await res.json();
     categories = data.docs || [];
   } catch (error) {
     console.error("Failed to fetch categories in layout:", error);
+  }
+
+  let shops = [];
+  try {
+    const res = await fetch(
+      `${serverUrl}/api/shop?limit=100&sort=createdAt`,
+      { next: { revalidate: 3600 } },
+    );
+    const data = await res.json();
+    shops = data.docs || [];
+  } catch (error) {
+    console.error("Failed to fetch shops in layout:", error);
   }
 
   return (
@@ -74,7 +85,7 @@ export default async function RootLayout({
                 <Suspense fallback={<PageLoader />}>
                   <main>{children}</main>
                 </Suspense>
-                <Footer categories={categories} />
+                <Footer categories={categories} shops={shops} />
                 {/* 3. CartSideBar is now inside both providers */}
                 <CartSideBar />
               </WishlistProvider>

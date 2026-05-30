@@ -281,8 +281,7 @@ export function CartProvider({ children }) {
     const prevStatus = prevStatusRef.current;
     prevStatusRef.current = status;
 
-    // Merge guest cart into server cart when user logs in
-    if (prevStatus === "unauthenticated" && status === "authenticated") {
+    if (prevStatus !== "authenticated" && status === "authenticated") {
       const guestCart = getCart();
       if (guestCart.items?.length > 0) {
         mergeGuestCartThenFetch(guestCart.items);
@@ -754,7 +753,7 @@ export function CartProvider({ children }) {
             (cartKey && i._cartKey)
               ? i._cartKey === cartKey
               : String(i.product) === String(product) &&
-                (i.vId || null) === (vId || null),
+              (i.vId || null) === (vId || null),
         );
         if (existing) {
           let newQty = existing.quantity;

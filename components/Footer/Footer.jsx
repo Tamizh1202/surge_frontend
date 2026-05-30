@@ -16,12 +16,17 @@ function buildMapsUrl(shop) {
 }
 
 function formatShopAddress(shop) {
-  const { street, city, emirates } = shop.address || {};
+  const { street, apartment, city, emirates } = shop.address || {};
   const emirateLabel = emirates
     ? emirates.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "";
-  const line2 = [city, emirateLabel, "UAE"].filter(Boolean).join(", ");
-  return { line1: street || "", line2 };
+  const lastLine = [city, emirateLabel, "UAE"].filter(Boolean).join(", ");
+
+  if (shop.displayTitle) {
+    const title = shop.displayTitle.replace(/\s*—\s*/g, ", ");
+    return [title, apartment || null, lastLine].filter(Boolean);
+  }
+  return [street ? street.trim() : null, apartment || null, lastLine].filter(Boolean);
 }
 
 export default function Footer({ categories = [], shops = [] }) {
@@ -230,7 +235,7 @@ export default function Footer({ categories = [], shops = [] }) {
             <address className={styles.addressBox}>
               {shops.length > 0 ? (
                 shops.map((shop) => {
-                  const { line1, line2 } = formatShopAddress(shop);
+                  const lines = formatShopAddress(shop);
                   return (
                     <a
                       key={shop.id}
@@ -239,8 +244,9 @@ export default function Footer({ categories = [], shops = [] }) {
                       rel="noopener noreferrer"
                       className={styles.mapLink}
                     >
-                      {line1 && <>{line1}<br /></>}
-                      {line2}
+                      {lines.map((line, i) => (
+                        <span key={i} style={{ display: "block" }}>{line}</span>
+                      ))}
                     </a>
                   );
                 })

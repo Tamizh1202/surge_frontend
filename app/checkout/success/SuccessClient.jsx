@@ -196,32 +196,41 @@ export default function OrderSuccessContent() {
             </div>
 
             <div className={styles.SummaryItems}>
-              {displayItems.map((item, idx) => (
-                <div className={styles.SummaryItem} key={idx}>
-                  <div className={styles.SummaryItemImg}>
-                    <img
-                      src={formatImageUrl(item.image) || '/1.png'}
-                      alt={item.name}
-                      width={72}
-                      height={72}
-                    />
-                  </div>
-                  <div className={styles.SummaryItemInfo}>
-                    <p className={styles.SummaryItemName}>
-                      {item.name}{item.variantName && <span>, {item.variantName}g</span>}
-                    </p>
-                    {item._customization && (
-                      <p style={{ fontSize: '12px', color: '#818686', marginTop: '2px', fontFamily: 'var(--font-raleway)' }}>
-                        {item._customization}
+              {displayItems.map((item, idx) => {
+                // Prefer productHighlights saved on the order item (new orders).
+                // Fall back to _customization string from localStorage (old orders).
+                const highlightValues = Array.isArray(item.productHighlights) && item.productHighlights.length > 0
+                  ? item.productHighlights.flatMap((s) => (s.items || []).map((i) => i.point).filter(Boolean))
+                  : [];
+                const highlightText = highlightValues.join(", ") || item._customization || "";
+
+                return (
+                  <div className={styles.SummaryItem} key={idx}>
+                    <div className={styles.SummaryItemImg}>
+                      <img
+                        src={formatImageUrl(item.image) || '/1.png'}
+                        alt={item.name}
+                        width={72}
+                        height={72}
+                      />
+                    </div>
+                    <div className={styles.SummaryItemInfo}>
+                      <p className={styles.SummaryItemName}>
+                        {item.name}{item.variantName && <span>, {item.variantName}g</span>}
                       </p>
-                    )}
-                    <span>×{item.quantity}</span>
+                      {highlightText && (
+                        <p style={{ fontSize: '12px', color: '#818686', marginTop: '2px', fontFamily: 'var(--font-raleway)' }}>
+                          {highlightText}
+                        </p>
+                      )}
+                      <span>×{item.quantity}</span>
+                    </div>
+                    <p className={styles.SummaryItemPrice}>
+                      AED {Number(item.price).toFixed(0)}
+                    </p>
                   </div>
-                  <p className={styles.SummaryItemPrice}>
-                    AED {Number(item.price).toFixed(0)}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className={styles.SummaryTotals}>

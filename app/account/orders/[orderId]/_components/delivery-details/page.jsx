@@ -7,13 +7,19 @@ export default function DeliveryDetails({ order }) {
 
   const isDelivery = order.deliveryOption === "delivery";
   const address = order.shippingAddress;
+  const pickupShop = order.pickupShop && typeof order.pickupShop === 'object' ? order.pickupShop : null;
+
+  const formatEmirate = (val) =>
+    val ? val.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') : '';
+
+  const phoneNumber = address?.phoneNumber || order.billingAddress?.phoneNumber || '';
 
   return (
     <div className={styles.main}>
       <h2 className={styles.title}>
-        {isDelivery ? "Delivery Details" : "Delivery Details"}
+        {isDelivery ? "Delivery Details" : "Pickup Details"}
       </h2>
-      
+
       <div className={styles.container}>
         {/* TOP SECTION: ADDRESS */}
         <div className={styles.section}>
@@ -25,7 +31,7 @@ export default function DeliveryDetails({ order }) {
 </svg>
 
           </div>
-          
+
           <div className={styles.content}>
             {isDelivery ? (
               <>
@@ -40,13 +46,20 @@ export default function DeliveryDetails({ order }) {
                   {address?.zipCode || address?.pincode}
                 </p>
               </>
-            ) : (
+            ) : pickupShop ? (
               <>
-                <p className={styles.name}>Ahmed Al-Mansouri</p>
+                <p className={styles.name}>{pickupShop.displayTitle || pickupShop.address?.street || 'Pickup Location'}</p>
                 <p className={styles.addressLine}>
-                 Office 1502, Jumeirah Business Centre 1 Jumeirah Lakes Towers (JLT), Cluster G Dubai 450123
+                  {pickupShop.address?.street}
+                  {pickupShop.address?.apartment ? `, ${pickupShop.address.apartment}` : ""}
+                  <br />
+                  {pickupShop.address?.city}{pickupShop.address?.city && pickupShop.address?.emirates ? ', ' : ''}{formatEmirate(pickupShop.address?.emirates)}
+                  <br />
+                  {pickupShop.address?.country || 'United Arab Emirates'}
                 </p>
               </>
+            ) : (
+              <p className={styles.addressLine}>Pickup location not available</p>
             )}
           </div>
         </div>
@@ -68,7 +81,7 @@ export default function DeliveryDetails({ order }) {
           </div>
           <div className={styles.content}>
             <p className={styles.phoneText}>
-              {address?.phoneNumber || "+971 50 123 4567"}
+              {phoneNumber || ""}
             </p>
           </div>
         </div>

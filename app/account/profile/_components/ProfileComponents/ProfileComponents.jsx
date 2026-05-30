@@ -264,7 +264,7 @@ const ProfileComponents = ({ initialData }) => {
     const normalizedLabel = addr.label?.charAt(0).toUpperCase() + addr.label?.slice(1).toLowerCase();
     const finalLabel = ["Home", "Work"].includes(normalizedLabel) ? normalizedLabel : "Others";
     setActiveLabelBtn(finalLabel);
-    setAddressForm({ ...addr, address: addr.street || addr.address || "", streetNumber: addr.streetNumber || "", phone: addr.phoneNumber || "", state: (addr.emirates || addr.state || "dubai").toLowerCase().replace(/\s+/g, "_"), label: finalLabel });
+    setAddressForm({ ...addr, address: addr.street || addr.address || "", phone: addr.phoneNumber || "", state: (addr.emirates || addr.state || "dubai").toLowerCase().replace(/\s+/g, "_"), label: finalLabel });
     setShowEditAddressPopup(true);
   };
 
@@ -277,7 +277,6 @@ const ProfileComponents = ({ initialData }) => {
         addressFirstName: addressForm.addressFirstName,
         addressLastName: addressForm.addressLastName,
         street: addressForm.address,
-        streetNumber: addressForm.streetNumber,
         apartment: addressForm.apartment,
         city: addressForm.city,
         country: "United Arab Emirates",
@@ -287,11 +286,10 @@ const ProfileComponents = ({ initialData }) => {
       };
       const result = await saveAddressAPI(session?.user?.id, payload, token);
       if (result?.success) {
-        const sn = addressForm.streetNumber || "";
         if (result.updatedAddresses?.length > 0) {
           const patched = result.updatedAddresses.map((a, idx, arr) =>
             idx === arr.length - 1
-              ? { ...a, street: a.street || addressForm.address, streetNumber: a.streetNumber || sn }
+              ? { ...a, street: a.street || addressForm.address }
               : a
           );
           setAddresses(patched);
@@ -320,7 +318,6 @@ const ProfileComponents = ({ initialData }) => {
         addressFirstName: addressForm.addressFirstName,
         addressLastName: addressForm.addressLastName,
         street: addressForm.address,
-        streetNumber: addressForm.streetNumber,
         apartment: addressForm.apartment,
         city: addressForm.city,
         country: "United Arab Emirates",
@@ -331,17 +328,16 @@ const ProfileComponents = ({ initialData }) => {
       const result = await updateAddressAPI(session?.user?.id, payload);
       if (result?.success) {
         const sid = editingAddressId;
-        const sn = addressForm.streetNumber || "";
         if (result.updatedAddresses?.length > 0) {
           const patched = result.updatedAddresses.map((a) =>
             a.id === sid
-              ? { ...a, street: a.street || addressForm.address, streetNumber: a.streetNumber || sn }
+              ? { ...a, street: a.street || addressForm.address }
               : a
           );
           setAddresses(patched);
         } else {
           setAddresses((prev) => prev.map((a) =>
-            a.id === sid ? { ...payload, id: sid, street: addressForm.address, streetNumber: sn } : a
+            a.id === sid ? { ...payload, id: sid, street: addressForm.address } : a
           ));
         }
         setShowEditAddressPopup(false);

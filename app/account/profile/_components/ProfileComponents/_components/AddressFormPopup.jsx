@@ -29,7 +29,6 @@ const AddressFormPopup = ({
     addressFirstName: addressForm.addressFirstName?.trim(),
     addressLastName: addressForm.addressLastName?.trim(),
     address: addressForm.address?.trim(),
-    streetNumber: addressForm.streetNumber?.trim(),
     city: addressForm.city?.trim(),
     state: addressForm.state,
     phone: getRawPhone(addressForm.phone),
@@ -46,8 +45,7 @@ const AddressFormPopup = ({
   const limits = {
     firstName: 15,
     lastName: 15,
-    address: 15,
-    streetNumber: 15,
+    address: 100,
     apartment: 30,
     city: 15,
     phone: 9,
@@ -143,27 +141,6 @@ const AddressFormPopup = ({
             )}
           </div>
           {err("address")}
-        </div>
-
-        {/* Street Number Field with Limit */}
-        <div className={styles.fieldWrapper}>
-          <div className={styles.inputWrapperWithLimit}>
-            <input
-              className={styles.lineInput}
-              placeholder="Street Number"
-              value={addressForm.streetNumber || ""}
-              maxLength={limits.streetNumber}
-              onFocus={() => setFocusedField("streetNumber")}
-              onBlur={() => { setFocusedField(null); touch("streetNumber"); }}
-              onChange={(e) => onFormChange("streetNumber", e.target.value)}
-            />
-            {(focusedField === "streetNumber" || addressForm.streetNumber) && (
-              <span className={styles.charCounter}>
-                {(addressForm.streetNumber || "").length}/{limits.streetNumber}
-              </span>
-            )}
-          </div>
-          {err("streetNumber")}
         </div>
 
         <div style={{ marginBottom: '24px' }}>

@@ -30,7 +30,7 @@ export default function Navbar({ categories = [] }) {
     closeCart();
   }, [pathname]);
 
-  const totalItems = items?.reduce((acc, item) => acc + (item.quantity || 0), 0) || 0;
+  const totalItems = items?.length || 0;
 
   const handleMouseEnter = () => {
     if (window.innerWidth < 1300) return;

@@ -20,7 +20,7 @@ function formatShopTime(isoString) {
   if (!isoString) return "";
   const date = new Date(isoString);
   if (isNaN(date.getTime())) return "";
-  return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true });
+  return date.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: true, timeZone: "UTC" });
 }
 
 function formatShopAddressLine(shop) {
@@ -28,7 +28,7 @@ function formatShopAddressLine(shop) {
   const emirateLabel = emirates
     ? emirates.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "";
-  return [street, apartment, city, emirateLabel].filter(Boolean).join(", ");
+  return [street?.trim(), apartment, city, emirateLabel].filter(Boolean).join(", ");
 }
 
 export default function ShippingAddressSection({
@@ -598,7 +598,8 @@ const APARTMENT_MAX_LENGTH =100;
                     onChange={() => setSelectedShopId(shop.id)}
                   />
                   <div>
-                    <h5>{addressLine || "Surge Store"}</h5>
+                    <h5>{shop.displayTitle || addressLine || "Surge Store"}</h5>
+                    {addressLine && <p>{addressLine}</p>}
                     {hoursLabel && <span>{hoursLabel}</span>}
                   </div>
                 </div>

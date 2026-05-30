@@ -99,6 +99,7 @@ export default function CheckoutForm({
   const [isProcessing, setIsProcessing] = useState(false);
   const [validationErrors, setValidationErrors] = useState({});
   const [isExpressAvailable, setIsExpressAvailable] = useState(false);
+  const [newsletterOptIn, setNewsletterOptIn] = useState(false);
 
   const [email, setEmail] = useState(session?.user?.email || "");
   const [emailUserTyped, setEmailUserTyped] = useState(false);
@@ -193,7 +194,19 @@ export default function CheckoutForm({
 
       rememberOrderSelections(getCheckoutOrderId(data), product);
 
-      // 5. Save address if opted in
+      // 5. Newsletter opt-in — fire and forget, never block the order flow
+      if (newsletterOptIn && email) {
+        try {
+          const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
+          await fetch(`${serverUrl}/api/newsletters`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+        } catch { /* silent — newsletter failure must not affect checkout */ }
+      }
+
+      // 6. Save address if opted in
       if (shippingForm.saveAddress && status === "authenticated" && session?.user?.id && delivery === "ship") {
         try {
           await saveAddressAPI(session.user.id, {
@@ -270,6 +283,8 @@ export default function CheckoutForm({
                 validationErrors={validationErrors}
                 clearError={clearError}
                 setValidationErrors={setValidationErrors}
+                newsletterOptIn={newsletterOptIn}
+                setNewsletterOptIn={setNewsletterOptIn}
               />
 
               <DeliverySelector delivery={delivery} setDelivery={setDelivery} />

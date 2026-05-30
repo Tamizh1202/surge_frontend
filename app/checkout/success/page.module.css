@@ -303,7 +303,7 @@
 
 @media (min-width: 1481px) and (max-width: 1820px) {
   .SuccessLayout {
-    margin-left: 150px;
+    margin-left: 20%;
     gap: 80px;
   }
 

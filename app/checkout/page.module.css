@@ -47,7 +47,7 @@
   max-width: 500px;
   flex: 1;
   min-width: 0;
-  padding-left: 400px;
+  padding-left: 20%;
 }
 
 .ThreeRow {
@@ -1193,7 +1193,7 @@
 /* ─── Large desktop ─── */
 @media (min-width: 1481px) and (max-width: 1820px) {
   .Main {
-    padding-left: 150px;
+    padding-left: 20%;
     padding-right: 150px;
   }
 

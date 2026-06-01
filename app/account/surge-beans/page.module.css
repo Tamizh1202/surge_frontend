@@ -685,7 +685,15 @@ heading .olive .heading {
   .head{
     padding-right:0px;
     padding-bottom:0px;
-    
+
   }
 }
 
+@media (min-width: 640px) and (max-width: 1200px) {
+  .main1 {
+    padding-left: 40px;
+    padding-right: 40px;
+    /* padding-right: 32px; */
+    padding-bottom: 60px;
+  }
+}

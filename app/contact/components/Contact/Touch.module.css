@@ -326,6 +326,8 @@
     padding-top: 50px;
     padding-bottom: 30px;
     max-width: 100%;
+    padding-left:60px;
+    padding-right:60px;
     height: auto;
     justify-content: flex-start;
   }
@@ -355,7 +357,7 @@
 
   .image {
     position: relative;
-    top: 0;
+    top: 80;
   }
 
   .Bottom {
@@ -392,9 +394,9 @@
   }
 
   .RightContent {
-    padding: 30px 6% 40px;
+    padding: 140px 6% 40px;
     margin: 0;
-    height: auto;
+    height: 80vh;
     gap: 10px;
     display: flex;
     flex-direction: column;

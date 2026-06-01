@@ -232,15 +232,15 @@
 @media (min-width: 640px) and (max-width: 1023px) {
   .main {
     padding-left: 0px;
-    padding-right: 32px;
+    /* padding-right: 32px; */
     padding-bottom: 60px;
   }
 
   .container {
     width: 100%;
-    max-width: 500px;
+    /* max-width: 500px; */
     gap: 60px;
-    padding-right: 50px;
+    /* padding-right: 50px; */
   }
 
   .Top {

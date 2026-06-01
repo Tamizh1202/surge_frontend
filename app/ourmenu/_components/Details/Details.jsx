@@ -140,7 +140,25 @@ export default function Details() {
         });
     };
 
-    if (loading) return <div className={styles.loading}>Loading menu...</div>;
+    if (loading) return (
+        <div className={styles.skeletonSection}>
+            <div className={styles.skeletonCatTitle} />
+            <div className={styles.skeletonMenuContainer}>
+                <div className={styles.skeletonItemList}>
+                    {Array.from({ length: 6 }).map((_, i) => (
+                        <div key={i} className={styles.skeletonRow}>
+                            <div className={styles.skeletonRowLeft}>
+                                <div className={styles.skeletonLine} />
+                                <div className={styles.skeletonLineShort} />
+                            </div>
+                            <div className={styles.skeletonPrice} />
+                        </div>
+                    ))}
+                </div>
+                <div className={styles.skeletonImg} />
+            </div>
+        </div>
+    );
     if (sections.length === 0) {
         return (
             <div className={styles.noItems}>

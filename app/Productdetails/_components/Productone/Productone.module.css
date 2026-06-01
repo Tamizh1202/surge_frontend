@@ -528,7 +528,7 @@
 
   .imageSection {
     width: 100%;
-    padding: 90px 0 30px 0;
+    padding: 150px 0 50px 0;
     background-color: #ffffff;
   }
 
@@ -541,7 +541,7 @@
 
   .detailsSection {
     width: 100%;
-    padding: 20px 15px 60px 15px;
+    padding: 20px 15px 80px 15px;
     background-color: #F8F8F8;
     box-sizing: border-box;
     margin-top: -20px;

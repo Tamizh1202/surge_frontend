@@ -131,6 +131,36 @@ padding: clamp(20px, 5vw, 50px) clamp(15px, 2vw, 30px);
   opacity: 0.9;
 }
 
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeletonCard {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.skeletonImage {
+  width: 100%;
+  aspect-ratio: 230 / 254;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonTitle {
+  height: 44px;
+  width: 100%;
+  background: linear-gradient(90deg, #e8e8e8 25%, #dcdcdc 50%, #e8e8e8 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-top: 0;
+}
+
 .loadingState {
   grid-column: 1 / -1;
   text-align: center;

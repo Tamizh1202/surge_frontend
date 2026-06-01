@@ -220,7 +220,7 @@
   .AddToCartBtn {
     padding: 10px 16px;
     font-size: var(--fs-14);
-    width:150px;
+    /* width:150px; */
   }
 }
 
@@ -387,4 +387,10 @@
  .AddToCartBtn{
   width:stretch;
  }
+}
+@media (max-width:760px){
+  .Main{
+    padding-left:0px;
+    padding-right:0px;
+  }
 }

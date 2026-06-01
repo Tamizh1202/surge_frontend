@@ -33,6 +33,14 @@ export default function ShopSelector() {
   }, []);
 
   useEffect(() => {
+    if (!loading && shops.length > 0 && !selectedShopId) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("shop", shops[0].id);
+      router.replace(`?${params.toString()}`, { scroll: false });
+    }
+  }, [loading, shops, selectedShopId]);
+
+  useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false);

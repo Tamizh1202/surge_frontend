@@ -20,6 +20,7 @@ export default function Menu() {
   const [categories, setCategories] = useState([]);
   const [availableCategoryIds, setAvailableCategoryIds] = useState(new Set());
   const [loading, setLoading] = useState(true);
+  const [loadedShopId, setLoadedShopId] = useState('__initial__');
   const handleExploreClick = () => {
     router.push('/');
   };
@@ -27,19 +28,18 @@ export default function Menu() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const catRes = await axiosClient.get("/api/app-categories");
+        const requests = [axiosClient.get("/api/app-categories")];
+        if (shopId) requests.push(axiosClient.get(`/api/shop/${shopId}/menu-items?page=1&limit=100`));
+
+        const [catRes, prodRes] = await Promise.all(requests);
+
         if (catRes.status === 200 && catRes.data.docs) {
           setCategories(catRes.data.docs);
         }
 
-        if (shopId) {
-          const prodRes = await axiosClient.get(
-            `/api/shop/${shopId}/menu-items?page=1&limit=100`
-          );
+        if (shopId && prodRes) {
           const items = prodRes.data.items || [];
-          const ids = new Set(
-            items.map((item) => item.category?.id).filter((id) => id != null)
-          );
+          const ids = new Set(items.map((item) => item.category?.id).filter((id) => id != null));
           setAvailableCategoryIds(ids);
         } else {
           setAvailableCategoryIds(new Set());
@@ -47,6 +47,7 @@ export default function Menu() {
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
+        setLoadedShopId(shopId ?? null);
         setLoading(false);
       }
     };
@@ -90,10 +91,13 @@ export default function Menu() {
       </div>
 
       <div className={styles.menuGrid}>
-        {loading ? (
-          <div className={styles.loadingState}>
-            <p>Loading categories...</p>
-          </div>
+        {(loading || loadedShopId !== (shopId ?? null)) ? (
+          Array.from({ length: 2 }).map((_, i) => (
+            <div key={i} className={styles.skeletonCard}>
+              <div className={styles.skeletonImage} />
+              <div className={styles.skeletonTitle} />
+            </div>
+          ))
         ) : displayedCategories.length === 0 ? (
           /* --- ZERO STATE SECTION --- */
           <div className={styles.zeroState}>

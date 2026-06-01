@@ -403,3 +403,103 @@
   color: #818686;
   background-color: #ffffff;
 }
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeletonSection {
+  width: 100%;
+  padding: 30px clamp(24px, -3.5rem + 21.31vw, 251px) 120px;
+  box-sizing: border-box;
+  background: #fff;
+}
+
+.skeletonCatTitle {
+  height: 24px;
+  width: 160px;
+  margin-bottom: 30px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonMenuContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.skeletonItemList {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.skeletonRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border-bottom: 1px solid #ebebeb;
+  gap: 20px;
+}
+
+.skeletonRowLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.skeletonLine {
+  height: 14px;
+  width: 55%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLineShort {
+  height: 12px;
+  width: 35%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonPrice {
+  height: 14px;
+  width: 60px;
+  flex-shrink: 0;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonImg {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@media (min-width: 1000px) {
+  .skeletonMenuContainer {
+    flex-direction: row;
+    gap: 100px;
+    align-items: flex-start;
+  }
+
+  .skeletonItemList {
+    flex: 1;
+  }
+
+  .skeletonImg {
+    width: 541px;
+    height: 541px;
+    flex-shrink: 0;
+  }
+}

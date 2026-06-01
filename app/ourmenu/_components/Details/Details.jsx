@@ -103,33 +103,40 @@ export default function Details() {
 
         gsap.registerPlugin(ScrollTrigger);
         let mm = gsap.matchMedia();
+        let timeoutId;
 
         mm.add("(max-width: 768px)", () => {
-            sectionsRef.current.forEach((section, index) => {
+            sectionsRef.current.forEach((section) => {
                 if (!section) return;
                 const itemList = section.querySelector(`.${styles.itemList}`);
                 if (!itemList) return;
-
-                const listHeight = itemList.scrollHeight;
 
                 const tl = gsap.timeline({
                     scrollTrigger: {
                         trigger: section,
                         start: "top top",
-                        end: () => `+=${listHeight}`,
+                        end: () => `+=${itemList.scrollHeight}`,
                         pin: true,
-                        markers: { startColor: "red", endColor: "green", fontSize: "18px", fontWeight: "bold", indent: (index * 10 + 100) },
                         pinSpacing: false,
-                        scrub: 0.05,
+                        scrub: 0.5,
+                        invalidateOnRefresh: true,
                     }
                 });
 
-                tl.to(itemList, { y: -listHeight, ease: "none" }, 0);
-                tl.to(section, { clipPath: `inset(0px 0px ${listHeight}px 0px)`, ease: "none" }, 0);
+                // Function values are re-read on every invalidate/refresh
+                tl.to(itemList, { y: () => -itemList.scrollHeight, ease: "none" }, 0);
+                tl.to(section, { clipPath: () => `inset(0px 0px ${itemList.scrollHeight}px 0px)`, ease: "none" }, 0);
             });
         });
 
-        return () => mm.revert();
+        // Allmenu fetches concurrently and changes page height when it resolves.
+        // 600ms covers its two API calls settling and repainting.
+        timeoutId = setTimeout(() => ScrollTrigger.refresh(), 600);
+
+        return () => {
+            clearTimeout(timeoutId);
+            mm.revert();
+        };
     }, [loading, sections]);
 
     const handleItemHover = (sectionIndex, item) => {

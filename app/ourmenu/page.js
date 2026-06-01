@@ -8,9 +8,13 @@ export default function ShopCoffeeBeans() {
   return (
     <>
       <Ourmenu />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={null}>
         <ShopSelector />
+      </Suspense>
+      <Suspense fallback={null}>
         <Allmenu />
+      </Suspense>
+      <Suspense fallback={null}>
         <Details />
       </Suspense>
     </>

@@ -164,6 +164,7 @@
 
 /* --- Mobile SM (< 375px) --- */
 /* ─── Large Desktop: 1200px–1600px ─── */
+/* ─── Large Desktop: 1200px–1600px ─── */
 @media (min-width: 1200px) and (max-width: 1600px) {
   .main {
     padding-left: 80px;
@@ -196,7 +197,7 @@
 /* ─── Tablet: 768px–1199px ─── */
 @media (min-width: 768px) and (max-width: 1199px) {
   .main {
-    padding-left: 0px ;
+    padding-left: 0px;
     padding-bottom: 60px;
   }
 
@@ -205,7 +206,6 @@
     gap: 60px;
     padding-left: 0px;
     padding-right: 40px;
-
   }
 
   .Top {
@@ -220,6 +220,12 @@
 
   .searchInput {
     width: 100%;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1199px) {
+  .container {
+    padding-left: 50px;
   }
 }
 
@@ -234,7 +240,7 @@
     width: 100%;
     gap: 60px;
     padding-left: 0px;
-    padding-right: 40px;
+    padding-right: 0px;
   }
 
   .Top {
@@ -250,19 +256,18 @@
   .searchInput {
     width: 100%;
   }
-  
 }
 
-/* ─── Small Mobile: less than 400px ─── */
+/* ─── Small Mobile: less than 640px ─── */
 @media (max-width: 639px) {
   .main {
     padding-left: 0px;
-    padding-right: 12px;
+    padding-right: 0px;
     padding-bottom: 40px;
   }
 
   .container {
-    width: 100%;        /* ← this was missing */
+    width: 100%;
     gap: 40px;
   }
 

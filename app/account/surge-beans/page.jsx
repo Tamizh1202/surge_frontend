@@ -304,6 +304,7 @@ const WhiteMantisBeans = () => {
                                             fontSize: 'var(--fs-16)',
                                             fontWeight: '500',
                                             textTransform: 'capitalize',
+                                            width: 'fit-content',
                                         };
 
                                         return (

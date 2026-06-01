@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './Blogdetails.module.css';
 import { formatImageUrl } from '@/lib/imageUtils';
+import ExploreBlogs from './ExploreBlogs';
 
 function formatDate(dateStr) {
   if (!dateStr) return '';
@@ -71,28 +72,7 @@ export default function BlogDetail({ blog, contentHtml, moreBlogs }) {
                 </section>
               </article>
 
-              <aside className={styles.rightColumn}>
-                <h3 className={styles.rightTitle}>Explore more blogs</h3>
-                <div className={styles.rightList}>
-                  {moreBlogs.map((item) => {
-                    const thumbUrl = formatImageUrl(item.featuredImage?.url);
-                    return (
-                      <Link href={`/blogs/${item.slug}`} key={item.id} className={styles.rightCard}>
-                        <div className={styles.rightThumb}>
-                          {thumbUrl && (
-                            <Image src={thumbUrl} alt={item.title} width={209} height={128} style={{ objectFit: 'cover' }} />
-                          )}
-                        </div>
-                        <div className={styles.sidebarInfo}>
-                          <span className={styles.readTime}>{item.readTime ? `${item.readTime} Minutes Read` : '5 Minutes Read'}</span>
-                          <p className={styles.sidebarBlogTitle}>{item.title}</p>
-                          <span className={styles.sidebarDate}>{formatDate(item.createdAt)}</span>
-                        </div>
-                      </Link>
-                    );
-                  })}
-                </div>
-              </aside>
+              <ExploreBlogs moreBlogs={moreBlogs} />
             </div>
 
           </div>

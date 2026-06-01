@@ -211,18 +211,20 @@ function OrderSuccessContent() {
                   || '/1.png';
                 const itemPrice = Number(item.unitPrice ?? item.price ?? 0);
 
-                // _customization is set by the expansion logic above (per-item highlight text).
-                // Fall back to backend's stored customSelections if no expansion occurred.
+                // Extract product highlights matching OrderSummary logic
+                const rawHighlights = item.productHighlights || item.product?.productHighlights;
+                const highlightValues = Array.isArray(rawHighlights) && rawHighlights.length > 0
+                  ? rawHighlights.flatMap((s) => (s.items || []).map((i) => i.point).filter(Boolean))
+                  : null;
+
                 const backendSelections = item.customSelections || item.product?.customSelections || {};
                 const backendSelectionText = Object.values(backendSelections)
                   .filter((v) => v && String(v).trim() !== "")
                   .join(", ");
 
-                const finalTagline = item.tagline || item.product?.tagline || "";
-                const selectionText = item._customization || backendSelectionText;
-                const metaText = [finalTagline, selectionText]
-                  .filter(Boolean)
-                  .join(", ");
+                const highlightText = highlightValues
+                  ? highlightValues.join(", ")
+                  : (item._customization || backendSelectionText);
 
 
                 return (
@@ -241,10 +243,9 @@ function OrderSuccessContent() {
                         {variantName && <span>, {variantName}g</span>}
                       </p>
 
-                      {/* Line 2: Added Metadata configuration rendering matching OrderSummary */}
-                      {metaText && (
-                        <div style={{ fontSize: "var(--fs-16)", fontWeight: '500', color: "#818686", margin: '6px 0 0 0', lineHeight: '1.2', fontFamily: 'Raleway' }}>
-                          {metaText}
+                      {highlightText && (
+                        <div style={{ fontSize: "var(--fs-14)", fontWeight: '500',fontFamily: "var(--font-raleway)", color: "#818686", marginTop: '4px', lineHeight: '1.2' }}>
+                          {highlightText}
                         </div>
                       )}
 

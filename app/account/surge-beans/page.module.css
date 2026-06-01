@@ -1,6 +1,6 @@
 .head {
   box-sizing: border-box;
-  width: 100%;
+  /* width: 100%; */
   padding-right: clamp(16px, 4%, 60px);
   padding-bottom: clamp(20px, 8%, 100px);
   padding-left: 150px;
@@ -9,7 +9,7 @@
 .border {
   display: flex;
   flex-direction: column;
-  /* width:900px */
+  
 }
 
 .pageTitle {
@@ -33,7 +33,7 @@
   flex-direction: column;
   gap: 80px;
   width: 100%;
-  /* ← was 700px */
+  max-width: 750px;
 }
 
 .olive {
@@ -141,11 +141,11 @@ heading .olive .heading {
 .tableHeading,
 .tableContent {
   display: grid;
-  /* This defines your 5 columns: Details gets more space, Coins gets less */
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: 2fr 1.4fr 1.2fr 1.2fr 0.8fr;
   align-items: center;
   padding: 24px 24px;
   gap: 16px;
+  /* min-width: 560px; */
 }
 
 .tableHeading {
@@ -473,39 +473,61 @@ heading .olive .heading {
   width: 90%;
 }
 
-@media (max-width: 740px) {
-  .main {
-    display: none;
-  }
-
-  .box .grid {
-    display: none;
-  }
-
-  .mobileOnly {
-    display: block;
-  }
-
-  .zeroState {
-    gap: 12px;
-    margin-top: 25px;
-  }
-
-  .zeroState p {
-    width: 80%;
+/* ─── Large Desktop: 1200px–1600px ─── */
+/* ─── Large Desktop: 1200px–1600px ─── */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .head {
+    padding-left: 80px;
+    padding-right: 80px;
   }
 
   .main1 {
-    display: flex;
-    flex-direction: column;
-    gap: 32px;
     width: 100%;
   }
+}
 
+/* ─── Tablet: 768px–1199px ─── */
+@media (min-width: 768px) and (max-width: 1199px) {
   .head {
+    padding-left: 0px;
+    padding-right: 40px;
+  }
+
+  .main1 {
+    padding-right: 40px;
+    padding-bottom: 60px;
+  }
+
+  .tableHeading,
+  .tableContent {
+    gap: 8px;
+    padding: 16px 12px;
+    font-size: 14px;
+  }
+
+  .tableHeading {
+    font-size: 15px;
+  }
+
+  .stepsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (min-width: 1001px) and (max-width: 1199px) {
+  .main1 {
+    padding-left: 50px;
+  }
+}
+
+/* ─── Mobile: 640px–767px ─── */
+@media (min-width: 640px) and (max-width: 767px) {
+  .head {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0;
     overflow: hidden;
-    padding-right: 0;
-    padding-left: 0;
     width: calc(100% + 48px);
     max-width: none;
     margin-left: -24px;
@@ -516,6 +538,66 @@ heading .olive .heading {
   .border {
     margin: 0 24px;
     border: none;
+  }
+
+  .main {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+
+  .main1 {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
+
+  .box .grid {
+    display: none;
+  }
+
+  .box {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .heading h1 {
+    margin-top: 50px;
+    font-size: var(--fs-24);
+  }
+
+  .faqMain {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .faqHeading h1 {
+    margin-top: 50px;
+    font-size: var(--fs-24);
+  }
+
+  .Qsection {
+    padding: 15px 12px;
+  }
+
+  .quesStyle h4 {
+    font-size: var(--fs-18);
+    width: 85%;
+  }
+
+  .answers p {
+    overflow: hidden;
+    margin: 0 0 0 38px;
+    width: 85%;
+    font-family: var(--lato);
+    font-weight: 400;
+    font-size: var(--fs-18);
+    color: #6e736a;
   }
 
   .tableContent {
@@ -531,6 +613,10 @@ heading .olive .heading {
     display: flex;
     flex-direction: column;
     gap: 5px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    word-break: break-word;
   }
 
   .RHS {
@@ -539,50 +625,27 @@ heading .olive .heading {
     gap: 8px;
     align-items: flex-end;
     text-align: right;
+    flex-shrink: 0;
+    padding-left: 12px;
   }
 
-  .answers p {
-    overflow: hidden;
-    margin: 0 0 0 38px;
-    width: 85%;
-    font-family: var(--lato);
-    font-weight: 400;
-    font-size: var(--fs-18);
-    color: #6e736a;
-  }
-
-  .heading h1 {
-    font-size: var(--fs-24);
-  }
-
-  /* .stepsGrid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  } */
-
-  .stepItem {
-    align-items: left;
-    text-align: left;
-  }
-
-  .pageTitle {
-    font-family: var(--font-montserrat);
-    font-size: var(--fs-20);
-  }
-
-  .balanceWrapper p {
-    font-size: var(--fs-16);
+  .gridss {
+    overflow-x: hidden;
   }
 
   .stepsGrid {
     display: flex;
-    /* grid-template-columns: repeat(3, 1fr); */
-    gap: 24px !important;
     flex-direction: column;
+    gap: 24px;
   }
 
   .iconCircle {
     margin-bottom: 8px;
+  }
+
+  .stepItem {
+    align-items: flex-start;
+    text-align: left;
   }
 
   .stepItem h3 {
@@ -595,24 +658,60 @@ heading .olive .heading {
     font-size: var(--fs-16);
   }
 
-  .box {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+  .pageTitle {
+    font-size: var(--fs-20);
   }
 
-  .faqMain {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  .balanceWrapper p {
+    font-size: var(--fs-16);
   }
 
-  .Qsection {
-    border-bottom: 1px solid #2f362a4d;
-    padding: 15px 12px;
+  .zeroState {
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .zeroState p {
+    width: 80%;
+  }
+}
+
+/* ─── Small Mobile: less than 640px ─── */        /* ← was 400px, fixed */
+@media (max-width: 639px) {
+  .head {
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-bottom: 0;
+    overflow: hidden;
+    width: calc(100% + 48px);
+    max-width: none;
+    margin-left: -24px;
+    margin-right: -24px;
+    box-sizing: border-box;
+  }
+
+  .border {
+    margin: 0 24px;
+    border: none;
+  }
+
+  .main {
+    display: none;
+  }
+
+  .mobileOnly {
+    display: block;
+  }
+
+  .main1 {
     display: flex;
     flex-direction: column;
+    gap: 32px;
+    width: 100%;
+  }
 
+  .box .grid {
+    display: none;
   }
 
   .box {
@@ -626,9 +725,19 @@ heading .olive .heading {
     font-size: var(--fs-24);
   }
 
+  .faqMain {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
   .faqHeading h1 {
     margin-top: 50px;
     font-size: var(--fs-24);
+  }
+
+  .Qsection {
+    padding: 15px 12px;
   }
 
   .quesStyle h4 {
@@ -636,64 +745,88 @@ heading .olive .heading {
     width: 85%;
   }
 
+  .answers p {
+    overflow: hidden;
+    margin: 0 0 0 38px;
+    width: 85%;
+    font-family: var(--lato);
+    font-weight: 400;
+    font-size: var(--fs-18);
+    color: #6e736a;
+  }
+
+  .tableContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 16px 10px;
+    font-size: var(--fs-18);
+    border-bottom: 1px solid var(--text-secondary);
+  }
+
+  .LHS {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    word-break: break-word;
+  }
+
+  .RHS {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+    text-align: right;
+    flex-shrink: 0;
+    padding-left: 12px;
+  }
+
   .gridss {
     overflow-x: hidden;
-    /* prevent internal scroll on mobile */
   }
-}
 
-@media (min-width: 741px) and (max-width: 999px) {
-  .tableContent {
-    gap: 5px;
+  .stepsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
-}
 
-@media (min-width: 1025px) and (max-width: 1280px) {
-  .head {
-    padding-left: 80px;
-    padding-right: 80px;
+  .iconCircle {
+    margin-bottom: 8px;
   }
-}
 
-@media (min-width: 1025px) and (max-width: 1150px) {
-  .head {
-    padding-right: 0;
+  .stepItem {
+    align-items: flex-start;
+    text-align: left;
   }
-}
-@media (max-width: 1024px) {
-    .head {
-        padding-left:0px;
-    }
-}
 
-
-@media (min-width: 1200px) and (max-width: 1440px) {
-  .head {
-    padding-left: 80px;
-    padding-right: calc(100% - 720px);
-    padding-left:150px;
+  .stepItem h3 {
+    margin-bottom: 5px;
+    font-size: var(--fs-18);
   }
-}
 
-@media (min-width: 1441px) {
-  .head {
-    padding-right: calc(100% - 720px);
+  .stepItem p {
+    width: 90%;
+    font-size: var(--fs-16);
   }
-}
 
-@media (max-width: 764px){
-  .head{
-    padding-right:0px;
-    padding-bottom:0px;
-
+  .pageTitle {
+    font-size: var(--fs-20);
   }
-}
 
-@media (min-width: 640px) and (max-width: 1200px) {
-  .main1 {
-    padding-left: 40px;
-    padding-right: 40px;
-    /* padding-right: 32px; */
-    padding-bottom: 60px;
+  .balanceWrapper p {
+    font-size: var(--fs-16);
+  }
+
+  .zeroState {
+    gap: 12px;
+    margin-top: 25px;
+  }
+
+  .zeroState p {
+    width: 80%;
   }
 }

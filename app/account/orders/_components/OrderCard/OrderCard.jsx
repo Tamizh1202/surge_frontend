@@ -187,15 +187,29 @@ const OrderCard = ({ order }) => {
 
         <div className={styles.productList}>
           {visibleItems.map((item, idx) => {
+            const rawHighlights = item.productHighlights || item.product?.productHighlights;
+            const highlightValues = Array.isArray(rawHighlights) && rawHighlights.length > 0
+              ? rawHighlights.flatMap((s) => (s.items || []).map((i) => i.point).filter(Boolean))
+              : null;
+
+            const backendSelections = item.customSelections || item.product?.customSelections || {};
+            const backendSelectionText = Object.values(backendSelections)
+              .filter((v) => v && String(v).trim() !== "")
+              .join(", ");
+
             const storedItemSelections = getStoredItemSelections(storedSelections, item);
-            const displaySelections = storedItemSelections.length > 0
-              ? storedItemSelections
-              : getDisplaySelections(item).map((value) => ["", value]);
-            const selectedText = displaySelections.map(([, value]) => value).join(", ");
+            const storedText = storedItemSelections.length > 0
+              ? storedItemSelections.map(([, v]) => v).join(", ")
+              : "";
+
+            const highlightText = highlightValues
+              ? highlightValues.join(", ")
+              : (storedText || backendSelectionText);
+
             const variantName = item.variantName || item.product?.variants?.[0]?.variantName || "";
             const metaParts = [
               variantName ? `${variantName}g` : "",
-              selectedText,
+              highlightText,
             ].filter(Boolean);
 
             return (

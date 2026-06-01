@@ -109,7 +109,7 @@
 .CardContent {
   display: flex;
   flex-direction: column;
-  
+
   min-width: 0;
 }
 
@@ -182,12 +182,14 @@
   font-size: var(--fs-16);
   color: #818686;
   margin-top: 14px;
-  margin-bottom:0;
+  margin-bottom: 0;
 }
-.EmptySubText{
-  margin-top:8px;
-  margin-bottom:32px
+
+.EmptySubText {
+  margin-top: 8px;
+  margin-bottom: 32px
 }
+
 .ShopNow {
 
   padding: 10px 28px;
@@ -207,9 +209,11 @@
 
 /* ── Responsive ── */
 
-@media (max-width: 1280px) {
+/* ─── Large Desktop: 1200px–1600px ─── */
+@media (min-width: 1200px) and (max-width: 1600px) {
   .Main {
-    padding: 0 20px 48px 80px;
+    padding-left: 80px;
+    padding-right: 80px;
   }
 
   .Bottom {
@@ -220,20 +224,13 @@
   .AddToCartBtn {
     padding: 10px 16px;
     font-size: var(--fs-14);
-    /* width:150px; */
   }
 }
 
-@media (min-width: 1025px) and (max-width: 1280px) {
+/* ─── Tablet: 768px–1199px ─── */
+@media (min-width: 768px) and (max-width: 1199px) {
   .Main {
-    padding-left: 80px;
-    padding-right: 80px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .Main {
-    padding: 0 20px 48px 40px;
+    padding: 0 40px 48px 0px;
   }
 
   .Bottom {
@@ -257,10 +254,22 @@
   .AddToCartBtn {
     padding: 11px 20px;
     font-size: var(--fs-14);
+    width: stretch;
+  }
+
+  .PriceRow {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .CurrentPrice {
+    align-self: baseline;
+    font-weight: 600;
   }
 }
 
-@media (max-width: 640px) {
+/* ─── Mobile: 640px–767px ─── */
+@media (min-width: 640px) and (max-width: 767px) {
   .Main {
     padding: 0 0px 40px 0px;
   }
@@ -327,6 +336,7 @@
   }
 }
 
+/* ─── Small Mobile: less than 400px ─── */
 @media (max-width: 400px) {
   .Main {
     padding: 0 12px 28px 12px;
@@ -348,8 +358,6 @@
   .ImgContainer {
     margin-bottom: 6px;
   }
-
-  
 
   .Description {
     font-size: var(--fs-12);
@@ -373,29 +381,8 @@
     right: 6px;
   }
 }
-
-@media (max-width:1150px) and (min-width:1025px){
- .Main{
-  padding-right:0px;
- } 
- .PriceRow{
-  flex-direction:column;
- }
- .CurrentPrice{
-  align-self:baseline;
- }
- .AddToCartBtn{
-  width:stretch;
- }
-}
-@media (max-width:760px){
-  .Main{
-    padding-left:0px;
-    padding-right:0px;
-  }
-}
-@media (max-width: 800px) {
-  .main{
-    padding-right:40px;
+@media (min-width:1001px) and (max-width:1199px) {
+  .Main {
+    padding-left:50px;
   }
 }

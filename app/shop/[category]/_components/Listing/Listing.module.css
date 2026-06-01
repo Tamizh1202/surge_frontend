@@ -1179,7 +1179,7 @@
 
     .mainContainer {
         flex-direction: column;
-        padding: 0 5% 80px !important;
+        padding: 60px 5% 80px !important;
         gap: 20px;
         /* padding-top:0px ; */
     }

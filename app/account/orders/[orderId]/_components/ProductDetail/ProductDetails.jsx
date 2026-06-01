@@ -49,24 +49,28 @@ const ProductDetail = ({ order }) => {
   const config = getStatusConfig(currentStatus, order);
   const items = order.items || order.line_items || [];
 
-  // --- Logic to get Roast/Grind Text ---
-  const getItemSelectionsText = (item) => {
+  // Extract product highlights, falling back to stored/backend selections
+  const getItemHighlightText = (item) => {
+    const rawHighlights = item.productHighlights || item.product?.productHighlights;
+    if (Array.isArray(rawHighlights) && rawHighlights.length > 0) {
+      return rawHighlights.flatMap((s) => (s.items || []).map((i) => i.point).filter(Boolean)).join(", ");
+    }
+
     const productId = String(getProductId(item));
     const variantId = String(getVariantId(item));
-    
-    const match = storedSelections.find((s) => {
-      return String(s.productId || "") === productId && String(s.variantId || "") === variantId;
-    });
+    const match = storedSelections.find((s) =>
+      String(s.productId || "") === productId && String(s.variantId || "") === variantId
+    );
 
     if (match && match.customSelections) {
       return Object.values(match.customSelections)
-        .filter(val => val && String(val).trim() !== "" && String(val).toLowerCase() !== item.product?.tagline?.toLowerCase())
+        .filter(val => val && String(val).trim() !== "")
         .join(", ");
     }
 
     const fallback = item.customSelections || item.customization || {};
     return Object.values(fallback)
-      .filter(val => typeof val === 'string' && val.trim() !== "" && val.toLowerCase() !== item.product?.tagline?.toLowerCase())
+      .filter(val => typeof val === 'string' && val.trim() !== "")
       .join(", ");
   };
 
@@ -131,8 +135,7 @@ const ProductDetail = ({ order }) => {
             const itemImg = item.productImage?.url || item.product?.productImage?.url;
             const itemName = item.product?.name || item.name || "Coffee Product";
             
-            // Get Roast/Grind text
-            const selectionText = getItemSelectionsText(item);
+            const highlightText = getItemHighlightText(item);
 
             const weight = item.product?.variants?.find(v => v.id === item.variantID || v.id === item.variantId)?.variantName 
                            || item.product?.weight;
@@ -148,14 +151,9 @@ const ProductDetail = ({ order }) => {
                 />
                 <div className={styles.orderItemInfo}>
                   <p className={styles.itemName}>{itemName}</p>
-                  {item.product?.tagline && (
-                    <p className={styles.itemTagline}>{item.product.tagline}</p>
-                  )}
-                  
-                  {/* Roast & Grind Display */}
-                  {selectionText && (
-                    <p style={{ fontSize: 'var(--fs-16)', color: '#818686', margin: '4px 0 18px', textTransform: 'capitalize' }}>
-                      {selectionText}
+                  {highlightText && (
+                    <p style={{ fontSize: 'var(--fs-16)', color: '#818686', margin: '4px 0 18px', fontFamily: 'var(--font-raleway)' }}>
+                      {highlightText}
                     </p>
                   )}
 

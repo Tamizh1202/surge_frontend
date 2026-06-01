@@ -13,7 +13,7 @@
   flex-direction: column;
   width: 100%;
   gap: clamp(32px, calc(32px + (28 * ((100vw - 320px) / 1120))), 80px);
-  /* max-width: 501px; */
+  max-width: 600px;
 }
 
 .Top {
@@ -612,7 +612,7 @@
 .fixerOne,
 .fixerTwo {
   width: 100%;
-  max-width: 501px;
+  /* max-width: 501px; */
   box-sizing: border-box;
 
 }
@@ -1457,12 +1457,9 @@
 }
 
 /* ── Responsive ───────────────────────────────────────────────── */
-@media (max-width: 640px) {
+/* @media (max-width: 640px) {
   .main {
-    /* padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 40px;
-    padding-bottom: 80px; */
+   
     padding: 0;
 
   }
@@ -1602,7 +1599,7 @@
   }
 
   .AddressSection {
-    /* padding-right: 20px; */
+    padding-right: 20px;
     gap: 35px;
   }
 
@@ -1720,7 +1717,13 @@
 
 
 
-
+@media (min-width: 1441px) {
+  .main {
+    padding-left: 150px;
+    padding-right: 60px;
+    padding-bottom: 120px;
+  }
+}
 
 
 
@@ -1827,8 +1830,490 @@
   .main {
     padding-left: 150px;
   }
+} */
+
+/* @media (max-width: 800px) {
+
+} */
+/* ─── Mobile: 320px and below ─── */
+/* ─── Mobile: 320px and below ─── */
+/* ─── Large Desktop: 1200px–1600px ─── */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .main {
+    width: 600px;
+    padding-left: 80px;
+  }
+
+  .pfbtn,
+  .pfrembtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .Row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .CustomSelectTrigger {
+    gap: 140px;
+  }
 }
 
-@media (max-width: 800px) {
-  
+/* ─── Tablet: 768px–1199px ─── */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .main {
+    padding-left: 00px;
+    padding-right: 40px;
+    padding-top: 40px;
+    padding-bottom: 100px;
+  }
+
+  .TopLeft img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .pfbtn,
+  .pfrembtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .Row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .Row2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .CustomSelectTrigger {
+    gap: 80px;
+  }
+}
+
+/* ─── Mobile: up to 767px ─── */
+@media (max-width: 767px) {
+  .main {
+    padding: 0px;
+
+  }
+
+  .TopLeft img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .Top {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .TopRight {
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .pfbtn,
+  .pfrembtn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: var(--fs-16);
+  }
+
+  .Row {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .Row2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .Row2 input,
+  .Row2 select {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .CustomSelectTrigger {
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 0;
+  }
+
+  .divide {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+
+  .divide input {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .fixerOne,
+  .fixerTwo {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .fixerOne p,
+  .fixerTwo p {
+    font-size: var(--fs-18);
+    margin-bottom: 8px;
+  }
+
+  .AddressCard {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 0;
+  }
+
+  .Name {
+    gap: 12px;
+  }
+
+  .Name1 {
+    grid-template-columns: 1fr;
+  }
+
+  .PersonalInfoSection h4 {
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  .other {
+    margin-top: 0;
+    font-size: 16px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .AddressHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .AddressHeader h4 {
+    font-size: var(--fs-24);
+  }
+
+  .AddressSection {
+    gap: 35px;
+  }
+
+  .DeleteAccount {
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .DeleteAccount h4 {
+    font-size: var(--fs-22);
+  }
+
+  .DeleteAccount button {
+    font-size: var(--fs-18);
+  }
+
+  .DeletePopupOverlay {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
+
+  .DeletePopupActions button {
+    padding: 13px 48px;
+  }
+
+  .DeletePopup {
+    box-sizing: content-box;
+    padding: 24px;
+  }
+
+  .main1 {
+    width: 90vw;
+    padding: 24px 16px;
+  }
+
+  .popup {
+    background: #fff;
+    padding: 25px 30px;
+    width: 100%;
+    position: relative;
+    top: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-sizing: border-box;
+  }
+
+  .SectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .underlineSelect svg {
+    margin-left: 0;
+  }
+
+  .ActionRow {
+    display: flex;
+    gap: 12px;
+    margin-top: 32px;
+  }
+
+  .SaveBtn,
+  .CancelBtn {
+    flex: 1;
+    width: auto !important;
+    padding: 14px 0;
+    font-size: var(--fs-18);
+  }
+
+  .buttons {
+    padding: 13px 40px;
+  }
+
+  .width {
+    width: 100px;
+  }
+
+  .labelGroup {
+    gap: 15px;
+  }
+}
+
+/* ─── Small Mobile: less than 400px ─── */
+@media (max-width: 400px) {
+  .main {
+    padding: 20px 0;
+  }
+
+  .MainContainer {
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .TopLeft img {
+    width: 120px;
+    height: 120px;
+  }
+
+  .Top {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .TopRight {
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+  }
+
+  .pfbtn,
+  .pfrembtn {
+    width: 100%;
+    max-width: 100%;
+    padding: 8px 10px;
+    font-size: var(--fs-16);
+  }
+
+  .Name,
+  .Name1,
+  .Row,
+  .divide {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .Row2 {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .Row2 input,
+  .Row2 select {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .Field {
+    padding: 20px 5px 10px;
+    font-size: 14px;
+  }
+
+  .divide input {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .underlineSelect {
+    justify-content: space-between;
+  }
+
+  .underlineSelect svg {
+    margin-left: 0 !important;
+  }
+
+  .CustomSelectTrigger {
+    padding: 0;
+    gap: 0;
+    justify-content: space-between;
+    display: flex;
+  }
+
+  .fixerOne,
+  .fixerTwo {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .fixerOne p,
+  .fixerTwo p {
+    font-size: var(--fs-18);
+    margin-bottom: 8px;
+  }
+
+  .AddressCard {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    gap: 0;
+  }
+
+  .AddressHeader {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .AddressHeader h4 {
+    font-size: 18px;
+  }
+
+  .AddressSection {
+    gap: 35px;
+  }
+
+  .PersonalInfoSection h4 {
+    margin-bottom: 16px;
+    font-size: 20px;
+  }
+
+  .other {
+    margin-top: 0;
+    font-size: 16px;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .SectionHeader {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .DeleteAccount {
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .DeleteAccount h4 {
+    font-size: var(--fs-22);
+  }
+
+  .DeleteAccount button {
+    font-size: var(--fs-18);
+  }
+
+  .DeletePopupOverlay {
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  .popup,
+  .Popup,
+  .DeletePopup,
+  .main1 {
+    width: 92%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+  }
+
+  .PopupActions,
+  .DeletePopupActions,
+  .footerActions {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .PopupActions button,
+  .DeletePopupActions button,
+  .footerActions button {
+    width: 100% !important;
+    padding: 12px 5px;
+  }
+
+  .div2 .input {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .buttons {
+    padding: 13px 20px;
+    width: 100%;
+  }
+
+  .labelGroup {
+    gap: 10px;
+  }
+
+  .ActionRow {
+    display: flex;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .SaveBtn,
+  .CancelBtn {
+    flex: 1;
+    width: auto !important;
+    padding: 12px 0;
+    font-size: var(--fs-18);
+  }
+}
+
+@media (min-width:1001px) and (max-width:1199px) {
+  .MainContainer {
+    padding-left:50px;
+  }
 }

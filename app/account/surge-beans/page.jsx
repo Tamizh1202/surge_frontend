@@ -220,22 +220,19 @@ const WhiteMantisBeans = () => {
                                                 <div
                                                     className={styles.itemType}
                                                     style={{
-                                                        // Dynamic Colors based on your logic
                                                         color: item.coins.includes('+') ? '#428B54' : '#E54842',
                                                         backgroundColor: item.coins.includes('+') ? '#EBF7EE' : '#FDEEEE',
-
                                                         display: 'inline-flex',
                                                         alignItems: 'center',
                                                         justifyContent: 'center',
-                                                        padding: '4px 16px',
-
-
+                                                        padding: '4px 10px',
                                                         borderRadius: '100px',
-                                                        width: 'clamp(40px, 6vw, 80px)',
+                                                        width: 'fit-content',
+                                                        maxWidth: '100%',
                                                         fontSize: 'var(--fs-14)',
                                                         fontWeight: '500',
                                                         textTransform: 'capitalize',
-
+                                                        whiteSpace: 'nowrap',
                                                     }}
                                                 >
                                                     {item.transaction_type}

@@ -163,7 +163,98 @@
 }
 
 /* --- Mobile SM (< 375px) --- */
-@media (max-width: 374px) {
+/* ─── Large Desktop: 1200px–1600px ─── */
+@media (min-width: 1200px) and (max-width: 1600px) {
+  .main {
+    padding-left: 80px;
+    padding-right: 20px;
+  }
+
+  .Top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 2rem;
+  }
+
+  .container {
+    max-width: 600px;
+    width: auto;
+  }
+
+  .searchWrapper {
+    flex: 0 1 300px;
+    margin-left: auto;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* ─── Tablet: 768px–1199px ─── */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .main {
+    padding-left: 0px ;
+    padding-bottom: 60px;
+  }
+
+  .container {
+    width: 100%;
+    gap: 60px;
+    padding-left: 0px;
+    padding-right: 40px;
+
+  }
+
+  .Top {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+}
+
+/* ─── Mobile: 640px–767px ─── */
+@media (min-width: 640px) and (max-width: 767px) {
+  .main {
+    padding-left: 0px;
+    padding-bottom: 60px;
+  }
+
+  .container {
+    width: 100%;
+    gap: 60px;
+    padding-left: 0px;
+    padding-right: 40px;
+  }
+
+  .Top {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .searchWrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .searchInput {
+    width: 100%;
+  }
+  
+}
+
+/* ─── Small Mobile: less than 400px ─── */
+@media (max-width: 639px) {
   .main {
     padding-left: 0px;
     padding-right: 12px;
@@ -171,7 +262,7 @@
   }
 
   .container {
-    width: 100%;
+    width: 100%;        /* ← this was missing */
     gap: 40px;
   }
 
@@ -194,106 +285,3 @@
     width: 100%;
   }
 }
-
-/* --- Mobile (375px – 639px) --- */
-@media (min-width: 375px) and (max-width: 639px) {
-  .main {
-    padding-left: 0px;
-  
-    padding-bottom: 0px;
-  }
-
-  .container {
-    width: 100%;
-    gap: 40px;
-  }
-
-  .Top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .Right {
-    width: 100%;
-  }
-
-  .searchWrapper {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .searchInput {
-    width: 100%;
-  }
-}
-
-/* --- Tablet (640px – 1023px) --- */
-@media (min-width: 640px) and (max-width: 1023px) {
-  .main {
-    padding-left: 0px;
-    /* padding-right: 32px; */
-    padding-bottom: 60px;
-  }
-
-  .container {
-    width: 100%;
-    /* max-width: 500px; */
-    gap: 60px;
-    /* padding-right: 50px; */
-    padding-left:40px;
-    padding-right:40px;
-  }
-
-  .Top {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .searchWrapper {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .searchInput {
-    width: 100%;
-  }
-}
-
-/* --- Small laptop (1024px – 1279px) --- */
-@media (min-width: 1024px) and (max-width: 1279px) {
-  .main {
-    padding-left: 80px;
-  }
-
-  .Top {
-    display: flex;
-    justify-content: space-between; /* Pushes content to the edges */
-    align-items: center;
-    width: 100%;
-    gap: 2rem;
-  }
-
-  .container {
-    /* Flexible width: takes up to 50% but stays within readable bounds */
-    /* flex: 0 1 50%;  */
-    max-width: 600px;
-    width: auto; /* Let flex handle it */
-  }
-
-  .searchWrapper {
-    /* Search takes the remaining space but stays compact */
-    flex: 0 1 300px; 
-    margin-left: auto; /* Ensures it stays pinned to the right */
-  }
-
-  .searchInput {
-    width: 100%; /* Spans the full width of the wrapper */
-  }
-}
-
-/* @media (max-width: 700px) {
-  .main{
-    padding-right:40px;
-  }
-} */

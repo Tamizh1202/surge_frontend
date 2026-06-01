@@ -241,6 +241,8 @@
     /* max-width: 500px; */
     gap: 60px;
     /* padding-right: 50px; */
+    padding-left:40px;
+    padding-right:40px;
   }
 
   .Top {
@@ -290,3 +292,8 @@
   }
 }
 
+/* @media (max-width: 700px) {
+  .main{
+    padding-right:40px;
+  }
+} */

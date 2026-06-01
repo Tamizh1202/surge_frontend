@@ -394,3 +394,8 @@
     padding-right:0px;
   }
 }
+@media (max-width: 800px) {
+  .main{
+    padding-right:40px;
+  }
+}

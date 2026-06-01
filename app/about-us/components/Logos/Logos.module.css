@@ -65,8 +65,18 @@
     max-width: 80px;
     max-height: 50px;
   }
+  .Main{
+    padding-top: 40px;
+  }
   
   .Track {
     animation: scroll 15s linear infinite; 
   }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .Main {
+    padding-top: 60px;
+  }
+
+ 
 }

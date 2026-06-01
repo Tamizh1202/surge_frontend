@@ -21,43 +21,40 @@ export default function Mission() {
       ctx = gsap.context(() => {
         const mm = gsap.matchMedia();
 
-        mm.add("(max-width: 900px)", () => {
+        mm.add("(max-width: 1024px)", () => {
           const cards = cardsRef.current.filter(Boolean);
 
-          // Set card 1 and 2 off screen bottom before animation
-          gsap.set(cards[1], { yPercent: 200, opacity: 0 });
-          gsap.set(cards[2], { yPercent: 200, opacity: 0 });
+          gsap.set(cards[1], { yPercent: 100, opacity: 0 });
+          gsap.set(cards[2], { yPercent: 100, opacity: 0 });
 
           const tl = gsap.timeline({
             scrollTrigger: {
               trigger: containerRef.current,
               start: "top top",
-              end: "+=200%",        // 2 × 100% viewport = one full vp per card
+              end: "+=200%",
               pin: true,
               scrub: 0.8,
-              pinSpacing: true,     // spacer div pushed in by GSAP, logos follow naturally
+              pinSpacing: true,
               invalidateOnRefresh: true,
             },
           });
 
-          // Card 1: comes from full screen bottom (200%) to resting position (-50%)
           tl.fromTo(
             cards[1],
-            { yPercent: 200, opacity: 0 },
-            { yPercent: -50, opacity: 1, ease: "none", duration: 1 },
+            { yPercent: 100, opacity: 0 },
+            { yPercent: 0, opacity: 1, ease: "none", duration: 1 },
             0
           );
 
-          // Card 2: same, starts after card 1 finishes
           tl.fromTo(
             cards[2],
-            { yPercent: 200, opacity: 0 },
-            { yPercent: -50, opacity: 1, ease: "none", duration: 1 },
+            { yPercent: 100, opacity: 0 },
+            { yPercent: 0, opacity: 1, ease: "none", duration: 1 },
             1
           );
         });
 
-        mm.add("(min-width: 901px)", () => {
+        mm.add("(min-width: 1025px)", () => {
           const cards = cardsRef.current.filter(Boolean);
 
           const tl = gsap.timeline({

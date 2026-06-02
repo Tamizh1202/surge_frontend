@@ -30,6 +30,13 @@ export default function OrderSummary({
 
   const coinsToEarn = Math.floor((cartTotals.subtotal || 0) * (coinConfig.pointsEarn / 100));
 
+  const usableBeans = coinConfig.maxPointsPerOrder > 0
+    ? Math.min(beansBalance, coinConfig.maxPointsPerOrder)
+    : beansBalance;
+  const usableBeansInAed = coinConfig.pointsToAed > 0
+    ? (usableBeans / coinConfig.pointsToAed).toFixed(2)
+    : "0.00";
+
   const { status } = useSession();
   const [couponInput, setCouponInput] = useState("");
   const [couponError, setCouponError] = useState("");
@@ -180,14 +187,14 @@ export default function OrderSummary({
         </div>
         {cartTotals.discount > 0 && (
           <div className={styles.Subtotal}>
-            <p>Coupon Discount</p>
-            <h5 style={{ color: "green" }}>- AED {Number(cartTotals.discount || 0).toFixed(2)}</h5>
+            <p style={{ color: "var(--green)" }}>Coupon Discount</p>
+            <h5 style={{ color: "var(--green)" }}>- AED {Number(cartTotals.discount || 0).toFixed(2)}</h5>
           </div>
         )}
         {isBeansApplied && cartTotals.beansDiscount > 0 && (
           <div className={styles.Subtotal}>
-            <p>Beans Discount</p>
-            <h5 style={{ color: "green" }}>- AED {Number(cartTotals.beansDiscount || 0).toFixed(2)}</h5>
+            <p style={{ color: "var(--green)" }}>Beans Discount</p>
+            <h5 style={{ color: "var(--green)" }}>- AED {Number(cartTotals.beansDiscount || 0).toFixed(2)}</h5>
           </div>
         )}
         <div className={styles.Subtotal}>

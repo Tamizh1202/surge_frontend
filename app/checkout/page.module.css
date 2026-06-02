@@ -1166,7 +1166,7 @@
 
 .couponEarned {
   color: var(--green);
-  font-family: var(--font-lato);
+  font-family: var(--font-raleway);
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -1472,9 +1472,10 @@
     margin-top: 0px;
     font-size: var(--fs-12);
   }
-  .PickupList p{
+
+  .PickupList p {
     font-size: var(--fs-16);
-    margin-top:20px;
+    margin-top: 20px;
   }
 
   /* ── Pay button ── */
@@ -1543,6 +1544,7 @@
   .Total h5 {
     font-size: var(--fs-20);
   }
+
   /* .Total p{
     font-weight:600;
   } */

@@ -359,7 +359,7 @@
 
   .image {
     position: relative;
-    top: 80;
+    top: 50;
   }
 
   .Bottom {
@@ -400,7 +400,7 @@
   }
 
   .RightContent {
-    padding: 80px 6% 16px;
+    padding: 90px 6% 16px;
     margin: 0;
     height: 100%;
     overflow: hidden;
@@ -418,8 +418,20 @@
     padding-top: 10px;
     margin-bottom: 0;
   }
+  
 }
+@media (max-width: 400px) {
 
+  .formBox{
+    gap:0px;
+  }
+  .RightContent{
+    padding-top:60px;
+  }
+  .contactFooter{
+    gap: 30px !important;
+  }
+}
 @media (max-width: 324px) {
 
   .footerItem span,

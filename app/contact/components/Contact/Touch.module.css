@@ -184,13 +184,13 @@
 
 .selectTrigger {
   padding: 15px 0px;
-  background-color: var(--card-bg);
+  background: transparent;
   border-bottom: 1px solid var(--text-secondary);
   display: flex;
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-size: var(--fs-16);
+  font-size: var(--fs-18);
   color: var(--text-secondary);
   font-family: var(--font-raleway);
   font-weight: 400;

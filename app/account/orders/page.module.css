@@ -179,10 +179,10 @@
     gap: 2rem;
   }
 
-  .container {
+  /* .container {
     max-width: 600px;
     width: auto;
-  }
+  } */
 
   .searchWrapper {
     flex: 0 1 300px;

@@ -30,7 +30,7 @@
   justify-content: left;
 }
 .UserName{
-  width:300px;
+  width:240px;
 }
 .UserName h3 {
   font-family: var(--font-montserrat);

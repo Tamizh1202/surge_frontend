@@ -198,7 +198,7 @@ function OrderSuccessContent() {
               <p>({displayItems.length} items)</p>
             </div>
 
-            <div className={styles.SummaryItems}>
+            <div className={styles.SummaryItems} data-lenis-prevent>
               {displayItems.map((item, idx) => {
                 const productName = item.product?.name || item.name || "Coffee Product";
                 const variantName = item.product?.variants?.find(v => v.id === item.variantID)?.variantName || item.variantName || "";
@@ -238,7 +238,7 @@ function OrderSuccessContent() {
                       />
                     </div>
                     <div className={styles.SummaryItemInfo} style={{ display: 'flex', flexDirection: 'column', }}>
-                      <p className={styles.SummaryItemName} style={{ margin: 0, fontSize: 'var(--fs-18)', color: '#414343' }}>
+                      <p className={styles.SummaryItemName} style={{ margin: 0, fontSize: 'var(--fs-16)', color: '#414343' }}>
                         {productName}
                         {variantName && <span>, {variantName}g</span>}
                       </p>

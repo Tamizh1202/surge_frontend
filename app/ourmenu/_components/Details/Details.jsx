@@ -80,19 +80,28 @@ export default function Details() {
         fetchMenuItems();
     }, [shopId]);
 
-    useEffect(() => {
-        if (!loading && selectedCategory && sections.length > 0) {
-            const index = sections.findIndex(s => String(s.id) === String(selectedCategory));
-            if (index !== -1 && sectionsRef.current[index]) {
-                const element = sectionsRef.current[index];
-                const offset = 80;
-                const elementPosition = element.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - offset;
+    const prevCategoryRef = useRef(undefined);
 
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: "smooth"
-                });
+    useEffect(() => {
+        if (loading || sections.length === 0) return;
+
+        const prev = prevCategoryRef.current;
+        prevCategoryRef.current = selectedCategory;
+
+        // First data load — just record state, never auto-scroll
+        if (prev === undefined) return;
+
+        // Category didn't change (loading/sections settled), don't scroll
+        if (selectedCategory === prev || !selectedCategory) return;
+
+        const index = sections.findIndex(s => String(s.id) === String(selectedCategory));
+        if (index !== -1 && sectionsRef.current[index]) {
+            const element = sectionsRef.current[index];
+            if (window.__lenis) {
+                window.__lenis.scrollTo(element, { offset: -80, immediate: false });
+            } else {
+                const offsetPosition = element.getBoundingClientRect().top + window.pageYOffset - 80;
+                window.scrollTo({ top: offsetPosition, behavior: "smooth" });
             }
         }
     }, [selectedCategory, loading, sections]);

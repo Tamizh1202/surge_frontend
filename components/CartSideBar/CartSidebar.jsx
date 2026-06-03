@@ -118,7 +118,7 @@ const CartSideBar = () => {
         </div>
 
         <div className={styles.content}>
-          <div className={styles.itemList}>
+          <div className={styles.itemList} data-lenis-prevent>
             {isCartEmpty ? (
               <div className={styles.EmptyState}>
                 <Image src={cartZero} alt="No products" width={160} height={160} />

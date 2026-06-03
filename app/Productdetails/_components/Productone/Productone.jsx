@@ -80,61 +80,46 @@ export default function ProductOne({ initialProduct }) {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 900) return;
 
-    let touchStartY = 0;
+    const FORWARD_THRESHOLD = window.innerHeight * 0.38;
+    const BACK_THRESHOLD = window.innerHeight * 0.38;    // B → A at 35% 
 
-    const handleWheel = (e) => {
-      // Card A visible + scroll down → trap scroll, animate to card B
-      if (!isExpandedRef.current && e.deltaY > 0) {
-        e.preventDefault();
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+
+      if (!isExpandedRef.current && scrollY >= FORWARD_THRESHOLD) {
         setIsExpanded(true);
-        collapseAccRef.current = 0;
-      }
-      // Card B visible + at page top + scroll up → animate back to card A
-      else if (isExpandedRef.current && window.scrollY === 0 && e.deltaY < 0) {
-        e.preventDefault();
-        collapseAccRef.current += Math.abs(e.deltaY);
-        if (collapseAccRef.current >= 40) {
-          setIsExpanded(false);
-          collapseAccRef.current = 0;
-        }
+      } else if (isExpandedRef.current && scrollY <= BACK_THRESHOLD) {
+        setIsExpanded(false);
       }
     };
+
+    let touchStartY = 0;
 
     const handleTouchStart = (e) => {
       touchStartY = e.touches[0].clientY;
     };
 
     const handleTouchMove = (e) => {
-      const dy = touchStartY - e.touches[0].clientY; // positive = swipe up (scroll down)
-      if (!isExpandedRef.current && dy > 15) {
-        e.preventDefault();
+      const scrollY = window.scrollY;
+      const dy = touchStartY - e.touches[0].clientY;
+
+      if (!isExpandedRef.current && scrollY >= FORWARD_THRESHOLD) {
         setIsExpanded(true);
         touchStartY = e.touches[0].clientY;
-      } else if (isExpandedRef.current && window.scrollY === 0 && dy < -15) {
-        e.preventDefault();
+      } else if (isExpandedRef.current && scrollY <= BACK_THRESHOLD && dy < -15) {
         setIsExpanded(false);
         touchStartY = e.touches[0].clientY;
       }
     };
 
-    // Reset to card A if user scrolls back to top via scrollbar
-    const handleScroll = () => {
-      if (window.scrollY === 0 && isExpandedRef.current) {
-        setIsExpanded(false);
-        collapseAccRef.current = 0;
-      }
-    };
-
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    window.addEventListener('touchstart', handleTouchStart, { passive: true });
-    window.addEventListener('touchmove', handleTouchMove, { passive: false });
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     return () => {
-      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 

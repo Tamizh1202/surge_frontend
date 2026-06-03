@@ -298,10 +298,14 @@
 }
 
 @media (max-width: 1024px) {
+  .image{
+    position:relative;
+    top:50px;
+  }
   .main {
     height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
+    /* min-height: 100vh; */
+    /* min-height: 100dvh; */
     overflow: visible;
   }
 
@@ -323,7 +327,7 @@
   }
 
   .RightContent {
-    padding-top: 50px;
+    padding-top: 100px;
     padding-bottom: 30px;
     max-width: 100%;
     padding-left:60px;
@@ -340,10 +344,8 @@
 
 @media (min-width: 325px) and (max-width: 767px) {
   .main {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
-    overflow: visible;
+    height: 100dvh;
+    overflow: hidden;
   }
 
   .Top h3 {
@@ -372,41 +374,49 @@
 
   .MainContainer {
     flex-direction: column;
-    height: auto;
-    overflow-x: hidden;
+    height: 100%;
+    overflow: hidden;
   }
 
   .LeftConatiner {
-    height: 220px;
+    height: 28vh;
     flex: none;
   }
 
   .formMain {
-    gap: 24px;
+    flex: 1;
+    min-height: 0;
+    gap: 0;
+    justify-content: space-evenly;
   }
 
   .RightContainer {
     flex: 1;
+    min-height: 0;
     height: auto;
-    overflow-y: visible;
+    overflow: hidden;
     width: 100%;
     background-color: #f5f5f5;
   }
 
   .RightContent {
-    padding: 140px 6% 40px;
+    padding: 80px 6% 16px;
     margin: 0;
-    height: 80vh;
-    gap: 10px;
+    height: 100%;
+    overflow: hidden;
+    gap: 8px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
 
   .contactFooter {
-    flex-direction: column;
-    gap: 18px;
-    margin-top: 0px;
-    padding-top: 30px;
+    flex-direction: row;
+    gap: 0;
+    justify-content: space-between;
+    margin-top: 0;
+    padding-top: 10px;
+    margin-bottom: 0;
   }
 }
 

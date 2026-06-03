@@ -1,7 +1,7 @@
 .container {
   width: 100%;
   max-width: none;
-  padding: clamp(50px, 12vw, 150px) 0;
+  padding: 120px 0;
 }
 
 .topSection {
@@ -361,9 +361,10 @@
 
   .careersSection,
   .topSection {
-    /* padding-top:80px; */
+    padding-top:60px;
     padding-left: 40px;
     padding-right: 40px;
+    padding-bottom:80px;
   }
 
   .description {
@@ -391,7 +392,7 @@
 
 @media (max-width: 768px) {
   .container {
-    padding-bottom: 50px;
+    /* padding-bottom: 50px; */
     padding-top: 0px;
   }
 
@@ -493,7 +494,9 @@
     gap: 15px;
 
   }
-
+.careersSection{
+  padding-top: 0px;
+}
 
 
   .container .detailLink {

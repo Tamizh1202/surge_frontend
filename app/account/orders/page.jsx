@@ -40,10 +40,19 @@ export default function OrdersPage() {
       else setFetchingMore(true);
 
       const userId = session.user.id;
+      const userEmail = session.user.email;
 
       // All conditions to AND together
       const andConditions = [
-        { user: { equals: userId } },
+        // Match orders linked to this user OR unlinked guest orders with the same email
+        {
+          or: [
+            { user: { equals: userId } },
+            ...(userEmail
+              ? [{ and: [{ email: { equals: userEmail } }, { user: { exists: false } }] }]
+              : []),
+          ],
+        },
         {
           paymentStatus: {
             in: ["completed", "refunded", "refund-initiated"],

@@ -204,7 +204,10 @@ export function CartProvider({ children }) {
     let coinsDiscount = 0;
     if (isBeansApplied && beansBalance > 0) {
       const maxPossibleDiscount = cartTotals.subtotal * 0.2;
-      const balanceInAed = beansBalance / coinConfig.pointsToAed;
+      const cappedBeans = coinConfig.maxPointsPerOrder > 0
+        ? Math.min(beansBalance, coinConfig.maxPointsPerOrder)
+        : beansBalance;
+      const balanceInAed = cappedBeans / coinConfig.pointsToAed;
       coinsDiscount = Math.min(maxPossibleDiscount, balanceInAed);
     }
     setCartTotals((prev) => ({

@@ -429,7 +429,7 @@
     padding-top:60px;
   }
   .contactFooter{
-    gap: 30px !important;
+    gap: 15px !important;
   }
 }
 @media (max-width: 324px) {

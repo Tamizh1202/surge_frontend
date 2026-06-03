@@ -371,7 +371,7 @@
     width: 100%;
     margin-bottom: 32px;
     margin-top: 8px;
-    font-size:var(--fs-16);
+    font-size:var(--fs-18);
     line-height:1.3;
   }
 
@@ -423,7 +423,7 @@
   }
 
   .jobInfo h3 {
-    font-size: var(--fs-16);
+    font-size: var(--fs-18);
     font-weight: 600;
     font-family: var(--font-raleway);
     margin: 0;
@@ -431,6 +431,7 @@
 
   .topSubtext {
     line-height: 1.3;
+    font-size: var(--fs-16);
   }
 
   .mainHeading {
@@ -445,13 +446,14 @@
   }
   .locName{
     margin:0px;
+    font-size: var(--fs-18);
   }
   .goldLink{
     margin-top:6px;
   }
 
   .jobInfo p {
-    font-size: var(--fs-16);
+    font-size: var(--fs-18);
     color: #818686;
     font-weight: 400;
     font-family: var(--font-raleway);
@@ -484,6 +486,9 @@
     padding-left: 6%;
     padding-right: 6%;
     padding-bottom: 80px;
+  }
+  .topSection{
+    padding-top: 0px;
   }
 
   .container .jobItem {

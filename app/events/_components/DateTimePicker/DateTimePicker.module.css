@@ -1,0 +1,214 @@
+/* DateTimePicker.module.css */
+
+/* ── Layout ──────────────────────────────────────────────────────────────── */
+
+.row {
+    display: flex;
+    gap: 35px;
+    align-items: flex-start;
+}
+
+/* ── Date side ───────────────────────────────────────────────────────────── */
+
+.dateWrap {
+    position: relative;
+    flex: 1;
+}
+
+.inputWrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #414343;
+    transition: border-bottom-color 0.2s;
+}
+
+/* .inputWrap:hover,
+.inputWrapOpen {
+    border-bottom-color: var(--primary-color, #c4754e);
+} */
+
+.calIcon {
+    flex-shrink: 0;
+    color: var(--text-secondary, #818686);
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.dateInput {
+    flex: 1;
+    padding: 20px 0;
+    font-family: var(--font-raleway, "Raleway", sans-serif);
+    font-size: 16px;
+    color: var(--text-secondary, #818686);
+    background: transparent;
+    border: none !important;
+    cursor: pointer;
+    outline: none;
+    box-sizing: border-box;
+    caret-color: transparent;
+}
+
+.dateInput::placeholder {
+    color: var(--text-secondary, #818686);
+    opacity: 0.6;
+}
+
+
+
+/* ── Calendar dropdown ───────────────────────────────────────────────────── */
+
+.calendar {
+    position: absolute;
+    top: calc(100% + 0px);
+    left: 0;
+    z-index: 100;
+    background: var(--background, #fff);
+    border: 1px solid #e8d8d0;
+    /* border-radius: 12px; */
+    overflow: hidden;
+    width: 100%;
+    min-width: 260px;
+    box-sizing: border-box;
+    /* box-shadow: 0 4px 16px rgba(196, 117, 78, 0.1); */
+}
+
+.calHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid #f5ede8;
+}
+
+.calMonth {
+    font-family: var(--font-montserrat, "Montserrat", sans-serif);
+    font-size: var(--fs-14, 0.875rem);
+    font-weight: 600;
+    color: var(--text-primary, #414343);
+}
+
+.navBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-secondary, #818686);
+    padding: 4px 8px;
+    /* border-radius: 6px; */
+    font-size: 20px;
+    line-height: 1;
+    transition: background 0.15s, color 0.15s;
+}
+
+.navBtn:hover {
+    background: var(--surge-app, #fbf5f1);
+    color: var(--primary-color, #c4754e);
+}
+
+/* ── Day names row ───────────────────────────────────────────────────────── */
+
+.dayNames {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 8px 12px 4px;
+    gap: 2px;
+}
+
+.dayName {
+    text-align: center;
+    font-family: var(--font-montserrat, "Montserrat", sans-serif);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary, #818686);
+}
+
+/* ── Day grid ────────────────────────────────────────────────────────────── */
+
+.daysGrid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 4px 12px 12px;
+    gap: 2px;
+}
+
+.day {
+    text-align: center;
+    padding: 7px 2px;
+    font-family: var(--font-raleway, "Raleway", sans-serif);
+    font-size: var(--fs-12, 0.75rem);
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* border-radius: 6px; */
+    color: var(--text-primary, #414343);
+    transition: background 0.12s, color 0.12s;
+    user-select: none;
+}
+
+.day:hover {
+    background: var(--surge-app, #fbf5f1);
+    color: var(--primary-color, #c4754e);
+}
+
+.dayToday {
+    color: var(--primary-color, #c4754e);
+    font-weight: 700;
+}
+
+.daySelected {
+    background: var(--primary-color, #c4754e) !important;
+    color: #fff !important;
+    font-weight: 600;
+}
+
+/* ── Time window side ────────────────────────────────────────────────────── */
+
+.timeWrap {
+    position: relative;
+    flex: 1;
+}
+
+.timeInput {
+    width: 100%;
+    padding: 20px 0;
+    font-family: var(--font-raleway, "Raleway", sans-serif);
+    font-size: 16px;
+    color: var(--text-secondary, #818686);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #414343;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-bottom-color 0.2s;
+}
+
+.timeInput::placeholder {
+    color: var(--text-secondary, #818686);
+    opacity: 0.6;
+}
+
+/* .timeInput:hover,
+.timeInput:focus {
+    border-bottom-color: var(--primary-color, #c4754e);
+} */
+
+.charCount {
+    position: absolute;
+    right: 0;
+    bottom: -16px;
+    font-size: 10px;
+    color: var(--text-secondary, #818686);
+    font-family: var(--font-raleway, "Raleway", sans-serif);
+}
+@media screen and (min-width: 769px) and (max-width: 1024px){
+    .row {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+}
+}
+@media screen and (max-width: 768px){
+    .row{
+        gap:15px;
+    }
+}

@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: 160vh;
+  min-height: 170vh;
   background-color: #f8f8f8;
 }
 
@@ -47,7 +47,7 @@
   justify-content: center;
   align-items: center;
   position: relative;
-  top: 0;
+  top: 50px;
 }
 
 .cardWrapper {
@@ -71,8 +71,9 @@
   gap: 32px;
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   position: absolute;
-  top: 6px;
-
+  inset: 0;
+  margin: auto;
+  height: fit-content;
 }
 
 /* --- Animation States --- */
@@ -258,7 +259,7 @@
   pointer-events: none;
   opacity: 0;
   transform: translateY(-4px);
-  border: 1px solid rgba(196, 117, 78, 0.28);
+  border: 1px solid var(--primary-color);
   background: #ffffff;
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
   transition: max-height 0.25s ease, opacity 0.2s ease, transform 0.2s ease;
@@ -270,6 +271,7 @@
   pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
+  
 }
 
 .selectOption {
@@ -321,9 +323,21 @@
   cursor: pointer;
   color: var(--primary-color);
   transition: background-color 0.2s ease, color 0.2s ease;
+  outline: none;
 }
 
-.quantityPicker button:hover:not(:disabled) {
+.quantityPicker button:focus {
+  outline: none;
+}
+
+@media (hover: hover) {
+  .quantityPicker button:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: #ffffff;
+  }
+}
+
+.quantityPicker button:active:not(:disabled) {
   background-color: var(--primary-color);
   color: #ffffff;
 }
@@ -432,8 +446,6 @@
     max-width: 380px;
     padding: 28px 32px;
     gap: 20px;
-    position: absolute;
-    top: 45px;
   }
 
   .cardWrapper {

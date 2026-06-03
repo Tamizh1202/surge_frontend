@@ -222,8 +222,11 @@
   transition: opacity 0.3s ease;
 }
 
-.subscribeBtn:hover {
-  opacity: 0.85;
+
+
+.subscribeBtn:disabled {
+  /* opacity: 0.35; */
+  cursor: default;
 }
 
 .successMsg {

@@ -29,7 +29,9 @@
   display: flex;
   justify-content: left;
 }
-
+.UserName{
+  width:300px;
+}
 .UserName h3 {
   font-family: var(--font-montserrat);
   font-size: var(--fs-22);

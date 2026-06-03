@@ -1,4 +1,4 @@
-.menuSection {
+﻿.menuSection {
   padding: 0 clamp(25px, 12vw, 125px) clamp(50px, 10vw, 120px);
   background-color: var(--background);
 }
@@ -26,7 +26,7 @@
 }
 
 .subtext {
-  font-size: var(--fs-16);
+  font-size: var(--fs-18);
   color: var(--text-secondary);
   line-height: 1.4;
   font-family: var(--font-raleway);
@@ -121,7 +121,7 @@
   align-items: center;
   gap: 8px;
   font-family: var(--font-montserrat);
-  font-size: var(--fs-22);
+  font-size: var(--fs-20);
   font-weight: 600;
   color: var(--text-primary);
 }
@@ -246,9 +246,27 @@
     height: 400px;
   }
 
-  .overlayTitle {
-    font-size: 16px;
+  .contentStack {
+    position: relative;
+    transform: translateY(0);
+    background-color: #F5F5F5;
+    padding: 0;
+  }
+
+  .cardTitle {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    align-items: center;
+    padding: 10px 12px;
     width: 100%;
+    background-color: #F5F5F5;
+    font-weight: 600;
+    color: #414343;
+    opacity: 1;
+    margin: 0;
+    transform: none;
   }
 
   .mobileOnlyArrow {
@@ -339,6 +357,11 @@
 
   .mobileArrow {
     display: none;
+  }
+
+  .mobileOnlyArrow svg {
+    width: 10px;
+    height: 10px;
   }
 
   .card:hover .image {

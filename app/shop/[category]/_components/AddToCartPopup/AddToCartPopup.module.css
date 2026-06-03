@@ -65,12 +65,13 @@
 .row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px 24px;
+    gap: 15px 24px;
     margin-bottom: 20px;
 }
 
 .row:last-of-type {
     margin-bottom: 28px;
+    grid-template-columns: 1fr;
 }
 
 .field {
@@ -215,17 +216,29 @@
     height: 100%;
     cursor: pointer;
     font-size: 18px;
-    color: var(--text-primary);
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     justify-content: center;
     font-family: inherit;
     transition: background 0.1s, color 0.1s;
+    outline: none;
 }
 
-.qtyBtn:hover:not(:disabled) {
-    background: rgba(199, 123, 79, 0.08);
-    color: var(--primary-color);
+.qtyBtn:focus {
+    outline: none;
+}
+
+@media (hover: hover) {
+    .qtyBtn:hover:not(:disabled) {
+        background: var(--primary-color);
+        color: #ffffff;
+    }
+}
+
+.qtyBtn:active:not(:disabled) {
+    background: var(--primary-color);
+    color: #ffffff;
 }
 
 .qtyBtn:disabled {

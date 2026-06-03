@@ -177,7 +177,7 @@ export default function Footer({ categories = [], shops = [] }) {
                 <button
                   type="submit"
                   className={styles.subscribeBtn}
-                  disabled={isLoading}
+                  disabled={isLoading || !email.trim()}
                 >
                   {isLoading ? "Joining..." : "Join Now"}
                 </button>

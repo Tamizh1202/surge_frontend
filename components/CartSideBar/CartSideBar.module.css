@@ -133,7 +133,7 @@
   background: white;
   padding: 16px 18px;
   display: flex;
-  gap: 8px;
+  gap: 15px;
   align-items: flex-start;
 }
 
@@ -312,7 +312,7 @@
 .footer {
   background: #ffffff;
   padding: 24px 14px; 
-  margin: 24px 30px 40px 20px;
+  margin: 24px 30px 40px 30px;
   flex-shrink: 0;
 }
 
@@ -352,6 +352,39 @@
   font-size: var(--fs-18);
   color: #818686;
   text-align: left;
+}
+
+.outOfStockCard {
+  background: white;
+  padding: 16px 18px;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.oosLeft {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+  align-items: flex-start;
+  opacity: 0.4;
+}
+
+.oosNameArea {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
+  flex: 1;
+  min-width: 0;
+  gap: 4px;
+}
+
+.outOfStockBadge {
+  font-family: var(--font-raleway);
+  font-size: 12px;
+  color: #818686;
+  margin: 0;
 }
 
 /* --- Responsive Updates --- */

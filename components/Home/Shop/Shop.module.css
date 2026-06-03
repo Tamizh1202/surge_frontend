@@ -85,7 +85,7 @@
 
 .mobileDescription {
 
-  font-size: 12px;
+  font-size: var(--fs-16);
   font-family: var(--font-raleway);
   color: #414343;
   width: 80%;

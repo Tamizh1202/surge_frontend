@@ -14,9 +14,12 @@ const PersonalInfoForm = ({
   showOtpPopup,
   otpNode,
 }) => {
+  const LIMITS = { firstName: 20, lastName: 20, phone: 9 };
+
   // --- State for Custom Gender Dropdown ---
   const [isGenderOpen, setIsGenderOpen] = useState(false);
   const genderRef = useRef(null);
+  const [focusedField, setFocusedField] = useState("");
 
   // --- State for API Errors (e.g., "OTP limit reached") ---
   const [emailError, setEmailError] = useState("");
@@ -75,21 +78,37 @@ const PersonalInfoForm = ({
       <div className={styles.Name}>
         {editMode ? (
           <>
-            <div className={styles.Field}>
+            <div className={styles.Field} style={{ position: "relative" }}>
               <input
                 value={profile.firstName || ""}
                 placeholder="First name"
                 disabled={isGuestUser}
+                maxLength={LIMITS.firstName}
+                onFocus={() => setFocusedField("firstName")}
+                onBlur={() => setFocusedField("")}
                 onChange={(e) => onFieldChange("firstName", e.target.value)}
               />
+              {focusedField === "firstName" && (
+                <span style={{ position: "absolute", right: 0, bottom: "-15px", fontSize: "10px", color: "#818686" }}>
+                  {(profile.firstName || "").length}/{LIMITS.firstName}
+                </span>
+              )}
             </div>
-            <div className={styles.Field}>
+            <div className={styles.Field} style={{ position: "relative" }}>
               <input
                 value={profile.lastName || ""}
                 placeholder="Last name"
                 disabled={isGuestUser}
+                maxLength={LIMITS.lastName}
+                onFocus={() => setFocusedField("lastName")}
+                onBlur={() => setFocusedField("")}
                 onChange={(e) => onFieldChange("lastName", e.target.value)}
               />
+              {focusedField === "lastName" && (
+                <span style={{ position: "absolute", right: 0, bottom: "-15px", fontSize: "10px", color: "#818686" }}>
+                  {(profile.lastName || "").length}/{LIMITS.lastName}
+                </span>
+              )}
             </div>
           </>
         ) : (
@@ -143,7 +162,7 @@ const PersonalInfoForm = ({
 
       {/* Phone + Gender row */}
       <div className={styles.Row}>
-        <div className={styles.Field}>
+        <div className={styles.Field} style={{ position: "relative" }}>
           <span className={styles.PhonePrefix}>+971</span>
           <input
             value={profile.phone || ""}
@@ -151,8 +170,20 @@ const PersonalInfoForm = ({
               editMode ? "Add your phone number" : "No phone number added"
             }
             disabled={!editMode || isGuestUser}
-            onChange={(e) => onFieldChange("phone", e.target.value)}
+            inputMode="numeric"
+            maxLength={LIMITS.phone}
+            onFocus={() => setFocusedField("phone")}
+            onBlur={() => setFocusedField("")}
+            onChange={(e) => {
+              const val = e.target.value.replace(/\D/g, "").slice(0, LIMITS.phone);
+              onFieldChange("phone", val);
+            }}
           />
+          {focusedField === "phone" && editMode && (
+            <span style={{ position: "absolute", right: 0, bottom: "-15px", fontSize: "10px", color: "#818686" }}>
+              {(profile.phone || "").length}/{LIMITS.phone}
+            </span>
+          )}
         </div>
 
         <div className={styles.Field} ref={genderRef}>

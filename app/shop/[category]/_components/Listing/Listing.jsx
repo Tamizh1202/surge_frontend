@@ -464,15 +464,15 @@ export default function Listing({ category }) {
             {isMobileFilterOpen && (
                 <>
                     <div className={styles.MobileFilterOverlay} onClick={closeFilter} />
-                    <div className={`${styles.MobileFilters} ${isFilterClosing ? styles.MobileFiltersClosing : ''}`} ref={mobileFiltersRef}>
-                        <div className={styles.MobileFilterHeader}>
+                    <div className={`${styles.MobileFilters} ${isFilterClosing ? styles.MobileFiltersClosing : ''}`} ref={mobileFiltersRef} onClick={closeFilter}>
+                        <div className={styles.MobileFilterHeader} onClick={(e) => e.stopPropagation()}>
                             <p>Filters</p>
                             <span onClick={closeFilter}>✕</span>
                         </div>
-                        <div className={styles.LeftBottom}>
+                        <div className={styles.LeftBottom} onClick={(e) => e.stopPropagation()}>
                             {renderFilters()}
                         </div>
-                        <div className={styles.MobileFilterFooter}>
+                        <div className={styles.MobileFilterFooter} onClick={(e) => e.stopPropagation()}>
                             <button onClick={handleClearFilters} className={styles.mobileResetBtn}>Reset</button>
                             <button onClick={closeFilter} className={styles.mobileApplyBtn}>Apply</button>
                         </div>

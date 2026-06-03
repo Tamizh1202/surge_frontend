@@ -85,6 +85,10 @@
   align-items: center;
   gap: 8px;
 }
+.detailsLink:hover{
+  text-decoration: underline;
+  color:var(--primary-color);
+}
 
 .productRow {
   display: flex;

@@ -322,6 +322,12 @@
     padding: 15px 0;
   }
 
+  .dropdownPlaceholder,
+  .dropdownValue,
+  .dropdownOption {
+    font-size: 12px;
+  }
+
   .btn {
 
     padding: 12px 30px;

@@ -5,6 +5,7 @@ import Image from "next/image";
 import oneImg from './people.webp';
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import DateTimePicker from "../DateTimePicker/DateTimePicker";
 import { toast } from "react-hot-toast";
 
 // ── API VALID OPTIONS ──────────────────
@@ -91,11 +92,11 @@ export default function Sendenq() {
     eventDate: "",
     timeWindow: "",
     expectedGuests: "",
-    eventType: "", 
-    package: "",  
+    eventType: "",
+    package: "",
     addons: "",
     city: "",
-    emirate: "", 
+    emirate: "",
     message: "",
   });
   const [loading, setLoading] = useState(false);
@@ -189,10 +190,10 @@ export default function Sendenq() {
         eventDate: formData.eventDate ? new Date(formData.eventDate).toISOString() : null,
         timeWindow: formData.timeWindow.trim(),
         expectedGuests,
-        eventType: formData.eventType, 
-        package: formData.package,     
+        eventType: formData.eventType,
+        package: formData.package,
         city: formData.city.trim(),
-        emirate: formData.emirate,     
+        emirate: formData.emirate,
       };
 
       if (formData.addons.trim()) payload.addons = formData.addons.trim();
@@ -201,7 +202,7 @@ export default function Sendenq() {
       const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
       await axios.post(`${serverUrl}/api/events`, payload);
       toast.success("Thank you! Your enquiry has been received.");
-      
+
       setFormData({
         firstName: "", lastName: "", email: "", phoneNumber: "",
         eventDate: "", timeWindow: "", expectedGuests: "",
@@ -250,13 +251,13 @@ export default function Sendenq() {
                   </div>
                 </div>
 
-                <div className={styles.row}>
-                  <input type="date" name="eventDate" value={formData.eventDate} onChange={handleChange} required />
-                  <div style={{ position: 'relative', flex: 1 }}>
-                    <input type="text" name="timeWindow" placeholder="Time window (e.g. 6PM-10PM) *" value={formData.timeWindow} onChange={handleChange} onFocus={() => setFocusedField("timeWindow")} onBlur={() => setFocusedField("")} maxLength={LIMITS.timeWindow} required />
-                    {focusedField === "timeWindow" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.timeWindow.length}/{LIMITS.timeWindow}</span>}
-                  </div>
-                </div>
+                <DateTimePicker
+                  eventDate={formData.eventDate}
+                  timeWindow={formData.timeWindow}
+                  onChange={handleChange}
+                  focusedField={focusedField}
+                  setFocusedField={setFocusedField}
+                />
 
                 <div className={styles.row}>
                   <div style={{ position: 'relative', flex: 1 }}>
@@ -292,11 +293,11 @@ export default function Sendenq() {
                     onBlur={() => setFocusedField("")}
                     maxLength={LIMITS.message}
                     rows={1}
-                    style={{ 
-   
-      resize: 'none', 
-   
-    }}
+                    style={{
+
+                      resize: 'none',
+
+                    }}
                   />
                   {focusedField === "message" && <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686' }}>{formData.message.length}/{LIMITS.message}</span>}
                 </div>

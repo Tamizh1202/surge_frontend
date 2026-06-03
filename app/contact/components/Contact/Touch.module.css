@@ -241,7 +241,7 @@
 
   padding: 12px 20px;
   cursor: pointer;
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   color: var(--text-secondary);
   transition: background 0.2s;
 }

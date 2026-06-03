@@ -31,6 +31,8 @@ const CartSideBar = () => {
     items,
     removeItem,
     updateQuantity,
+    outOfStockItems,
+    clearOutOfStockItem,
   } = useCart();
 
   const router = useRouter();
@@ -55,7 +57,7 @@ const CartSideBar = () => {
   // Number of distinct cart rows (not total quantity)
   const itemCount = items?.length || 0;
   const subtotal = items?.reduce((acc, item) => acc + (Number(item.price) * (item.quantity || 0)), 0) || 0;
-  const isCartEmpty = itemCount === 0;
+  const isCartEmpty = itemCount === 0 && (outOfStockItems?.length || 0) === 0;
 
   // Stable key that uniquely identifies a cart row
   const rowKey = (item) =>
@@ -130,68 +132,101 @@ const CartSideBar = () => {
                 </button>
               </div>
             ) : (
-              items.map((item) => {
-                const key = rowKey(item);
-                const displayValues = getDisplayValues(item);
-                const metaText = displayValues.join(", ");
+              <>
+                {items.map((item) => {
+                  const key = rowKey(item);
+                  const displayValues = getDisplayValues(item);
+                  const metaText = displayValues.join(", ");
 
-                return (
-                  <div className={styles.productCard} key={key}>
-                    <div className={styles.prodImageWrapper}>
-                      <Image
-                        src={formatImageUrl(item.image)}
-                        alt={item.name}
-                        width={100}
-                        height={100}
-                        className={styles.prodImage}
-                      />
+                  return (
+                    <div className={styles.productCard} key={key}>
+                      <div className={styles.prodImageWrapper}>
+                        <Image
+                          src={formatImageUrl(item.image)}
+                          alt={item.name}
+                          width={100}
+                          height={100}
+                          className={styles.prodImage}
+                        />
+                      </div>
+
+                      <div className={styles.prodInfo}>
+                        <div className={styles.prodHeader}>
+                          <div className={styles.nameGroup}>
+                            <h5>
+                              <span className={styles.productNameText}>{item.name}</span>
+                              {item.variantName && (
+                                <span className={styles.productVariantText}>, {item.variantName}g</span>
+                              )}
+                            </h5>
+                            {metaText && <p className={styles.tagline}>{metaText}</p>}
+                          </div>
+                          <button className={styles.removeIconBtn} onClick={() => handleRemove(item)}>
+                            <TrashIcon />
+                          </button>
+                        </div>
+
+                        <div className={styles.prodFooter}>
+                          <div className={styles.qtyContainer}>
+                            <div className={styles.qtyControls}>
+                              <button
+                                onClick={() => handleDecrease(item)}
+                                disabled={item.quantity <= 1}
+                              >
+                                <MinusIcon />
+                              </button>
+                              <span>{item.quantity}</span>
+                              <button
+                                onClick={() => handleIncrease(item)}
+                                disabled={item.quantity >= 10 || !!itemErrors[key]}
+                              >
+                                <PlusIcon />
+                              </button>
+                            </div>
+                            {itemErrors[key] && (
+                              <p className={styles.errorText}>{itemErrors[key]}</p>
+                            )}
+                          </div>
+                          <span className={styles.price}>
+                            AED {Number(item.price * item.quantity).toFixed(2)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
+                  );
+                })}
 
-                    <div className={styles.prodInfo}>
-                      <div className={styles.prodHeader}>
-                        <div className={styles.nameGroup}>
-                          <h5>
+                {outOfStockItems.map((item) => {
+                  const key = item._cartKey || `${item.product}:${item.vId || ""}`;
+                  return (
+                    <div className={styles.outOfStockCard} key={`oos-${key}`}>
+                      <div className={styles.oosLeft}>
+                        <div className={styles.prodImageWrapper}>
+                          <Image
+                            src={formatImageUrl(item.image)}
+                            alt={item.name}
+                            width={100}
+                            height={100}
+                            className={styles.prodImage}
+                          />
+                        </div>
+                        <div className={styles.oosNameArea}>
+                          <h5 className={styles.prodHeader} style={{ margin: 0, fontSize: 16, fontFamily: "var(--font-raleway)", fontWeight: 400, color: "#414343" }}>
                             <span className={styles.productNameText}>{item.name}</span>
                             {item.variantName && (
                               <span className={styles.productVariantText}>, {item.variantName}g</span>
                             )}
                           </h5>
-                          {metaText && <p className={styles.tagline}>{metaText}</p>}
+                          <p className={styles.outOfStockBadge}>Out of stock</p>
                         </div>
-                        <button className={styles.removeIconBtn} onClick={() => handleRemove(item)}>
-                          <TrashIcon />
-                        </button>
                       </div>
-
-                      <div className={styles.prodFooter}>
-                        <div className={styles.qtyContainer}>
-                          <div className={styles.qtyControls}>
-                            <button
-                              onClick={() => handleDecrease(item)}
-                              disabled={item.quantity <= 1}
-                            >
-                              <MinusIcon />
-                            </button>
-                            <span>{item.quantity}</span>
-                            <button
-                              onClick={() => handleIncrease(item)}
-                              disabled={item.quantity >= 10 || !!itemErrors[key]}
-                            >
-                              <PlusIcon />
-                            </button>
-                          </div>
-                          {itemErrors[key] && (
-                            <p className={styles.errorText}>{itemErrors[key]}</p>
-                          )}
-                        </div>
-                        <span className={styles.price}>
-                          AED {Number(item.price * item.quantity).toFixed(2)}
-                        </span>
-                      </div>
+                      <button className={styles.removeIconBtn} onClick={() => clearOutOfStockItem(key)}>
+                        <TrashIcon />
+                      </button>
                     </div>
-                  </div>
-                );
-              })
+                  );
+                })}
+              </>
             )}
           </div>
         </div>

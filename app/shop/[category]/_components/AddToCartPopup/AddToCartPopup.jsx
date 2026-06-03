@@ -66,6 +66,10 @@ export default function ProductPopup({ product, onClose }) {
 
     const isOutOfStock = selectedVariant?.variantInStock === false;
 
+    const maxQty = selectedVariant?.variantStockQuantity > 0
+        ? Math.min(10, selectedVariant.variantStockQuantity)
+        : 10;
+
     const price = product?.salePrice
         ? `AED ${product.salePrice}`
         : product?.regularPrice
@@ -132,15 +136,15 @@ export default function ProductPopup({ product, onClose }) {
                             placeholder="Select Weight"
                             options={variants.map((v) => `${v.variantName}g`)}
                             value={selectedVariant ? `${selectedVariant.variantName}g` : ""}
-                            onChange={(val) => setSelectedVariant(variants.find((v) => `${v.variantName}g` === val))}
+                            onChange={(val) => { setSelectedVariant(variants.find((v) => `${v.variantName}g` === val)); setQuantity(1); }}
                         />
                     )}
                     <div className={styles.field}>
                         <label className={styles.fieldLabel}>Quantity</label>
                         <div className={styles.qtyControl}>
-                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.max(1, q - 1))} disabled={quantity <= 1} aria-label="Decrease">−</button>
+                            <button type="button" className={styles.qtyBtn} onClick={(e) => { setQuantity((q) => Math.max(1, q - 1)); e.currentTarget.blur(); }} disabled={quantity <= 1} aria-label="Decrease">−</button>
                             <div className={styles.qtyValue}>{String(quantity).padStart(2, "0")}</div>
-                            <button type="button" className={styles.qtyBtn} onClick={() => setQuantity((q) => Math.min(10, q + 1))} disabled={quantity >= 10} aria-label="Increase">+</button>
+                            <button type="button" className={styles.qtyBtn} onClick={(e) => { setQuantity((q) => Math.min(maxQty, q + 1)); e.currentTarget.blur(); }} disabled={quantity >= maxQty} aria-label="Increase">+</button>
                         </div>
                     </div>
                 </div>

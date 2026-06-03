@@ -101,6 +101,11 @@ export function CartProvider({ children }) {
     maxPointsPerOrder: 0,
   });
   const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [outOfStockItems, setOutOfStockItems] = useState([]);
+
+  const clearOutOfStockItem = (cartKey) => {
+    setOutOfStockItems(prev => prev.filter(i => (i._cartKey || `${i.product}:${i.vId || ''}`) !== cartKey));
+  };
 
   const { data: session, status } = useSession();
   const prevStatusRef = useRef(status);
@@ -314,7 +319,7 @@ export function CartProvider({ children }) {
 
   // ─── Add ─────────────────────────────────────────────────────────────────────
 
-  const addToCart = async (product, quantity = 1, vId, details = null) => {
+  const addToCart = async (product, quantity = 1, vId, details = null, _retried = false) => {
     const { productHighlights: _ph, ...restDetails } = details || {};
     const customSelections = getCustomSelections(restDetails);
 
@@ -366,7 +371,39 @@ export function CartProvider({ children }) {
         const resData = e?.response?.data;
         const backendMsg =
           resData?.message || resData?.error || resData?.errors?.[0]?.message;
-        toast.error(backendMsg || e?.message || "Failed to add item to cart");
+        if (!_retried) {
+          const match = backendMsg?.match(/^(.+?) \((.+?)\) is out of stock/i);
+          if (match) {
+            const [, oosName, oosVariant] = match;
+            const staleItem = items.find(i =>
+              i.name?.trim().toLowerCase() === oosName.trim().toLowerCase() &&
+              String(i.variantName ?? '').trim() === oosVariant.trim()
+            );
+            if (staleItem) {
+              try {
+                const delRes = await axiosClient.delete('/api/website/cart', {
+                  data: { product: staleItem.product, vId: staleItem.vId || null, productHighlights: staleItem.productHighlights || [] },
+                });
+                applyCartResponse(delRes.data);
+                const ik = staleItem._cartKey || `${staleItem.product}:${staleItem.vId || ''}`;
+                setOutOfStockItems(prev =>
+                  prev.some(i => (i._cartKey || `${i.product}:${i.vId || ''}`) === ik) ? prev : [...prev, staleItem]
+                );
+                await addToCart(product, quantity, vId, details, true);
+                return;
+              } catch (delErr) {
+                console.error('Failed to remove out-of-stock item:', delErr);
+              }
+            }
+          }
+        }
+        const isStockError = /only \d+ units? are available/i.test(backendMsg);
+        toast.error(
+          existingItem && isStockError
+            ? "This product is already in your cart"
+            : backendMsg || e?.message || "Failed to add item to cart"
+        );
+        fetchCart();
       }
     } else {
       try {
@@ -432,6 +469,7 @@ export function CartProvider({ children }) {
     action,
     productHighlights = [],
     cartKey = null,
+    _retried = false,
   ) => {
     if (session?.user) {
       try {
@@ -450,6 +488,31 @@ export function CartProvider({ children }) {
         const backendMsg =
           resData?.message || resData?.error || resData?.errors?.[0]?.message;
         const message = backendMsg || e?.message || "Failed to update quantity";
+        if (!_retried) {
+          const match = backendMsg?.match(/^(.+?) \((.+?)\) is out of stock/i);
+          if (match) {
+            const [, oosName, oosVariant] = match;
+            const staleItem = items.find(i =>
+              i.name?.trim().toLowerCase() === oosName.trim().toLowerCase() &&
+              String(i.variantName ?? '').trim() === oosVariant.trim()
+            );
+            if (staleItem) {
+              try {
+                const delRes = await axiosClient.delete('/api/website/cart', {
+                  data: { product: staleItem.product, vId: staleItem.vId || null, productHighlights: staleItem.productHighlights || [] },
+                });
+                applyCartResponse(delRes.data);
+                const ik = staleItem._cartKey || `${staleItem.product}:${staleItem.vId || ''}`;
+                setOutOfStockItems(prev =>
+                  prev.some(i => (i._cartKey || `${i.product}:${i.vId || ''}`) === ik) ? prev : [...prev, staleItem]
+                );
+                return updateQuantity(product, vId, quantity, action, productHighlights, cartKey, true);
+              } catch (delErr) {
+                console.error('Failed to remove out-of-stock item:', delErr);
+              }
+            }
+          }
+        }
         if (e?.response?.status === 400) fetchCart();
         return { ok: false, message };
       }
@@ -511,6 +574,8 @@ export function CartProvider({ children }) {
         removeCoupon,
         appliedCoupon,
         refreshCart: () => fetchCart(),
+        outOfStockItems,
+        clearOutOfStockItem,
       }}
     >
       {children}

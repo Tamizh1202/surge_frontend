@@ -286,6 +286,7 @@ export default function Listing({ category }) {
                                             key={option}
                                             className={`${styles.dropdownItem} ${selectedSort === option ? styles.activeItem : ''}`}
                                             onClick={() => {
+                                                
                                                 setSelectedSort(option);
                                                 setShowSort(false);
                                             }}

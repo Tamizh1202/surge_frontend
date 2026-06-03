@@ -1,9 +1,29 @@
+'use client';
+import { useState, useEffect, useRef } from 'react';
 import Image from "next/image";
 import styles from './Loation.module.css';
 import mapImage from './location.webp';
 import markerIcon from './map.png';
 
 export default function Location() {
+  const [activeMarker, setActiveMarker] = useState(null);
+  const mapRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (mapRef.current && !mapRef.current.contains(e.target)) {
+        setActiveMarker(null);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
+  const handleMarkerClick = (e, index) => {
+    e.stopPropagation();
+    setActiveMarker(prev => prev === index ? null : index);
+  };
+
   const locations = [
     { name: "Bin Sougat Centre", area: "Rashidiya, Dubai", top: "42%", left: "38%" },
     { name: "Emarat Station", area: "Al Khawaneej, Dubai", top: "52%", left: "48%" },
@@ -41,7 +61,7 @@ export default function Location() {
         </div>
 
         <div className={styles.mapWrapper}>
-          <div className={styles.mapContainer}>
+          <div className={styles.mapContainer} ref={mapRef}>
             <Image
               src={mapImage}
               alt="UAE Map"
@@ -52,7 +72,7 @@ export default function Location() {
             {locations.map((loc, index) => (
               <div
                 key={index}
-                className={styles.markerWrapper}
+                className={`${styles.markerWrapper} ${activeMarker === index ? styles.popupVisible : ''}`}
                 style={{ top: loc.top, left: loc.left }}
               >
                 {/* Hover Card (Popup) */}
@@ -68,7 +88,7 @@ export default function Location() {
                 </div>
 
                 {/* Pin Icon */}
-                <div className={styles.markerPin}>
+                <div className={styles.markerPin} onClick={(e) => handleMarkerClick(e, index)}>
                   <Image
                     src={markerIcon}
                     alt="map marker"

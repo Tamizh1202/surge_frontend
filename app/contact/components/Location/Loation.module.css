@@ -382,7 +382,7 @@
 
   .mapImg {
     height: auto;
-    max-height: 400px;
+    /* max-height: 400px; */
   }
 
   .jobItem {
@@ -487,9 +487,7 @@
     padding-right: 6%;
     padding-bottom: 80px;
   }
-  .topSection{
-    padding-top: 0px;
-  }
+  .topSection
 
   .container .jobItem {
     display: flex;

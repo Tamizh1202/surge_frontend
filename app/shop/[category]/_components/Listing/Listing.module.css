@@ -1214,4 +1214,7 @@
         gap: 10px;
         /* width:50%; */
     }
+    .dropdownItem {
+    padding: 14px 6px;
+    }
 }

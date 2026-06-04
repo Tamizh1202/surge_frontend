@@ -23,7 +23,7 @@
 }
 
 .image {
-  width: 835px;
+  width: auto;
   height: 790px;
   object-fit: cover;
 }

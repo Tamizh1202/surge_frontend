@@ -872,8 +872,8 @@
     animation: shimmer 1.4s infinite;
 }
 
-/* ── Mobile (≤ 600px) ──────────────────────────────────────── */
-@media (max-width: 600px) {
+/* ── Mobile (≤ 640px) ──────────────────────────────────────── */
+@media (max-width: 640px) {
     .mainContainer {
         flex-direction: column;
         padding: 20px 24px 80px !important;
@@ -1050,8 +1050,8 @@
     }
 }
 
-/* ── Tablet (601px – 950px) ────────────────────────────────── */
-@media (min-width: 601px) and (max-width: 950px) {
+/* ── Tablet (641px – 940px) ────────────────────────────────── */
+@media (min-width: 641px) and (max-width: 940px) {
     .mainContainer {
         flex-direction: column;
         padding: 60px 5% 80px !important;
@@ -1132,10 +1132,10 @@
     }
 }
 
-/* ── Mid Desktop (951px – 1199px) ──────────────────────────── */
-@media (min-width: 951px) and (max-width: 1199px) {
+/* ── Mid Desktop (941px – 1440px) ──────────────────────────── */
+@media (min-width: 941px) and (max-width: 1440px) {
     .mainContainer {
-        padding: 0 40px 100px 80px !important;
+        /* padding: 0 40px 100px 80px !important; */
         gap: 40px;
     }
 
@@ -1159,6 +1159,10 @@
         row-gap: 60px;
     }
 
+    .details {
+        padding: 0 12px 12px 12px;
+    }
+
     .productCard {
         border: none;
     }
@@ -1177,10 +1181,9 @@
     }
 }
 
-/* ── Large Desktop (1200px – 1720px) ───────────────────────── */
-@media (min-width: 1200px) and (max-width: 1720px) {
+/* ── Large Desktop (1441px – 1720px) ───────────────────────── */
+@media (min-width: 1441px) and (max-width: 1720px) {
     .mainContainer {
-        padding: 0 100px 100px 125px !important;
         gap: 50px;
     }
 
@@ -1208,6 +1211,14 @@
     .buyBtn {
         padding: 12px 8px;
         max-width: 175px;
+    }
+
+    .productCard {
+        border: none;
+    }
+
+    .details {
+        padding: 0 12px 12px 12px;
     }
 }
 

@@ -10,22 +10,20 @@
   display: flex;
   width: 100%;
   align-items: stretch;
-
 }
 
 .LeftConatiner {
   flex: 1;
-  display: flex;
+  min-width: 0;
+  overflow: hidden;
 }
 
-.row .dropdown {
-  flex: 1;
-}
-
+/* Image fills whatever height the form side creates — no hardcoded values needed */
 .image {
-  width: auto;
-  height: 790px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .RightContainer {
@@ -33,7 +31,7 @@
   background-color: #F5F5F5;
   display: flex;
   flex-direction: column;
-  padding: 40px 80px 0;
+  padding: clamp(20px, 3vw, 40px) clamp(20px, 5.5vw, 80px) clamp(16px, 2.5vw, 30px);
 }
 
 .RightContent {
@@ -45,7 +43,7 @@
 .formMain {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: clamp(20px, 2.5vw, 32px);
 }
 
 .Top {
@@ -97,11 +95,13 @@
 
 .row {
   display: flex;
-  gap: 35px;
+  gap: clamp(12px, 2.5vw, 35px);
 }
 
-.row input {
+.row input,
+.row .dropdown {
   flex: 1;
+  min-width: 0;
 }
 
 .Bottom {
@@ -118,16 +118,19 @@
   font-family: var(--font-raleway);
   font-size: var(--fs-18);
   font-weight: 600;
-  margin-top: 40px;
+  margin-top: clamp(20px, 3vw, 40px);
   cursor: pointer;
   transition: opacity 0.3s ease;
+}
+
+.btn:hover {
+  opacity: 0.88;
 }
 
 .formBox input[type="date"] {
   color: #818686;
   opacity: 0.8;
 }
-
 
 .formBox input::-webkit-calendar-picker-indicator {
   cursor: pointer;
@@ -161,7 +164,6 @@
   border-bottom-color: #c4754e;
 }
 
-/* Both placeholder and value share the same base style */
 .dropdownPlaceholder,
 .dropdownValue {
   font-family: var(--font-raleway);
@@ -170,7 +172,6 @@
   color: rgba(var(--text-secondary), 0.8);
 }
 
-/* Placeholder dims to match input ::placeholder */
 .dropdownPlaceholder {
   opacity: 0.4;
 }
@@ -192,8 +193,6 @@
   transform: rotate(180deg);
 }
 
-/* ── Slide-down panel ───────────────────────────────────────────────────── */
-
 .dropdownPanel {
   position: absolute;
   top: calc(100% + 0px);
@@ -201,9 +200,6 @@
   right: 0;
   z-index: 50;
   background: #ffffff;
-  border-radius: 0;
-  /* border:1px solid var(--text-secondary); */
-  /* no border radius */
   box-shadow: 4px 8px 24px rgba(65, 67, 67, 0.12);
   overflow: hidden;
 
@@ -212,7 +208,6 @@
   pointer-events: none;
   transition:
     max-height 0.55s cubic-bezier(0.4, 0, 0.2, 1),
-    /* slower open */
     opacity 0.4s ease;
 }
 
@@ -225,7 +220,6 @@
 .dropdownInner {
   overflow-y: auto;
   max-height: 320px;
-  padding: 0px 0;
 }
 
 .dropdownOption {
@@ -254,140 +248,86 @@
   font-weight: 600;
 }
 
-@media screen and (max-width: 1600px) {
 
-
-  .image {
-    width: 100%;
-    /* height: auto; */
-  }
-
-  .RightContainer {
-    padding: 40px 60px 0;
-  }
-
-  .btn {
-    margin-bottom: 20px;
-  }
-}
-
-
-@media screen and (max-width: 1400px) {
-  .main {
-    padding: 0 60px 80px;
-  }
-
-  .RightContainer {
-    padding: 40px 40px 0;
-  }
-
-  .btn {
-    margin-bottom: 20px;
-  }
-}
-
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .main {
-    padding: 0 40px 80px;
-  }
-
-  .MainContainer {
-    display: flex;
-    flex-direction: row;
-    align-items: stretch;
-  }
-
+/* ── Tablet (769px – 1100px): image still visible but form needs room ─── */
+@media (max-width: 1100px) {
   .LeftConatiner {
-    display: flex;
-  }
-
-  .image {
-    width: 100%;
-    object-fit: cover;
+    flex: 0 0 42%;
   }
 
   .RightContainer {
-    padding: 40px 30px 0;
-  }
-
-  .row {
-    gap: 15px;
-    align-items: flex-end;
-    /* ← add this */
+    flex: 1;
   }
 
   .formBox input,
-  .formBox textarea {
-    font-size: 12px;
-    padding: 15px 0;
-  }
-
+  .formBox textarea,
   .dropdownPlaceholder,
   .dropdownValue,
   .dropdownOption {
-    font-size: 12px;
+    font-size: 14px;
   }
 
-  .btn {
-
-    padding: 12px 30px;
-    margin-top: 30px;
-    width: auto;
+  .row {
+    gap: 12px;
   }
 }
 
-@media screen and (max-width: 768px) {
 
+/* ── Below 900px: image becomes too narrow to be useful, hide it ──────── */
+@media (max-width: 900px) {
   .main {
-    padding: 0 0 80px;
-    background-color: #fff;
+    padding: clamp(30px, 5vw, 60px) clamp(20px, 6vw, 60px) clamp(40px, 8vw, 80px);
   }
 
   .LeftConatiner {
     display: none;
   }
 
-  .MainContainer {
-    flex-direction: column;
+  .RightContainer {
+    background-color: #F5F5F5;
+    padding: clamp(24px, 4vw, 48px) clamp(24px, 5vw, 60px) clamp(20px, 3vw, 40px);
+  }
+
+  .formBox input,
+  .formBox textarea,
+  .dropdownPlaceholder,
+  .dropdownValue,
+  .dropdownOption {
+    font-size: 15px;
+  }
+}
+
+
+/* ── Mobile (≤ 600px): stack rows, full-width button ─────────────────── */
+@media (max-width: 600px) {
+  .main {
+    padding: 0 0 60px;
+    background-color: #fff;
   }
 
   .RightContainer {
     background-color: #fff;
-    padding: 0 24px 0;
+    padding: 30px 24px 0;
   }
-
 
   .row {
-    display: flex;
-    flex-direction: row;
-    gap: 15px;
-
-    align-items: flex-end;
-
-  }
-
-  .formBox input,
-  .formBox textarea {
-    flex: 1;
-    padding-top: 10px;
-    padding-bottom: 16px;
-
+    flex-direction: column;
+    gap: 0;
   }
 
   .formMain {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    gap: 20px;
   }
 
   .Bottom {
     display: block;
-    margin-top: 0px;
+    margin-top: 0;
   }
 
   .btn {
     width: 100%;
     padding: 18px 0;
-    margin: 0px;
+    margin-top: 24px;
+    text-align: center;
   }
 }

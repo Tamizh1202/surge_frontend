@@ -47,6 +47,7 @@ export default function Listing({ category }) {
 
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [showPageLoader, setShowPageLoader] = useState(true);
     const [error, setError] = useState(null);
     const [page, setPage] = useState(1);
     const [totalProducts, setTotalProducts] = useState(0);

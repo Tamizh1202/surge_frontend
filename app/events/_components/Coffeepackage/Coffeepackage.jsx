@@ -3,7 +3,7 @@ import styles from './Coffeepackage.module.css';
 async function getCoffeePackages() {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
   const res = await fetch(
-    `${baseUrl}/api/coffee-packages?limit=10&depth=0`,
+    `${baseUrl}/api/coffee-packages?limit=10&depth=0&sort=_order`,
     { next: { revalidate: 3600 } }
   );
   if (!res.ok) return [];
@@ -14,7 +14,7 @@ async function getCoffeePackages() {
 async function getServiceAreas() {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
   const res = await fetch(
-    `${baseUrl}/api/service-areas?limit=100&depth=0`,
+    `${baseUrl}/api/service-areas?limit=100&depth=0&sort=_order`,
     { next: { revalidate: 3600 } }
   );
   if (!res.ok) return [];

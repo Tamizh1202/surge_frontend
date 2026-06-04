@@ -1,40 +1,15 @@
 import styles from './Coffeepackage.module.css';
 
-const packages = [
-  {
-    id: 1,
-    name: "Package 01",
-    inclusions: ["Coffee Setup", "Professional Barista", "Decors"],
-    servingOptions: [
-      { count: "50 cups", price: "AED 1500" },
-      { count: "100 Cups", price: "AED 1500" },
-      { count: "150 Cups", price: "AED 1500" }
-    ],
-    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
-  },
-  {
-    id: 2,
-    name: "Package 02",
-    inclusions: ["Coffee Setup", "Professional Barista", "Decors", "Coffee Setup"],
-    servingOptions: [
-      { count: "50 cups", price: "AED 1500" },
-      { count: "100 Cups", price: "AED 1500" },
-      { count: "150 Cups", price: "AED 1500" }
-    ],
-    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
-  },
-  {
-    id: 3,
-    name: "Package 03",
-    inclusions: ["Coffee Setup", "Professional Barista", "Decors"],
-    servingOptions: [
-      { count: "50 cups", price: "AED 1500" },
-      { count: "100 Cups", price: "AED 1500" },
-      { count: "150 Cups", price: "AED 1500" }
-    ],
-    addons: ["Extra Cups — AED 30/cup", "Sweets Selection", "Small Bites"]
-  }
-];
+async function getCoffeePackages() {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+  const res = await fetch(
+    `${baseUrl}/api/coffee-packages?limit=10&depth=0`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
 
 async function getServiceAreas() {
   const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
@@ -47,7 +22,6 @@ async function getServiceAreas() {
   return data.docs ?? [];
 }
 
-// Reusable SVG Bullet Component for precise, clean rendering
 const BulletIcon = () => (
   <svg
     width="6"
@@ -62,11 +36,10 @@ const BulletIcon = () => (
 );
 
 export default async function CoffeePackages() {
-  const serviceAreas = await getServiceAreas();
+  const [packages, serviceAreas] = await Promise.all([getCoffeePackages(), getServiceAreas()]);
 
   return (
     <section className={styles.container}>
-      {/* --- Main Header --- */}
       <header className={styles.header}>
         <h2 className={styles.mainTitle}>Choose Your Coffee Package</h2>
         <p className={styles.subtitle}>
@@ -83,38 +56,35 @@ export default async function CoffeePackages() {
 
 
             <div className={styles.cardInner}>
-              {/* Core Inclusions */}
               <ul className={styles.inclusionList}>
-                {pkg.inclusions.map((item, idx) => (
-                  <li key={idx}>
+                {pkg.features.map((f) => (
+                  <li key={f.id}>
                     <BulletIcon />
-                    <span>{item}</span>
+                    <span>{f.value}</span>
                   </li>
                 ))}
               </ul>
 
-
               <div className={styles.sectionGroup}>
-
-                <h4 className={styles.sectionHeading}>Serving Options</h4>
+                <h4 className={styles.sectionHeading}>{pkg.servingOptions.title}</h4>
                 <div className={styles.sectionContent}>
                   <div className={styles.priceRows}>
-                    {pkg.servingOptions.map((option, idx) => (
-                      <div key={idx} className={styles.priceRow}>
-                        <span className={styles.label}>{option.count}</span>
-                        <span className={styles.value}>{option.price}</span>
+                    {pkg.servingOptions.tiers.map((tier) => (
+                      <div key={tier.id} className={styles.priceRow}>
+                        <span className={styles.label}>{tier.cups} Cups</span>
+                        <span className={styles.value}>AED {tier.price}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
               <div className={styles.sectionGroup}>
-                <h4 className={styles.sectionHeading}>Optional Add-ons</h4>
+                <h4 className={styles.sectionHeading}>{pkg.optionalAddOns.title}</h4>
                 <ul className={styles.addonList}>
-                  {pkg.addons.map((addon, idx) => (
-                    <li key={idx}>
+                  {pkg.optionalAddOns.items.map((addon) => (
+                    <li key={addon.id}>
                       <BulletIcon />
-                      <span>{addon}</span>
+                      <span>{addon.label}</span>
                     </li>
                   ))}
                 </ul>
@@ -128,7 +98,6 @@ export default async function CoffeePackages() {
         ))}
       </div>
 
-      {/* --- Serving Locations Footer --- */}
       <div className={styles.locationFooter}>
         <h3 className={styles.locationTitle}>Serving Events Across UAE</h3>
         <div className={styles.locationGrid}>

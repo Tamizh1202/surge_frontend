@@ -36,14 +36,16 @@ const packages = [
   }
 ];
 
-const locations = [
-  { city: "Dubai", price: "Free" },
-  { city: "Sharjah", price: "AED 300" },
-  { city: "Ajman", price: "AED 300" },
-  { city: "RAK", price: "AED 400" },
-  { city: "Al Ain", price: "AED 500" },
-  { city: "Abu Dhabi", price: "AED 500" }
-];
+async function getServiceAreas() {
+  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://surge-backend-seven.vercel.app';
+  const res = await fetch(
+    `${baseUrl}/api/service-areas?limit=100&depth=0`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.docs ?? [];
+}
 
 // Reusable SVG Bullet Component for precise, clean rendering
 const BulletIcon = () => (
@@ -59,7 +61,9 @@ const BulletIcon = () => (
   </svg>
 );
 
-export default function CoffeePackages() {
+export default async function CoffeePackages() {
+  const serviceAreas = await getServiceAreas();
+
   return (
     <section className={styles.container}>
       {/* --- Main Header --- */}
@@ -128,10 +132,10 @@ export default function CoffeePackages() {
       <div className={styles.locationFooter}>
         <h3 className={styles.locationTitle}>Serving Events Across UAE</h3>
         <div className={styles.locationGrid}>
-          {locations.map((loc, idx) => (
-            <div key={idx} className={styles.locationCard}>
-              <span className={styles.locCity}>{loc.city}</span>
-              <span className={styles.locPrice}>{loc.price}</span>
+          {serviceAreas.map((area) => (
+            <div key={area.id} className={styles.locationCard}>
+              <span className={styles.locCity}>{area.location}</span>
+              <span className={styles.locPrice}>{area.fee === 0 ? 'Free' : `AED ${area.fee}`}</span>
             </div>
           ))}
         </div>

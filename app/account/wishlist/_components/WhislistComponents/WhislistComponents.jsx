@@ -30,6 +30,7 @@ const WishlistComponents = () => {
   const [addingId, setAddingId] = useState(null);
   const [activeProduct, setActiveProduct] = useState(null);
   const [popupProduct, setPopupProduct] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(9);
 
 
   useEffect(() => {
@@ -184,8 +185,9 @@ const WishlistComponents = () => {
             <button className={styles.ShopNow} onClick={() => router.push("/shop")}>Shop now</button>
           </div>
         ) : (
+          <>
           <div className={styles.Bottom}>
-            {wishlistData.map((item) => {
+            {wishlistData.slice(0, visibleCount).map((item) => {
               const product = item.product?.value;
               if (!product) return null;
               const isAdding = addingId === item.id;
@@ -225,8 +227,16 @@ const WishlistComponents = () => {
                   </div>
                 </div>
               );
-            })} 
+            })}
           </div>
+          {visibleCount < wishlistData.length && (
+            <div className={styles.footer}>
+              <button className={styles.viewMoreBtn} onClick={() => setVisibleCount(prev => prev + 9)}>
+                View More
+              </button>
+            </div>
+          )}
+          </>
         )}
       </div>
 

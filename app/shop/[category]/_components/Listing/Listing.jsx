@@ -253,7 +253,7 @@ export default function Listing({ category }) {
                 <header className={styles.gridHeader}>
                     <div className={styles.titleGroup}>
                         <h1 className={styles.mainTitle}>{categoryName}</h1>
-                        <p className={styles.itemCount}>({filteredProducts.length} items)</p>
+                        <p className={styles.itemCount}>({selectedFilters.length > 0 ? filteredProducts.length : totalProducts} items)</p>
                     </div>
 
                     <div className={styles.headerActions}>

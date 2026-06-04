@@ -207,6 +207,23 @@
   color: #fff;
 }
 
+.footer {
+  text-align: center;
+  margin-top: 15px;
+  grid-column: 1 / -1;
+}
+
+.viewMoreBtn {
+  background: none;
+  border: none;
+  color: #C4754E;
+  font-family: var(--font-raleway);
+  font-weight: 500;
+  text-decoration: underline;
+  font-size: 16px;
+  cursor: pointer;
+}
+
 /* ── Responsive ── */
 
 /* ─── Large Desktop: 1200px–1600px ─── */

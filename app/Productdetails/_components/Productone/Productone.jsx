@@ -80,8 +80,8 @@ export default function ProductOne({ initialProduct }) {
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth <= 900) return;
 
-    const FORWARD_THRESHOLD = window.innerHeight * 0.38;
-    const BACK_THRESHOLD = window.innerHeight * 0.38;    // B → A at 35% 
+    const FORWARD_THRESHOLD = window.innerHeight * 0.35;  // A → B: scroll down past 45%
+    const BACK_THRESHOLD = window.innerHeight * 0.25;     // B → A: scroll back up past 25%
 
     const handleScroll = () => {
       const scrollY = window.scrollY;

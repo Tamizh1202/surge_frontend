@@ -33,7 +33,7 @@
   .bgImage {
     height: 250px; 
     position: relative;
-    top:50px;
+    top:20px;
   
     background-size: cover; 
     background-position: center top; 

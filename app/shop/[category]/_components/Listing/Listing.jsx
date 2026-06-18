@@ -378,7 +378,7 @@ export default function Listing({ category }) {
                                             <h3 className={styles.name}>{name}</h3>
                                             {notes && <p className={styles.notes}>{notes}</p>}
                                             <div className={styles.footerRow}>
-                                                <span className={styles.priceTag}>{price}.00</span>
+                                                <span className={styles.priceTag}>{price}</span>
                                                 {isOutOfStock ? (
                                                     <>
                                                         <button className={`${styles.buyBtn} ${styles.outOfStockBtn}`} disabled>Out of Stock</button>

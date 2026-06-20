@@ -110,6 +110,144 @@ export default function CheckoutForm({
   const clearError = (key) =>
     setValidationErrors((prev) => ({ ...prev, [key]: "" }));
 
+  const mapStateToEmirate = (state) => {
+    if (!state) return "dubai";
+    const s = state.toLowerCase().replace(/[\s-]+/g, "_");
+    const map = {
+      dubai: "dubai", abu_dhabi: "abu_dhabi", sharjah: "sharjah",
+      ajman: "ajman", fujairah: "fujairah",
+      ras_al_khaimah: "ras_al_khaimah", umm_al_quwain: "umm_al_quwain",
+    };
+    return map[s] || "dubai";
+  };
+
+  // ── Express Checkout Handler (Apple Pay / Google Pay) ──
+  const handleExpressCheckoutConfirm = async (event) => {
+    if (!stripe || !elements) return;
+    setIsProcessing(true);
+
+    try {
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        toast.error(submitError.message || "Payment validation failed");
+        setIsProcessing(false);
+        return;
+      }
+
+      const walletBilling = event.billingDetails || {};
+      const walletNameParts = (walletBilling.name || "").split(" ");
+      const deliveryOption = delivery === "ship" ? "delivery" : "pickup";
+
+      let shipAddr;
+      if (deliveryOption === "delivery") {
+        if (status === "authenticated" && selectedAddressId) {
+          const saved = savedAddresses.find((a) => a.id === selectedAddressId);
+          if (saved) shipAddr = formatCheckoutAddress(saved);
+        }
+        if (!shipAddr && shippingForm.address) {
+          shipAddr = formatCheckoutAddress(shippingForm);
+        }
+        if (!shipAddr) {
+          const walletShip = event.shippingAddress || walletBilling;
+          shipAddr = {
+            addressFirstName: walletNameParts[0] || "",
+            addressLastName: walletNameParts.slice(1).join(" ") || "",
+            addressLine1: walletShip?.address?.line1 || "",
+            addressLine2: walletShip?.address?.line2 || "",
+            city: walletShip?.address?.city || "",
+            emirates: mapStateToEmirate(walletShip?.address?.state || walletShip?.address?.city),
+            phoneNumber: walletBilling.phone || "",
+            addressCountry: "United Arab Emirates",
+          };
+        }
+      } else {
+        shipAddr = {
+          addressFirstName: "", addressLastName: "",
+          addressLine1: "Pickup", addressLine2: "",
+          city: "", emirates: "dubai", phoneNumber: "",
+          addressCountry: "United Arab Emirates",
+        };
+      }
+
+      let billAddr;
+      if (useShippingAsBilling && deliveryOption === "delivery") {
+        billAddr = { ...shipAddr };
+      } else if (billingForm.address) {
+        billAddr = formatCheckoutAddress(billingForm);
+      } else {
+        billAddr = {
+          addressFirstName: walletNameParts[0] || "",
+          addressLastName: walletNameParts.slice(1).join(" ") || "",
+          addressLine1: walletBilling?.address?.line1 || "",
+          addressLine2: walletBilling?.address?.line2 || "",
+          city: walletBilling?.address?.city || "",
+          emirates: mapStateToEmirate(walletBilling?.address?.state),
+          phoneNumber: walletBilling.phone || "",
+          addressCountry: "United Arab Emirates",
+        };
+      }
+
+      const emailAddr = walletBilling.email || email || session?.user?.email || "";
+
+      const payload = buildOneTimePayload({
+        delivery: deliveryOption,
+        shippingAddress: shipAddr,
+        billingAddress: billAddr,
+        shippingAddressAsBillingAddress: useShippingAsBilling && deliveryOption === "delivery",
+        email: emailAddr,
+        products: product.map((p) => ({
+          productId: p.product || p.productId || p.id,
+          variantId: p.vId || p.variantId || "",
+          quantity: p.quantity,
+          productHighlights: p.productHighlights || [],
+        })),
+        useWTCoins: !!isBeansApplied,
+        appliedCouponCode: appliedCoupon?.code || "",
+        pickupShopId: deliveryOption === "pickup" ? selectedShopId : undefined,
+      });
+
+      const res = await axiosClient.post("/api/checkout/one-time", payload);
+      const data = res.data;
+      if (!data.success) throw new Error(data.error || "Checkout failed");
+
+      rememberOrderSelections(getCheckoutOrderId(data), product);
+
+      if (newsletterOptIn && emailAddr) {
+        try {
+          const serverUrl = process.env.NEXT_PUBLIC_SERVER_URL || "https://surge-backend-seven.vercel.app";
+          await fetch(`${serverUrl}/api/newsletters`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: emailAddr }),
+          });
+        } catch { /* silent */ }
+      }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret: data.clientSecret,
+        confirmParams: {
+          return_url: `${window.location.origin}${buildSuccessUrl("cart", data)}`,
+        },
+      });
+
+      if (error) {
+        toast.error(error.message || "Payment confirmation failed");
+        setIsProcessing(false);
+      }
+    } catch (e) {
+      console.error(e);
+      const resData = e?.response?.data;
+      const backendMsg = resData?.message || resData?.error || resData?.errors?.[0]?.message;
+      toast.error(backendMsg || e.message || "An error occurred");
+      setIsProcessing(false);
+    }
+  };
+
+  const handleExpressCheckoutClick = ({ resolve }) => {
+    resolve({ emailRequired: true, phoneNumberRequired: true });
+  };
+
   // ── Payment Handler ──
   const handlePayment = async () => {
     if (!stripe || !elements) return;
@@ -261,7 +399,11 @@ export default function CheckoutForm({
               <div className={styles.One} style={{ display: isExpressAvailable ? "flex" : "none" }}>
                 <p style={{ fontWeight: "400" }}>EXPRESS CHECKOUT</p>
                 <div className={styles.ExpressContainer}>
-                  <ExpressCheckoutSection onAvailabilityChange={setIsExpressAvailable} />
+                  <ExpressCheckoutSection
+                    onAvailabilityChange={setIsExpressAvailable}
+                    onConfirm={handleExpressCheckoutConfirm}
+                    onClick={handleExpressCheckoutClick}
+                  />
                 </div>
               </div>
 

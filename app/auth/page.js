@@ -15,7 +15,19 @@ function AuthPageContent() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [appleLoading, setAppleLoading] = useState(false);
   const googleCallbackHandled = useRef(false);
+
+  // Load Apple JS SDK for popup-based Sign in with Apple
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js";
+    script.async = true;
+    document.head.appendChild(script);
+    return () => {
+      if (document.head.contains(script)) document.head.removeChild(script);
+    };
+  }, []);
 
   // useEffect(() => {
   //   if (status === "authenticated") {
@@ -169,11 +181,72 @@ function AuthPageContent() {
     });
   }
 
-  // function handleAppleSignIn() {
-  //   signIn("apple", {
-  //     callbackUrl: "/auth?from=apple",
-  //   });
-  // }
+  async function handleAppleSignIn() {
+    setError("");
+    setAppleLoading(true);
+    try {
+      if (typeof window === "undefined" || !window.AppleID) {
+        setError("Apple Sign In is not available. Please try again.");
+        return;
+      }
+      window.AppleID.auth.init({
+        clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID || "com.surge.login",
+        scope: "name email",
+        redirectURI: process.env.NEXT_PUBLIC_APPLE_REDIRECT_URI || "https://test.surgecoffee.ae",
+        usePopup: true,
+      });
+
+      const response = await window.AppleID.auth.signIn();
+      const idToken = response?.authorization?.id_token;
+      const firstName = response?.user?.name?.firstName || "";
+      const lastName = response?.user?.name?.lastName || "";
+
+      if (!idToken) {
+        setError("Apple sign-in failed. Please try again.");
+        return;
+      }
+
+      const res = await axiosClient.post("/api/app/apple-auth", {
+        appleToken: idToken,
+        givenName: firstName,
+        familyName: lastName,
+      });
+      const resData = res.data;
+
+      if (!resData.token) {
+        setError(resData.message || "Apple sign-in failed. Please try again.");
+        return;
+      }
+
+      Cookies.set("payload-token", resData.token, { expires: 7 });
+
+      const result = await signIn("otp", {
+        user: JSON.stringify(resData.user || {}),
+        token: resData.token,
+        redirect: false,
+      });
+
+      if (result?.error) {
+        setError("Apple sign-in failed. Please try again.");
+        return;
+      }
+
+      const redirectParam = searchParams.get("redirect") || "/";
+      if (resData.isNewUser || resData.needsContactEmail) {
+        router.push(`/auth/create-profile?redirect=${encodeURIComponent(redirectParam)}`);
+      } else {
+        router.push(redirectParam);
+      }
+    } catch (err) {
+      const cancelErrors = ["popup_closed_by_user", "user_trigger_new_signin_flow"];
+      if (cancelErrors.includes(err?.error)) return;
+      setError(
+        err?.response?.data?.message || err?.message || "Apple sign-in failed. Please try again."
+      );
+    } finally {
+      setAppleLoading(false);
+    }
+  }
 
   // During a Google OAuth callback, show a loader instead of the login form
   // to avoid the login page flashing before the redirect completes.
@@ -371,7 +444,7 @@ function AuthPageContent() {
           <div className={styles.socials}>
             <button
               onClick={handleGoogleSignIn}
-              disabled={loading}
+              disabled={loading || appleLoading}
               className={styles.googleButton}
               aria-label="Sign in with Google"
             >
@@ -408,7 +481,29 @@ function AuthPageContent() {
               </svg>
             </button>
 
-            
+            <button
+              onClick={handleAppleSignIn}
+              disabled={loading || appleLoading}
+              className={styles.googleButton}
+              aria-label="Sign in with Apple"
+            >
+              {appleLoading ? (
+                <span style={{ fontSize: "12px", color: "#2F362A" }}>...</span>
+              ) : (
+                <svg
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.0435 12.7249C17.0279 10.8504 17.8935 9.44785 19.6404 8.41441C18.6607 7.00535 17.1638 6.22754 15.1794 6.07629C13.3013 5.92816 11.2544 7.14472 10.5076 7.14472C9.71729 7.14472 7.90603 6.12629 6.47197 6.12629C3.50978 6.17316 0.359985 8.46129 0.359985 13.1249C0.359985 14.5218 0.611235 15.9656 1.11373 17.4562C1.78435 19.4093 4.25291 24.126 6.82416 24.0478C8.15853 24.0165 9.09666 23.1196 10.8279 23.1196C12.5123 23.1196 13.3779 24.0478 14.8654 24.0478C17.4522 24.0087 19.6873 19.7249 20.3267 17.7718C16.961 16.1624 17.0435 12.8187 17.0435 12.7249ZM14.0813 4.22629C15.5063 2.53129 15.3738 0.985039 15.3269 0.454102C14.0657 0.532227 12.6004 1.31629 11.7663 2.28754C10.8435 3.33254 10.3254 4.62691 10.4423 6.04535C11.8073 6.14941 13.0529 5.44472 14.0813 4.22629Z"
+                    fill="#2F362A"
+                  />
+                </svg>
+              )}
+            </button>
           </div>
         </div>
       </div>

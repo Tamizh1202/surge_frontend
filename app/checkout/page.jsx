@@ -193,7 +193,6 @@ function CheckoutContent() {
     mode: "payment",
     amount: Math.max(1, Math.round(cartTotals.total * 100)), // Stripe expects cents, min 1
     currency: "aed",
-    ...(status === "authenticated" && { setup_future_usage: "off_session" }),
     appearance: {
       theme: 'stripe',
       variables: {

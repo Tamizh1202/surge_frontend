@@ -4,6 +4,7 @@ import { ExpressCheckoutElement } from "@stripe/react-stripe-js";
 export default function ExpressCheckoutSection({ onAvailabilityChange, onConfirm, onClick }) {
   return (
     <ExpressCheckoutElement
+      options={{ paymentMethods: { applePay: "always", googlePay: "always" } }}
       onConfirm={onConfirm}
       onClick={onClick}
       onReady={({ availablePaymentMethods }) => {

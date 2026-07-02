@@ -31,12 +31,12 @@
 .productWrapper {
   position: relative;
   padding: 135px 0px 40px 0px;
-  width: 456px;
+  width: 350px;
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mainImage {
-  width: 100%;
+  width: 85%;
   height: auto;
   display: block;
 }

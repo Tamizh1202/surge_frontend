@@ -128,7 +128,7 @@
 
 .Description {
   font-family: var(--font-raleway);
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   color: #818686;
   margin: 0 0 15px 0;
   white-space: nowrap;
@@ -146,7 +146,7 @@
 
 .CurrentPrice {
   font-family: var(--font-montserrat);
-  font-size: var(--fs-16);
+  font-size: var(--fs-18);
   font-weight: 600;
   color: #414343;
   white-space: nowrap;
@@ -158,7 +158,7 @@
   border: none;
   padding: 12px 24px;
   font-family: var(--font-raleway);
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;

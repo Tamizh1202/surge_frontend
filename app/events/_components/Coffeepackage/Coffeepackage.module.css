@@ -6,14 +6,14 @@
 }
 
 .header {
-  max-width: 643px;
+  width: 50%;
   display: flex;
   flex-direction: column;
   gap: 8px; 
 }
 
 .mainTitle {
-  font-size: var(--fs-24);
+  font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
   font-family: var(--font-montserrat);
@@ -21,7 +21,7 @@
 }
 
 .subtitle {
-  font-size: var(--fs-18);
+  font-size: var(--fs-16);
   line-height: 1.4;
   color: var(--text-secondary);
   font-weight: 400;
@@ -44,7 +44,7 @@
 }
 
 .cardTitle {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   color: #C4754E; 
   font-family: var(--font-montserrat);
@@ -162,7 +162,7 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 }
 
 .locationTitle {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   color: #C4754E;
   font-family: var(--font-montserrat);
@@ -207,15 +207,15 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 }
 
 .locCity {
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   font-family: var(--font-raleway);
   color: var(--text-primary);
 }
 
 .locPrice {
-  font-size: 18px;
-  font-weight: 500;
+  font-size: var(--fs-18);
+  font-weight: 600;
   font-family: var(--font-montserrat);
   color: var(--text-primary);
 }

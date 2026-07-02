@@ -1,15 +1,17 @@
 import styles from "./Landing.module.css";
-import tablePng from "./table.png";  // import it properly
+import coffeeBeans from "./coffeebeans.webp";
+import coffeeCapsules from "./coffeecapsules.webp";
+import dripBags from "./dripbags.webp";
 
 const BANNER_IMAGES = {
-    "coffee-beans": "/banners/coffee-beans.png",
-    "capsules": "/banners/capsules.png",
-    "drip-bags": "/banners/drip-bags.png",
-    "merchandise": "/banners/merchandise.png",
+    "coffee-beans": coffeeBeans.src,
+    "coffee-capsules": coffeeCapsules.src,
+    "coffee-dripbags": dripBags.src,
+    "merchandise": "/table.png",
 };
 
 export default function Landing({ category }) {
-    const bgImage = "/table.png";
+    const bgImage = BANNER_IMAGES[category] ?? coffeeBeans.src;
 
     return (
         <section

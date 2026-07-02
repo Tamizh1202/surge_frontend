@@ -4,7 +4,7 @@
   flex-direction: column;
   width: 100%;
   background-color: #fff;
-  padding: clamp(80px, 8vw, 150px) clamp(40px, 6.5vw, 125px) 32px clamp(40px, 6.5vw, 125px);
+  padding: clamp(80px, 8vw, 150px) clamp(40px, 5vw, 125px) 32px clamp(40px, 6.5vw, 125px);
   box-sizing: border-box;
 }
 
@@ -35,7 +35,8 @@
   position: relative;
   width: 840px;
   flex-shrink: 0;
-  overflow: hidden;             /* this is the "window" — clips the sliding image */
+  overflow: hidden;
+  /* this is the "window" — clips the sliding image */
   background: #e8e0d8;
 }
 
@@ -66,7 +67,8 @@
 .textWindow {
   flex: 1;
   position: relative;
-  overflow: hidden;             /* clips sliding text — same principle as imgWindow */
+  overflow: hidden;
+  /* clips sliding text — same principle as imgWindow */
   min-height: 0;
 }
 
@@ -113,7 +115,7 @@
 
 .description {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-18);
   line-height: 1.6;
   color: #818686;
   max-width: 440px;
@@ -217,6 +219,16 @@
   color: white;
 }
 
+@media (max-width: 1800px) and (min-width: 1025px) {
+  .imgWindow {
+    width: 540px;
+  }
+
+  .rightSide {
+    padding: 40px clamp(40px, 12vw, 0px);
+  }
+}
+
 /* ─── Tablet (≤1024px) — layout stays side-by-side, just scaled ────────────── */
 @media (max-width: 1024px) {
   .main {
@@ -283,10 +295,11 @@
     gap: 16px;
   }
 }
+
 @media (max-width: 480px) {
   .main {
     padding: 0;
-    padding-top:90px;
+    padding-top: 90px;
   }
 
   .mainCard {

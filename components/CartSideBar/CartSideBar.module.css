@@ -47,15 +47,15 @@
 
 .headerTitle h4 {
   font-family: var(--font-raleway);
-  font-size: 16px;
-  font-weight: 700;
+  font-size: var(--fs-18);
   margin: 0;
+  font-weight: 700;
   color: #414343;
 }
 
 .headerTitle span {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #818686;
 }
@@ -186,7 +186,7 @@
 
 .prodHeader h5 {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   color: #414343;
   line-height: 1.4;

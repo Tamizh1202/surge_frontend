@@ -36,7 +36,7 @@
 
 .description {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   line-height: 1.4;
   color: #818686;
@@ -50,7 +50,7 @@
   border: none;
   font-family: var(--font-raleway);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--fs-16);
   cursor: pointer;
   align-self: flex-start;
   transition: transform 0.2s ease;

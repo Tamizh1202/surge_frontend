@@ -119,9 +119,9 @@ const options = [
               </div>
 
               <div className={styles.formBox}>
-                
+
                 {/* Full Name */}
-                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center' }}>
+                <div style={{ position: 'relative' }}>
                   <input
                     type="text"
                     placeholder="Full Name *"
@@ -131,10 +131,9 @@ const options = [
                     onBlur={() => setActiveField("")}
                     onChange={(e) => setFullName(e.target.value)}
                     required
-                    style={{ width: '100%' }}
                   />
-                  {(activeField === "fullName" || fullName.length > 0) && (
-                    <span style={{ position: 'absolute', right: '10px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                  {activeField === "fullName" && (
+                    <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                       {fullName.length}/{nameLimit}
                     </span>
                   )}
@@ -170,8 +169,8 @@ const options = [
                       onChange={handlePhoneChange}
                       style={{ width: '100%' }}
                     />
-                    {(activeField === "phone" || phone.length > 0) && (
-                      <span style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                    {activeField === "phone" && (
+                      <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                         {phone.length}/{phoneLimit}
                       </span>
                     )}
@@ -205,8 +204,8 @@ const options = [
                   )}
                 </div>
 
-                {/* Message Section */}
-                <div style={{ position: 'relative', width: '100%', display: 'flex', alignItems: 'center'}}>
+                {/* Message */}
+                <div style={{ position: 'relative' }}>
                   <textarea
                     placeholder="How we can help you. *"
                     value={message}
@@ -215,10 +214,10 @@ const options = [
                     onBlur={() => setIsTextareaActive(false)}
                     onChange={(e) => setMessage(e.target.value)}
                     required
-                    style={{ width: '100%',paddingBottom:"4px"  }}
+                    style={{ width: '100%', paddingBottom: '4px' }}
                   />
-                  {(isTextareaActive || message.length > 0) && (
-                    <span style={{ position: 'absolute', right: '10px', bottom: '15px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
+                  {isTextareaActive && (
+                    <span style={{ position: 'absolute', right: 0, bottom: '-15px', fontSize: '10px', color: '#818686', pointerEvents: 'none', fontFamily: 'var(--font-montserrat)' }}>
                       {message.length}/{characterLimit}
                     </span>
                   )}

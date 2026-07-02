@@ -194,7 +194,7 @@ export default function Details() {
                     <h2 className={styles.categoryTitle}>{section.title}</h2>
 
                     <div className={styles.menuContainer}>
-                        <div className={styles.itemList}>
+                        <div className={styles.itemList} data-lenis-prevent>
                             {section.items.map((item) => (
                                 <div
                                     key={item.id}

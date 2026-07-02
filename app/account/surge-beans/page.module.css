@@ -190,7 +190,7 @@ heading .olive .heading {
 .faqHeading h1 {
   font-family: var(--font-montserrat);
   font-weight: 600;
-  font-size: 22px;
+  font-size: var(--fs-22);
   color: #414343;
 
   margin: 0;
@@ -233,7 +233,7 @@ heading .olive .heading {
 .quesStyle h4 {
   font-family: var(--font-raleway);
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #2F362A;
   margin: 0;
 }
@@ -274,7 +274,7 @@ heading .olive .heading {
   /* indent under question */
   font-family: var(--font-raleway);
   font-weight: 400;
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #6E736A;
 }
 
@@ -362,7 +362,7 @@ heading .olive .heading {
 }
 
 .balanceWrapper h2 {
-  font-size: 30px;
+  font-size: 40px;
   /* scales smoothly */
   font-weight: 600;
   font-family: var(--font-montserrat);
@@ -373,7 +373,7 @@ heading .olive .heading {
 }
 
 .balanceWrapper p {
-  font-size: var(--fs-14);
+  font-size: var(--fs-16);
   font-weight: 400;
   font-family: var(--font-raleway);
   margin: 0;
@@ -381,7 +381,7 @@ heading .olive .heading {
 }
 
 .validityText {
-  font-size: var(--fs-16);
+  font-size: var(--fs-14);
   font-weight: 500;
   font-family: var(--font-raleway);
   margin: 0;
@@ -425,7 +425,7 @@ heading .olive .heading {
 .heading h1 {
   font-family: var(--font-montserrat);
   font-weight: 600;
-  font-size: 22px;
+  font-size: var(--fs-22);
   color: #414343;
   margin: 0;
 }
@@ -458,7 +458,7 @@ heading .olive .heading {
 .stepItem h3 {
   font-family: var(--font-raleway);
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #414343;
   margin: 0 0 10px 0;
 }
@@ -466,9 +466,9 @@ heading .olive .heading {
 .stepItem p {
   font-family: var(--font-raleway);
   font-weight: 500;
-  font-size: 12px;
+  font-size: var(--fs-14);
   color: #818686;
-  line-height: 1.6;
+  line-height: 1.4;
   margin: 0;
   width: 90%;
 }

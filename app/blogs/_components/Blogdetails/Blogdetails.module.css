@@ -170,7 +170,7 @@
 }
 
 .rightColumn {
-  width: 489px;
+  /* width: 489px; */
   display: flex;
   flex-direction: column;
   gap: 32px;

@@ -67,7 +67,7 @@
 }
 
 .textBox h2 {
-  font-size: 22px;
+  font-size: var(--fs-22);
   color: #414343;
   font-weight: 600;
   font-family: var(--font-montserrat);
@@ -75,8 +75,8 @@
 }
 
 .textBox p {
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: var(--fs-18);
+  line-height: 1.4;
   font-weight: 400;
   font-family: var(--font-raleway);
   color: #818686;

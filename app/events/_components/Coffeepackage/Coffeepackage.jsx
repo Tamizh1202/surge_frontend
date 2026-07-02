@@ -43,8 +43,7 @@ export default async function CoffeePackages() {
       <header className={styles.header}>
         <h2 className={styles.mainTitle}>Choose Your Coffee Package</h2>
         <p className={styles.subtitle}>
-          From intimate gatherings to large-scale events, pick a package based on your guest
-          count and serving needs. Simple, flexible, and crafted to keep every cup consistent.
+          From intimate gatherings to large-scale events, pick a package based on your guest count and serving needs. Simple, flexible, and crafted to keep every cup consistent.
         </p>
       </header>
 

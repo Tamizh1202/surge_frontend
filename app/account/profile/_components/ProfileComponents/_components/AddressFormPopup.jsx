@@ -43,8 +43,8 @@ const AddressFormPopup = ({
 
   // Limits updated for Address and Street Number
   const limits = {
-    firstName: 15,
-    lastName: 15,
+    firstName: 20,
+    lastName: 20,
     address: 100,
     apartment: 30,
     city: 15,
@@ -64,7 +64,7 @@ const AddressFormPopup = ({
   const title = mode === "edit" ? "Edit address" : "Add address";
   const saveLabel = isSubmitting ? "Saving..." : "Save";
 
-  const isPhoneActive = focusedField === "phone" || getRawPhone(addressForm.phone).length > 0;
+  const isPhoneActive = focusedField === "phone";
 
   return (
     <div className={styles.popupOverlay} onClick={onCancel}>
@@ -93,10 +93,8 @@ const AddressFormPopup = ({
                 onBlur={() => { setFocusedField(null); touch("addressFirstName"); }}
                 onChange={(e) => onFormChange("addressFirstName", e.target.value)}
               />
-              {(focusedField === "firstName" || addressForm.addressFirstName) && (
-                <span className={styles.charCounter}>
-                  {(addressForm.addressFirstName || "").length}/{limits.firstName}
-                </span>
+              {focusedField === "firstName" && (
+                <span className={styles.charCounter}>{(addressForm.addressFirstName || "").length}/{limits.firstName}</span>
               )}
             </div>
             {err("addressFirstName")}
@@ -112,10 +110,8 @@ const AddressFormPopup = ({
                 onBlur={() => { setFocusedField(null); touch("addressLastName"); }}
                 onChange={(e) => onFormChange("addressLastName", e.target.value)}
               />
-              {(focusedField === "lastName" || addressForm.addressLastName) && (
-                <span className={styles.charCounter}>
-                  {(addressForm.addressLastName || "").length}/{limits.lastName}
-                </span>
+              {focusedField === "lastName" && (
+                <span className={styles.charCounter}>{(addressForm.addressLastName || "").length}/{limits.lastName}</span>
               )}
             </div>
             {err("addressLastName")}
@@ -134,10 +130,8 @@ const AddressFormPopup = ({
               onBlur={() => { setFocusedField(null); touch("address"); }}
               onChange={(e) => onFormChange("address", e.target.value)}
             />
-            {(focusedField === "address" || addressForm.address) && (
-              <span className={styles.charCounter}>
-                {(addressForm.address || "").length}/{limits.address}
-              </span>
+            {focusedField === "address" && (
+              <span className={styles.charCounter}>{(addressForm.address || "").length}/{limits.address}</span>
             )}
           </div>
           {err("address")}
@@ -155,10 +149,8 @@ const AddressFormPopup = ({
               onChange={(e) => onFormChange("apartment", e.target.value)}
 
             />
-            {(focusedField === "apartment" || addressForm.apartment) ? (
-              <span className={styles.charCounter}>
-                {(addressForm.apartment || "").length}/{limits.apartment}
-              </span>
+            {focusedField === "apartment" ? (
+              <span className={styles.charCounter}>{(addressForm.apartment || "").length}/{limits.apartment}</span>
             ) : (
               <span className={styles.optionalTag}>(Optional)</span>
             )}
@@ -178,10 +170,8 @@ const AddressFormPopup = ({
                 onBlur={() => { setFocusedField(null); touch("city"); }}
                 onChange={(e) => onFormChange("city", e.target.value)}
               />
-              {(focusedField === "city" || addressForm.city) && (
-                <span className={styles.charCounter}>
-                  {(addressForm.city || "").length}/{limits.city}
-                </span>
+              {focusedField === "city" && (
+                <span className={styles.charCounter}>{(addressForm.city || "").length}/{limits.city}</span>
               )}
               {err("city")}
             </div>
@@ -272,9 +262,7 @@ const AddressFormPopup = ({
               />
             </div>
             {isPhoneActive && (
-              <span className={styles.charCounter} style={{ bottom: '8px' }}>
-                {getRawPhone(addressForm.phone).length}/{limits.phone}
-              </span>
+              <span className={styles.charCounter}>{getRawPhone(addressForm.phone).length}/{limits.phone}</span>
             )}
             {(touched.phone && !requiredFields.phone) ? (
               <span style={{ position: 'absolute', bottom: '-20px', left: 0, fontSize: '12px', color: '#c0392b', fontFamily: 'var(--font-raleway)' }}>This field is required</span>

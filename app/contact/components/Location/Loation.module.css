@@ -9,7 +9,7 @@
 }
 
 .mainHeading {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   margin-top: 8px;
   font-family: var(--font-montserrat);
@@ -18,7 +18,7 @@
 }
 
 .topSubtext {
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #818686;
   font-family: var(--font-raleway);
   max-width: 776px;
@@ -45,21 +45,21 @@
 
 .locName {
   font-weight: 500;
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-family: var(--font-montserrat);
   margin-bottom: 8px;
 }
 
 .locArea {
   color: #818686;
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 400;
   font-family: var(--font-raleway);
 }
 
 .goldLink {
   color: #C4754E;
-  font-size: 16px;
+  font-size: var(--fs-16);
   text-decoration: none;
   font-weight: 400;
   font-family: var(--font-raleway);
@@ -191,14 +191,14 @@
 }
 
 .heading {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   font-family: var(--font-montserrat);
   margin-bottom: 16px;
 }
 
 .description {
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #818686;
   font-weight: 400;
   width: 740px;
@@ -223,14 +223,14 @@
 }
 
 .jobInfo h3 {
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-weight: 500;
   font-family: var(--font-montserrat);
   margin: 0;
 }
 
 .jobInfo p {
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #818686;
   font-weight: 400;
   font-family: var(--font-raleway);
@@ -245,8 +245,8 @@
   color: #C4754E;
   text-decoration: none;
   font-family: var(--font-raleway);
-  font-size: 16px;
-  font-weight: 400;
+  font-size: var(--fs-16);
+  font-weight: 400; 
   transition: all 0.3s ease;
 }
 

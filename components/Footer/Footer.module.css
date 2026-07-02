@@ -251,14 +251,14 @@
 
 .column h4 {
   font-family: var(--font-montserrat);
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   margin: 0 0 24px 0;
 }
 
 .column a {
   font-family: var(--font-raleway);
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: var(--background);
   text-decoration: none;
   display: block;

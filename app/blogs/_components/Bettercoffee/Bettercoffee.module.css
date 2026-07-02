@@ -1,14 +1,14 @@
 .container {
 
   padding-top: clamp(8px, 1vw, 15px);
-  padding-left: clamp(30px, 10vw, 125px);
-  padding-right: clamp(30px, 10vw, 125px);
+  padding-left: clamp(40px, 5vw, 125px);
+  padding-right: clamp(40px, 5vw, 125px);
   padding-bottom: clamp(40px, 8vw, 88px);
   background-color: #ffffff;
 }
 
 .sectionHeading {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-family: var(--font-montserrat);
   font-weight: 600;
   color: #414343;
@@ -55,7 +55,7 @@
 }
 
 .cardTitle {
-  font-size: 18px;
+  font-size: var(--fs-18);
   font-weight: 500;
   margin-top: 14px;
   margin-bottom: 0;
@@ -64,7 +64,7 @@
 }
 
 .cardDesc {
-  font-size: 16px;
+  font-size: var(--fs-16);
   color: #818686;
   font-family: var(--font-raleway);
   margin: 0;
@@ -88,7 +88,7 @@
 
 .readMore {
   color: #C4754E;
-  font-size: 16px;
+  font-size: var(--fs-16);
   text-decoration: none;
   font-family: var(--font-raleway);
   display: flex;
@@ -117,13 +117,14 @@
 }
 
 
-@media (min-width: 1125px) and (max-width: 1450px) {
+@media (min-width: 1025px) and (max-width: 1450px) {
   .container {
     padding: 10px 60px 80px 60px;
   }
 
   .grid {
     gap: 24px;
+    grid-template-columns: 1fr 1fr;
   }
 
   .cardDesc {

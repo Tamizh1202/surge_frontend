@@ -178,7 +178,7 @@ padding: clamp(20px, 5vw, 50px) clamp(15px, 2vw, 30px);
   }
 
   .heading {
-    font-size: 22px;
+    font-size: var(--fs-22);
   }
 
   .card {
@@ -197,7 +197,7 @@ padding: clamp(20px, 5vw, 50px) clamp(15px, 2vw, 30px);
   }
 
   .subtext {
-    max-width: 808px;
+    max-width: 70%;
   }
 }
 

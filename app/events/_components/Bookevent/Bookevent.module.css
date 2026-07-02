@@ -119,9 +119,9 @@
 
 .Subtitle {
     color: var(--text-secondary);
-    font-size: var(--fs-20);
+    font-size: var(--fs-16);
     font-family: var(--font-raleway);
-    max-width: 80%;
+    max-width: 50%;
     margin: 0;
     line-height: 1.4;
 }
@@ -132,7 +132,7 @@
   font-family: var(--font-raleway);
   padding: 12px 40px;
   border: none;
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-weight: 600;
   cursor: pointer;
   margin-top: 24px;

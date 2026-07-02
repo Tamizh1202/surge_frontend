@@ -1,9 +1,9 @@
 import styles from "./Shop.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import one from "./Coffee1.jpg";
-import two from "./Coffee2.jpg";
-import three from "./Coffee3.jpg";
+import one from "./coffeebeans.webp";
+import two from "./coffeecapsules.webp";
+import three from "./dripbags.webp";
 
 const categories = [
   {

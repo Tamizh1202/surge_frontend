@@ -28,7 +28,7 @@ export default async function ShopCategory({ params }) {
 
   return (
     <>
-      <Landing />
+      <Landing category={category} />
       {/* <NavigationStrip /> */}
       <Listing category={match} />
     </>

@@ -25,7 +25,7 @@
 }
 
 .title {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   color: var(--text-primary);
   font-family: var(--font-montserrat);
@@ -34,7 +34,7 @@
 
 .description {
   margin: 0;
-  font-size: 16px;
+  font-size: var(--fs-16);
   font-family: var(--font-raleway);
   font-weight: 400;
   line-height: 1.3;

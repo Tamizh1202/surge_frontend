@@ -68,7 +68,7 @@
     /* border-radius: 12px; */
     overflow: hidden;
     width: 100%;
-    min-width: 260px;
+    max-width: 100%;
     box-sizing: border-box;
     /* box-shadow: 0 4px 16px rgba(196, 117, 78, 0.1); */
 }
@@ -200,15 +200,9 @@
     color: var(--text-secondary, #818686);
     font-family: var(--font-raleway, "Raleway", sans-serif);
 }
-@media screen and (min-width: 769px) and (max-width: 1024px){
+
+@media (max-width: 786px) {
     .row {
-    display: flex;
-    gap: 15px;
-    align-items: flex-start;
-}
-}
-@media screen and (max-width: 768px){
-    .row{
-        gap:15px;
+        gap: 15px;
     }
 }

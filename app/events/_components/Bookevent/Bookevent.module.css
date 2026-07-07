@@ -5,9 +5,7 @@
   align-items: center;
   width: 100%;
   height: 100vh;
-  /* ← added */
   overflow: hidden;
-  /* ← added */
   border: none;
   background-color: #ffffff;
 }
@@ -18,18 +16,15 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  /* ← added */
 }
 
 .Bottom {
   flex: 0 0 62vh;
-  /* ← replaces fixed sizing, takes 62% of viewport */
   display: flex;
   justify-content: flex-start;
   flex-direction: row;
   width: 100%;
   overflow: hidden;
-  /* ← added so images don't bleed */
 }
 
 .Marquee {
@@ -50,9 +45,7 @@
 .imageWrapper {
   position: relative;
   width: 62vh;
-  /* ← was 554px, now matches Bottom height */
   height: 62vh;
-  /* ← was 554px */
   flex-shrink: 0;
 }
 
@@ -90,15 +83,11 @@
 
 .Content {
   flex: 1;
-  /* ← fills remaining ~38vh */
   min-height: 0;
-  /* ← prevents flex overflow */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  /* ← vertically centers content in remaining space */
   padding-top: 0;
-  /* ← removed fixed padding-top, centering handles it */
   padding-left: 125px;
   padding-bottom: 0;
   gap: 8px;
@@ -114,7 +103,7 @@
   font-family: var(--font-montserrat);
   margin: 0;
   line-height: 1.2;
-  width:90%
+  width: 90%
 }
 
 .Subtitle {
@@ -145,24 +134,9 @@
 }
 
 
-
-
-
-
-
-
-
-
-
 /* --- RESPONSIVE MEDIA QUERIES --- */
 
-@media (max-width: 1280px) {
-  .Content {
-    padding-left: 60px;
-  }
-}
-
-@media (max-width: 1024px) {
+@media (max-width: 1400px) {
   .Content {
     padding-left: 60px;
   }
@@ -181,7 +155,6 @@
   .Track {
     animation: scrollLoop 15s linear infinite;
     animation-delay: -3s;
-    /* ← rename here too */
   }
 
   @keyframes scrollWithStartPause {
@@ -211,14 +184,15 @@
   .eventButton {
     margin-top: 20px;
     padding: 14px 32px;
-    font-size:var(--fs-18);
+    font-size: var(--fs-18);
   }
+
   .Track {
-  display: flex;
-  gap: 8px;
-  white-space: nowrap;
-  width: max-content;
-  animation: scrollLoop 15s linear infinite;
-  animation-delay: -2s;
-}
+    display: flex;
+    gap: 8px;
+    white-space: nowrap;
+    width: max-content;
+    animation: scrollLoop 15s linear infinite;
+    animation-delay: -2s;
+  }
 }

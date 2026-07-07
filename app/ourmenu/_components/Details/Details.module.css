@@ -156,12 +156,7 @@
   }
 }
 
-
-
-
-
-
-@media (min-width: 1024px) and (max-width: 1500px) {
+@media (max-width: 1600px) {
   .selectedSection {
 
     padding-left: clamp(40px, 5vw, 150px);
@@ -218,10 +213,7 @@
   }
 }
 
-
-
-
-@media (min-width: 800px) and (max-width: 1000px) {
+@media (max-width: 768px) {
   .selectedSection {
 
     padding: 5vw 4vw;
@@ -318,7 +310,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 648px) {
 
 
 

@@ -102,8 +102,7 @@
 .Main {
   display: flex;
   width: 100%;
-
-  gap: 146px;
+  justify-content: space-between;
 }
 
 .leftColumn {

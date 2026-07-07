@@ -15,10 +15,10 @@
 
 .dropdownWrapper {
   position: relative;
-  min-width: 270px; 
-  height: 45px; 
   display: flex;
   align-items: center;
+  width: fit-content;
+  min-height: 45px;
 }
 
 .mainBox {
@@ -29,12 +29,13 @@
 }
 
 .boxOpen {
-  background-color: #f5f5f5; 
+  background-color: #f5f5f5;
   /* box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10); */
   position: absolute;
-  top: 0; 
+  top: 0;
   left: 0;
   width: 100%;
+  min-width: max-content;
 }
 
 
@@ -65,6 +66,7 @@
   border-bottom: 1px solid #d1d1d1;
   padding-bottom: 8px;
   margin-bottom: 4px;
+  width: 100%;
 }
 
 .selectedName {

@@ -9,7 +9,7 @@
   width: 50%;
   display: flex;
   flex-direction: column;
-  gap: 8px; 
+  gap: 8px;
 }
 
 .mainTitle {
@@ -32,12 +32,12 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(3, 1fr);
   gap: 52px;
 }
 
 .card {
-  background-color: #FBF5F1; 
+  background-color: #FBF5F1;
   padding: 23px 40px 52px;
   display: flex;
   flex-direction: column;
@@ -46,7 +46,7 @@
 .cardTitle {
   font-size: var(--fs-22);
   font-weight: 600;
-  color: #C4754E; 
+  color: #C4754E;
   font-family: var(--font-montserrat);
   text-align: center;
   margin: 0 0 19px 0;
@@ -65,7 +65,7 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 .sectionGroup {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: 16px;
 }
 
 .sectionHeading {
@@ -80,7 +80,7 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 .sectionContent {
   display: flex;
   flex-direction: column;
-  gap: 7px; 
+  gap: 7px;
 }
 
 
@@ -108,13 +108,13 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
   font-family: var(--font-raleway);
   color: #414343;
   display: flex;
-  align-items: center; 
-  gap: 7px; 
+  align-items: center;
+  gap: 7px;
   line-height: 1.2;
 }
 
 .bulletSvg {
-  flex-shrink: 0; 
+  flex-shrink: 0;
 }
 
 .priceRows {
@@ -191,8 +191,7 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
 
 .locationCard + .locationCard {
   position: relative;
-  /* padding-left: 81px;  */
-  text-align:center;
+  text-align: center;
 }
 
 .locationCard + .locationCard::before {
@@ -202,7 +201,7 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
   top: 50%;
   transform: translateY(-50%);
   width: 1px;
-  height: 40px; 
+  height: 40px;
   background-color: #818686;
 }
 
@@ -220,9 +219,17 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
   color: var(--text-primary);
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1400px) {
+  .container {
+    padding-left: 60px;
+    padding-right: 60px;
+    padding-top: 100px;
+    gap: 45px;
+  }
+
   .grid {
-    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
   }
 
   .locationGrid {
@@ -253,29 +260,6 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
     height: 40px;
     background-color: #EAEAEA;
   }
-}
-
-
-@media (max-width: 1280px) {
-  .container {
-      padding: 100px 60px; 
-    gap: 45px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr); 
-    gap: 30px;
-  }
-
-  .locationGrid {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 24px;
-  }
-
-
-  .locationCard:not(:nth-child(3n+1))::before {
-    display: none;
-  }
 
   .locationCard:not(:nth-child(2n+1)) {
     position: relative;
@@ -294,20 +278,21 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
   }
 }
 
-@media (max-width: 768px) {
-   .container {
-    padding: 80px 24px; 
+@media (max-width: 786px) {
+  .container {
+    padding: 80px 24px;
     gap: 32px;
   }
+
   .grid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
 }
 
-@media (max-width: 600px) and (min-width: 320px) {
+@media (max-width: 640px) {
   .container {
-    padding: 60px 24px; 
+    padding: 60px 24px;
     gap: 32px;
   }
 
@@ -316,9 +301,9 @@ padding: clamp(20px, 2.5vw, 26px) clamp(16px, 3vw, 33px) clamp(30px, 5vw, 57px);
   }
 
   .card {
-    padding: 20px 20px 45px; 
+    padding: 20px 20px 45px;
   }
-  
+
   .cardTitle {
     font-size: 18px;
     margin-bottom: 20px;

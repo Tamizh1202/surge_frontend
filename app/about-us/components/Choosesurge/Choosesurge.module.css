@@ -7,8 +7,8 @@
   box-sizing: border-box;
   /* Top: 0 */
   padding-top: 0;
-  padding-left: clamp(30px, 12vw, 126px);
-  padding-right: clamp(30px, 12vw, 126px);
+  padding-left: clamp(30px, 12vw, 140px);
+  padding-right: clamp(30px, 12vw, 140px);
   padding-bottom: clamp(40px, 11vw, 120px);
 }
 
@@ -84,7 +84,14 @@
 }
 
 
+@media (max-width:1600px) and (min-width:1201px){
+  .main {
+    padding-left: 80px;
+    padding-right: 80px;
+  }
 
+
+}
 
 
 @media (max-width: 1200px) {
@@ -143,9 +150,16 @@
     gap: 20px;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 }
+@media (max-width: 640px){
+  .cardcontainer{
+    grid-template-columns: 1fr;
+  }
+
+}
+
 
 
 @media (max-width: 325px) {

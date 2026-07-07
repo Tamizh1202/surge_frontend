@@ -126,7 +126,7 @@ const CartSideBar = () => {
                 <p>Explore our curated coffee collections.</p>
                 <button
                   className={styles.StartShopping}
-                  onClick={() => { closeCart(); router.push("/shop"); }}
+                  onClick={() => { closeCart(); router.push("/shop/coffee-beans"); }}
                 >
                   Start Shopping
                 </button>

@@ -189,7 +189,6 @@ function CheckoutContent() {
   }
 
   const elementsOptions = {
-    paymentMethodCreation: "manual",
     mode: "payment",
     amount: Math.max(1, Math.round(cartTotals.total * 100)), // Stripe expects cents, min 1
     currency: "aed",

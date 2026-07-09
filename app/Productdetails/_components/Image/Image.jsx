@@ -1,28 +1,34 @@
 import Image from 'next/image';
 import styles from './Image.module.css';
-import image from './tree.png';
-export default function Section() {
-  return (
+import image from './tree.webp';
+import imageMob from './treeMob.webp';
 
+export default function Section({ product = {} }) {
+  return (
     <div className={styles.mainWrapper}>
       <section className={styles.container}>
-        <Image 
-          src={image} 
+        <Image
+          src={image}
           alt="Sustainability"
           fill
           priority
-          className={styles.bgImage}
+          className={`${styles.bgImage} ${styles.bgDesktop}`}
+        />
+        <Image
+          src={imageMob}
+          alt="Sustainability"
+          fill
+          priority
+          className={`${styles.bgImage} ${styles.bgMobile}`}
         />
         <div className={styles.overlay} />
 
         <div className={styles.content}>
-
-          <h2 className={styles.title}>Sustainability & Traceability</h2>
+          <h2 className={styles.title}>About our Farm</h2>
+          
           <p className={styles.description}>
-            Selective hand-picking, small-lot processing, and transparent premiums 
-            support long-term soil health and producer livelihoods. Each bag is 
-            traceable to plot and process date, ensuring the clarity you taste is 
-            matched by clarity in sourcing.
+            {product.farmDescription}
+            
           </p>
         </div>
       </section>

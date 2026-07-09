@@ -65,7 +65,7 @@
   font-size: var(--fs-22);
   font-weight: 600;
   margin: 0;
-  color: #414343;
+  color: #FFFFFF;
 }
 
 .hoverContent {
@@ -87,7 +87,7 @@
 
   font-size: var(--fs-18);
   font-family: var(--font-raleway);
-  color: #414343;
+  color: #ffffff;
   width: 80%;
   line-height: 1.4;
 
@@ -96,6 +96,14 @@
 }
 
 
+
+.card:last-child .categoryName {
+  color: #414343;
+}
+
+.card:last-child .mobileDescription {
+  color: #414343;
+}
 
 .mobileBtn {
 
@@ -240,5 +248,13 @@
     margin-top: 8px;
     margin-bottom: 20px;
   }
-  
+
+  .card:last-child .categoryName {
+    color: #414343;
+  }
+
+  .card:last-child .mobileDescription {
+    color: #414343;
+  }
+
 }

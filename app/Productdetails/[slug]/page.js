@@ -10,13 +10,19 @@ export default async function ProductPage({ params }) {
   let product = null;
 
   try {
-    const res = await fetch(`${serverUrl}/api/web-categories?where[slug][equals]=${slug}&depth=2`, {
+    const res = await fetch(`${serverUrl}/api/web-products?where[slug][equals]=${slug}&depth=2`, {
       next: { revalidate: 60 }
     });
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error('Fetch failed:', res.status, errorText);
+      throw new Error(`Failed to fetch product: ${res.status}`);
+    }
+
     const data = await res.json();
     product = data.docs?.[0] || null;
 
-    // 👇 debug logs here, inside try, after fetch
     console.log('product keys:', Object.keys(product ?? {}));
     console.log('brewingGuide:', JSON.stringify(product?.brewingGuide, null, 2));
 
@@ -31,12 +37,13 @@ export default async function ProductPage({ params }) {
       </main>
     );
   }
-
+  console.log('About to render, product.farmDescription:', product?.farmDescription);
+  console.log('product full:', JSON.stringify(product).slice(0, 500));
   return (
     <main style={{ backgroundColor: "#000", minHeight: "100vh", color: "white" }}>
       <ProductOne initialProduct={product} />
       <Producttwo brewingGuide={product.brewingGuide} serverUrl={serverUrl} />
-      <ImageSection />
+      <ImageSection product={product} />
       <YouMayAlsoLike recommendedProducts={product.recommendedProducts} />
     </main>
   );

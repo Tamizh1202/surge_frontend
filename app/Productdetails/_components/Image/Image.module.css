@@ -21,6 +21,20 @@
   z-index: 0;
 }
 
+.bgMobile {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .bgDesktop {
+    display: none;
+  }
+
+  .bgMobile {
+    display: block;
+  }
+}
+
 .overlay {
   position: absolute;
   inset: 0;
@@ -38,7 +52,7 @@
 }
 
 .title {
-  font-size: 22px;
+  font-size: var(--fs-22);
   font-weight: 600;
   margin: 0;
     font-family: var(--font-montserrat);
@@ -46,7 +60,7 @@
 }
 
 .description {
-  font-size: 16px;
+  font-size: var(--fs-18);
   line-height: 1.4;
   font-weight: 400;
    font-family: var(--font-raleway);

@@ -102,7 +102,7 @@ export default async function ProductDetailPage({ params }) {
     <main>
       <Productone initialProduct={product} />
       <Producttwo brewingGuide={categoryData?.brewingGuide} serverUrl={serverUrl} />
-      <Image />
+      <Image product={product} />
       <YouMayAlsoLike recommendedProducts={product.recommendedProducts} />
     </main>
   );

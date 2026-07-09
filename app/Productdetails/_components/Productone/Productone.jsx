@@ -126,24 +126,27 @@ export default function ProductOne({ initialProduct }) {
   useEffect(() => {
     if (initialProduct) {
       const techSpecs = {
-        body: initialProduct.body || null,
-        aroma: initialProduct.aroma || null,
-        roast: initialProduct.roast || null,
         altitude: initialProduct.altitude || null,
-        finish: initialProduct.finish || null,
+        variety: initialProduct.variety || null,
+        tastingNotes: initialProduct.tastingNotes || null,
+        acidity: initialProduct.acidity || null,
+        body: initialProduct.body || null,
+        roast: initialProduct.roast || null,
+        // aroma: initialProduct.aroma || null,
+        // finish: initialProduct.finish || null,
       };
 
       const mappedData = {
         name: initialProduct.name || initialProduct.title || "",
         price: initialProduct.salePrice || initialProduct.regularPrice || null,
-        notes: initialProduct.tastingNotes || "",
+        notes: initialProduct.tagline || "",
         specs: [
-          initialProduct.farm && { label: "Origin", value: initialProduct.farm },
-          ...(initialProduct.productHighlights || []).map(h => ({
-            label: h.sectionTitle,
-            value: h.items?.[0]?.point || "",
-            id: h.id || h.sectionTitle,
-          })),
+          initialProduct.farm && { label: "Farm", value: initialProduct.farm },
+          // ...(initialProduct.productHighlights || []).map(h => ({
+          //   label: h.sectionTitle,
+          //   value: h.items?.[0]?.point || "",
+          //   id: h.id || h.sectionTitle,
+          // })),
           initialProduct.process && { label: "Process", value: initialProduct.process },
         ].filter(Boolean),
         desc: initialProduct.description || "",
@@ -204,14 +207,15 @@ export default function ProductOne({ initialProduct }) {
 
       <div className={styles.stickyWrapper} id="sticky-section">
         <div className={styles.imageSection}>
-          <div className={styles.productWrapper}>            <Image
-            src={productImage}
-            alt={product.name}
-            width={541}
-            height={541}
-            className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`}
-            priority
-          />
+          <div className={styles.productWrapper}>
+            <Image
+              src={productImage}
+              alt={product.name}
+              width={541}
+              height={541}
+              className={`${styles.mainImage} ${isExpanded ? styles.imageScrolled : ''}`}
+              priority
+            />
           </div>
         </div>
 

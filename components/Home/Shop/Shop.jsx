@@ -1,8 +1,8 @@
 import styles from "./Shop.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import one from "./coffeebeans.webp";
-import two from "./coffeecapsules.webp";
+import one from "./card1.webp";
+import two from "./card2.webp";
 import three from "./dripbags.webp";
 
 const categories = [

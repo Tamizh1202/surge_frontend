@@ -20,10 +20,10 @@ function formatShopAddress(shop) {
   const emirateLabel = emirates
     ? emirates.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")
     : "";
-  const lastLine = [emirateLabel, "UAE"].filter(Boolean).join(", ");
+  const lastLine = [city, emirateLabel, "UAE"].filter(Boolean).join(", ");
 
   if (shop.displayTitle) {
-    const title = shop.displayTitle.replace(/\s*—\s*/g, ", ");
+    const title = shop.displayTitle.split("—")[0].trim();
     return [title, apartment || null, lastLine].filter(Boolean);
   }
   return [street ? street.trim() : null, apartment || null, lastLine].filter(Boolean);

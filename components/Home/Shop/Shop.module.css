@@ -225,7 +225,7 @@
 
   .categoryName {
     font-size: var(--fs-20);
-    color: var(--text-primary);
+    color: #ffffff;
     font-weight: 600;
   }
 
@@ -236,7 +236,7 @@
 
   .mobileDescription {
     font-size: var(--fs-14);
-    color: var(--text-primary);
+    color: #ffffff;
     font-family: var(--font-raleway);
     width: 85%;
     /* margin-bottom: 20px; */

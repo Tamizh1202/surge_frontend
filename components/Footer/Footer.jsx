@@ -295,7 +295,7 @@ export default function Footer({ categories = [], shops = [] }) {
             <div className={styles.infoBlock}>
               <p className={styles.label}>Phone</p>
               <Link href="tel:+9710589535337" className={styles.accentLink}>
-                xxxxxxxxx
+                +971 58 953 5337
               </Link>
             </div>
             <div className={styles.infoBlock}>

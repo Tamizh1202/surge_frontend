@@ -280,7 +280,7 @@
 
 
 /* ── Below 900px: image becomes too narrow to be useful, hide it ──────── */
-@media (max-width: 900px) {
+@media (max-width: 1400px) {
   .main {
     padding: clamp(30px, 5vw, 60px) clamp(20px, 6vw, 60px) clamp(40px, 8vw, 80px);
   }
@@ -305,7 +305,7 @@
 
 
 /* ── Mobile (≤ 600px): stack rows, full-width button ─────────────────── */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .main {
     padding: 0 0 60px;
     background-color: #fff;

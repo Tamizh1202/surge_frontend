@@ -155,9 +155,7 @@ export default function Footer({ categories = [], shops = [] }) {
             </div>
           </div>
         </div>
-
         <hr className={styles.divider} />
-
         <div className={styles.topSection}>
           <div className={styles.newsletterArea}>
             <div className={styles.newsletterContent}>
@@ -294,7 +292,7 @@ export default function Footer({ categories = [], shops = [] }) {
             </div>
             <div className={styles.infoBlock}>
               <p className={styles.label}>Phone</p>
-              <Link href="tel:+9710589535337" className={styles.accentLink}>
+              <Link href="tel:+971589535337" className={styles.accentLink}>
                 +971 58 953 5337
               </Link>
             </div>

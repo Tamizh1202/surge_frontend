@@ -119,7 +119,7 @@
 
 @media (min-width: 1025px) and (max-width: 1450px) {
   .container {
-    padding: 10px 60px 80px 60px;
+    padding: 10px clamp(40px, 5vw, 125px) 80px ;
   }
 
   .grid {

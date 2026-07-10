@@ -356,7 +356,7 @@
   .menuImage {
     width: 100%;
     height: auto;
-    aspect-ratio: 354 / 211;
+    aspect-ratio: 1 / 1;
     object-fit: cover;
     display: block;
   }

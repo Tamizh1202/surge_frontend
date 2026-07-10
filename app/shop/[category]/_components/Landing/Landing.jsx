@@ -6,7 +6,7 @@ import dripBags from "./dripbags.webp";
 const BANNER_IMAGES = {
     "coffee-beans": coffeeBeans.src,
     "coffee-capsules": coffeeCapsules.src,
-    "coffee-dripbags": dripBags.src,
+    "coffee-drip-bags": dripBags.src,
     "merchandise": "/table.png",
 };
 

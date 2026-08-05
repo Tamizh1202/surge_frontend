@@ -68,7 +68,7 @@
 
 .textBox h2 {
   font-size: var(--fs-22);
-  color: #414343;
+  color: #ffffff;
   font-weight: 600;
   font-family: var(--font-montserrat);
   margin-bottom: 12px;
@@ -79,7 +79,7 @@
   line-height: 1.4;
   font-weight: 400;
   font-family: var(--font-raleway);
-  color: #818686;
+  color: #ffffff;
   width:100%;
 }
 
@@ -228,14 +228,14 @@
 
   .textBox h2 {
     font-size: 18px;
-    color: #414343;
+    color: #ffffff;
     margin: 0;
   }
 
   .textBox p {
     font-size: 12px;
     line-height: 1.4;
-    color: #818686;
+    color: #ffffff;
     margin: 0;
     /* width: 100%; */
     /* max-width: 330px; */

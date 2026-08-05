@@ -8,7 +8,7 @@ export default function AboutUsPage() {
     <main>
       <Landing />
       <Mission />
-      <Logos />
+      {/* <Logos /> */}
       <Choosesurge />
     </main>
   );

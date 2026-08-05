@@ -105,7 +105,7 @@ export default function Location() {
 
       <hr className={styles.divider} />
 
-      <section className={styles.careersSection}>
+      {/* <section className={styles.careersSection}>
         <h2 className={styles.heading}>Join the Surge Team</h2>
         <p className={styles.description}>
           We're always looking for talented, passionate people who live the craft. If you share our vision for exceptional coffee, reach out — tell us why you belong on the Surge team.
@@ -134,7 +134,7 @@ export default function Location() {
           </a> — great people always get our attention.<br />
 
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

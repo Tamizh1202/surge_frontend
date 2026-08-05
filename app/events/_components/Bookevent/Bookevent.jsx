@@ -2,20 +2,36 @@
 import styles from "./Bookevent.module.css";
 import Image from "next/image";
 
-import Eimg1 from './Eimg1.webp';
-import Eimg2 from './Eimg2.webp';
-import Eimg4 from './Eimg4.webp';
-import Eimg3 from './Eimg3.webp';
-import Eimg5 from './Eimg5.webp';
-import Eimg6 from './Eimg6.webp';
+import i1 from './i1.webp';
+import i2 from './i2.webp';
+import i3 from './i3.webp';
+import i4 from './i4.webp';
+import i5 from './i5.webp';
+import i6 from './i6.webp';
+import i7 from './i7.webp';
+import i8 from './i8.webp';
+import i9 from './i9.webp';
+import i10 from './i10.webp';
+import i11 from './i11.webp';
+import i12 from './i12.webp';
+import i13 from './i13.webp';
+import i14 from './i14.webp';
 
 const partnershipsData = [
-  { id: 1, src: Eimg1 },
-  { id: 2, src: Eimg2 },
-  { id: 3, src: Eimg4 },
-  { id: 4, src: Eimg3 },
-  { id: 5, src: Eimg5 },
-  { id: 6, src: Eimg6 },
+  { id: 1, src: i1 },
+  { id: 2, src: i2 },
+  { id: 3, src: i3 },
+  { id: 4, src: i4 },
+  { id: 5, src: i5 },
+  { id: 6, src: i6 },
+  { id: 7, src: i7 },
+  { id: 8, src: i8 },
+  { id: 9, src: i9 },
+  { id: 10, src: i10 },
+  { id: 11, src: i11 },
+  { id: 12, src: i12 },
+  { id: 13, src: i13 },
+  { id: 14, src: i14 },
 ];
 
 const Partnerships = () => {

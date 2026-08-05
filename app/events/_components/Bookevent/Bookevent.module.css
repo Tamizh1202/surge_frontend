@@ -40,6 +40,7 @@
   width: max-content;
   animation: scrollLoop 25s linear infinite;
   animation-delay: -2s;
+  margin-top: 40px;
 }
 
 .imageWrapper {
@@ -192,7 +193,7 @@
     gap: 8px;
     white-space: nowrap;
     width: max-content;
-    animation: scrollLoop 15s linear infinite;
+    animation: scrollLoop 30s linear infinite;
     animation-delay: -2s;
   }
 }
